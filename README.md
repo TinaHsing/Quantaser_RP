@@ -1,2 +1,2 @@
-# redpitaya_Ccode
+# Quantaser RedPitaya C Code
 tt
