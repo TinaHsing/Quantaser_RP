@@ -19,7 +19,7 @@ int main(int argc, char **argv){
 	rp_GenFreq(RP_CH_1, 10000.0);
 
 	/* Generating amplitude */
-	rp_GenAmp(RP_CH_1, 1.0);
+	rp_GenAmp(RP_CH_1, 0.5);
 
 	/* Generating wave form */
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
