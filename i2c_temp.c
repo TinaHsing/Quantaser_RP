@@ -145,7 +145,7 @@ static int iic_write(char *data, int offset, int size){
     /* variable declaration */
     int bytes_written;
     int write_bytes;
-    int index;
+    int index, i=0;
 
     /* Check for limits */
     if(size > PAGESIZE){
@@ -159,7 +159,8 @@ static int iic_write(char *data, int offset, int size){
     int loop = 0;
 
     while(size > 0){
-
+		i++;
+		printf(i);
         /* buffer size is PAGESIZE per transmission */
         uint8_t write_buffer[32 + 2];
 
@@ -195,7 +196,7 @@ static int iic_write(char *data, int offset, int size){
         }else{
             write_bytes = size;
         }
-
+		
         loop++;
     }
 
