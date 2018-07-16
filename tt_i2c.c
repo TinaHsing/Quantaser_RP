@@ -3,6 +3,8 @@
 #include <linux/i2c-dev.h>
 #include <errno.h>
 
+#include <unistd.h>
+
 #define I2C_ADDR 0x20
 
 int main (void)
