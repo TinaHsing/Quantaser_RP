@@ -160,7 +160,8 @@ static int iic_write(char *data, int offset, int size){
 
     while(size > 0){
 		i++;
-		printf("%d\n",i);
+		printf("i = %d\n", i);
+		printf("size = %d\n", size);
         /* buffer size is PAGESIZE per transmission */
         uint8_t write_buffer[32 + 2];
 
@@ -177,6 +178,7 @@ static int iic_write(char *data, int offset, int size){
 
         /* Write the bytes onto the bus */
         bytes_written = write(fd, write_buffer, write_bytes + 2);
+		printf("bytes_written = %d\n", bytes_written);
         /* Wait till the EEPROM internally completes the write cycle */
         sleep(2);
 
@@ -187,7 +189,9 @@ static int iic_write(char *data, int offset, int size){
 
         /* written bytes minus the offset addres of two */
         size -= bytes_written - 2;
+		printf("size = %d\n", size);
         /* Increment offset */
+		printf("offset = %d\n", offset);
         offset += PAGESIZE;
 
         /* Check for limits for the new message */
