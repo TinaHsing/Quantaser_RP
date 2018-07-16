@@ -160,7 +160,7 @@ static int iic_write(char *data, int offset, int size){
 
     while(size > 0){
 		i++;
-		printf(i);
+		printf("%d\n",i);
         /* buffer size is PAGESIZE per transmission */
         uint8_t write_buffer[32 + 2];
 
