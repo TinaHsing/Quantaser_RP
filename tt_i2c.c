@@ -9,7 +9,7 @@
 
 int main (void)
 {
-    int value;
+    int value = 0x01;
     int fd;
 
     fd = open("/dev/i2c-0", O_RDWR);
@@ -19,10 +19,11 @@ int main (void)
 		// printf("Error opening file: \n");
         // return 1;
     // }
+	value=ioctl(fd, I2C_SLAVE, I2C_ADDR);
+	printf("value = %d\n", value);
 	while(1) 
 	{
-		value=ioctl(fd, 0x0706, I2C_ADDR);
-		printf("value = %d\n", value);
+		write(fd, &value, 1);	
 		sleep(2);
 	}
 	
