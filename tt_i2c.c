@@ -9,7 +9,7 @@
 
 int main (void)
 {
-    // int value;
+    int value;
     int fd;
 
     fd = open("/dev/i2c-0", O_RDWR);
@@ -21,7 +21,8 @@ int main (void)
     // }
 	while(1) 
 	{
-		ioctl(fd, 0x0706, I2C_ADDR);
+		value=ioctl(fd, 0x0706, I2C_ADDR);
+		printf("value = %d\n", value);
 		sleep(2);
 	}
 	
