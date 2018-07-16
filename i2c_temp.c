@@ -203,7 +203,7 @@ static int iic_write(char *data, int offset, int size){
         }
 		
         loop++;
-		printf(" ");
+		printf(" \n");
     }
 
     printf("\nWrite EEPROM Succesful\n");
