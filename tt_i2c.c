@@ -13,7 +13,7 @@ int main (void)
     int fd;
 
     fd = open("/dev/i2c-0", O_RDWR);
-
+	printf("fd = %d\n", fd);
     // if (fd < 0) {
         // printf("Error opening file: %s\n", strerror(errno));
 		// printf("Error opening file: \n");
