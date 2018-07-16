@@ -179,6 +179,7 @@ static int iic_write(char *data, int offset, int size){
         /* Write the bytes onto the bus */
         bytes_written = write(fd, write_buffer, write_bytes + 2);
 		printf("bytes_written = %d\n", bytes_written);
+		printf("write_bytes = %d\n", write_bytes);
         /* Wait till the EEPROM internally completes the write cycle */
         sleep(2);
 
@@ -202,6 +203,7 @@ static int iic_write(char *data, int offset, int size){
         }
 		
         loop++;
+		printf(" ");
     }
 
     printf("\nWrite EEPROM Succesful\n");
