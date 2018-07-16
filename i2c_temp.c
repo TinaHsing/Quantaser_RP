@@ -170,7 +170,7 @@ static int iic_write(char *data, int offset, int size){
         * Supported for BigEndian and LittleEndian CPU's
         */
         write_buffer[0] = (uint8_t)(offset >> 8);
-        write_buffer[1] = (uint8_t)(offset);
+        write_buffer[1] = (uint8_t)(offset >> 8);
 
         for(index = 0; index < PAGESIZE; index++){
             write_buffer[index + 2] = data[index + (PAGESIZE * loop)];
