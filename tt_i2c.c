@@ -9,7 +9,7 @@
 
 int main (void)
 {
-    int value;
+    // int value;
     int fd;
 
     fd = open("/dev/i2c-0", O_RDWR);
