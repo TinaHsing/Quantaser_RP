@@ -14,26 +14,31 @@ int main (void)
 
     fd = open("/dev/i2c-0", O_RDWR);
 
-    if (fd < 0) {
+    // if (fd < 0) {
         // printf("Error opening file: %s\n", strerror(errno));
-		printf("Error opening file: \n");
-        return 1;
-    }
-
-    if (ioctl(fd, I2C_SLAVE, I2C_ADDR) < 0) {
+		// printf("Error opening file: \n");
+        // return 1;
+    // }
+	while(1) 
+	{
+		ioctl(fd, I2C_SLAVE, I2C_ADDR);
+		sleep(2);
+	}
+	
+    // if (ioctl(fd, I2C_SLAVE, I2C_ADDR) < 0) {
         // printf("ioctl error: %s\n", strerror(errno));
-		printf("ioctl error: \n");
-        return 1;
-    }
+		// printf("ioctl error: \n");
+        // return 1;
+    // }
 
-    for (value=0; value<=255; value++) {
-        if (write(fd, &value, 1) != 1) {
+    // for (value=0; value<=255; value++) {
+        // if (write(fd, &value, 1) != 1) {
             // printf("Error writing file: %s\n", strerror(errno));
-			printf("Error writing file: \n");
-        }
+			// printf("Error writing file: \n");
+        // }
 
-        sleep(2);
-    }
+        // sleep(2);
+    // }
 
-    return 0;
+    // return 0;
 }
