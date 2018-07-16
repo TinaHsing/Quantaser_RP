@@ -10,7 +10,7 @@
 int main (void)
 {
     int value, v2=0x01;
-    int fd;
+    int fd, h;
 
     fd = open("/dev/i2c-0", O_RDWR);
 	printf("fd = %d\n", fd);
@@ -24,7 +24,7 @@ int main (void)
 	printf("v2 = %d\n", v2);
 	while(1) 
 	{
-		write(fd, &v2, 1);	
+		printf("write=%d\n",write(fd, &v2, 1));	
 		sleep(2);
 	}
 	
