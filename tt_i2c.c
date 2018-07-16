@@ -10,7 +10,7 @@
 int main (void)
 {
     int value, v2=0x01;
-    int fd, h;
+    int fd;
 
     fd = open("/dev/i2c-0", O_RDWR);
 	printf("fd = %d\n", fd);
