@@ -21,7 +21,7 @@ int main (void)
     // }
 	while(1) 
 	{
-		ioctl(fd, I2C_SLAVE, I2C_ADDR);
+		ioctl(fd, 0x0706, I2C_ADDR);
 		sleep(2);
 	}
 	
