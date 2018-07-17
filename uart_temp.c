@@ -106,7 +106,7 @@ static int uart_read(int size){
     return 0;
 }
 
-static int uart_write(char data){
+static int uart_write(char *data){
 
     /* Write some sample data into UART */
     /* ----- TX BYTES ----- */
@@ -139,8 +139,7 @@ static int release(){
 
 int main(int argc, char *argv[]){
 
-    // char *data = "123";
-	char data = "1";
+    char *data = "123";
 
     /* uart init */
     if(uart_init() < 0){
