@@ -13,7 +13,7 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 
-#define I2C_ADDR 0x20
+#define I2C_ADDR 0x07
 
 // I2C Linux device handle
 int g_i2cFile;
@@ -62,7 +62,7 @@ int main (void)
 	i2cSetAddress(I2C_ADDR);
 	
 	while(1) {
-		WriteRegisterPair(5, 32768);
+		WriteRegisterPair(0x12, 0x0102);
 		sleep(1);
 	}
 	
