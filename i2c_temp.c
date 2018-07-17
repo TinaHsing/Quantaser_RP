@@ -11,9 +11,9 @@
 
 
 #define I2C_SLAVE_FORCE                0x0706
-#define I2C_SLAVE                              0x0703    /* Change slave address            */
-#define I2C_FUNCS                              0x0705    /* Get the adapter functionality */
-#define I2C_RDWR                               0x0707    /* Combined R/W transfer (one stop only)*/
+#define I2C_SLAVE                      0x0703    /* Change slave address            */
+#define I2C_FUNCS                      0x0705    /* Get the adapter functionality */
+#define I2C_RDWR                       0x0707    /* Combined R/W transfer (one stop only)*/
 
 
 #define EEPROM_ADDR                    0x50

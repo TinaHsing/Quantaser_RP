@@ -1,47 +1,63 @@
-#include <stdio.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <linux/ioctl.h>
+#include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
-#include <errno.h>
-
+#include <string.h>
 #include <unistd.h>
+#include <errno.h>
+#include <stdint.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
 
 #define I2C_ADDR 0x20
 
+// I2C Linux device handle
+int g_i2cFile;
+
+// open the Linux device
+void i2cOpen()
+{
+	g_i2cFile = open("/dev/i2c-0", O_RDWR);
+	if (g_i2cFile < 0) {
+		perror("i2cOpen");
+		exit(1);
+	}
+}
+
+void i2cSetAddress(int address)
+{
+	if (ioctl(g_i2cFile, I2C_SLAVE, address) < 0) {
+		perror("i2cSetAddress");
+		exit(1);
+	}
+}
+
+void WriteRegisterPair(uint8_t reg, uint16_t value)
+{
+	uint8_t data[3];
+	data[0] = reg;
+	data[1] = value & 0xff;
+	data[2] = (value >> 8) & 0xff;
+	if (write(g_i2cFile, data, 3) != 3) {
+		perror("pca9555SetRegisterPair");
+	}
+}
+
 int main (void)
 {
-    int value, v2=0x01;
-    int fd;
-
-    fd = open("/dev/i2c-0", O_RDWR);
-	printf("fd = %d\n", fd);
-    // if (fd < 0) {
-        // printf("Error opening file: %s\n", strerror(errno));
-		// printf("Error opening file: \n");
-        // return 1;
-    // }
-	value=ioctl(fd, I2C_SLAVE, I2C_ADDR);
-	printf("value = %d\n", value);
-	printf("v2 = %d\n", v2);
-	while(1) 
-	{
-		printf("write=%d\n",write(fd, &v2, 1));	
-		sleep(2);
+	// open Linux I2C device
+    i2cOpen();
+	
+	// set address of the PCA9555
+	i2cSetAddress(I2C_ADDR);
+	
+	while(1) {
+		WriteRegisterPair(5, 32768);
+		sleep(1);
 	}
 	
-    // if (ioctl(fd, I2C_SLAVE, I2C_ADDR) < 0) {
-        // printf("ioctl error: %s\n", strerror(errno));
-		// printf("ioctl error: \n");
-        // return 1;
-    // }
-
-    // for (value=0; value<=255; value++) {
-        // if (write(fd, &value, 1) != 1) {
-            // printf("Error writing file: %s\n", strerror(errno));
-			// printf("Error writing file: \n");
-        // }
-
-        // sleep(2);
-    // }
-
-    // return 0;
 }
