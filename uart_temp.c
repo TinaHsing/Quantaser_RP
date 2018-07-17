@@ -115,7 +115,7 @@ static int uart_write(char *data){
     int count = 0;
     // char tx_buffer[msg_len+1];
 
-    strncpy(tx_buffer, data, msg_len);
+    // strncpy(tx_buffer, data, msg_len);
     // tx_buffer[msg_len++] = 0x0a; //New line numerical value
 
     if(uart_fd != -1){
