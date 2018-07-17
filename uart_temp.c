@@ -148,16 +148,22 @@ int main(int argc, char *argv[]){
     }
 
     /* Sample write */
-    if(uart_write(data) < 0){
-        printf("Uart write error\n");
+	while(1)
+	{
+		if(uart_write(data) < 0){
+        printf("123\n");
         return -1;
-    }
+		}
+		sleep(1);
+	}
+	
+    
 
     /* Sample read */
-    if(uart_read(strlen(data)) < 0){
-        printf("Uart read error\n");
-        return -1;
-    }
+    // if(uart_read(strlen(data)) < 0){
+        // printf("Uart read error\n");
+        // return -1;
+    // }
 
     /* CLOSING UART */
     release();
