@@ -139,7 +139,7 @@ static int release(){
 
 int main(int argc, char *argv[]){
 
-    char *data = "HELLO WOLRD!";
+    char *data = "123";
 
     /* uart init */
     if(uart_init() < 0){
@@ -151,7 +151,7 @@ int main(int argc, char *argv[]){
 	while(1)
 	{
 		if(uart_write(data) < 0){
-        printf("123\n");
+        printf("Uart write error\n");
         return -1;
 		}
 		sleep(1);
