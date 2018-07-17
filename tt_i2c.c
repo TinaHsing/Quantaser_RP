@@ -28,6 +28,12 @@ void i2cOpen()
 	}
 }
 
+// close the Linux device
+void i2cClose()
+{
+	close(g_i2cFile);
+}
+
 void i2cSetAddress(int address)
 {
 	if (ioctl(g_i2cFile, I2C_SLAVE, address) < 0) {
@@ -60,4 +66,5 @@ int main (void)
 		sleep(1);
 	}
 	
+	close(g_i2cFile);
 }
