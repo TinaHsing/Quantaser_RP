@@ -139,7 +139,7 @@ static int release(){
 
 int main(int argc, char *argv[]){
 
-    char *data = "HELLO WOLRD!";
+    char *data = "wtf";
 
     /* uart init */
     if(uart_init() < 0){
