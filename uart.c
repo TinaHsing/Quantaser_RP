@@ -110,7 +110,7 @@ static int uart_write(char *data){
 
     /* Write some sample data into UART */
     /* ----- TX BYTES ----- */
-    // int msg_len = strlen(data);
+    int msg_len = strlen(data);
 
     int count = 0;
     // char tx_buffer[msg_len+1];
