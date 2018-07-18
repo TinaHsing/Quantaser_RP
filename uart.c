@@ -112,7 +112,7 @@ static int uart_write(char *data){
     /* ----- TX BYTES ----- */
     // int msg_len = strlen(data);
 
-    // int count = 0;
+    int count = 0;
     // char tx_buffer[msg_len+1];
 
     // strncpy(tx_buffer, data, msg_len);
