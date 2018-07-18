@@ -96,7 +96,7 @@ static int uart_read(int size){
             fprintf(stderr, "No data waiting\n");
         /* Print data and exit while loop */
         }else{
-            rx_buffer[rx_length] = '\0';
+            // rx_buffer[rx_length] = '\0';
             printf("%i bytes read : %s\n", rx_length, rx_buffer);
             break;
 
