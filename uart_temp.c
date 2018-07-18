@@ -79,12 +79,12 @@ static int uart_read(int size){
         unsigned char rx_buffer[size];
 
         int rx_length = read(uart_fd, (void*)rx_buffer, size);
-
+		printf("length = %d\n", rx_length);
         if (rx_length < 0){
 
             /* No data yet avaliable, check again */
             if(errno == EAGAIN){
-                fprintf(stderr, "AGAIN!\n");
+                // fprintf(stderr, "AGAIN!\n");
                 continue;
             /* Error differs */
             }else{

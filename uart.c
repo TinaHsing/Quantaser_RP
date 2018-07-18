@@ -119,7 +119,6 @@ static int uart_write(char *data){
     tx_buffer[msg_len++] = 0x0a; //New line numerical value
 
     if(uart_fd != -1){
-        // count = write(uart_fd, &tx_buffer, (msg_len));
 		count = write(uart_fd, &tx_buffer, (msg_len));
     }
     if(count < 0){
