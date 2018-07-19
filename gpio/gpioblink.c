@@ -11,8 +11,8 @@
 #define LOW  0
 #define HIGH 1
 
-#define PIN 976
-#define POUT 968
+#define PIN 970
+#define POUT 969
 
 #define VALUE_MAX 30
 #define BUFFER_MAX 3
