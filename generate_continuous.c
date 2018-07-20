@@ -16,7 +16,7 @@ int main(int argc, char **argv){
 	}
 
 	/* Generating frequency */
-	rp_GenFreq(RP_CH_1, 10000.0);
+	rp_GenFreq(RP_CH_1, 1000.0);
 
 	/* Generating amplitude */
 	rp_GenAmp(RP_CH_1, 0.5);
