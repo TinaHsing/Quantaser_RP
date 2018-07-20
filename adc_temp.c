@@ -8,17 +8,18 @@
 
 int main(int argc, char **argv){
 
+		printf("whf\n");
         /* Print error, if rp_Init() function failed */
-        if(rp_Init() != RP_OK){
-                fprintf(stderr, "Rp api init failed!\n");
-        }
+        // if(rp_Init() != RP_OK){
+                // fprintf(stderr, "Rp api init failed!\n");
+        // }
 
         /*LOOB BACK FROM OUTPUT 2 - ONLY FOR TESTING*/
-        rp_GenReset();
-        rp_GenFreq(RP_CH_1, 20000.0);
-        rp_GenAmp(RP_CH_1, 1.0);
-        rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-        rp_GenOutEnable(RP_CH_1);
+        // rp_GenReset();
+        // rp_GenFreq(RP_CH_1, 20000.0);
+        // rp_GenAmp(RP_CH_1, 1.0);
+        // rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+        // rp_GenOutEnable(RP_CH_1);
 
 
         // uint32_t buff_size = 16384;
