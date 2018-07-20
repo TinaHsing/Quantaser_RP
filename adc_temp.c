@@ -40,13 +40,12 @@ int main(int argc, char **argv){
         rp_AcqSetTriggerSrc(RP_TRIG_SRC_CHA_PE);
         rp_acq_trig_state_t state = RP_TRIG_STATE_TRIGGERED;
 
-        while(1){
-				printf("hi");
-                rp_AcqGetTriggerState(&state);
-                if(state == RP_TRIG_STATE_TRIGGERED){
-                break;
-                }
-        }
+        // while(1){
+                // rp_AcqGetTriggerState(&state);
+                // if(state == RP_TRIG_STATE_TRIGGERED){
+                // break;
+                // }
+        // }
 
         rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
         int i;
