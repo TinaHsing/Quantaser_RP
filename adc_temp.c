@@ -8,11 +8,10 @@
 
 int main(int argc, char **argv){
 
-		printf("whf\n");
         /* Print error, if rp_Init() function failed */
-        // if(rp_Init() != RP_OK){
-                // fprintf(stderr, "Rp api init failed!\n");
-        // }
+        if(rp_Init() != RP_OK){
+                fprintf(stderr, "Rp api init failed!\n");
+        }
 
         /*LOOB BACK FROM OUTPUT 2 - ONLY FOR TESTING*/
         // rp_GenReset();
