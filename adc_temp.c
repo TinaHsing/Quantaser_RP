@@ -41,6 +41,7 @@ int main(int argc, char **argv){
         rp_acq_trig_state_t state = RP_TRIG_STATE_TRIGGERED;
 
         while(1){
+				printf("hi");
                 rp_AcqGetTriggerState(&state);
                 if(state == RP_TRIG_STATE_TRIGGERED){
                 break;
