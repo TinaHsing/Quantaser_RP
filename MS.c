@@ -19,7 +19,7 @@ int main(void)
 {
 	int com;
 	long t1 = micros(), t2, t3;
-	rp_channel_t ch;
+	int ch;
 	float freq, amp;
 	
 //	Sleep(1000);
@@ -46,7 +46,7 @@ int main(void)
 				scanf("%f", &freq);
 				printf("set amplitude in V: ");
 				scanf("%f", &amp);
-				HVFG(ch, freq, amp);
+				HVFG((rp_channel_t)ch, freq, amp);
 				system("pause");
 			break;
 			case BBB:
