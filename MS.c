@@ -47,7 +47,7 @@ int main(void)
 				printf("set amplitude in V: ");
 				scanf("%f", &amp);
 				HVFG((rp_channel_t)ch, freq, amp);
-				system("pause");
+				
 			break;
 			case BBB:
 				printf("now in BBB\n");
