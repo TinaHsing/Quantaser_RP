@@ -77,15 +77,19 @@ void HVFG(rp_channel_t ch, float freq, float amp){
 
 	/* Generating frequency */
 	rp_GenFreq(ch, freq);
+	rp_GenFreq(1, freq);
 
 	/* Generating amplitude */
 	rp_GenAmp(ch, amp);
+	rp_GenAmp(1, amp);
 
 	/* Generating wave form */
 	rp_GenWaveform(ch, RP_WAVEFORM_SINE);
+	rp_GenWaveform(1, RP_WAVEFORM_SINE);
 
 	/* Enable channel */
 	rp_GenOutEnable(ch);
+	rp_GenOutEnable(1);
 
 	/* Releasing resources */
 	rp_Release();
