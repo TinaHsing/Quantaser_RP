@@ -17,10 +17,9 @@ void HVFG(rp_channel_t, float, float);
 
 int main(void)
 {
-	int com;
+	
 //	long t1 = micros(), t2, t3;
-	int ch;
-	float freq, amp;
+	
 	
 //	Sleep(1000);
 //	t2 = micros();
@@ -29,6 +28,9 @@ int main(void)
 //	printf("%d, %d\n", t2-t1, t3-t2);
 	while(1)
 	{
+		int com;
+		int ch;
+		float freq, amp;
 		do
 		{
 			printf("Select function : (0):Function Gen and ADC, (1):BBB, : ");
