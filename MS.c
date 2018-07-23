@@ -18,7 +18,7 @@ void HVFG(rp_channel_t, float, float);
 int main(void)
 {
 	int com;
-	long t1 = micros(), t2, t3;
+//	long t1 = micros(), t2, t3;
 	int ch;
 	float freq, amp;
 	
