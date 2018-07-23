@@ -51,11 +51,11 @@ int main(void)
 			break;
 			case BBB:
 				printf("now in BBB\n");
-				system("pause");
+				
 			break;
 			default :
 				printf("command error, try again!\n");
-				system("pause");
+				
 		}
 	}
 	
