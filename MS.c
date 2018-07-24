@@ -74,11 +74,12 @@ int main(void)
 //					printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 					t_now = micros()-t_start;
 //					printf("t_now:%ld\n", t_now);
-					if (t_now < t0_HV*1000){printf("hi");}
+					if (t_now < t0_HV*1000){}
 					else if(t_now < t1_HV*1000)
 					{		
 									
 						t_temp[1] = micros() - t_temp[0];
+						printf("temp1: %ld\n",temp[1]);
 						if(t_temp[1] > tp*1000)
 						{
 							printf("1.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
