@@ -56,7 +56,7 @@ int main(void)
 				printf("set HVFG parameters (freq, t0, a0, t1, a1, t2, a2) :\n");
 				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,&a0_HV,&t1_HV,&a1_HV,&t2_HV,&a2_HV);
 				printf("set scan update period (ms): \n");
-				scanf("%d",&tp);
+				scanf("%ld",&tp);
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV); //volt/ms
 				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV);
 				printf("m1=%f\n",m1);
