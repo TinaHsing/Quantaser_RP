@@ -30,12 +30,12 @@ int main(int argc, char **argv){
 	rp_GenOutEnable(RP_CH_1);
 
 	/* Releasing resources */
-	rp_Release();
+//	rp_Release();
 	
 	sleep(1);
-	if(rp_Init() != RP_OK){
-		fprintf(stderr, "Rp api init failed!\n");
-	}
+//	if(rp_Init() != RP_OK){
+//		fprintf(stderr, "Rp api init failed!\n");
+//	}
 
 	/* Generating frequency */
 	rp_GenFreq(RP_CH_1, 500.0);
