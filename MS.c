@@ -20,8 +20,7 @@ void HVFG(float, float);
 float freq_HV;
 float a0_HV, a1_HV, a2_HV;
 uint32_t t0_HV, t1_HV, t2_HV;
-long t_start;
-int tp;
+long t_start, tp;
 
 
 int main(void)
@@ -55,45 +54,51 @@ int main(void)
 //				float m1,m2, amp;
 				printf("--Selecting Function Gen and ADC---\n");
 				printf("set HVFG parameters (freq, t0, a0, t1, a1, t2, a2) :\n");
-				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,a0_HV,&t1_HV,a1_HV,&t2_HV,a2_HV);
+				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,&a0_HV,&t1_HV,&a1_HV,&t2_HV,&a2_HV);
 				printf("set scan update period (ms): \n");
 				scanf("%d",&tp);
-				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV)/1000; //volt/us
-				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV)/1000;
+				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV); //volt/ms
+				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV);
 				printf("m1=%f\n",m1);
 				printf("m2=%f\n",m2);
 				amp = a0_HV;
 				t_start = micros();
+//				printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
+				if(rp_Init() != RP_OK){
+					fprintf(stderr, "Rp api init failed!\n");
+				}
 				while((micros()-t_start)<t2_HV*1000)
 				{
+//					printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 					t_now = micros()-t_start;
 					if (t_now < t0_HV*1000){}
 					else if(t_now < t1_HV*1000)
-					{						
+					{		
+									
 						t_temp[1] = micros() - t_temp[0];
 						if(t_temp[1] > tp*1000)
 						{
-							printf("t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
-							amp = amp + m1*t_temp[1];
+//							printf("1.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
+							amp = amp + m1*tp;
+							HVFG(freq_HV, amp); 
 							t_temp[0]=micros();
 						}	
 					}
 					else
 					{
-						amp = a1_HV;
+//						amp = a1_HV;
 						//output fg here//
 						t_temp[1] = micros() - t_temp[0];
 						if(t_temp[1] > tp*1000)
 						{
-							printf("t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
-							amp = amp - m2*t_temp[1];
+//							printf("2.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
+							amp = amp + m2*tp;
+							HVFG(freq_HV, amp);
 							t_temp[0]=micros();
 						}
 					}
 				}
-				
-//				HVFG(freq, amp);
-				
+				rp_Release();				
 			break;
 			case BBB:
 				printf("now in BBB\n");
@@ -115,9 +120,9 @@ int main(void)
 }
 
 void HVFG(float freq, float amp){
-	if(rp_Init() != RP_OK){
-		fprintf(stderr, "Rp api init failed!\n");
-	}
+//	if(rp_Init() != RP_OK){
+//		fprintf(stderr, "Rp api init failed!\n");
+//	}
 
 	/* Generating frequency */
 	rp_GenFreq(RP_CH_1, freq);
@@ -136,6 +141,6 @@ void HVFG(float freq, float amp){
 //	rp_GenOutEnable(1);
 
 	/* Releasing resources */
-	rp_Release();
+//	rp_Release();
 
 }
