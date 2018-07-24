@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <unistd.h>
 //#include "redpitaya/rp.h"
-#include "C:\Users\Quantaser\Dropbox\projects\MassSpectrometer\rp.h"
+//#include "C:\Users\Quantaser\Dropbox\projects\MassSpectrometer\rp.h"
 
 
 //global vars//
