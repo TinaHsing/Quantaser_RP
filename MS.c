@@ -64,6 +64,7 @@ int main(void)
 				amp = a0_HV;
 				t_start = micros();
 //				printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
+				
 				if(rp_Init() != RP_OK){
 					fprintf(stderr, "Rp api init failed!\n");
 				}
@@ -71,6 +72,7 @@ int main(void)
 				rp_GenOutEnable(RP_CH_1);
 				while((micros()-t_start)<t2_HV*1000)
 				{
+					printf("micros= %ld, tstart= %ld\n", micros(),t_start);
 //					printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 					t_now = micros()-t_start;
 //					printf("t_now:%ld\n", t_now);
