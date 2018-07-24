@@ -64,9 +64,11 @@ int main(void)
 				amp = a0_HV;
 				t_start = micros();
 //				printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
-//				if(rp_Init() != RP_OK){
-//					fprintf(stderr, "Rp api init failed!\n");
-//				}
+				if(rp_Init() != RP_OK){
+					fprintf(stderr, "Rp api init failed!\n");
+				}
+				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+				rp_GenOutEnable(RP_CH_1);
 				while((micros()-t_start)<t2_HV*1000)
 				{
 //					printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
@@ -98,7 +100,7 @@ int main(void)
 						}
 					}
 				}
-//				rp_Release();				
+				rp_Release();				
 			break;
 			case BBB:
 				printf("now in BBB\n");
@@ -120,9 +122,9 @@ int main(void)
 }
 
 void HVFG(float freq, float amp){
-	if(rp_Init() != RP_OK){
-		fprintf(stderr, "Rp api init failed!\n");
-	}
+//	if(rp_Init() != RP_OK){
+//		fprintf(stderr, "Rp api init failed!\n");
+//	}
 
 	/* Generating frequency */
 	rp_GenFreq(RP_CH_1, freq);
@@ -133,14 +135,14 @@ void HVFG(float freq, float amp){
 //	rp_GenAmp(1, amp);
 
 	/* Generating wave form */
-	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+//	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 //	rp_GenWaveform(1, RP_WAVEFORM_SINE);
 
 	/* Enable channel */
-	rp_GenOutEnable(RP_CH_1);
+//	rp_GenOutEnable(RP_CH_1);
 //	rp_GenOutEnable(1);
 
 	/* Releasing resources */
-	rp_Release();
+//	rp_Release();
 
 }
