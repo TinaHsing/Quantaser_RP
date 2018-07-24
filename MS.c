@@ -71,7 +71,7 @@ int main(void)
 				rp_GenOutEnable(RP_CH_1);
 				while((micros()-t_start)<t2_HV*1000)
 				{
-//					printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
+					printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 					t_now = micros()-t_start;
 					if (t_now < t0_HV*1000){}
 					else if(t_now < t1_HV*1000)
