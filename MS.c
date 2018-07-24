@@ -122,8 +122,12 @@ int main(void)
  
  long micros(){
 	struct timeval currentTime;
+	long time;
 	gettimeofday(&currentTime, NULL);
-	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	if(time<0) time = time*(-1);
+//	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	return time;
 }
 
 void HVFG(float freq, float amp){
