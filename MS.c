@@ -81,7 +81,7 @@ int main(void)
 					{		
 									
 						t_temp[1] = micros() - t_temp[0];
-						printf("micros: %ld, temp[0]: %ld, temp[1]: %ld\n",micros(),t_temp[0],t_temp[1]);
+//						printf("micros: %ld, temp[0]: %ld, temp[1]: %ld\n",micros(),t_temp[0],t_temp[1]);
 						if(t_temp[1] > tp*1000)
 						{
 							printf("1.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
