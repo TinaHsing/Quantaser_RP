@@ -73,8 +73,8 @@ int main(void)
 				{
 //					printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 					t_now = micros()-t_start;
-					printf("t_now:%ld\n", t_now);
-					if (t_now < t0_HV*1000){}
+//					printf("t_now:%ld\n", t_now);
+					if (t_now < t0_HV*1000){printf("hi");}
 					else if(t_now < t1_HV*1000)
 					{		
 									
