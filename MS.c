@@ -98,9 +98,9 @@ int main(void)
 							HVFG(freq_HV, amp);
 							t_temp[0]=micros();
 						}
-					}
-					HVFG(freq_HV, a2_HV);
+					}					
 				}
+				HVFG(freq_HV, a2_HV);
 				rp_Release();				
 			break;
 			case BBB:
