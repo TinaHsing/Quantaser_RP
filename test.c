@@ -16,7 +16,8 @@ int main(int argc, char **argv){
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
-
+	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+	rp_GenOutEnable(RP_CH_1);
 	/* Generating frequency */
 	rp_GenFreq(RP_CH_1, 1000.0);
 
@@ -24,10 +25,10 @@ int main(int argc, char **argv){
 	rp_GenAmp(RP_CH_1, 0.5);
 
 	/* Generating wave form */
-	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+	
 
 	/* Enable channel */
-	rp_GenOutEnable(RP_CH_1);
+	
 
 	/* Releasing resources */
 //	rp_Release();
@@ -44,10 +45,10 @@ int main(int argc, char **argv){
 	rp_GenAmp(RP_CH_1, 1);
 
 	/* Generating wave form */
-	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+//	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 
 	/* Enable channel */
-	rp_GenOutEnable(RP_CH_1);
+//	rp_GenOutEnable(RP_CH_1);
 
 	/* Releasing resources */
 	rp_Release();
