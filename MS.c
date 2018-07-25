@@ -77,15 +77,21 @@ int main(void)
 //					printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 					t_now = micros()-t_start;
 //					printf("t_now:%ld\n", t_now);
-					if (t_now < t0_HV*1000){}
-					else if(t_now < t1_HV*1000)
-					{		
-									
+					if (t_now < t0_HV*1000)
+					{
 						t_temp[1] = t_now - t_temp[0];
-//						printf("micros: %ld, temp[0]: %ld, temp[1]: %ld\n",micros(),t_temp[0],t_temp[1]);
 						if(t_temp[1] > tp*1000)
 						{
-							printf("1.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
+							amp = 0;
+							HVFG(freq_HV, amp); 
+							t_temp[0]=t_now;
+						}	
+					}
+					else if(t_now < t1_HV*1000)
+					{		
+						t_temp[1] = t_now - t_temp[0];
+						if(t_temp[1] > tp*1000)
+						{
 							amp = amp + m1*tp;
 							HVFG(freq_HV, amp); 
 							t_temp[0]=t_now;
@@ -98,7 +104,7 @@ int main(void)
 						t_temp[1] = t_now - t_temp[0];
 						if(t_temp[1] > tp*1000)
 						{
-							printf("2.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
+							// printf("2.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
 							amp = amp + m2*tp;
 							HVFG(freq_HV, amp);
 							t_temp[0]=t_now;
