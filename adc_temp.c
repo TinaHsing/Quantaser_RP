@@ -86,5 +86,5 @@ int main(int argc, char **argv){
 }
 void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
-	printf("%f, %f\n", buff[0],buff[*buff_size-1]);
+	printf("%f\n",buff[*buff_size-1]);
 }
