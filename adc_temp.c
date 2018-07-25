@@ -63,7 +63,7 @@ int main(int argc, char **argv){
 			diff[i]=time[1]-time[0];
 		}
 		for(int i = 0; i < 64; i++){
-                printf("diff=%ld\n", diff[i]);
+                printf("%d, diff=%ld\n",i, diff[i]);
         }	
 		// }
         // int i;
