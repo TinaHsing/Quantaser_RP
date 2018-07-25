@@ -32,6 +32,7 @@ int main(void)
 	/******function gen******/
 	long t_temp[2] = {0,0}, t_now;
 	float m1, m2, amp;
+	bool fg_flag1=1, fg_flag2=1;
 	/******ADC******/
 	uint32_t buff_size = 2;
     float *buff = (float *)malloc(buff_size * sizeof(float));
@@ -78,11 +79,15 @@ int main(void)
 					if (t_now < t0_HV*1000)
 					{
 						t_temp[1] = t_now - t_temp[0];
+						if(fg_flag1)
+						{
+							fg_flag1 = 0;
+							LVFG(freq_HV, 0); 
+						}
 						if(t_temp[1] > tp*1000)
 						{
 							// amp = 0;
 							HVFG(freq_HV, 0); 
-							LVFG(freq_HV, 0); 
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
@@ -90,11 +95,15 @@ int main(void)
 					else if(t_now < t1_HV*1000)
 					{		
 						t_temp[1] = t_now - t_temp[0];
+						if(fg_flag2)
+						{
+							fg_flag2 = 0;
+							LVFG(freq_HV, a_LV);  
+						}
 						if(t_temp[1] > tp*1000)
 						{
 							amp = amp + m1*tp;
 							HVFG(freq_HV, amp); 
-							LVFG(freq_HV, a_LV); 
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
