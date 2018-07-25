@@ -6,11 +6,11 @@
 #include <stdint.h>
 #include <unistd.h>
 #include "redpitaya/rp.h"
-
+#include <sys/time.h>
 void ADC_req(uint32_t* , float* );
-
+long micros(void);
 int main(int argc, char **argv){
-
+		long diff[64], time[2];
         /* Print error, if rp_Init() function failed */
         if(rp_Init() != RP_OK){
                 fprintf(stderr, "Rp api init failed!\n");
@@ -51,13 +51,21 @@ int main(int argc, char **argv){
 
         // rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
 		
-		while(1)
-		{
+		// while(1)
+		// {
 			// rp_AcqGetLatestDataV(RP_CH_1, &buff_size, buff);
 			// printf("%f, %f\n", buff[0],buff[buff_size-1]);
+		for(int i=0; i<64; i++)
+		{
+			time[0]=micros();
 			ADC_req(&buff_size, buff);
-			sleep(0.1);
+			time[1]=micros();
+			diff[i]=time[1]-time[0];
 		}
+		for(i = 0; i < 64; i++){
+                printf("diff=%ld\n", diff[i]);
+        }	
+		// }
         // int i;
         // for(i = 0; i < buff_size; i++){
                 // printf("%f\n", buff[i]);
@@ -67,7 +75,15 @@ int main(int argc, char **argv){
         rp_Release();
         return 0;
 }
-
+ long micros(){
+	struct timeval currentTime;
+	long time;
+	gettimeofday(&currentTime, NULL);
+	time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	// if(time<0) time = time*(-1);
+//	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	return time;
+}
 void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	printf("%f, %f\n", buff[0],buff[*buff_size-1]);
