@@ -82,8 +82,8 @@ int main(void)
 						t_temp[1] = t_now - t_temp[0];
 						if(t_temp[1] > tp*1000)
 						{
-							amp = 0;
-							HVFG(freq_HV, amp); 
+							// amp = 0;
+							HVFG(freq_HV, 0); 
 							t_temp[0]=t_now;
 						}	
 					}
