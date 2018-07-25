@@ -14,13 +14,14 @@ enum command{
 
 long micros(void);
 void HVFG(float, float);
+void LVFG(float, float);
 void ADC_init(void);
 void ADC_req(uint32_t*, float*);
 
 //global vars//
 /*1. function gen and ADC*/
 float freq_HV;
-float a0_HV, a1_HV, a2_HV;
+float a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t t0_HV, t1_HV, t2_HV;
 long t_start, tp;
 
@@ -49,6 +50,8 @@ int main(void)
 				printf("--Selecting Function Gen and ADC---\n");
 				printf("set HVFG parameters (freq, t0, a0, t1, a1, t2, a2) :\n");
 				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,&a0_HV,&t1_HV,&a1_HV,&t2_HV,&a2_HV);
+				printf("set LVFG parameters (amp) :\n");
+				scanf("%f",&a_LV);
 				printf("set scan update period (ms): \n");
 				scanf("%ld",&tp);
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV); //volt/ms
@@ -57,17 +60,15 @@ int main(void)
 				// printf("m2=%f\n",m2);
 				amp = a0_HV;
 				
-//				printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
-				
 				if(rp_Init() != RP_OK){
 					fprintf(stderr, "Rp api init failed!\n");
 				}
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 				rp_GenOutEnable(RP_CH_1);
+				rp_GenOutEnable(RP_CH_2);
 				ADC_init();
 				t_start = micros();
-				// printf("micros= %ld, tstart= %ld\n", micros(),t_start);
-				// printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 				while((micros()-t_start)<t2_HV*1000)
 				{
 					// printf("micros= %ld, tstart= %ld\n", micros(),t_start);
@@ -81,6 +82,7 @@ int main(void)
 						{
 							// amp = 0;
 							HVFG(freq_HV, 0); 
+							LVFG(freq_HV, 0); 
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
@@ -92,6 +94,7 @@ int main(void)
 						{
 							amp = amp + m1*tp;
 							HVFG(freq_HV, amp); 
+							LVFG(freq_HV, a_LV); 
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
@@ -112,6 +115,7 @@ int main(void)
 					}					
 				}
 				HVFG(freq_HV, a2_HV);
+				LVFG(freq_HV, 0); 
 				free(buff);
 				rp_Release();				
 			break;
@@ -162,7 +166,10 @@ void HVFG(float freq, float amp){
 //	rp_Release();
 
 }
-
+void LVFG(float freq, float amp) {
+	rp_GenFreq(RP_CH_2, freq);
+	rp_GenAmp(RP_CH_2, amp);
+}
 void ADC_init(void){
 	rp_AcqReset();
 	rp_AcqSetDecimation(1);
