@@ -48,9 +48,10 @@ int main(int argc, char **argv){
         // }
 
         // rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
-		rp_AcqGetLatestDataV(RP_CH_1, &buff_size, buff);
+		
 		while(1)
 		{
+			rp_AcqGetLatestDataV(RP_CH_1, &buff_size, buff);
 			printf("%f\n", buff[0]);
 			sleep(0.1);
 		}
