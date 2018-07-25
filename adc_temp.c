@@ -47,11 +47,17 @@ int main(int argc, char **argv){
                 // }
         // }
 
-        rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
-        int i;
-        for(i = 0; i < buff_size; i++){
-                printf("%f\n", buff[i]);
-        }
+        // rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
+		rp_AcqGetLatestDataV(RP_CH_1, &buff_size, buff);
+		while(1)
+		{
+			printf("%f\n", buff[i]);
+			sleep(0.1);
+		}
+        // int i;
+        // for(i = 0; i < buff_size; i++){
+                // printf("%f\n", buff[i]);
+        // }
         // /* Releasing resources */
         free(buff);
         rp_Release();

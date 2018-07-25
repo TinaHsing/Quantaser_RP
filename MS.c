@@ -50,8 +50,6 @@ int main(void)
 		switch(com)
 		{
 			case FUNC_GEN_ADC:
-//				long t_temp[2] = {0,0}, t_now;
-//				float m1,m2, amp;
 				printf("--Selecting Function Gen and ADC---\n");
 				printf("set HVFG parameters (freq, t0, a0, t1, a1, t2, a2) :\n");
 				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,&a0_HV,&t1_HV,&a1_HV,&t2_HV,&a2_HV);
@@ -113,7 +111,6 @@ int main(void)
 						}
 					}					
 				}
-				printf("out\n");
 				HVFG(freq_HV, a2_HV);
 				rp_Release();				
 			break;
