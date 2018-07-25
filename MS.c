@@ -71,6 +71,8 @@ int main(void)
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenOutEnable(RP_CH_1);
 				t_start = micros();
+				printf("micros= %ld, tstart= %ld\n", micros(),t_start);
+				printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 				while((micros()-t_start)<t2_HV*1000)
 				{
 					printf("micros= %ld, tstart= %ld\n", micros(),t_start);
