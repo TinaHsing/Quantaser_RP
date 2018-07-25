@@ -51,7 +51,7 @@ int main(int argc, char **argv){
 		rp_AcqGetLatestDataV(RP_CH_1, &buff_size, buff);
 		while(1)
 		{
-			printf("%f\n", buff[i]);
+			printf("%f\n", buff[0]);
 			sleep(0.1);
 		}
         // int i;
