@@ -14,6 +14,7 @@ enum command{
 
 long micros(void);
 void HVFG(float, float);
+void ADC_req(uint32_t* , float* );
 
 //global vars//
 /*1. function gen and ADC*/
@@ -62,6 +63,7 @@ int main(void)
 				}
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenOutEnable(RP_CH_1);
+				ADC_init();
 				t_start = micros();
 				// printf("micros= %ld, tstart= %ld\n", micros(),t_start);
 				// printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
@@ -78,6 +80,7 @@ int main(void)
 						{
 							// amp = 0;
 							HVFG(freq_HV, 0); 
+							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
 					}
@@ -88,6 +91,7 @@ int main(void)
 						{
 							amp = amp + m1*tp;
 							HVFG(freq_HV, amp); 
+							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
 					}
@@ -101,6 +105,7 @@ int main(void)
 							// printf("2.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
 							amp = amp + m2*tp;
 							HVFG(freq_HV, amp);
+							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}
 					}					
@@ -157,8 +162,12 @@ void HVFG(float freq, float amp){
 
 }
 
-void ADC_INIT(void){
+void ADC_init(void){
 	rp_AcqReset();
 	rp_AcqSetDecimation(1);
 	rp_AcqStart();
+}
+void ADC_req(uint32_t* buff_size, float* buff) {
+	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
+	printf("%f\n", buff[*buff_size-1]);
 }
