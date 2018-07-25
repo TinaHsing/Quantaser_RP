@@ -26,20 +26,14 @@ long t_start, tp;
 int main(void)
 {
 	int com;
+	/******function gen******/
 	long t_temp[2] = {0,0}, t_now;
 	float m1, m2, amp;
-//	float freq, amp;
-//	long t1 = micros(), t2, t3;
+	/******ADC******/
+	uint32_t buff_size = 16384;
+    float *buff = (float *)malloc(buff_size * sizeof(float));
 	
 	
-//	Sleep(1000);
-//	t2 = micros();
-//	Sleep(1000);
-//	t3 = micros();
-//	printf("%d, %d\n", t2-t1, t3-t2);
-//	while(1)
-//	{
-		
 		do
 		{
 			printf("Select function : (0):Function Gen and ADC, (1):BBB, : ");
@@ -112,6 +106,7 @@ int main(void)
 					}					
 				}
 				HVFG(freq_HV, a2_HV);
+				free(buff);
 				rp_Release();				
 			break;
 			case BBB:
@@ -122,7 +117,6 @@ int main(void)
 				printf("command error, try again!\n");
 				
 		}
-//	}
 	
 	return 0;
  } 
@@ -161,4 +155,10 @@ void HVFG(float freq, float amp){
 	/* Releasing resources */
 //	rp_Release();
 
+}
+
+void ADC_INIT(void){
+	rp_AcqReset();
+	rp_AcqSetDecimation(1);
+	rp_AcqStart();
 }

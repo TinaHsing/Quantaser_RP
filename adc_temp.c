@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include "redpitaya/rp.h"
 
+void ADC_req(uint32_t* , float* );
+
 int main(int argc, char **argv){
 
         /* Print error, if rp_Init() function failed */
@@ -51,8 +53,9 @@ int main(int argc, char **argv){
 		
 		while(1)
 		{
-			rp_AcqGetLatestDataV(RP_CH_1, &buff_size, buff);
-			printf("%f, %f\n", buff[0],buff[buff_size-1]);
+			// rp_AcqGetLatestDataV(RP_CH_1, &buff_size, buff);
+			// printf("%f, %f\n", buff[0],buff[buff_size-1]);
+			ADC_req(&buff_size, buff);
 			sleep(0.1);
 		}
         // int i;
@@ -63,4 +66,9 @@ int main(int argc, char **argv){
         free(buff);
         rp_Release();
         return 0;
+}
+
+void ADC_req(uint32_t* buff_size, float* buff) {
+	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
+	printf("%f, %f\n", buff[0],buff[*buff_size-1]);
 }
