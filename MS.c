@@ -59,8 +59,8 @@ int main(void)
 				scanf("%ld",&tp);
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV); //volt/ms
 				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV);
-				printf("m1=%f\n",m1);
-				printf("m2=%f\n",m2);
+				// printf("m1=%f\n",m1);
+				// printf("m2=%f\n",m2);
 				amp = a0_HV;
 				
 //				printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
@@ -71,14 +71,14 @@ int main(void)
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenOutEnable(RP_CH_1);
 				t_start = micros();
-				printf("micros= %ld, tstart= %ld\n", micros(),t_start);
-				printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
+				// printf("micros= %ld, tstart= %ld\n", micros(),t_start);
+				// printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 				while((micros()-t_start)<t2_HV*1000)
 				{
-					printf("micros= %ld, tstart= %ld\n", micros(),t_start);
-					printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
+					// printf("micros= %ld, tstart= %ld\n", micros(),t_start);
+					// printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 					t_now = micros()-t_start;
-					printf("t_now:%ld\n", t_now);
+					// printf("t_now:%ld\n", t_now);
 					if (t_now < t0_HV*1000)
 					{
 						t_temp[1] = t_now - t_temp[0];
