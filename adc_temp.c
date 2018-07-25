@@ -24,7 +24,8 @@ int main(int argc, char **argv){
         rp_GenOutEnable(RP_CH_1);
 
 
-        uint32_t buff_size = 16384;
+        // uint32_t buff_size = 16384;
+		uint32_t buff_size = 4;
         float *buff = (float *)malloc(buff_size * sizeof(float));
 
         rp_AcqReset();
@@ -58,10 +59,10 @@ int main(int argc, char **argv){
 		for(int i=0; i<64; i++)
 		{
 			time[0]=micros();
-			
+			ADC_req(&buff_size, buff);
 			time[1]=micros();
 			diff[i]=time[1]-time[0];
-			ADC_req(&buff_size, buff);
+			
 		}
 		for(int i = 0; i < 64; i++){
                 printf("%d, diff=%ld\n",i, diff[i]);
