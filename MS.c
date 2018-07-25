@@ -14,7 +14,8 @@ enum command{
 
 long micros(void);
 void HVFG(float, float);
-void ADC_req(uint32_t* , float* );
+void ADC_init(void);
+void ADC_req(uint32_t*, float*);
 
 //global vars//
 /*1. function gen and ADC*/
