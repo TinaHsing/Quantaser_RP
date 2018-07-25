@@ -62,7 +62,7 @@ int main(int argc, char **argv){
 			time[1]=micros();
 			diff[i]=time[1]-time[0];
 		}
-		for(i = 0; i < 64; i++){
+		for(int i = 0; i < 64; i++){
                 printf("diff=%ld\n", diff[i]);
         }	
 		// }
