@@ -52,7 +52,7 @@ int main(int argc, char **argv){
 		while(1)
 		{
 			rp_AcqGetLatestDataV(RP_CH_1, &buff_size, buff);
-			printf("%f\n", buff[0]);
+			printf("%f, %f\n", buff[0],buff[buff_size-1]);
 			sleep(0.1);
 		}
         // int i;
