@@ -113,6 +113,7 @@ int main(void)
 						}
 					}					
 				}
+				printf("out\n");
 				HVFG(freq_HV, a2_HV);
 				rp_Release();				
 			break;
