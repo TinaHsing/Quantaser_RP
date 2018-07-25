@@ -10,7 +10,7 @@
 void ADC_req(uint32_t* , float* );
 long micros(void);
 int main(int argc, char **argv){
-		long diff[64], time[2];
+		// long diff[64], time[2];
         /* Print error, if rp_Init() function failed */
         if(rp_Init() != RP_OK){
                 fprintf(stderr, "Rp api init failed!\n");
