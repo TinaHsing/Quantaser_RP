@@ -62,7 +62,7 @@ int main(void)
 				printf("m1=%f\n",m1);
 				printf("m2=%f\n",m2);
 				amp = a0_HV;
-				t_start = micros();
+				
 //				printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 				
 				if(rp_Init() != RP_OK){
@@ -70,6 +70,7 @@ int main(void)
 				}
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenOutEnable(RP_CH_1);
+				t_start = micros();
 				while((micros()-t_start)<t2_HV*1000)
 				{
 //					printf("micros= %ld, tstart= %ld\n", micros(),t_start);
@@ -80,27 +81,27 @@ int main(void)
 					else if(t_now < t1_HV*1000)
 					{		
 									
-						t_temp[1] = micros() - t_temp[0];
+						t_temp[1] = t_now - t_temp[0];
 //						printf("micros: %ld, temp[0]: %ld, temp[1]: %ld\n",micros(),t_temp[0],t_temp[1]);
 						if(t_temp[1] > tp*1000)
 						{
 							printf("1.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
 							amp = amp + m1*tp;
 							HVFG(freq_HV, amp); 
-							t_temp[0]=micros();
+							t_temp[0]=t_now;
 						}	
 					}
 					else
 					{
 //						amp = a1_HV;
 						//output fg here//
-						t_temp[1] = micros() - t_temp[0];
+						t_temp[1] = t_now - t_temp[0];
 						if(t_temp[1] > tp*1000)
 						{
 							printf("2.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
 							amp = amp + m2*tp;
 							HVFG(freq_HV, amp);
-							t_temp[0]=micros();
+							t_temp[0]=t_now;
 						}
 					}					
 				}
