@@ -27,8 +27,8 @@ int main(int argc, char **argv){
 
         rp_AcqReset();
         rp_AcqSetDecimation(1);
-        rp_AcqSetTriggerLevel(RP_CH_1, 0.1); //Trig level is set in Volts while in SCPI
-        rp_AcqSetTriggerDelay(0);
+        // rp_AcqSetTriggerLevel(RP_CH_1, 0.1); //Trig level is set in Volts while in SCPI
+        // rp_AcqSetTriggerDelay(0);
 
         rp_AcqStart();
 
@@ -36,8 +36,8 @@ int main(int argc, char **argv){
         // /* Here we have used time delay of one second but you can calculate exact value taking in to account buffer*/
         // /*length and smaling rate*/
 
-        sleep(1);
-        rp_AcqSetTriggerSrc(RP_TRIG_SRC_CHA_PE);
+        // sleep(1);
+        // rp_AcqSetTriggerSrc(RP_TRIG_SRC_CHA_PE);
         // rp_acq_trig_state_t state = RP_TRIG_STATE_TRIGGERED;
 
         // while(1){
