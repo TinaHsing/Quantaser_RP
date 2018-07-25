@@ -32,7 +32,7 @@ int main(void)
 	long t_temp[2] = {0,0}, t_now;
 	float m1, m2, amp;
 	/******ADC******/
-	uint32_t buff_size = 16384;
+	uint32_t buff_size = 2;
     float *buff = (float *)malloc(buff_size * sizeof(float));
 	
 	
