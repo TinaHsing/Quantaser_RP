@@ -111,9 +111,9 @@ int main(int argc, char *argv[])
 	// apply required fpga bitstream mercury or classic
 	// system("cat /opt/redpitaya/fpga/fpga_classic.bit > /dev/xdevcfg");
 	
-	int repeat = 10;
-	if (argc==2)
-		repeat=atoi(argv[1]);
+	// int repeat = 10;
+	// if (argc==2)
+		// repeat=atoi(argv[1]);
 	// export pins
 	if (-1 == pin_export(POUT) || -1 == pin_export(PIN)) return 1;
 
@@ -128,6 +128,7 @@ int main(int argc, char *argv[])
 		// printf("Reading pin %d got %d\n", PIN,pin_read(PIN));
 		// usleep(10000);
 	// }
+	pin_write( POUT, 1);
 	while(1)
 	{
 		i = pin_read(PIN);
