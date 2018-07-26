@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 
 	// set pin direction
 	if (-1 == pin_direction(POUT, OUT) || -1 == pin_direction(PIN, IN)) return 2;
-	bool i;
+	int i, flag=1;
 	// for (i = 1; i <= repeat; i++){
 		
 		// if (-1 == pin_write( POUT, i % 2)) return 3;
@@ -128,12 +128,29 @@ int main(int argc, char *argv[])
 		// printf("Reading pin %d got %d\n", PIN,pin_read(PIN));
 		// usleep(10000);
 	// }
-	pin_write( POUT, 1);
+	pin_write( POUT, 0);
 	while(1)
 	{
 		i = pin_read(PIN);
-		printf("Reading %b\n",i);
-		sleep(1);
+		if(i==1 && flag==1)
+		{
+			flag = 0;
+			pin_write( POUT, 1);
+			printf("enter1\n");
+		}
+		else if(i==1 && flag==0)
+		{
+			pin_write( POUT, 0);
+			printf("enter2\n");
+		}
+		else 
+		{
+			pin_write( POUT, 0);
+			printf("enter3\n");
+			flag = 1;
+		}
+		// printf("Reading %d\n",i);
+		
 	}
 	// unexport pins on exit
 	if (-1 == pin_unexport(POUT) || -1 == pin_unexport(PIN))
