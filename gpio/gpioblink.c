@@ -136,17 +136,17 @@ int main(int argc, char *argv[])
 		{
 			flag = 0;
 			pin_write( POUT, 1);
-			printf("enter1\n");
+			// printf("enter1\n");
 		}
 		else if(i==1 && flag==0)
 		{
 			pin_write( POUT, 0);
-			printf("enter2\n");
+			// printf("enter2\n");
 		}
 		else 
 		{
 			pin_write( POUT, 0);
-			printf("enter3\n");
+			// printf("enter3\n");
 			flag = 1;
 		}
 		// printf("Reading %d\n",i);
