@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 
 	// set pin direction
 	if (-1 == pin_direction(POUT, OUT) || -1 == pin_direction(PIN, IN)) return 2;
-	int i;
+	bool i;
 	// for (i = 1; i <= repeat; i++){
 		
 		// if (-1 == pin_write( POUT, i % 2)) return 3;
