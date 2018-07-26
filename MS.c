@@ -151,29 +151,8 @@ int main(void)
 }
 
 void HVFG(float freq, float amp){
-//	if(rp_Init() != RP_OK){
-//		fprintf(stderr, "Rp api init failed!\n");
-//	}
-
-	/* Generating frequency */
 	rp_GenFreq(RP_CH_1, freq);
-//	rp_GenFreq(1, freq);
-
-	/* Generating amplitude */
 	rp_GenAmp(RP_CH_1, amp);
-//	rp_GenAmp(1, amp);
-
-	/* Generating wave form */
-//	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-//	rp_GenWaveform(1, RP_WAVEFORM_SINE);
-
-	/* Enable channel */
-//	rp_GenOutEnable(RP_CH_1);
-//	rp_GenOutEnable(1);
-
-	/* Releasing resources */
-//	rp_Release();
-
 }
 void LVFG(float freq, float amp) {
 	rp_GenFreq(RP_CH_2, freq);

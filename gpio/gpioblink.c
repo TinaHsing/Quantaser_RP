@@ -11,8 +11,8 @@
 #define LOW  0
 #define HIGH 1
 
-#define PIN 970
-#define POUT 969
+#define PIN 969
+#define POUT 968
 
 #define VALUE_MAX 30
 #define BUFFER_MAX 3
@@ -120,13 +120,19 @@ int main(int argc, char *argv[])
 	// set pin direction
 	if (-1 == pin_direction(POUT, OUT) || -1 == pin_direction(PIN, IN)) return 2;
 	int i;
-	for (i = 1; i <= repeat; i++){
-		// set pin value
-		if (-1 == pin_write( POUT, i % 2)) return 3;
-		printf("Setting pin %d to %d\n", POUT,i % 2);
-		// read and printout pin value
-		printf("Reading pin %d got %d\n", PIN,pin_read(PIN));
-		usleep(10000);
+	// for (i = 1; i <= repeat; i++){
+		
+		// if (-1 == pin_write( POUT, i % 2)) return 3;
+		// printf("Setting pin %d to %d\n", POUT,i % 2);
+		
+		// printf("Reading pin %d got %d\n", PIN,pin_read(PIN));
+		// usleep(10000);
+	// }
+	while(1)
+	{
+		i = pin_read(PIN);
+		printf("Reading %d\n",i);
+		sleep(0.1);
 	}
 	// unexport pins on exit
 	if (-1 == pin_unexport(POUT) || -1 == pin_unexport(PIN))
