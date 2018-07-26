@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
 	while(1)
 	{
 		i = pin_read(PIN);
-		printf("Reading %d\n",i);
+		printf("Reading %b\n",i);
 		sleep(1);
 	}
 	// unexport pins on exit
