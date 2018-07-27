@@ -152,7 +152,7 @@ int main(int argc, char *argv[]){
     /* Sample write */
 	while(1)
 	{
-		printf("enter command: \n",data);
+		printf("enter command: \n");
 		scanf("%s", data);
 			if(uart_write(data) < 0){
 			printf("Uart write error\n");
