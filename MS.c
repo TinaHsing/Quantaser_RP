@@ -287,7 +287,7 @@ int main(void)
 					printf("Exit uart? Yes:1, No:0\n");
 					scanf("%d",&uart_return);
 				}while(!uart_return);
-				
+				release();
 			break;
 			default :
 				printf("command error, try again!\n");
