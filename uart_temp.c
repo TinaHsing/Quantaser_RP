@@ -140,6 +140,7 @@ static int release(){
 int main(int argc, char *argv[]){
 
     char *data = "abc";
+	char *size = "123456789";
 
     /* uart init */
     if(uart_init() < 0){
@@ -148,19 +149,19 @@ int main(int argc, char *argv[]){
     }
 
     /* Sample write */
-	while(1)
-	{
+	// while(1)
+	// {
 		if(uart_write(data) < 0){
         printf("Uart write error\n");
         return -1;
 		}
 		sleep(1);
-	}
+	// }
 	
     
 
     /* Sample read */
-    if(uart_read(strlen(data)) < 0){
+    if(uart_read(strlen(size)) < 0){
         printf("Uart read error\n");
         return -1;
     }
