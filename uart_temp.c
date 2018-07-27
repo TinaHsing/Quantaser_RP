@@ -157,7 +157,7 @@ int main(int argc, char *argv[]){
 			if(uart_write(data) < 0){
 			printf("Uart write error\n");
 			return -1;
-			// }
+			}
 			sleep(1);
 		
 		
