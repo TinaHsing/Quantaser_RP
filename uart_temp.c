@@ -159,7 +159,7 @@ int main(int argc, char *argv[]){
 			return -1;
 			}
 			// sleep(1);
-	}	
+	
 		
 		
 
@@ -170,7 +170,7 @@ int main(int argc, char *argv[]){
 		}
 
 		/* CLOSING UART */
-	// }
+	}
     release();
 
     return 0;
