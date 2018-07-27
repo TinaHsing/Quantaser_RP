@@ -140,7 +140,7 @@ static int release(){
 int main(int argc, char *argv[]){
 
     // char *data = "abc";
-	char *data;
+	char data[10];
 	char *size = "123456789";
 
     /* uart init */
