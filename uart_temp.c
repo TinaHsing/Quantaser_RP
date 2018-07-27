@@ -160,10 +160,10 @@ int main(int argc, char *argv[]){
     
 
     /* Sample read */
-    // if(uart_read(strlen(data)) < 0){
-        // printf("Uart read error\n");
-        // return -1;
-    // }
+    if(uart_read(strlen(data)) < 0){
+        printf("Uart read error\n");
+        return -1;
+    }
 
     /* CLOSING UART */
     release();
