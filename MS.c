@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <fcntl.h> 
 #include <termios.h> 
+#include <errno.h>
 #include "redpitaya/rp.h"
 //#include "C:\Users\Quantaser\Dropbox\projects\MassSpectrometer\rp.h"
 
