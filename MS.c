@@ -9,7 +9,8 @@
 
 enum command{
 	FUNC_GEN_ADC,
-	BBB
+	UART,
+	DAC
 }com_sel;
 
 long micros(void);
@@ -40,7 +41,7 @@ int main(void)
 	
 		do
 		{
-			printf("Select function : (0):Function Gen and ADC, (1):BBB, : ");
+			printf("Select function : (0):Function Gen and ADC, (1):UART, (2):DAC ");
 			scanf("%d",&com);
 			fflush(stdin);
 		} while(!(com>=0 && com<3));

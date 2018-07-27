@@ -139,7 +139,8 @@ static int release(){
 
 int main(int argc, char *argv[]){
 
-    char *data = "abc";
+    // char *data = "abc";
+	char *data;
 	char *size = "123456789";
 
     /* uart init */
@@ -149,24 +150,27 @@ int main(int argc, char *argv[]){
     }
 
     /* Sample write */
-	// while(1)
-	// {
-		if(uart_write(data) < 0){
-        printf("Uart write error\n");
-        return -1;
+	while(1)
+	{
+		printf("enter command: \n",data);
+		scanf("%s", data);
+			if(uart_write(data) < 0){
+			printf("Uart write error\n");
+			return -1;
+			}
+			// sleep(1);
+		
+		
+		
+
+		/* Sample read */
+		if(uart_read(strlen(size)) < 0){
+			printf("Uart read error\n");
+			return -1;
 		}
-		// sleep(1);
-	// }
-	
-    
 
-    /* Sample read */
-    if(uart_read(strlen(size)) < 0){
-        printf("Uart read error\n");
-        return -1;
-    }
-
-    /* CLOSING UART */
+		/* CLOSING UART */
+	}
     release();
 
     return 0;
