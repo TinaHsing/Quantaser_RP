@@ -79,7 +79,7 @@ static int uart_read(int size){
         unsigned char rx_buffer[size];
 
         int rx_length = read(uart_fd, (void*)rx_buffer, size);
-		printf("length = %d\n", rx_length);
+		// printf("length = %d\n", rx_length);
         if (rx_length < 0){
 
             /* No data yet avaliable, check again */
@@ -139,7 +139,7 @@ static int release(){
 
 int main(int argc, char *argv[]){
 
-    char *data = "123456789";
+    char *data = "abc";
 
     /* uart init */
     if(uart_init() < 0){
@@ -148,22 +148,22 @@ int main(int argc, char *argv[]){
     }
 
     /* Sample write */
-	// while(1)
-	// {
+	while(1)
+	{
 		if(uart_write(data) < 0){
         printf("Uart write error\n");
         return -1;
 		}
-		// sleep(1);
-	// }
+		sleep(1);
+	}
 	
     
 
     /* Sample read */
-    if(uart_read(strlen(data)) < 0){
-        printf("Uart read error\n");
-        return -1;
-    }
+    // if(uart_read(strlen(data)) < 0){
+        // printf("Uart read error\n");
+        // return -1;
+    // }
 
     /* CLOSING UART */
     release();
