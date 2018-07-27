@@ -50,8 +50,8 @@ long t_start, tp;
 int uart_fd = -1;
 /* I2C */
 int g_i2cFile;
-uint8_t i2c_com = 0x12;
-uint16_t i2c_data = 0x0201;
+uint8_t i2c_com;
+uint16_t i2c_data;
 
 int main(void)
 {
@@ -192,6 +192,10 @@ int main(void)
 				i2cSetAddress(I2C_ADDR);
 				do
 				{
+					printf("enter DAC command: \n");
+					scanf("%x", i2c_com);
+					printf("enter DAC data: \n");
+					scanf("%x", i2c_data);
 					WriteRegisterPair(i2c_com, i2c_data);
 					printf("Exit DAC setup? Yes:1, No:0\n");
 					scanf("%d",&dac_return);
