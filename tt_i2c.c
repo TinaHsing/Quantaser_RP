@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/ioctl.h>
+
 
 
 #define I2C_ADDR 0x07

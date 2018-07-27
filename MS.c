@@ -2,14 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include <sys/ioctl.h>
 //#include <windows.h>
+#include <linux/ioctl.h>
+#include <linux/i2c-dev.h>
 #include <stdint.h>
 #include <unistd.h>
 #include <fcntl.h> 
 #include <termios.h> 
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "redpitaya/rp.h"
-//#include "C:\Users\Quantaser\Dropbox\projects\MassSpectrometer\rp.h"
+
+#define I2C_ADDR 0x07
 
 enum command{
 	FUNC_GEN_ADC,
@@ -37,7 +43,10 @@ uint32_t t0_HV, t1_HV, t2_HV;
 long t_start, tp;
 /* UART */
 int uart_fd = -1;
-
+/* I2C */
+int g_i2cFile;
+uint8_t i2c_com = 0x12;
+uint16_t i2c_data = 0x0201;
 
 int main(void)
 {
@@ -53,6 +62,8 @@ int main(void)
 	char uart_cmd[10];
 	char *size = "123456789";
 	int uart_return = 0;
+	/******DAC******/
+	int dac_return = 0;
 	
 		do
 		{
@@ -169,6 +180,18 @@ int main(void)
 					scanf("%d",&uart_return);
 				}while(!uart_return);
 				release();
+			break;
+			case DAC:
+				printf("--Selecting Function DAC---\n");
+				i2cOpen();
+				i2cSetAddress(I2C_ADDR);
+				do
+				{
+					WriteRegisterPair(i2c_com, i2c_data);
+					printf("Exit DAC setup? Yes:1, No:0\n");
+					scanf("%d",&dac_return);
+				}
+				while(!dac_return);
 			break;
 			default :
 				printf("command error, try again!\n");
@@ -323,4 +346,38 @@ static int release(){
     close(uart_fd);
 
     return 0;
+}
+
+void i2cOpen()
+{
+	g_i2cFile = open("/dev/i2c-0", O_RDWR);
+	if (g_i2cFile < 0) {
+		perror("i2cOpen");
+		exit(1);
+	}
+}
+
+// close the Linux device
+void i2cClose()
+{
+	close(g_i2cFile);
+}
+
+void i2cSetAddress(int address)
+{
+	if (ioctl(g_i2cFile, I2C_SLAVE, address) < 0) {
+		perror("i2cSetAddress");
+		exit(1);
+	}
+}
+
+void WriteRegisterPair(uint8_t reg, uint16_t value)
+{
+	uint8_t data[3];
+	data[0] = reg;
+	data[1] = value & 0xff;
+	data[2] = (value >> 8) & 0xff;
+	if (write(g_i2cFile, data, 3) != 3) {
+		perror("pca9555SetRegisterPair");
+	}
 }
