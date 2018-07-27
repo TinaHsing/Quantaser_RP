@@ -34,6 +34,11 @@ static int uart_init();
 static int release();
 static int uart_read(int size);
 static int uart_write();
+/* I2C */
+void i2cOpen();
+void i2cClose();
+void i2cSetAddress(int);
+void WriteRegisterPair(uint8_t, uint16_t);
 
 //global vars//
 /*1. function gen and ADC*/
