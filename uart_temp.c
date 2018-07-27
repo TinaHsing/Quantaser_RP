@@ -139,7 +139,7 @@ static int release(){
 
 int main(int argc, char *argv[]){
 
-    char *data = "123";
+    char *data = "123456789";
 
     /* uart init */
     if(uart_init() < 0){
