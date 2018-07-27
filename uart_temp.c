@@ -148,14 +148,14 @@ int main(int argc, char *argv[]){
     }
 
     /* Sample write */
-	// while(1)
-	// {
+	while(1)
+	{
 		if(uart_write(data) < 0){
         printf("Uart write error\n");
         return -1;
 		}
 		// sleep(1);
-	// }
+	}
 	
     
 
