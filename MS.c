@@ -50,9 +50,9 @@ long t_start, tp;
 int uart_fd = -1;
 /* I2C */
 int g_i2cFile;
-// unsigned int i2c_com, i2c_data;
-uint8_t i2c_com;
-uint16_t i2c_data;
+unsigned int i2c_com, i2c_data;
+// uint8_t i2c_com;
+// uint16_t i2c_data;
 
 int main(void)
 {
