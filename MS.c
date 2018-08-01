@@ -179,10 +179,6 @@ int main(void)
 				LVFG(freq_HV, 0);
 				free(buff);
 				rp_Release();
-				// for(int i=0;i<idx;i++)
-				// {
-					// d
-				// }
 				write_txt();
 				idx = 0;
 				
@@ -263,7 +259,8 @@ static int write_txt()
 	system("echo "" > data.txt");
 	for(int i=0;i<idx;i++)
 	{
-		sprintf(shell,"echo %f >> data.txt", adc_data[idx]);
+		// sprintf(shell,"echo %f >> data.txt", adc_data[idx]);
+		sprintf(shell,"echo %f >> data.txt", -1.2345678);
 		system(shell);
 	}
 	return 0;
@@ -284,8 +281,10 @@ void ADC_init(void){
 void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	adc_data[idx] = buff[*buff_size-1];
+	
+	printf("1:%f\n", buff[*buff_size-1]);
+	printf("2:%f\n", adc_data[idx]);
 	idx++;
-	printf("%f\n", buff[*buff_size-1]);
 }
 
 static int uart_init(){
