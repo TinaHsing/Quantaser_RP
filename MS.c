@@ -41,7 +41,7 @@ void HVFG(float, float);
 void LVFG(float, float);
 void ADC_init(void);
 void ADC_req(uint32_t*, float*);
-static int write_txt(void);
+void write_txt(void);
 /* UART */
 static int uart_init();
 static int release();
@@ -265,17 +265,16 @@ void ADC_init(void){
 	rp_AcqSetDecimation(1);
 	rp_AcqStart();
 }
-static int write_txt()
+void write_txt()
 {
 	char shell[MAX_PATH];
-	system("touch data.txt");
-	system("echo "" > data.txt");
+	system("touch adc_data.txt");
+	system("echo "" > adc_data.txt");
 	for(int i=0;i<idx;i++)
 	{
-		sprintf(shell,"echo %f >> data.txt", adc_data[i]);
+		sprintf(shell,"echo %f >> adc_data.txt", adc_data[i]);
 		system(shell);
 	}
-	return 0;
 }
 void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
