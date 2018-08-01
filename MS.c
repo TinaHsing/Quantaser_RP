@@ -158,12 +158,11 @@ int main(void)
 							HVFG(freq_HV, amp); 
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
+							printf("1. amp=%f\n",amp);
 						}	
 					}
 					else
 					{
-//						amp = a1_HV;
-						//output fg here//
 						t_temp[1] = t_now - t_temp[0];
 						if(t_temp[1] > tp*1000)
 						{
@@ -172,6 +171,7 @@ int main(void)
 							HVFG(freq_HV, amp);
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
+							printf("2. amp=%f\n",amp);
 						}
 					}					
 				}
@@ -280,7 +280,7 @@ void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	adc_data[idx] = buff[*buff_size-1];
 	
-	printf("%f\n", buff[*buff_size-1]);
+	// printf("%f\n", buff[*buff_size-1]);
 	idx++;
 }
 
