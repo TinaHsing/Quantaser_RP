@@ -3,7 +3,8 @@
 #include <string.h>
 #include <sys/time.h>
 #include <sys/ioctl.h>
-//#include <windows.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <linux/ioctl.h>
 #include <linux/i2c-dev.h>
 #include <stdint.h>
@@ -11,16 +12,24 @@
 #include <fcntl.h> 
 #include <termios.h> 
 #include <errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+
 #include "redpitaya/rp.h"
 
+
+/* I2C */
 #define I2C_ADDR 0x07
+/* MOS SW*/
+#define VALUE_MAX 30
+#define MAX_PATH 64
+#define OUT 1
+#define POUT 968
+
 
 enum command{
 	FUNC_GEN_ADC,
 	UART,
-	DAC
+	DAC,
+	SW
 }com_sel;
 
 /*function gen and ADC*/
@@ -68,13 +77,15 @@ int main(void)
 	int uart_return = 0;
 	/******DAC******/
 	int dac_return = 0;
+	/******MOS Switch******/
+	int mos_sw;
 	
 		do
 		{
 			printf("Select function : (0):Function Gen and ADC, (1):UART, (2):DAC ");
 			scanf("%d",&com);
 			fflush(stdin);
-		} while(!(com>=0 && com<3));
+		} while(!(com>=0 && com<4));
 		
 		switch(com)
 		{
@@ -201,9 +212,19 @@ int main(void)
 				}
 				while(!dac_return);
 			break;
+			case SW:
+				printf("--Selecting Function MOS Switch---\n");
+				printf("set switch on(1), off(0)\n");
+				scanf("%d", &mos_sw);
+				pin_export(POUT);
+				pin_direction(POUT, OUT);
+				pin_write( POUT, 0);
+				if(mos_sw) pin_write( POUT, 1);
+				else pin_write( POUT, 0);
+				pin_unexport(POUT);
+			break;
 			default :
 				printf("command error, try again!\n");
-				
 		}
 	
 	return 0;
@@ -388,4 +409,62 @@ void WriteRegisterPair(uint8_t reg, uint16_t value)
 	if (write(g_i2cFile, data, 3) != 3) {
 		perror("pca9555SetRegisterPair");
 	}
+}
+
+static int pin_export(int pin)
+{
+	char shell[MAX_PATH];
+	sprintf(shell,"echo %d > /sys/class/gpio/export", pin);
+	system(shell);
+	return 0;
+}
+
+static int pin_unexport(int pin)
+{
+        char shell[MAX_PATH];
+        sprintf(shell,"echo %d > /sys/class/gpio/unexport", pin);
+        system(shell);
+
+	return 0;
+}
+
+static int pin_direction(int pin, int dir){
+
+	char shell[MAX_PATH];
+	snprintf(shell, MAX_PATH, "echo %s > /sys/class/gpio/gpio%d/direction",((dir==IN)?"in":"out"),pin);
+	system(shell);
+
+	return 0;
+}
+
+static int pin_write(int pin, int value)
+{
+	char path[VALUE_MAX];
+	int fd;
+
+	snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin);
+	// get pin value file descrptor
+	fd = open(path, O_WRONLY);
+	if (-1 == fd) {
+		fprintf(stderr, "Unable to to open sysfs pins value file %s for writing\n",path);
+		return -1;
+	}
+	if(value==LOW){
+		//write low
+		if (1 != write(fd, "0", 1)) {
+			fprintf(stderr, "Unable to write value\n");
+			return -1;
+		}
+	}
+        else if(value==HIGH){
+		//write high
+		if (1 != write(fd, "1", 1)) {
+                	fprintf(stderr, "Unable to write value\n");
+                	return -1;
+		}
+	}else fprintf(stderr, "Nonvalid pin value requested\n");
+
+	//close file
+	close(fd);
+	return 0;
 }
