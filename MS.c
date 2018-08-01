@@ -270,12 +270,10 @@ static int write_txt()
 	char shell[MAX_PATH];
 	system("touch data.txt");
 	system("echo "" > data.txt");
-	printf("idx = %d\n",idx);
 	for(int i=0;i<idx;i++)
 	{
-		sprintf(shell,"echo %f >> data.txt", adc_data[idx]);
+		sprintf(shell,"echo %f >> data.txt", adc_data[i]);
 		system(shell);
-		printf("data[%d] = %f\n",idx , adc_data[idx]);
 	}
 	return 0;
 }
@@ -284,7 +282,6 @@ void ADC_req(uint32_t* buff_size, float* buff) {
 	adc_data[idx] = buff[*buff_size-1];
 	
 	printf("%f\n", buff[*buff_size-1]);
-	// printf("2:%f\n", adc_data[idx]);
 	idx++;
 }
 
