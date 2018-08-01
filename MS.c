@@ -21,7 +21,10 @@
 /* MOS SW*/
 #define VALUE_MAX 30
 #define MAX_PATH 64
+#define IN  0
 #define OUT 1
+#define LOW  0
+#define HIGH 1
 #define POUT 968
 
 
@@ -48,6 +51,11 @@ void i2cOpen();
 void i2cClose();
 void i2cSetAddress(int);
 void WriteRegisterPair(uint8_t, uint16_t);
+/* gpio */
+static int pin_export(int);
+static int pin_unexport(int);
+static int pin_direction(int, int);
+static int pin_write(int, int);
 
 //global vars//
 /*1. function gen and ADC*/
