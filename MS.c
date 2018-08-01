@@ -259,8 +259,13 @@ int main(void)
 static int write_txt()
 {
 	char shell[MAX_PATH];
-	sprintf(shell,"touch data.txt");
-	system(shell);
+	system("touch data.txt");
+	system("echo "" > data.txt");
+	for(int i=0;i<idx;i++)
+	{
+		sprintf(shell,"echo %f >> data.txt", adc_data);
+		system(shell);
+	}
 	return 0;
 }
 void HVFG(float freq, float amp){
