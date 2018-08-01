@@ -127,7 +127,7 @@ int main(void)
 					// printf("micros= %ld, tstart= %ld\n", micros(),t_start);
 					// printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 					t_now = micros()-t_start;
-					printf("t_now:%ld\n", t_now);
+					// printf("t_now:%ld\n", t_now);
 					if (t_now < t0_HV*1000)
 					{
 						t_temp[1] = t_now - t_temp[0];
@@ -164,7 +164,7 @@ int main(void)
 					else
 					{
 						t_temp[1] = t_now - t_temp[0];
-						printf("temp[1]=%ld\n",t_temp[1]);
+						// printf("temp[1]=%ld\n",t_temp[1]);
 						if(t_temp[1] > tp*1000)
 						{
 							// printf("2.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
@@ -172,7 +172,7 @@ int main(void)
 							HVFG(freq_HV, amp);
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
-							printf("2. amp=%f\n",amp);
+							// printf("2. amp=%f\n",amp);
 						}
 					}					
 				}
@@ -279,7 +279,7 @@ void write_txt()
 }
 void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
-	adc_data[idx] = buff[*buff_size-1];
+	// adc_data[idx] = buff[*buff_size-1];
 	
 	// printf("%f\n", buff[*buff_size-1]);
 	idx++;
