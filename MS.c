@@ -164,6 +164,7 @@ int main(void)
 					else
 					{
 						t_temp[1] = t_now - t_temp[0];
+						printf("temp[1]=%ld\n",temp[1]);
 						if(t_temp[1] > tp*1000)
 						{
 							// printf("2.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
