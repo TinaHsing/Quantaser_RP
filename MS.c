@@ -170,7 +170,7 @@ int main(void)
 							// printf("2.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
 							amp = amp + m2*tp;
 							HVFG(freq_HV, amp);
-							// ADC_req(&buff_size, buff);
+							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 							printf("2. amp=%f\n",amp);
 						}
