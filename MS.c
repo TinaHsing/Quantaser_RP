@@ -27,6 +27,19 @@
 #define HIGH 1
 #define POUT 968
 
+//global vars//
+/*1. function gen and ADC*/
+float freq_HV;//, adc_data[500];
+float *adc_data;
+float a0_HV, a1_HV, a2_HV, a_LV;
+uint32_t t0_HV, t1_HV, t2_HV;
+long t_start, tp;
+int idx=0;
+/* UART */
+int uart_fd = -1;
+/* I2C */
+int g_i2cFile;
+unsigned int i2c_com, i2c_data;
 
 enum command{
 	FUNC_GEN_ADC,
@@ -57,20 +70,6 @@ static int pin_export(int);
 static int pin_unexport(int);
 static int pin_direction(int, int);
 static int pin_write(int, int);
-
-//global vars//
-/*1. function gen and ADC*/
-float freq_HV;//, adc_data[500];
-float *adc_data;
-float a0_HV, a1_HV, a2_HV, a_LV;
-uint32_t t0_HV, t1_HV, t2_HV;
-long t_start, tp;
-int idx=0;
-/* UART */
-int uart_fd = -1;
-/* I2C */
-int g_i2cFile;
-unsigned int i2c_com, i2c_data;
 
 int main(void)
 {
