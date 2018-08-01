@@ -252,19 +252,6 @@ int main(void)
 //	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 	return time;
 }
-static int write_txt()
-{
-	char shell[MAX_PATH];
-	system("touch data.txt");
-	system("echo "" > data.txt");
-	for(int i=0;i<idx;i++)
-	{
-		// sprintf(shell,"echo %f >> data.txt", adc_data[idx]);
-		sprintf(shell,"echo %f >> data.txt", -1.2345678);
-		system(shell);
-	}
-	return 0;
-}
 void HVFG(float freq, float amp){
 	rp_GenFreq(RP_CH_1, freq);
 	rp_GenAmp(RP_CH_1, amp);
@@ -278,12 +265,25 @@ void ADC_init(void){
 	rp_AcqSetDecimation(1);
 	rp_AcqStart();
 }
+static int write_txt()
+{
+	char shell[MAX_PATH];
+	system("touch data.txt");
+	system("echo "" > data.txt");
+	printf("idx = %d\n",idx);
+	for(int i=0;i<idx;i++)
+	{
+		sprintf(shell,"echo %f >> data.txt", adc_data[idx]);
+		system(shell);
+	}
+	return 0;
+}
 void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	adc_data[idx] = buff[*buff_size-1];
 	
-	printf("1:%f\n", buff[*buff_size-1]);
-	printf("2:%f\n", adc_data[idx]);
+	printf("%f\n", buff[*buff_size-1]);
+	// printf("2:%f\n", adc_data[idx]);
 	idx++;
 }
 
