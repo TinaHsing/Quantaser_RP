@@ -275,6 +275,7 @@ static int write_txt()
 	{
 		sprintf(shell,"echo %f >> data.txt", adc_data[idx]);
 		system(shell);
+		printf("data[%d] = %f\n",idx , adc_data[idx]);
 	}
 	return 0;
 }
