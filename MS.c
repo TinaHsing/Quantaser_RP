@@ -60,8 +60,8 @@ static int pin_write(int, int);
 
 //global vars//
 /*1. function gen and ADC*/
-float freq_HV, adc_data[500];
-// float *adc_data;
+float freq_HV;//, adc_data[500];
+float *adc_data;
 float a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t t0_HV, t1_HV, t2_HV;
 long t_start, tp;
@@ -274,15 +274,15 @@ void write_txt()
 	system("echo "" > adc_data.txt");
 	for(int i=0;i<idx;i++)
 	{
-		sprintf(shell,"echo %f >> adc_data.txt", adc_data[i]);
-		// sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+i));
+		// sprintf(shell,"echo %f >> adc_data.txt", adc_data[i]);
+		sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+i));
 		system(shell);
 	}
 }
 void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
-	adc_data[idx] = buff[*buff_size-1];
-	// *(adc_data+idx) = buff[*buff_size-1];
+	// adc_data[idx] = buff[*buff_size-1];
+	*(adc_data+idx) = buff[*buff_size-1];
 	
 	// printf("%f\n", buff[*buff_size-1]);
 	idx++;
