@@ -41,6 +41,7 @@ void HVFG(float, float);
 void LVFG(float, float);
 void ADC_init(void);
 void ADC_req(uint32_t*, float*);
+static int write_txt(void);
 /* UART */
 static int uart_init();
 static int release();
@@ -59,10 +60,11 @@ static int pin_write(int, int);
 
 //global vars//
 /*1. function gen and ADC*/
-float freq_HV;
+float freq_HV, adc_data[100];
 float a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t t0_HV, t1_HV, t2_HV;
 long t_start, tp;
+int idx=0;
 /* UART */
 int uart_fd = -1;
 /* I2C */
@@ -174,9 +176,16 @@ int main(void)
 					}					
 				}
 				HVFG(freq_HV, a2_HV);
-				LVFG(freq_HV, 0); 
+				LVFG(freq_HV, 0);
 				free(buff);
-				rp_Release();				
+				rp_Release();
+				// for(int i=0;i<idx;i++)
+				// {
+					// d
+				// }
+				write_txt();
+				idx = 0;
+				
 			break;
 			case UART:
 				printf("--Selecting Function UART---\n");
@@ -247,7 +256,13 @@ int main(void)
 //	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 	return time;
 }
-
+static int write_txt()
+{
+	char shell[MAX_PATH];
+	sprintf(shell,"touch data.txt");
+	system(shell);
+	return 0;
+}
 void HVFG(float freq, float amp){
 	rp_GenFreq(RP_CH_1, freq);
 	rp_GenAmp(RP_CH_1, amp);
@@ -263,6 +278,8 @@ void ADC_init(void){
 }
 void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
+	adc_data[idx] = buff[*buff_size-1];
+	idx++;
 	printf("%f\n", buff[*buff_size-1]);
 }
 
