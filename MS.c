@@ -263,7 +263,7 @@ static int write_txt()
 	system("echo "" > data.txt");
 	for(int i=0;i<idx;i++)
 	{
-		sprintf(shell,"echo %f >> data.txt", adc_data);
+		sprintf(shell,"echo %f >> data.txt", adc_data[idx]);
 		system(shell);
 	}
 	return 0;
