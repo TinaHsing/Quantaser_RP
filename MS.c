@@ -90,7 +90,7 @@ int main(void)
 	
 		do
 		{
-			printf("Select function : (0):Function Gen and ADC, (1):UART, (2):DAC ");
+			printf("Select function : (0):Function Gen and ADC, (1):UART, (2):DAC, (3):MOS Switch  ");
 			scanf("%d",&com);
 			fflush(stdin);
 		} while(!(com>=0 && com<4));
