@@ -25,7 +25,10 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
-#define POUT 968
+#define POUT1 968
+#define POUT2 969
+#define POUT3 970
+#define POUT4 971
 
 //global vars//
 /*1. function gen and ADC*/
@@ -87,8 +90,9 @@ int main(void)
 	/******DAC******/
 	int dac_return = 0;
 	/******MOS Switch******/
-	int mos_sw;
+	int mos_sw1, mos_sw2, mos_sw3, mos_sw4;
 	
+	system("cat /opt/redpitaya/fpga/classic/fpga.bit > /dev/xdevcfg");
 		do
 		{
 			printf("Select function : (0):Function Gen and ADC, (1):UART, (2):DAC, (3):MOS Switch  ");
@@ -227,14 +231,33 @@ int main(void)
 			break;
 			case SW:
 				printf("--Selecting Function MOS Switch---\n");
-				printf("set switch on(1), off(0)\n");
-				scanf("%d", &mos_sw);
-				pin_export(POUT);
-				pin_direction(POUT, OUT);
-				pin_write( POUT, 0);
-				if(mos_sw) pin_write( POUT, 1);
-				else pin_write( POUT, 0);
-				pin_unexport(POUT);
+				printf("set switch status : on(1), off(0)\n");
+				printf("SW1 SW2 SW3 SW4 (ex: 1 0 0 1)")
+				scanf("%d%d%d%d", &mos_sw1, &mos_sw2, &mos_sw3, &mos_sw4);
+				pin_export(POUT1);
+				pin_export(POUT2);
+				pin_export(POUT3);
+				pin_export(POUT4);
+				pin_direction(POUT1, OUT);
+				pin_direction(POUT2, OUT);
+				pin_direction(POUT3, OUT);
+				pin_direction(POUT4, OUT);
+				pin_write( POUT1, 0);
+				pin_write( POUT2, 0);
+				pin_write( POUT3, 0);
+				pin_write( POUT4, 0);
+				if(mos_sw1) pin_write( POUT1, 1);
+				else pin_write( POUT1, 0);
+				if(mos_sw2) pin_write( POUT2, 1);
+				else pin_write( POUT2, 0);
+				if(mos_sw3) pin_write( POUT3, 1);
+				else pin_write( POUT3, 0);
+				if(mos_sw4) pin_write( POUT4, 1);
+				else pin_write( POUT4, 0);
+				pin_unexport(POUT1);
+				pin_unexport(POUT2);
+				pin_unexport(POUT3);
+				pin_unexport(POUT4);
 			break;
 			default :
 				printf("command error, try again!\n");
