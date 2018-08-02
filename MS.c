@@ -232,7 +232,7 @@ int main(void)
 			case SW:
 				printf("--Selecting Function MOS Switch---\n");
 				printf("set switch status : on(1), off(0)\n");
-				printf("SW1 SW2 SW3 SW4 (ex: 1 0 0 1)")
+				printf("SW1 SW2 SW3 SW4 (ex: 1 0 0 1)");
 				scanf("%d%d%d%d", &mos_sw1, &mos_sw2, &mos_sw3, &mos_sw4);
 				pin_export(POUT1);
 				pin_export(POUT2);
