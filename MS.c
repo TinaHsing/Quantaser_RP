@@ -29,6 +29,10 @@
 #define POUT2 969
 #define POUT3 970
 #define POUT4 971
+#define UART1 972
+#define UART2 973
+#define UART3 974
+#define UART4 975
 
 //global vars//
 /*1. function gen and ADC*/
@@ -58,13 +62,15 @@ void ADC_init(void);
 void ADC_req(uint32_t*, float*);
 void write_txt(void);
 /* UART */
-static int uart_init();
-static int release();
+static int uart_init(void);
+static int release(void);
 static int uart_read(int size);
 static int uart_write();
+void connect_uart(int *);
+void disconnect_uart(void);
 /* I2C */
-void i2cOpen();
-void i2cClose();
+void i2cOpen(void);
+void i2cClose(void);
 void i2cSetAddress(int);
 void WriteRegisterPair(uint8_t, uint16_t);
 /* gpio */
@@ -85,6 +91,7 @@ int main(void)
     float *buff = (float *)malloc(buff_size * sizeof(float));
 	/******UART******/
 	char uart_cmd[10];
+	int uart_num=1;
 	char *size = "123456789";
 	int uart_return = 0;
 	/******DAC******/
@@ -188,14 +195,26 @@ int main(void)
 				
 			break;
 			case UART:
+			    printf("\n");
 				printf("--Selecting Function UART---\n");
 				if(uart_init() < 0)
 				{
 					printf("Uart init error.\n");
 					return -1;
-				}		
+				}	
+				pin_export(UART1);
+				pin_export(UART2);
+				pin_export(UART3);
+				pin_export(UART4);
+				pin_direction(UART1, OUT);
+				pin_direction(UART2, OUT);
+				pin_direction(UART3, OUT);
+				pin_direction(UART4, OUT);
 				do
 				{
+					printf("enter UART number to communicate (1~4): \n");
+					scanf("%d",&uart_num);
+					connect_uart(uart_num);
 					printf("enter command: \n");
 					scanf("%s", uart_cmd);
 					if(uart_write(uart_cmd) < 0){
@@ -211,6 +230,11 @@ int main(void)
 					printf("Exit uart? Yes:1, No:0\n");
 					scanf("%d",&uart_return);
 				}while(!uart_return);
+				disconnect_uart();
+				pin_unexport(UART1);
+				pin_unexport(UART2);
+				pin_unexport(UART3);
+				pin_unexport(UART4);
 				release();
 			break;
 			case DAC:
@@ -418,7 +442,46 @@ static int uart_write(char *data){
 
     return 0;
 }
-
+void connect_uart(int *num) {
+	switch(*num)
+	{
+		case 1:
+			pin_write( UART1, 1);
+			pin_write( UART2, 0);
+			pin_write( UART3, 0);
+			pin_write( UART4, 0);
+		break;
+		case 2:
+			pin_write( UART1, 0);
+			pin_write( UART2, 1);
+			pin_write( UART3, 0);
+			pin_write( UART4, 0);
+		break;
+		case 3:
+			pin_write( UART1, 0);
+			pin_write( UART2, 0);
+			pin_write( UART3, 1);
+			pin_write( UART4, 0);
+		break;
+		case 4:
+			pin_write( UART1, 0);
+			pin_write( UART2, 0);
+			pin_write( UART3, 0);
+			pin_write( UART4, 1);
+		break;
+		default:
+			pin_write( UART1, 0);
+			pin_write( UART2, 0);
+			pin_write( UART3, 0);
+			pin_write( UART4, 0);
+	}
+}
+void disconnect_uart(void) {
+	pin_write( UART1, 0);
+	pin_write( UART2, 0);
+	pin_write( UART3, 0);
+	pin_write( UART4, 0);
+}
 static int release(){
 
     tcflush(uart_fd, TCIFLUSH);
