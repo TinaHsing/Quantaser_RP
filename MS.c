@@ -214,7 +214,7 @@ int main(void)
 				{
 					printf("enter UART number to communicate (1~4): \n");
 					scanf("%d",&uart_num);
-					connect_uart(uart_num);
+					connect_uart(&uart_num);
 					printf("enter command: \n");
 					scanf("%s", uart_cmd);
 					if(uart_write(uart_cmd) < 0){
