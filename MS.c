@@ -197,11 +197,11 @@ int main(void)
 			case UART:
 			    printf("\n");
 				printf("--Selecting Function UART---\n");
-				if(uart_init() < 0)
-				{
-					printf("Uart init error.\n");
-					return -1;
-				}	
+				// if(uart_init() < 0)
+				// {
+					// printf("Uart init error.\n");
+					// return -1;
+				// }	
 				pin_export(UART1);
 				pin_export(UART2);
 				pin_export(UART3);
@@ -212,6 +212,11 @@ int main(void)
 				pin_direction(UART4, OUT);
 				do
 				{
+					if(uart_init() < 0)
+					{
+						printf("Uart init error.\n");
+						return -1;
+					}
 					printf("enter UART number to communicate (1~4): \n");
 					scanf("%d",&uart_num);
 					connect_uart(&uart_num);
@@ -227,6 +232,7 @@ int main(void)
 						printf("Uart read error\n");
 						return -1;
 					}
+					release();
 					printf("Exit uart? Yes:1, No:0\n");
 					scanf("%d",&uart_return);
 				}while(!uart_return);
@@ -235,7 +241,7 @@ int main(void)
 				pin_unexport(UART2);
 				pin_unexport(UART3);
 				pin_unexport(UART4);
-				release();
+				// release();
 			break;
 			case DAC:
 				printf("--Selecting Function DAC---\n");
