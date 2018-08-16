@@ -169,8 +169,8 @@ int main(void)
 						{	
 							num++;
 							amp = amp + m1*tp;
-							HVFG(freq_HV, amp); 
-							// rp_GenAmp(RP_CH_1, amp);
+							// HVFG(freq_HV, amp); 
+							rp_GenAmp(RP_CH_1, amp);
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 							// printf("break\n");
