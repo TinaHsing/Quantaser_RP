@@ -193,7 +193,7 @@ int main(void)
 					tt1=micros();
 					// HVFG(freq_HV, amp);
 					// rp_GenAmp(RP_CH_1, amp);
-					rp_GenFreq(RP_CH_1, freq);
+					rp_GenFreq(RP_CH_1, freq_HV);
 					tt2=micros();
 					printf("%d: %ld\n",idx, tt2-tt1);
 					idx++;
