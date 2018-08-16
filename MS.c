@@ -86,7 +86,7 @@ int main(void)
 	long t_temp[2] = {0,0}, t_now;
 	float m1, m2, amp;
 	bool fg_flag=1;
-	int num=0;
+	int num=0, num2=0;
 	// int idx2=0;
 	// long tt1, tt2;
 	/******ADC******/
@@ -182,10 +182,10 @@ int main(void)
 						t_temp[1] = t_now - t_temp[0];
 						if(t_temp[1] > tp)
 						{
-							num++;
+							num2++;
 							amp = amp + m2*tp;
-							HVFG(freq_HV, amp);
-							// rp_GenAmp(RP_CH_1, amp);
+							// HVFG(freq_HV, amp);
+							rp_GenAmp(RP_CH_1, amp);
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 							// printf("2. amp=%f\n",amp);
@@ -204,7 +204,7 @@ int main(void)
 				// }
 				// HVFG(freq_HV, a2_HV);
 				// LVFG(freq_HV, 0);
-				printf("num=%d\n",num);
+				printf("num=%d, num2=%d\n",num, num2);
 				rp_GenAmp(RP_CH_1, a2_HV);
 				rp_GenAmp(RP_CH_2, 0);
 				free(buff);
