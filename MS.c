@@ -87,7 +87,7 @@ int main(void)
 	float m1, m2, amp;
 	bool fg_flag1=1, fg_flag2=1;
 	int idx=0;
-	long tt1, tt2, tt3;
+	long tt1, tt2;
 	/******ADC******/
 	uint32_t buff_size = 2;
     float *buff = (float *)malloc(buff_size * sizeof(float));
@@ -191,10 +191,10 @@ int main(void)
 				while(idx<10)
 				{
 					tt1=micros();
-					HVFG(freq_HV, amp);
+					// HVFG(freq_HV, amp);
+					rp_GenAmp(RP_CH_1, amp);
 					tt2=micros();
-					tt3=micros();
-					printf("%d: %ld, %ld\n",idx, tt2-tt1, tt3-tt2);
+					printf("%d: %ld\n",idx, tt2-tt1);
 					idx++;
 				}
 				HVFG(freq_HV, a2_HV);
