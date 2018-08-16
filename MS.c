@@ -172,11 +172,12 @@ int main(void)
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
-						printf("break\n");
-						break;
+						
 					}
 					else
 					{
+						printf("break\n");
+						break;
 						t_temp[1] = t_now - t_temp[0];
 						if(t_temp[1] > tp)
 						{
