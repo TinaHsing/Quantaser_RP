@@ -121,8 +121,6 @@ int main(void)
 				scanf("%ld",&tp);
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV)/1000; //volt/us
 				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV)/1000;
-				// printf("m1=%f\n",m1);
-				// printf("m2=%f\n",m2);
 				amp = a0_HV;
 				
 				if(rp_Init() != RP_OK){
@@ -136,6 +134,9 @@ int main(void)
 				HVFG(freq_HV, 0); 
 				ADC_init();
 				t_start = micros();
+				
+				printf("break\n");
+				break;
 				while((micros()-t_start)<t2_HV*1000)
 				{
 					t_now = micros()-t_start;
@@ -149,7 +150,6 @@ int main(void)
 						// }
 						if(t_temp[1] > tp)
 						{
-							// amp = 0;
 							// HVFG(freq_HV, 0); 
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
