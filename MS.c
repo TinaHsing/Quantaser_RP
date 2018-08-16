@@ -153,8 +153,7 @@ int main(void)
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
-						printf("break\n");
-						break;
+						
 					}
 					else if(t_now < t1_HV*1000)
 					{		
@@ -186,6 +185,8 @@ int main(void)
 							t_temp[0]=t_now;
 							// printf("2. amp=%f\n",amp);
 						}
+						printf("break\n");
+						break;
 					}					
 				}
 				// while(idx2<10)
