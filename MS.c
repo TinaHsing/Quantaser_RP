@@ -191,9 +191,8 @@ int main(void)
 				while(idx<10)
 				{
 					tt1=micros();
-					// HVFG(freq_HV, amp);
-					// rp_GenAmp(RP_CH_1, amp);
-					rp_GenFreq(RP_CH_1, freq_HV);
+					rp_GenAmp(RP_CH_1, amp);
+					ADC_req(&buff_size, buff);
 					tt2=micros();
 					printf("%d: %ld\n",idx, tt2-tt1);
 					idx++;
