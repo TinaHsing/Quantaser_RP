@@ -36,7 +36,7 @@
 
 //global vars//
 /*1. function gen and ADC*/
-float freq_HV, adc_data[1000];
+float freq_HV, adc_data[3000];
 float a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t t0_HV, t1_HV, t2_HV;
 long t_start, tp;
@@ -85,9 +85,9 @@ int main(void)
 	/******function gen******/
 	long t_temp[2] = {0,0}, t_now;
 	float m1, m2, amp;
-	bool fg_flag1=1, fg_flag2=1;
-	int idx=0;
-	long tt1, tt2;
+	bool fg_flag=1;
+	// int idx2=0;
+	// long tt1, tt2;
 	/******ADC******/
 	uint32_t buff_size = 2;
     float *buff = (float *)malloc(buff_size * sizeof(float));
@@ -117,10 +117,10 @@ int main(void)
 				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,&a0_HV,&t1_HV,&a1_HV,&t2_HV,&a2_HV);
 				printf("set LVFG amplitude (0~1V) :\n");
 				scanf("%f",&a_LV);
-				printf("set scan update period in ms(>=10): \n");
+				printf("set scan update period in us(>=30): \n");
 				scanf("%ld",&tp);
-				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV); //volt/ms
-				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV);
+				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV)/1000; //volt/us
+				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV)/1000;
 				// printf("m1=%f\n",m1);
 				// printf("m2=%f\n",m2);
 				amp = a0_HV;
@@ -132,26 +132,25 @@ int main(void)
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 				rp_GenOutEnable(RP_CH_1);
 				rp_GenOutEnable(RP_CH_2);
+				LVFG(freq_HV, 0); 
+				HVFG(freq_HV, 0); 
 				ADC_init();
 				t_start = micros();
 				while((micros()-t_start)<t2_HV*1000)
 				{
-					// printf("micros= %ld, tstart= %ld\n", micros(),t_start);
-					// printf("%ld, %u\n",(micros()-t_start), t2_HV*1000); 
 					t_now = micros()-t_start;
-					// printf("t_now:%ld\n", t_now);
 					if (t_now < t0_HV*1000)
 					{
 						t_temp[1] = t_now - t_temp[0];
-						if(fg_flag1)
-						{
-							fg_flag1 = 0;
-							LVFG(freq_HV, 0); 
-						}
-						if(t_temp[1] > tp*1000)
+						// if(fg_flag1)
+						// {
+							// fg_flag1 = 0;
+							// LVFG(freq_HV, 0); 
+						// }
+						if(t_temp[1] > tp)
 						{
 							// amp = 0;
-							HVFG(freq_HV, 0); 
+							// HVFG(freq_HV, 0); 
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
@@ -159,46 +158,48 @@ int main(void)
 					else if(t_now < t1_HV*1000)
 					{		
 						t_temp[1] = t_now - t_temp[0];
-						if(fg_flag2)
+						if(fg_flag)
 						{
-							fg_flag2 = 0;
-							LVFG(freq_HV, a_LV);  
+							fg_flag = 0;
+							// LVFG(freq_HV, a_LV);  
+							rp_GenAmp(RP_CH_2, a_LV);
 						}
-						if(t_temp[1] > tp*1000)
+						if(t_temp[1] > tp)
 						{
 							amp = amp + m1*tp;
-							HVFG(freq_HV, amp); 
+							// HVFG(freq_HV, amp); 
+							rp_GenAmp(RP_CH_1, amp);
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
-							// printf("1. amp=%f\n",amp);
 						}	
 					}
 					else
 					{
 						t_temp[1] = t_now - t_temp[0];
-						// printf("temp[1]=%ld\n",t_temp[1]);
-						if(t_temp[1] > tp*1000)
+						if(t_temp[1] > tp)
 						{
-							// printf("2.t_now:%ld, amp=%f, dt=%ld\n",t_now,amp,t_temp[1]);
 							amp = amp + m2*tp;
-							HVFG(freq_HV, amp);
+							// HVFG(freq_HV, amp);
+							rp_GenAmp(RP_CH_1, amp);
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 							// printf("2. amp=%f\n",amp);
 						}
 					}					
 				}
-				while(idx<10)
-				{
-					tt1=micros();
-					rp_GenAmp(RP_CH_1, amp);
-					ADC_req(&buff_size, buff);
-					tt2=micros();
-					printf("%d: %ld\n",idx, tt2-tt1);
-					idx++;
-				}
-				HVFG(freq_HV, a2_HV);
-				LVFG(freq_HV, 0);
+				// while(idx2<10)
+				// {
+					// tt1=micros();
+					// rp_GenAmp(RP_CH_1, amp);
+					// ADC_req(&buff_size, buff);
+					// tt2=micros();
+					// printf("%d: %ld\n",idx2, tt2-tt1);
+					// idx2++;
+				// }
+				// HVFG(freq_HV, a2_HV);
+				// LVFG(freq_HV, 0);
+				rp_GenAmp(RP_CH_1, a2_HV);
+				rp_GenAmp(RP_CH_2, 0);
 				free(buff);
 				rp_Release();
 				write_txt();
