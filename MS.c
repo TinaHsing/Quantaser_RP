@@ -36,7 +36,7 @@
 
 //global vars//
 /*1. function gen and ADC*/
-float freq_HV, adc_data[1500];
+float freq_HV, adc_data[2000];
 float a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t t0_HV, t1_HV, t2_HV;
 long t_start, tp;
