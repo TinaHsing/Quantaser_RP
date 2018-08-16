@@ -86,6 +86,8 @@ int main(void)
 	long t_temp[2] = {0,0}, t_now;
 	float m1, m2, amp;
 	bool fg_flag1=1, fg_flag2=1;
+	int idx=0;
+	long tt1, tt2;
 	/******ADC******/
 	uint32_t buff_size = 2;
     float *buff = (float *)malloc(buff_size * sizeof(float));
@@ -185,6 +187,14 @@ int main(void)
 							// printf("2. amp=%f\n",amp);
 						}
 					}					
+				}
+				while(idx<10)
+				{
+					tt1=micros();
+					HVFG(freq_HV, amp);
+					tt2=micros();
+					printf("%d: %ld",idx, tt2-tt1);
+					idx++;
 				}
 				HVFG(freq_HV, a2_HV);
 				LVFG(freq_HV, 0);
