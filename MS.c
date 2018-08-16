@@ -135,8 +135,7 @@ int main(void)
 				ADC_init();
 				t_start = micros();
 				
-				printf("break\n");
-				break;
+				
 				while((micros()-t_start)<t2_HV*1000)
 				{
 					t_now = micros()-t_start;
@@ -154,6 +153,8 @@ int main(void)
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 						}	
+						printf("break\n");
+						break;
 					}
 					else if(t_now < t1_HV*1000)
 					{		
