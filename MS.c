@@ -167,12 +167,12 @@ int main(void)
 						if(t_temp[1] > tp)
 						{
 							amp = amp + m1*tp;
-							// HVFG(freq_HV, amp); 
-							rp_GenAmp(RP_CH_1, amp);
+							HVFG(freq_HV, amp); 
+							// rp_GenAmp(RP_CH_1, amp);
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
-							printf("break\n");
-						break;
+							// printf("break\n");
+						// break;
 						}	
 						
 					}
@@ -183,8 +183,8 @@ int main(void)
 						if(t_temp[1] > tp)
 						{
 							amp = amp + m2*tp;
-							// HVFG(freq_HV, amp);
-							rp_GenAmp(RP_CH_1, amp);
+							HVFG(freq_HV, amp);
+							// rp_GenAmp(RP_CH_1, amp);
 							ADC_req(&buff_size, buff);
 							t_temp[0]=t_now;
 							// printf("2. amp=%f\n",amp);
