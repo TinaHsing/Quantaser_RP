@@ -139,7 +139,8 @@ int main(void)
 				HVFG(freq_HV, 0); 
 				ADC_init();
 				t_start = micros();
-				
+				printf("out\n");
+				break;
 				
 				while((micros()-t_start)<t2_HV*1000)
 				{
