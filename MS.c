@@ -359,7 +359,7 @@ void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	*(adc_data+idx) = buff[*buff_size-1];
 	
-	// printf("%f\n", buff[*buff_size-1]);
+	printf("%f\n", buff[*buff_size-1]);
 	idx++;
 }
 
