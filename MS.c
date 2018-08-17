@@ -352,8 +352,7 @@ void write_txt(float* adc_data)
 	for(int i=0;i<idx;i++)
 	{
 		// sprintf(shell,"echo %d_%f >> adc_data.txt",i, adc_data[i]);
-		// sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+idx));
-		sprintf(shell,"echo %f >> adc_data.txt", 0.456789);
+		sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+idx));
 		system(shell);
 	}
 }
@@ -361,7 +360,8 @@ void ADC_req(uint32_t* buff_size, float* buff, float* adc_data) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	*(adc_data+idx) = buff[*buff_size-1];
 	
-	printf("%f\n", buff[*buff_size-1]);
+	// printf("%f\n", buff[*buff_size-1]);
+	printf("%d. %f\n", idx, *(adc_data+idx));
 	idx++;
 }
 
