@@ -15,7 +15,8 @@
 
 #include "redpitaya/rp.h"
 
-
+/* function gen*/
+#define updateRate 30
 /* I2C */
 #define I2C_ADDR 0x07
 /* MOS SW*/
@@ -36,10 +37,11 @@
 
 //global vars//
 /*1. function gen and ADC*/
-float freq_HV, adc_data[3000];
+float freq_HV;
+float *adc_data;
 float a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t t0_HV, t1_HV, t2_HV;
-long t_start, tp;
+long t_start;
 int idx=0;
 /* UART */
 int uart_fd = -1;
@@ -86,7 +88,7 @@ int main(void)
 	long t_temp[2] = {0,0}, t_now;
 	float m1, m2, amp;
 	bool fg_flag=1;
-	int num=0, num2=0;
+	int num=0, num2=0, data_size=0;
 	// int idx2=0;
 	// long tt1, tt2;
 	/******ADC******/
@@ -118,8 +120,10 @@ int main(void)
 				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,&a0_HV,&t1_HV,&a1_HV,&t2_HV,&a2_HV);
 				printf("set LVFG amplitude (0~1V) :\n");
 				scanf("%f",&a_LV);
-				printf("set scan update period in us(>=30): \n");
-				scanf("%ld",&tp);
+				// printf("set scan update period in us(>=30): \n");
+				// scanf("%ld",&tp);
+				data_size = t2_HV*1000/updateRate;
+				adc_data = (float *) malloc(sizeof(float)*data_size);
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV)/1000; //volt/us
 				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV)/1000;
 				amp = a0_HV;
@@ -148,7 +152,7 @@ int main(void)
 							// fg_flag1 = 0;
 							// LVFG(freq_HV, 0); 
 						// }
-						if(t_temp[1] > tp)
+						if(t_temp[1] > updateRate)
 						{
 							// HVFG(freq_HV, 0); 
 							ADC_req(&buff_size, buff);
@@ -165,10 +169,10 @@ int main(void)
 							// LVFG(freq_HV, a_LV);  
 							rp_GenAmp(RP_CH_2, a_LV);
 						}
-						if(t_temp[1] > tp)
+						if(t_temp[1] > updateRate)
 						{	
 							num++;
-							amp = amp + m1*tp;
+							amp = amp + m1*updateRate;
 							// HVFG(freq_HV, amp); 
 							rp_GenAmp(RP_CH_1, amp);
 							ADC_req(&buff_size, buff);
@@ -180,10 +184,10 @@ int main(void)
 					{
 						
 						t_temp[1] = t_now - t_temp[0];
-						if(t_temp[1] > tp)
+						if(t_temp[1] > updateRate)
 						{
 							num2++;
-							amp = amp + m2*tp;
+							amp = amp + m2*updateRate;
 							// HVFG(freq_HV, amp);
 							rp_GenAmp(RP_CH_1, amp);
 							ADC_req(&buff_size, buff);
@@ -345,13 +349,13 @@ void write_txt()
 	for(int i=0;i<idx;i++)
 	{
 		// sprintf(shell,"echo %d_%f >> adc_data.txt",i, adc_data[i]);
-		sprintf(shell,"echo %f >> adc_data.txt", adc_data[i]);
+		sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+idx));
 		system(shell);
 	}
 }
 void ADC_req(uint32_t* buff_size, float* buff) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
-	adc_data[idx] = buff[*buff_size-1];
+	*(adc_data+idx) = buff[*buff_size-1];
 	
 	// printf("%f\n", buff[*buff_size-1]);
 	idx++;
