@@ -134,12 +134,13 @@ int main(void)
 				}
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
+				LVFG(freq_HV, 0); 
+				HVFG(freq_HV, 0); 
 				rp_GenOutEnable(RP_CH_1);
 				rp_GenOutEnable(RP_CH_2);
 				printf("out2\n");
 				break;
-				LVFG(freq_HV, 0); 
-				HVFG(freq_HV, 0); 
+				
 				ADC_init();
 				t_start = micros();
 				
