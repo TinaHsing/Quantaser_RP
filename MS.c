@@ -103,7 +103,7 @@ int main(void)
 	int dac_return = 0;
 	/******MOS Switch******/
 	int mos_sw1, mos_sw2, mos_sw3, mos_sw4;
-	
+	printf("version v1.0\n");
 	system("cat /opt/redpitaya/fpga/classic/fpga.bit > /dev/xdevcfg");
 		do
 		{
