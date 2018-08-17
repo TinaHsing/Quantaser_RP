@@ -120,6 +120,9 @@ int main(void)
 				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,&a0_HV,&t1_HV,&a1_HV,&t2_HV,&a2_HV);
 				printf("set LVFG amplitude (0~1V) :\n");
 				scanf("%f",&a_LV);
+				printf("out\n");
+				break;
+				printf("out2\n");
 				// printf("set scan update period in us(>=30): \n");
 				// scanf("%ld",&tp);
 				data_size = t2_HV*1000/updateRate;
@@ -139,8 +142,6 @@ int main(void)
 				HVFG(freq_HV, 0); 
 				ADC_init();
 				t_start = micros();
-				printf("out\n");
-				break;
 				
 				while((micros()-t_start)<t2_HV*1000)
 				{
