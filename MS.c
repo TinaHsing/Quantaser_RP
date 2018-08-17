@@ -16,7 +16,7 @@
 #include "redpitaya/rp.h"
 
 /* function gen*/
-#define updateRate 1000
+#define updateRate 30 //us
 /* I2C */
 #define I2C_ADDR 0x07
 /* MOS SW*/
