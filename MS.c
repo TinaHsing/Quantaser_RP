@@ -215,6 +215,7 @@ int main(void)
 				free(buff);
 				rp_Release();
 				write_txt();
+				free(adc_data);
 				idx = 0;
 				
 			break;
