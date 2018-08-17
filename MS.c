@@ -132,13 +132,12 @@ int main(void)
 				if(rp_Init() != RP_OK){
 					fprintf(stderr, "Rp api init failed!\n");
 				}
-				printf("out2\n");
-				break;
-				printf("outo\n");
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 				rp_GenOutEnable(RP_CH_1);
 				rp_GenOutEnable(RP_CH_2);
+				printf("out2\n");
+				break;
 				LVFG(freq_HV, 0); 
 				HVFG(freq_HV, 0); 
 				ADC_init();
