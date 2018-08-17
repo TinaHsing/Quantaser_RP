@@ -89,7 +89,8 @@ int main(void)
 	float m1, m2, amp;
 	float *adc_data;
 	bool fg_flag=1;
-	int num=0, num2=0, data_size=0, save=0;
+	// int num=0, num2=0;
+	int	data_size=0, save=0;
 	/******ADC******/
 	uint32_t buff_size = 2;
     float *buff = (float *)malloc(buff_size * sizeof(float));
@@ -171,7 +172,7 @@ int main(void)
 						}
 						if(t_temp[1] > updateRate)
 						{	
-							num++;
+							// num++;
 							amp = amp + m1*updateRate;
 							// HVFG(freq_HV, amp); 
 							rp_GenAmp(RP_CH_1, amp);
@@ -186,7 +187,7 @@ int main(void)
 						t_temp[1] = t_now - t_temp[0];
 						if(t_temp[1] > updateRate)
 						{
-							num2++;
+							// num2++;
 							amp = amp + m2*updateRate;
 							// HVFG(freq_HV, amp);
 							rp_GenAmp(RP_CH_1, amp);
@@ -208,7 +209,7 @@ int main(void)
 				// }
 				// HVFG(freq_HV, a2_HV);
 				// LVFG(freq_HV, 0);
-				printf("num=%d, num2=%d\n",num, num2);
+				// printf("num=%d, num2=%d\n",num, num2);
 				rp_GenAmp(RP_CH_1, a2_HV);
 				rp_GenAmp(RP_CH_2, 0);
 				free(buff);
