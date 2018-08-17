@@ -120,9 +120,7 @@ int main(void)
 				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,&a0_HV,&t1_HV,&a1_HV,&t2_HV,&a2_HV);
 				printf("set LVFG amplitude (0~1V) :\n");
 				scanf("%f",&a_LV);
-				printf("out\n");
-				break;
-				printf("out2\n");
+				
 				// printf("set scan update period in us(>=30): \n");
 				// scanf("%ld",&tp);
 				data_size = t2_HV*1000/updateRate;
@@ -130,7 +128,9 @@ int main(void)
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV)/1000; //volt/us
 				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV)/1000;
 				amp = a0_HV;
-				
+				printf("out\n");
+				break;
+				printf("out2\n");
 				if(rp_Init() != RP_OK){
 					fprintf(stderr, "Rp api init failed!\n");
 				}
