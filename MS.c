@@ -138,8 +138,6 @@ int main(void)
 				HVFG(freq_HV, 0); 
 				rp_GenOutEnable(RP_CH_1);
 				rp_GenOutEnable(RP_CH_2);
-				printf("out2\n");
-				break;
 				
 				ADC_init();
 				t_start = micros();
