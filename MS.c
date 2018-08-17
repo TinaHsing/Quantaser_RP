@@ -38,7 +38,7 @@
 //global vars//
 /*1. function gen and ADC*/
 float freq_HV;
-float *adc_data;
+
 float a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t t0_HV, t1_HV, t2_HV;
 long t_start;
@@ -61,8 +61,8 @@ long micros(void);
 void HVFG(float, float);
 void LVFG(float, float);
 void ADC_init(void);
-void ADC_req(uint32_t*, float*);
-void write_txt(void);
+void ADC_req(uint32_t*, float*, float*);
+void write_txt(float*);
 /* UART */
 static int uart_init(void);
 static int release(void);
@@ -87,6 +87,7 @@ int main(void)
 	/******function gen******/
 	long t_temp[2] = {0,0}, t_now;
 	float m1, m2, amp;
+	float *adc_data;
 	bool fg_flag=1;
 	int num=0, num2=0, data_size=0;
 	// int idx2=0;
@@ -156,7 +157,7 @@ int main(void)
 						if(t_temp[1] > updateRate)
 						{
 							// HVFG(freq_HV, 0); 
-							ADC_req(&buff_size, buff);
+							ADC_req(&buff_size, buff, adc_data);
 							t_temp[0]=t_now;
 						}	
 						
@@ -176,7 +177,7 @@ int main(void)
 							amp = amp + m1*updateRate;
 							// HVFG(freq_HV, amp); 
 							rp_GenAmp(RP_CH_1, amp);
-							ADC_req(&buff_size, buff);
+							ADC_req(&buff_size, buff, adc_data);
 							t_temp[0]=t_now;
 						}	
 						
@@ -191,7 +192,7 @@ int main(void)
 							amp = amp + m2*updateRate;
 							// HVFG(freq_HV, amp);
 							rp_GenAmp(RP_CH_1, amp);
-							ADC_req(&buff_size, buff);
+							ADC_req(&buff_size, buff, adc_data);
 							t_temp[0]=t_now;
 							// printf("2. amp=%f\n",amp);
 						}
@@ -214,7 +215,7 @@ int main(void)
 				rp_GenAmp(RP_CH_2, 0);
 				free(buff);
 				rp_Release();
-				write_txt();
+				write_txt(adc_data);
 				free(adc_data);
 				idx = 0;
 				
@@ -343,7 +344,7 @@ void ADC_init(void){
 	rp_AcqSetDecimation(1);
 	rp_AcqStart();
 }
-void write_txt()
+void write_txt(float* adc_data)
 {
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
@@ -355,7 +356,7 @@ void write_txt()
 		system(shell);
 	}
 }
-void ADC_req(uint32_t* buff_size, float* buff) {
+void ADC_req(uint32_t* buff_size, float* buff, float* adc_data) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	*(adc_data+idx) = buff[*buff_size-1];
 	
