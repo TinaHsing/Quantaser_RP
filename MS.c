@@ -352,7 +352,7 @@ void write_txt(float* adc_data)
 	for(int i=0;i<idx;i++)
 	{
 		// sprintf(shell,"echo %d_%f >> adc_data.txt",i, adc_data[i]);
-		sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+idx));
+		sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+i));
 		system(shell);
 	}
 }
