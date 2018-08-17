@@ -62,7 +62,7 @@ void HVFG(float, float);
 void LVFG(float, float);
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
-void write_txt(float*);
+void write_txt(float*, int);
 /* UART */
 static int uart_init(void);
 static int release(void);
@@ -89,9 +89,7 @@ int main(void)
 	float m1, m2, amp;
 	float *adc_data;
 	bool fg_flag=1;
-	int num=0, num2=0, data_size=0;
-	// int idx2=0;
-	// long tt1, tt2;
+	int num=0, num2=0, data_size=0, save=0;
 	/******ADC******/
 	uint32_t buff_size = 2;
     float *buff = (float *)malloc(buff_size * sizeof(float));
@@ -122,8 +120,8 @@ int main(void)
 				printf("set LVFG amplitude (0~1V) :\n");
 				scanf("%f",&a_LV);
 				
-				// printf("set scan update period in us(>=30): \n");
-				// scanf("%ld",&tp);
+				printf("save data to .txt file? yes(1), no(0) : \n");
+				scanf("%d",&save);
 				data_size = t2_HV*1000/updateRate;
 				adc_data = (float *) malloc(sizeof(float)*data_size);
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV)/1000; //volt/us
@@ -215,7 +213,7 @@ int main(void)
 				rp_GenAmp(RP_CH_2, 0);
 				free(buff);
 				rp_Release();
-				write_txt(adc_data);
+				write_txt(adc_data, save);
 				free(adc_data);
 				idx = 0;
 				
@@ -344,24 +342,25 @@ void ADC_init(void){
 	rp_AcqSetDecimation(1);
 	rp_AcqStart();
 }
-void write_txt(float* adc_data)
+void write_txt(float* adc_data, int save)
 {
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > adc_data.txt");
-	for(int i=0;i<idx;i++)
-	{
-		// sprintf(shell,"echo %d_%f >> adc_data.txt",i, adc_data[i]);
-		sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+i));
-		system(shell);
-	}
+	if(save)
+		for(int i=0;i<idx;i++)
+		{
+			// sprintf(shell,"echo %d_%f >> adc_data.txt",i, adc_data[i]);
+			sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+i));
+			system(shell);
+		}
 }
 void ADC_req(uint32_t* buff_size, float* buff, float* adc_data) {
 	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	*(adc_data+idx) = buff[*buff_size-1];
 	
 	// printf("%f\n", buff[*buff_size-1]);
-	printf("%d. %f\n", idx, *(adc_data+idx));
+	// printf("%d. %f\n", idx, *(adc_data+idx));
 	idx++;
 }
 
