@@ -128,9 +128,9 @@ int main(void)
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV)/1000; //volt/us
 				m2 = (a2_HV - a1_HV)/(t2_HV - t1_HV)/1000;
 				amp = a0_HV;
-				printf("out\n");
-				break;
 				printf("out2\n");
+				break;
+				printf("outo\n");
 				if(rp_Init() != RP_OK){
 					fprintf(stderr, "Rp api init failed!\n");
 				}
