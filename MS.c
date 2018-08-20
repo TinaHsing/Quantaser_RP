@@ -153,7 +153,7 @@ int main(void)
 							// fg_flag1 = 0;
 							// LVFG(freq_HV, 0); 
 						// }
-						if(t_temp[1] > updateRate)
+						if(t_temp[1] >= updateRate)
 						{
 							// HVFG(freq_HV, 0); 
 							ADC_req(&buff_size, buff, adc_data);
@@ -170,7 +170,7 @@ int main(void)
 							// LVFG(freq_HV, a_LV);  
 							rp_GenAmp(RP_CH_2, a_LV);
 						}
-						if(t_temp[1] > updateRate)
+						if(t_temp[1] >= updateRate)
 						{	
 							// num++;
 							amp = amp + m1*updateRate;
@@ -185,7 +185,7 @@ int main(void)
 					{
 						
 						t_temp[1] = t_now - t_temp[0];
-						if(t_temp[1] > updateRate)
+						if(t_temp[1] >= updateRate)
 						{
 							// num2++;
 							amp = amp + m2*updateRate;
