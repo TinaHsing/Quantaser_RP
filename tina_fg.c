@@ -10,6 +10,7 @@
 
 int main(int argc, char **argv){
 
+	system("cat /opt/redpitaya/fpga/classic/fpga.bit > /dev/xdevcfg");
 	/* Print error, if rp_Init() function failed */
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
