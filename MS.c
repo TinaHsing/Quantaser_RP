@@ -94,7 +94,7 @@ void write_txt(float*, int);
 /* UART */
 static int uart_init(void);
 static int release(void);
-static int uart_read(int size);
+static int uart_read(int);
 static int uart_write();
 void connect_uart(int *);
 void disconnect_uart(void);
@@ -455,13 +455,14 @@ static int uart_read(int size){
 
     /* Don't block serial read */
     fcntl(uart_fd, F_SETFL, FNDELAY);
-
+	printf("enter1");
     while(1){
+		printf("enter2");
         if(uart_fd == -1){
             fprintf(stderr, "Failed to read from UART.\n");
             return -1;
         }
-
+		printf("enter3");
         unsigned char rx_buffer[size];
 
         int rx_length = read(uart_fd, (void*)rx_buffer, size);
