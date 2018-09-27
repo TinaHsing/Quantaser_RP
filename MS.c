@@ -690,7 +690,7 @@ void DAC_out(uint8_t dac_num, float value)
 	else if(dac_num == DAC5) LTC2615_write(0, CH_E, value);
 	else if(dac_num == DAC6) LTC2615_write(1, CH_A, value);
 	else if(dac_num == DAC7) LTC2615_write(1, CH_B, value);
-	else if(dac_num == DAC8) LTC2615_write(1 CH_C, value);
+	else if(dac_num == DAC8) LTC2615_write(1, CH_C, value);
 	else if(dac_num == DAC9) LTC2615_write(1, CH_D, value);
 	else if(dac_num == DAC10) LTC2615_write(1, CH_E, value);
 }
