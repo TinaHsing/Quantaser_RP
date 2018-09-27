@@ -105,6 +105,7 @@ void i2cSetAddress(int);
 void WriteRegisterPair(uint8_t, uint16_t);
 void LTC2615_write(bool, uint8_t, float);
 void DAC_out(uint8_t, float);
+void DAC_out_zero(void);
 /* gpio */
 static int pin_export(int);
 static int pin_unexport(int);
@@ -302,19 +303,13 @@ int main(void)
 			case DAC:
 				printf("--Selecting Function DAC---\n");
 				i2cOpen();
-				// i2cSetAddress(DAC1_ADD);
+				DAC_out_zero();
 				do
 				{
-					// printf("enter DAC command: \n");
-					// scanf("%x", &i2c_com);
-					// printf("enter DAC data: \n");
-					// scanf("%x", &i2c_data);
-					// WriteRegisterPair(i2c_com, i2c_data);
-					
-					printf("Enter DAC# to output(1~10): ");
+					printf("Select DAC#(1~10): ");
 					scanf("%d",&dac_num);
 					
-					printf("Enter DAC value to output(0~2.5): ");
+					printf("Enter DAC value to output(0~10): ");
 					scanf("%f",&dac_value);
 					
 					DAC_out((uint8_t)dac_num, dac_value);
@@ -683,6 +678,7 @@ void LTC2615_write(bool sel, uint8_t ch, float value)
 
 void DAC_out(uint8_t dac_num, float value)
 {
+	value = value/4.0;
 	if(dac_num == DAC1) LTC2615_write(0, CH_A, value);
 	else if(dac_num == DAC2) LTC2615_write(0, CH_B, value);
 	else if(dac_num == DAC3) LTC2615_write(0, CH_C, value);
@@ -694,3 +690,17 @@ void DAC_out(uint8_t dac_num, float value)
 	else if(dac_num == DAC9) LTC2615_write(1, CH_D, value);
 	else if(dac_num == DAC10) LTC2615_write(1, CH_E, value);
 }
+
+void DAC_out_zero()
+{
+	DAC_out(DAC1, 0);
+	DAC_out(DAC2, 0);
+	DAC_out(DAC3, 0);
+	DAC_out(DAC4, 0);
+	DAC_out(DAC5, 0);
+	DAC_out(DAC6, 0);
+	DAC_out(DAC7, 0);
+	DAC_out(DAC8, 0);
+	DAC_out(DAC9, 0);
+	DAC_out(DAC10, 0);
+};
