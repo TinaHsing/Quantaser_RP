@@ -105,7 +105,7 @@ void i2cSetAddress(int);
 void WriteRegisterPair(uint8_t, uint16_t);
 void LTC2615_write(bool, uint8_t, float);
 void DAC_out(uint8_t, float);
-void DAC_out_zero(void);
+void DAC_out_init(void);
 /* gpio */
 static int pin_export(int);
 static int pin_unexport(int);
@@ -137,6 +137,7 @@ int main(void)
 	printf("version v1.0\n");
 	// system("cat /opt/redpitaya/fpga/classic/fpga.bit > /dev/xdevcfg");
 	system("cat /opt/redpitaya/fpga/red_pitaya_top.bit > /dev/xdevcfg");
+	DAC_out_init();
 		do
 		{
 			printf("Select function : (0):Function Gen and ADC, (1):UART, (2):DAC, (3):MOS Switch  ");
@@ -303,7 +304,6 @@ int main(void)
 			case DAC:
 				printf("--Selecting Function DAC---\n");
 				i2cOpen();
-				DAC_out_zero();
 				do
 				{
 					printf("Select DAC#(1~10): ");
@@ -691,8 +691,9 @@ void DAC_out(uint8_t dac_num, float value)
 	else if(dac_num == DAC10) LTC2615_write(1, CH_E, value);
 }
 
-void DAC_out_zero()
+void DAC_out_init()
 {
+	i2cOpen();
 	DAC_out(DAC1, 0);
 	DAC_out(DAC2, 0);
 	DAC_out(DAC3, 0);
@@ -703,4 +704,5 @@ void DAC_out_zero()
 	DAC_out(DAC8, 0);
 	DAC_out(DAC9, 0);
 	DAC_out(DAC10, 0);
+	i2cClose();
 };
