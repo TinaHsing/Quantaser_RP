@@ -128,7 +128,7 @@ int main(void)
 	/******UART******/
 	char uart_cmd[10];
 	int uart_num=1;
-	char *size = "123456789";
+	char *size = "123456789aa";
 	int uart_return = 0;
 	/******DAC******/
 	int dac_return = 0;
@@ -457,7 +457,7 @@ static int uart_read(int size){
     fcntl(uart_fd, F_SETFL, FNDELAY);
 	// printf("enter1\n");
     while(1){
-		printf("enter2\n");
+		// printf("enter2\n");
         if(uart_fd == -1){
             fprintf(stderr, "Failed to read from UART.\n");
             return -1;
