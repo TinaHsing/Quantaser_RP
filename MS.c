@@ -17,8 +17,8 @@
 
 /* function gen*/
 #define updateRate 30 //us
-/* I2C */
-#define I2C_ADDR 0x07
+// /* I2C */
+// #define I2C_ADDR 0x07
 /* MOS SW*/
 #define VALUE_MAX 30
 #define MAX_PATH 64
@@ -35,6 +35,33 @@
 #define UART3 974
 #define UART4 975
 
+/* DAC LTC2615 */
+#define DAC0_ADD 0x10
+#define DAC1_ADD 0x52
+#define CC 0b0011
+#define ref 2.5
+#define max 16383
+
+#define CH_A 0b0000
+#define CH_B 0b0001
+#define CH_C 0b0010
+#define CH_D 0b0011
+#define CH_E 0b0100
+#define CH_F 0b0101
+#define CH_G 0b0110
+#define CH_H 0b0111
+
+#define DAC1 	1
+#define DAC2 	2
+#define DAC3 	3
+#define DAC4 	4
+#define DAC5 	5
+#define DAC6 	6
+#define DAC7 	7
+#define DAC8 	8
+#define DAC9 	9
+#define DAC10 	10
+
 //global vars//
 /*1. function gen and ADC*/
 float freq_HV;
@@ -47,7 +74,8 @@ int idx=0;
 int uart_fd = -1;
 /* I2C */
 int g_i2cFile;
-unsigned int i2c_com, i2c_data;
+unsigned int dac_num;
+float dac_value;
 
 enum command{
 	FUNC_GEN_ADC,
@@ -75,6 +103,8 @@ void i2cOpen(void);
 void i2cClose(void);
 void i2cSetAddress(int);
 void WriteRegisterPair(uint8_t, uint16_t);
+void LTC2615_write(bool, uint8_t, float);
+void DAC_out(uint8_t, float);
 /* gpio */
 static int pin_export(int);
 static int pin_unexport(int);
@@ -272,18 +302,28 @@ int main(void)
 			case DAC:
 				printf("--Selecting Function DAC---\n");
 				i2cOpen();
-				i2cSetAddress(I2C_ADDR);
+				// i2cSetAddress(DAC1_ADD);
 				do
 				{
-					printf("enter DAC command: \n");
-					scanf("%x", &i2c_com);
-					printf("enter DAC data: \n");
-					scanf("%x", &i2c_data);
-					WriteRegisterPair(i2c_com, i2c_data);
+					// printf("enter DAC command: \n");
+					// scanf("%x", &i2c_com);
+					// printf("enter DAC data: \n");
+					// scanf("%x", &i2c_data);
+					// WriteRegisterPair(i2c_com, i2c_data);
+					
+					printf("Enter DAC# to output(1~10): ");
+					scanf("%d",&dac_num);
+					
+					printf("Enter DAC value to output(0~2.5): ");
+					scanf("%f",&dac_value);
+					
+					DAC_out((uint8_t)dac_num, dac_value);
+					
 					printf("Exit DAC setup? Yes:1, No:0\n");
 					scanf("%d",&dac_return);
 				}
 				while(!dac_return);
+				i2cClose();
 			break;
 			case SW:
 				printf("--Selecting Function MOS Switch---\n");
@@ -614,4 +654,43 @@ static int pin_write(int pin, int value)
 	//close file
 	close(fd);
 	return 0;
+}
+
+void LTC2615_write(bool sel, uint8_t ch, float value)
+{
+	uint8_t t[2];
+	uint16_t code;
+	
+	code = (uint16_t)(value/ref*max);
+	t[0] = (code >> 8)<<2 | ((uint8_t)code & 0b11000000)>>6;
+	t[1] = (uint8_t)code << 2;
+	
+	if(!sel)
+	{
+		i2cSetAddress(DAC0_ADD);
+		WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
+	}
+	else
+	{
+		i2cSetAddress(DAC1_ADD);
+		WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
+	}	
+	// Wire.beginTransmission(ADD);
+	// Wire.write((CC << 4) | ch);
+	// Wire.write(t,2); 
+	// Wire.endTransmission();
+}
+
+void DAC_out(uint8_t dac_num, float value)
+{
+	if(dac_num == DAC1) LTC2615_write(0, CH_A, value);
+	else if(dac_num == DAC2) LTC2615_write(0, CH_B, value);
+	else if(dac_num == DAC3) LTC2615_write(0, CH_C, value);
+	else if(dac_num == DAC4) LTC2615_write(0, CH_F, value);
+	else if(dac_num == DAC5) LTC2615_write(0, CH_E, value);
+	else if(dac_num == DAC6) LTC2615_write(1, CH_A, value);
+	else if(dac_num == DAC7) LTC2615_write(1, CH_B, value);
+	else if(dac_num == DAC8) LTC2615_write(1 CH_C, value);
+	else if(dac_num == DAC9) LTC2615_write(1, CH_D, value);
+	else if(dac_num == DAC10) LTC2615_write(1, CH_E, value);
 }
