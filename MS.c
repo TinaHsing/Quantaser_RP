@@ -128,7 +128,7 @@ int main(void)
 	/******UART******/
 	char uart_cmd[10];
 	int uart_num=1;
-	char *size = "123456789aa";
+	char *size = "123456789123456789123456789123456789";
 	int uart_return = 0;
 	/******DAC******/
 	int dac_return = 0;
@@ -455,18 +455,15 @@ static int uart_read(int size){
 
     /* Don't block serial read */
     fcntl(uart_fd, F_SETFL, FNDELAY);
-	// printf("enter1\n");
     while(1){
-		// printf("enter2\n");
         if(uart_fd == -1){
             fprintf(stderr, "Failed to read from UART.\n");
             return -1;
         }
-		// printf("enter3\n");
         unsigned char rx_buffer[size];
 
         int rx_length = read(uart_fd, (void*)rx_buffer, size);
-		printf("length = %d\n", rx_length);
+		// printf("length = %d\n", rx_length);
         if (rx_length < 0){
 
             /* No data yet avaliable, check again */
@@ -486,7 +483,6 @@ static int uart_read(int size){
             rx_buffer[rx_length] = '\0';
             printf("%i bytes read : %s\n", rx_length, rx_buffer);
             break;
-
         }
     }
 
