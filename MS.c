@@ -439,7 +439,7 @@ static int uart_init(){
     settings.c_cflag &= ~PARENB; /* no parity */
     settings.c_cflag &= ~CSTOPB; /* 1 stop bit */
     settings.c_cflag &= ~CSIZE;
-	settings.c_cflag |= ICRNL;
+	settings.c_cflag |= ~ICRNL;
     settings.c_cflag |= CS8 | CLOCAL; /* 8 bits */
     settings.c_lflag = ICANON; /* canonical mode */
     settings.c_oflag &= ~OPOST; /* raw output */
