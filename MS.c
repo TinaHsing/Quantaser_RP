@@ -255,11 +255,11 @@ int main(void)
 			case UART:
 			    printf("\n");
 				printf("--Selecting Function UART---\n");
-				// if(uart_init() < 0)
-				// {
-					// printf("Uart init error.\n");
-					// return -1;
-				// }	
+				if(uart_init() < 0)
+				{
+					printf("Uart init error.\n");
+					return -1;
+				}	
 				pin_export(UART1);
 				pin_export(UART2);
 				pin_export(UART3);
