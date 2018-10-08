@@ -17,7 +17,8 @@ int main(int argc, char **argv){
 	}
 
 	/* Generating frequency */
-	scanf("input freq in Hz: ", &freq);
+	printf("input freq in Hz: ");
+	scanf("%f", &freq);
 	rp_GenFreq(RP_CH_1, freq);
 
 	/* Generating amplitude */
