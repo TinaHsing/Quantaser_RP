@@ -156,6 +156,10 @@ int main(void)
 				
 				printf("save data to .txt file? yes(1), no(0) : \n");
 				scanf("%d",&save);
+				a0_HV /= 10;
+				a1_HV /= 10;
+				a2_HV /= 10;
+				a_LV /= 10;
 				data_size = t2_HV*1000/updateRate;
 				adc_data = (float *) malloc(sizeof(float)*data_size);
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV)/1000; //volt/us
