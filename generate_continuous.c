@@ -9,7 +9,7 @@
 #include "redpitaya/rp.h"
 
 int main(int argc, char **argv){
-	float freq;
+	float freq, amp;
 
 	/* Print error, if rp_Init() function failed */
 	if(rp_Init() != RP_OK){
@@ -19,10 +19,12 @@ int main(int argc, char **argv){
 	/* Generating frequency */
 	printf("input freq in Hz: ");
 	scanf("%f", &freq);
+	printf("input amp in V: ");
+	scanf("%f", &amp);
 	rp_GenFreq(RP_CH_1, freq);
 
 	/* Generating amplitude */
-	rp_GenAmp(RP_CH_1, 0.1);
+	rp_GenAmp(RP_CH_1, amp);
 
 	/* Generating wave form */
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
