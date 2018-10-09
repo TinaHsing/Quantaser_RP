@@ -79,14 +79,14 @@ int main(int argc, char **argv){
 				rp_GenAmp(RP_CH_1, 0.5);
 				// rp_GenAmp(RP_CH_2, 0);
 				flag = 1;
-				pin_write( FGTRIG, 0);
+				// pin_write( FGTRIG, 0);
 				t0 = micros();
 			}
 			else {
 				rp_GenAmp(RP_CH_1, 1);
 				// rp_GenAmp(RP_CH_2, 1.0);
 				flag = 0;
-				pin_write( FGTRIG, 1);
+				// pin_write( FGTRIG, 1);
 				t0 = micros();
 			}
 		}
