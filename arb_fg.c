@@ -38,8 +38,8 @@ int main(int argc, char **argv){
     rp_GenAmp(RP_CH_1, 0.7);
     rp_GenAmp(RP_CH_2, 1.0);
 
-    rp_GenFreq(RP_CH_1, 4000.0);
-    rp_GenFreq(RP_CH_2, 4000.0);
+    rp_GenFreq(RP_CH_1, 1000.0);
+    rp_GenFreq(RP_CH_2, 2000.0);
 
     rp_GenOutEnable(RP_CH_1);
     rp_GenOutEnable(RP_CH_2);
