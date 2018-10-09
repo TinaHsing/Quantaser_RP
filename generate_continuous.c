@@ -5,11 +5,13 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/time.h>
 
 #include "redpitaya/rp.h"
 
 int main(int argc, char **argv){
 	float freq, amp;
+	long t[10],t0;
 
 	/* Print error, if rp_Init() function failed */
 	if(rp_Init() != RP_OK){
@@ -31,7 +33,18 @@ int main(int argc, char **argv){
 
 	/* Enable channel */
 	rp_GenOutEnable(RP_CH_1);
-
+	t0=micros();
+	for(int i=0;i<10;i++)
+	{
+		freq += 1000;
+		rp_GenFreq(RP_CH_1, freq);
+		t[i]=micros()-t0;
+		t0 = t[i];
+	}
+	for(int i=0;i<10;i++)
+	{
+		printf("%ld\n",t[i]);
+	}
 	/* Releasing resources */
 	rp_Release();
 
