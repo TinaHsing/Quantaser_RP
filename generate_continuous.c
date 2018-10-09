@@ -28,15 +28,18 @@ int main(int argc, char **argv){
 	// printf("input amp in V: ");
 	// scanf("%f", &amp);
 	rp_GenFreq(RP_CH_1, freq);
+	rp_GenFreq(RP_CH_2, freq);
 
 	/* Generating amplitude */
 	rp_GenAmp(RP_CH_1, 0);
+	rp_GenAmp(RP_CH_2, 1);
 
 	/* Generating wave form */
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-
+	rp_GenWaveform(RP_CH_1, SQUARE);
 	/* Enable channel */
 	rp_GenOutEnable(RP_CH_1);
+	rp_GenOutEnable(RP_CH_2);
 	t0=micros();
 	while(1)
 	{
