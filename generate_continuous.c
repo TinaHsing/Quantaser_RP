@@ -1,11 +1,27 @@
 /* Red Pitaya C API example Generating continuous signal  
  * This application generates a specific signal */
 
+// #include <stdio.h>
+// #include <stdint.h>
+// #include <stdlib.h>
+// #include <unistd.h>
+// #include <sys/time.h>
+
+// #include "redpitaya/rp.h"
 #include <stdio.h>
-#include <stdint.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <string.h>
 #include <sys/time.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <linux/ioctl.h>
+#include <linux/i2c-dev.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <fcntl.h> 
+#include <termios.h> 
+#include <errno.h>
 
 #include "redpitaya/rp.h"
 
