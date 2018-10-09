@@ -40,7 +40,7 @@ int main(int argc, char **argv){
 		freq += 1000;
 		rp_GenFreq(RP_CH_1, freq);
 		t[i]=micros()-t0;
-		t0 = t[i];
+		// t0 = t[i];
 	}
 	for(int i=0;i<10;i++)
 	{
