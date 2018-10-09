@@ -10,6 +10,7 @@
 #include "redpitaya/rp.h"
 
 #define updateRate 5 //us
+#define FGTRIG 983
 
 long micros(void);
 int main(int argc, char **argv){
@@ -21,25 +22,28 @@ int main(int argc, char **argv){
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
-
+	
+	pin_export(FGTRIG);
+	pin_direction(FGTRIG, OUT);
+	pin_write( FGTRIG, 0);
 	/* Generating frequency */
 	printf("input freq in Hz: ");
 	scanf("%f", &freq);
 	// printf("input amp in V: ");
 	// scanf("%f", &amp);
 	rp_GenFreq(RP_CH_1, freq);
-	rp_GenFreq(RP_CH_2, freq);
+	// rp_GenFreq(RP_CH_2, freq);
 
 	/* Generating amplitude */
 	rp_GenAmp(RP_CH_1, 0);
-	rp_GenAmp(RP_CH_2, 1);
+	// rp_GenAmp(RP_CH_2, 1);
 
 	/* Generating wave form */
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_TRIANGLE);
+	// rp_GenWaveform(RP_CH_2, RP_WAVEFORM_TRIANGLE);
 	/* Enable channel */
 	rp_GenOutEnable(RP_CH_1);
-	rp_GenOutEnable(RP_CH_2);
+	// rp_GenOutEnable(RP_CH_2);
 	t0=micros();
 	while(1)
 	{
@@ -48,18 +52,21 @@ int main(int argc, char **argv){
 		{
 			if(!flag) {
 				rp_GenAmp(RP_CH_1, 0.5);
-				rp_GenAmp(RP_CH_2, 0);
+				// rp_GenAmp(RP_CH_2, 0);
 				flag = 1;
+				pin_write( FGTRIG, 0);
 				t0 = micros();
 			}
 			else {
 				rp_GenAmp(RP_CH_1, 1);
-				rp_GenAmp(RP_CH_2, 1.0);
+				// rp_GenAmp(RP_CH_2, 1.0);
 				flag = 0;
+				pin_write( FGTRIG, 1);
 				t0 = micros();
 			}
 		}
 	}
+	pin_unexport(FGTRIG);
 	rp_Release();
 
 	return 0;

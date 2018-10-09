@@ -34,6 +34,7 @@
 #define UART2 973
 #define UART3 974
 #define UART4 975
+#define FGTRIG 983
 
 /* DAC LTC2615 */
 #define DAC0_ADD 0x10
