@@ -9,6 +9,7 @@
 
 #include "redpitaya/rp.h"
 
+long micros(void);
 int main(int argc, char **argv){
 	float freq, amp;
 	long t[10],t0;
@@ -49,4 +50,13 @@ int main(int argc, char **argv){
 	rp_Release();
 
 	return 0;
+}
+long micros(){
+	struct timeval currentTime;
+	long time;
+	gettimeofday(&currentTime, NULL);
+	time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	// if(time<0) time = time*(-1);
+//	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	return time;
 }
