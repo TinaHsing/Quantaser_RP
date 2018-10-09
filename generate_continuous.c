@@ -36,7 +36,7 @@ int main(int argc, char **argv){
 
 	/* Generating wave form */
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SQUARE);
+	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_TRIANGLE);
 	/* Enable channel */
 	rp_GenOutEnable(RP_CH_1);
 	rp_GenOutEnable(RP_CH_2);
