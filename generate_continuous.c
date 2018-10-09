@@ -27,7 +27,12 @@
 
 #define updateRate 5 //us
 #define FGTRIG 983
-
+#define VALUE_MAX 30
+#define MAX_PATH 64
+#define IN  0
+#define OUT 1
+#define LOW  0
+#define HIGH 1
 long micros(void);
 static int pin_export(int);
 static int pin_unexport(int);
