@@ -161,6 +161,9 @@ int main(void)
 				a1_HV /= 10;
 				a2_HV /= 10;
 				a_LV /= 10;
+				pin_export(FGTRIG);
+				pin_direction(FGTRIG, OUT);
+				pin_write( FGTRIG, 0);
 				data_size = t2_HV*1000/updateRate;
 				adc_data = (float *) malloc(sizeof(float)*data_size);
 				m1 = (a1_HV - a0_HV)/(t1_HV - t0_HV)/1000; //volt/us
@@ -178,6 +181,7 @@ int main(void)
 				rp_GenOutEnable(RP_CH_2);
 				
 				ADC_init();
+				pin_write( FGTRIG, 1);
 				t_start = micros();
 				
 				while((micros()-t_start)<t2_HV*1000)
@@ -250,6 +254,8 @@ int main(void)
 				// printf("num=%d, num2=%d\n",num, num2);
 				rp_GenAmp(RP_CH_1, a2_HV);
 				rp_GenAmp(RP_CH_2, 0);
+				pin_write( FGTRIG, 0);
+				pin_unexport(FGTRIG);
 				free(buff);
 				rp_Release();
 				write_txt(adc_data, save);
