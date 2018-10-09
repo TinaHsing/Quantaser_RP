@@ -48,11 +48,13 @@ int main(int argc, char **argv){
 		{
 			if(!flag) {
 				rp_GenAmp(RP_CH_1, 0.5);
+				rp_GenAmp(RP_CH_2, 0);
 				flag = 1;
 				t0 = micros();
 			}
 			else {
 				rp_GenAmp(RP_CH_1, 1);
+				rp_GenAmp(RP_CH_2, 1.0);
 				flag = 0;
 				t0 = micros();
 			}
