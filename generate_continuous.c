@@ -9,7 +9,7 @@
 
 #include "redpitaya/rp.h"
 
-#define updateRate 30 //us
+#define updateRate 5 //us
 
 long micros(void);
 int main(int argc, char **argv){
