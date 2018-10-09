@@ -9,10 +9,13 @@
 
 #include "redpitaya/rp.h"
 
+#define updateRate 30 //us
+
 long micros(void);
 int main(int argc, char **argv){
-	float freq, amp;
-	long t[10],t0;
+	float freq;
+	long t0, t_now;
+	bool flag=0;
 
 	/* Print error, if rp_Init() function failed */
 	if(rp_Init() != RP_OK){
@@ -22,12 +25,12 @@ int main(int argc, char **argv){
 	/* Generating frequency */
 	printf("input freq in Hz: ");
 	scanf("%f", &freq);
-	printf("input amp in V: ");
-	scanf("%f", &amp);
+	// printf("input amp in V: ");
+	// scanf("%f", &amp);
 	rp_GenFreq(RP_CH_1, freq);
 
 	/* Generating amplitude */
-	rp_GenAmp(RP_CH_1, amp);
+	rp_GenAmp(RP_CH_1, 0);
 
 	/* Generating wave form */
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
@@ -35,18 +38,23 @@ int main(int argc, char **argv){
 	/* Enable channel */
 	rp_GenOutEnable(RP_CH_1);
 	t0=micros();
-	for(int i=0;i<10;i++)
+	while(1)
 	{
-		freq += 1000;
-		rp_GenFreq(RP_CH_1, freq);
-		t[i]=micros()-t0;
-		// t0 = t[i];
+		t_now = micros()-t0;
+		if(t_now > updateRate)
+		{
+			if(!flag) {
+				rp_GenAmp(RP_CH_1, 0.5);
+				flag = 1;
+				t0 = micros();
+			}
+			else {
+				rp_GenAmp(RP_CH_1, 1);
+				flag = 0;
+				t0 = micros();
+			}
+		}
 	}
-	for(int i=0;i<10;i++)
-	{
-		printf("%ld\n",t[i]);
-	}
-	/* Releasing resources */
 	rp_Release();
 
 	return 0;
