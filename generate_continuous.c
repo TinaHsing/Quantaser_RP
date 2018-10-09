@@ -25,7 +25,7 @@
 
 #include "redpitaya/rp.h"
 
-#define updateRate 5 //us
+#define updateRate 30 //us
 #define FGTRIG 983
 #define VALUE_MAX 30
 #define MAX_PATH 64
