@@ -33,7 +33,7 @@ int main(int argc, char **argv){
         t[i] = (2 * M_PI * freq)*sweep_time / buff_size * i;
     }
 
-    for (int i = 0; i < buff_size; ++i){
+    for (int i = 0; i < buff_size; i++){
         x[i] = 0.2*sin(t[i]);
         y[i] = sin(t[i]);
     }
