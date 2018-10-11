@@ -121,7 +121,7 @@ int main(void)
 	int com;
 	/******function gen******/
 	int arb_size = 16384;
-	long t_temp[2] = {0,0}, t_now;
+	long t_temp[2] = {0,0}, t_now, t0;
 	float start_freq, final_freq, k;
 	int sweep_time;
 	float m1, m2, amp;
@@ -295,7 +295,10 @@ int main(void)
 				rp_GenArbWaveform(RP_CH_1, x, arb_size);
 				rp_GenAmp(RP_CH_1, 1.0);
 				rp_GenFreq(RP_CH_1, 1000.0/sweep_time);
+				t0 = micros();
 				rp_GenOutEnable(RP_CH_1);
+				while((micros()-t0)<sweep_time*1000);
+				rp_GenOutDisable(RP_CH_1);
 				free(t);
 				free(x);
 				rp_Release();
