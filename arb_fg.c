@@ -26,7 +26,7 @@ int main(int argc, char **argv){
     float *y = (float *)malloc(buff_size * sizeof(float));
 	
 	printf("enter sweep time in us: ");
-	scanf("%d",&sweep_time);
+	scanf("%f",&sweep_time);
 
 	sweep_time /= 1000000;
     for(int i = 0; i < buff_size; i++){
