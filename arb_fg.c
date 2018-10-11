@@ -13,7 +13,7 @@ int main(int argc, char **argv){
 
     float sweep_time;
     int buff_size = 16384;
-	// long t0;
+	long t0;
 	float freq = 100000;
 
     /* Print error, if rp_Init() function failed */
@@ -28,9 +28,9 @@ int main(int argc, char **argv){
 	printf("enter sweep time in us: ");
 	scanf("%f",&sweep_time);
 
-	sweep_time /= 1000000;
+	// sweep_time /= 1000000;
     for(int i = 0; i < buff_size; i++){
-        t[i] = (2 * M_PI * freq)*sweep_time / buff_size * i;
+        t[i] = (2 * M_PI * freq)*sweep_time/1000000 / buff_size * i;
     }
 
     for (int i = 0; i < buff_size; i++){
@@ -50,13 +50,13 @@ int main(int argc, char **argv){
     rp_GenFreq(RP_CH_1, 1.0/sweep_time);
     // rp_GenFreq(RP_CH_2, freq);
 	
-	// t0 = micros();
+	t0 = micros();
     rp_GenOutEnable(RP_CH_1);
     // rp_GenOutEnable(RP_CH_2);
 	
-	// while((micros()-t0)<sweep_time);
+	while((micros()-t0)<sweep_time);
 	
-	// rp_GenOutDisable(RP_CH_1);
+	rp_GenOutDisable(RP_CH_1);
 	
 	// rp_GenArbWaveform(RP_CH_1, y, buff_size);
 	// t0 = micros();
