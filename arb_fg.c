@@ -11,7 +11,7 @@ long micros(void);
 
 int main(int argc, char **argv){
 
-    int sweep_time = 20e-6;
+    float sweep_time;
     int buff_size = 16384;
 	long t0;
 	float freq = 100000;
@@ -25,9 +25,10 @@ int main(int argc, char **argv){
     float *x = (float *)malloc(buff_size * sizeof(float));
     float *y = (float *)malloc(buff_size * sizeof(float));
 	
-	// printf("enter sweep time in ms: ");
-	// scanf("%d",&sweep_time);
+	printf("enter sweep time in us: ");
+	scanf("%d",&sweep_time);
 
+	sweep_time /= 1000000;
     for(int i = 0; i < buff_size; i++){
         t[i] = (2 * M_PI * freq)*sweep_time / buff_size * i;
     }
