@@ -54,9 +54,9 @@ int main(int argc, char **argv){
     rp_GenOutEnable(RP_CH_1);
     // rp_GenOutEnable(RP_CH_2);
 	
-	while((micros()-t0)<sweep_time);
+	// while((micros()-t0)<sweep_time);
 	
-	rp_GenOutDisable(RP_CH_1);
+	// rp_GenOutDisable(RP_CH_1);
 	
 	// rp_GenArbWaveform(RP_CH_1, y, buff_size);
 	// t0 = micros();
