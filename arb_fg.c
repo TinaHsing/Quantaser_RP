@@ -41,7 +41,7 @@ int main(int argc, char **argv){
     rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
     // rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 
-    rp_GenArbWaveform(RP_CH_1, y, buff_size);
+    rp_GenArbWaveform(RP_CH_1, x, buff_size);
     // rp_GenArbWaveform(RP_CH_2, y, buff_size);
 
     rp_GenAmp(RP_CH_1, 1.0);
@@ -56,8 +56,9 @@ int main(int argc, char **argv){
 	
 	while((micros()-t0)<sweep_time);
 	
-	// rp_GenOutDisable(RP_CH_1);
+	rp_GenOutDisable(RP_CH_1);
 	
+	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
 	rp_GenArbWaveform(RP_CH_1, y, buff_size);
 	t0 = micros();
 	rp_GenOutEnable(RP_CH_1);
