@@ -120,7 +120,7 @@ int main(void)
 {
 	int com;
 	/******function gen******/
-	int arb_size = 16384;
+	long arb_size = 16500;
 	long t_temp[2] = {0,0}, t_now, t0;
 	float start_freq, final_freq, k;
 	int sweep_time;
@@ -288,7 +288,7 @@ int main(void)
 				float *t = (float *)malloc(arb_size * sizeof(float));
 				float *x = (float *)malloc(arb_size * sizeof(float));
 				k = (final_freq - start_freq) / sweep_time;
-				for(int i = 0; i < arb_size; i++){
+				for(long i = 0; i < arb_size; i++){
 					t[i] = (float)sweep_time / arb_size * i;
 					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
 				}
