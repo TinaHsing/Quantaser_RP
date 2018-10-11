@@ -50,7 +50,7 @@ int main(int argc, char **argv){
     rp_GenFreq(RP_CH_1, 1.0/sweep_time);
     // rp_GenFreq(RP_CH_2, freq);
 	
-	t0 = micros();
+	// t0 = micros();
     rp_GenOutEnable(RP_CH_1);
     // rp_GenOutEnable(RP_CH_2);
 	
