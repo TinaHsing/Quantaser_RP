@@ -11,10 +11,10 @@ long micros(void);
 
 int main(int argc, char **argv){
 
-    int i;
+    int sweep_time = 20e-6;
     int buff_size = 16384;
-	long t0, t1;
-	float freq;
+	long t0;
+	float freq = 100000;
 
     /* Print error, if rp_Init() function failed */
     if(rp_Init() != RP_OK){
@@ -24,41 +24,45 @@ int main(int argc, char **argv){
     float *t = (float *)malloc(buff_size * sizeof(float));
     float *x = (float *)malloc(buff_size * sizeof(float));
     float *y = (float *)malloc(buff_size * sizeof(float));
+	
+	// printf("enter sweep time in ms: ");
+	// scanf("%d",&sweep_time);
 
-    for(i = 1; i < buff_size; i++){
-        t[i] = (2 * M_PI) / buff_size * i;
+    for(int i = 0; i < buff_size; i++){
+        t[i] = (2 * M_PI * freq)*sweep_time / buff_size * i;
     }
 
     for (int i = 0; i < buff_size; ++i){
-        x[i] = sin(t[i]) + ((1.0/3.0) * sin(t[i] * 3));
-        y[i] = (1.0/2.0) * sin(t[i]) + (1.0/4.0) * sin(t[i] * 4);
+        x[i] = 0.2*sin(t[i]);
+        y[i] = sin(t[i]);
     }
 
-	printf("input freq in Hz: ");
-	scanf("%f", &freq);
-	printf("input sustained time in ms: ");
-	scanf("%ld", &t1);
-	t1 *= 1000;
     rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
-    rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+    // rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 
     rp_GenArbWaveform(RP_CH_1, x, buff_size);
-    rp_GenArbWaveform(RP_CH_2, y, buff_size);
+    // rp_GenArbWaveform(RP_CH_2, y, buff_size);
 
     rp_GenAmp(RP_CH_1, 1.0);
-    rp_GenAmp(RP_CH_2, 1.0);
+    // rp_GenAmp(RP_CH_2, 1.0);
 
-    rp_GenFreq(RP_CH_1, freq);
-    rp_GenFreq(RP_CH_2, freq);
+    rp_GenFreq(RP_CH_1, 1.0/sweep_time);
+    // rp_GenFreq(RP_CH_2, freq);
 	
 	t0 = micros();
     rp_GenOutEnable(RP_CH_1);
-    rp_GenOutEnable(RP_CH_2);
+    // rp_GenOutEnable(RP_CH_2);
 	
-	while((micros()-t0)<t1);
+	while((micros()-t0)<20);
 	
 	rp_GenOutDisable(RP_CH_1);
-	rp_GenOutDisable(RP_CH_2);
+	
+	rp_GenArbWaveform(RP_CH_1, y, buff_size);
+	t0 = micros();
+	rp_GenOutEnable(RP_CH_1);
+	while((micros()-t0)<20);
+	rp_GenOutDisable(RP_CH_1);
+	// rp_GenOutDisable(RP_CH_2);
 
     /* Releasing resources */
     free(y);
