@@ -120,7 +120,7 @@ int main(void)
 {
 	int com;
 	/******function gen******/
-	int arb_size = 163840;
+	int arb_size = 16384;
 	long t_temp[2] = {0,0}, t_now, t0;
 	float start_freq, final_freq, k;
 	int sweep_time;
