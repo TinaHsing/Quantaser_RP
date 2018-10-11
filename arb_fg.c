@@ -13,7 +13,7 @@ int main(int argc, char **argv){
 
     float sweep_time;
     int buff_size = 16384;
-	long t0;
+	// long t0;
 	float freq = 100000;
 
     /* Print error, if rp_Init() function failed */
