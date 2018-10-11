@@ -12,6 +12,7 @@
 #include <fcntl.h> 
 #include <termios.h> 
 #include <errno.h>
+#include <math.h>
 
 #include "redpitaya/rp.h"
 
@@ -35,6 +36,7 @@
 #define UART3 974
 #define UART4 975
 #define FGTRIG 983
+#define M_PI 3.14159265358979323846
 
 /* DAC LTC2615 */
 #define DAC0_ADD 0x10
@@ -80,6 +82,7 @@ float dac_value;
 
 enum command{
 	FUNC_GEN_ADC,
+	CHIRP,
 	UART,
 	DAC,
 	SW
@@ -117,7 +120,10 @@ int main(void)
 {
 	int com;
 	/******function gen******/
+	int arb_size = 16384;
 	long t_temp[2] = {0,0}, t_now;
+	float start_freq, final_freq, k;
+	int sweep_time;
 	float m1, m2, amp;
 	float *adc_data;
 	bool fg_flag=1;
@@ -152,15 +158,19 @@ int main(void)
 				printf("--Selecting Function Gen and ADC---\n");
 				printf("set HVFG parameters (freq, t0, a0, t1, a1, t2, a2) :\n");
 				scanf("%f%u%f%u%f%u%f", &freq_HV,&t0_HV,&a0_HV,&t1_HV,&a1_HV,&t2_HV,&a2_HV);
-				printf("set LVFG amplitude (0~1V) :\n");
-				scanf("%f",&a_LV);
+				
+				
 				
 				printf("save data to .txt file? yes(1), no(0) : \n");
 				scanf("%d",&save);
+				
+				
+				
+				
 				a0_HV /= 10;
 				a1_HV /= 10;
 				a2_HV /= 10;
-				a_LV /= 10;
+				
 				pin_export(FGTRIG);
 				pin_direction(FGTRIG, OUT);
 				pin_write( FGTRIG, 0);
@@ -174,7 +184,7 @@ int main(void)
 					fprintf(stderr, "Rp api init failed!\n");
 				}
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				LVFG(freq_HV, 0); 
 				HVFG(freq_HV, 0); 
 				rp_GenOutEnable(RP_CH_1);
@@ -262,6 +272,33 @@ int main(void)
 				free(adc_data);
 				idx = 0;
 				
+			break;
+			case CHIRP:
+				if(rp_Init() != RP_OK){
+						fprintf(stderr, "Rp api init failed!\n");
+					}
+				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
+				printf("set chirping amplitude (0~10V) :\n");
+				scanf("%f",&a_LV);
+				printf("enter chirp start and final freq in KHz: ");
+				scanf("%f%f",&start_freq, &final_freq);
+				printf("enter sweep time in ms: ");
+				scanf("%d",&sweep_time);
+				// a_LV /= 10;
+				float *t = (float *)malloc(arb_size * sizeof(float));
+				float *x = (float *)malloc(arb_size * sizeof(float));
+				k = (final_freq - start_freq) / sweep_time;
+				for(int i = 0; i < arb_size; i++){
+					t[i] = (float)sweep_time / arb_size * i;
+					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
+				}
+				rp_GenArbWaveform(RP_CH_1, x, arb_size);
+				rp_GenAmp(RP_CH_1, 1.0);
+				rp_GenFreq(RP_CH_1, 1000.0/sweep_time);
+				rp_GenOutEnable(RP_CH_1);
+				free(t);
+				free(x);
+				rp_Release();
 			break;
 			case UART:
 			    printf("\n");
