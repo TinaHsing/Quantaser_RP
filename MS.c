@@ -147,10 +147,10 @@ int main(void)
 	DAC_out_init();
 		do
 		{
-			printf("Select function : (0):Function Gen and ADC, (1):UART, (2):DAC, (3):MOS Switch  ");
+			printf("Select function : (0):Function Gen and ADC, (1):CHIRP, (2):UART, (3):DAC, (4):MOS Switch  ");
 			scanf("%d",&com);
 			fflush(stdin);
-		} while(!(com>=0 && com<4));
+		} while(!(com>=FUNC_GEN_ADC && com<=SW));
 		
 		switch(com)
 		{
