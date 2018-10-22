@@ -142,8 +142,8 @@ int main(void)
 	/******MOS Switch******/
 	int mos_sw1, mos_sw2, mos_sw3, mos_sw4;
 	printf("version v1.0\n");
-	// system("cat /opt/redpitaya/fpga/classic/fpga.bit > /dev/xdevcfg");
-	system("cat /opt/redpitaya/fpga/red_pitaya_top.bit > /dev/xdevcfg");
+	system("cat /opt/redpitaya/fpga/classic/fpga.bit > /dev/xdevcfg");
+	// system("cat /opt/redpitaya/fpga/red_pitaya_top.bit > /dev/xdevcfg");
 	DAC_out_init();
 		do
 		{
