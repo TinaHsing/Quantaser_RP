@@ -29,7 +29,6 @@ int main(int argc, char **argv){
 	scanf("%f",&sweep_time);
 
 	// sweep_time /= 1000000;
-    for(int i = 0; i < buff_size; i++){
         t[i] = (2 * M_PI * freq)*sweep_time / buff_size * i;
     }
 
