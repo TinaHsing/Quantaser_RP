@@ -159,7 +159,7 @@ int main(void)
 	DAC_out_init();
 		do
 		{
-			printf("Select function : (0):Function Gen and ADC, (1):CHIRP, (2):UART, (3):DAC, (4):MOS Switch  ");
+			printf("Select function : (0):Function Gen, (1):CHIRP, (2):UART, (3):DAC, (4):MOS Switch  ");
 			scanf("%d",&com);
 			fflush(stdin);
 		} while(!(com>=FUNC_GEN_ADC && com<=SW));
@@ -295,7 +295,8 @@ int main(void)
 				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
 				amp = a0_HV;
 				rp_GenAmp(RP_CH_1, amp);
-				printf("Push enter key to start scan : %c\n",getchar());
+				printf("Push enter key to start scan :\n");
+				getchar();
 				pin_write( FGTRIG, 1);
 				t_start = micros();
 				while((micros()-t_start)<ts_HV*1000)
