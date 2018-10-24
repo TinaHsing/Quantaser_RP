@@ -131,15 +131,16 @@ int main(void)
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	int	data_size=0, save=0;
 	/******ADC******/
+	float *adc_data, m2;
 	uint32_t buff_size = 2;
 	#else
-	char fg_dummy;
+	// char fg_dummy;
 	#endif
 	long t_temp[2] = {0,0};
 	float start_freq, final_freq, k;
 	int sweep_time;
-	float m1, m2, amp;
-	float *adc_data;
+	float m1, amp;
+	
 	bool fg_flag=1;
 	
 	// int num=0, num2=0;
@@ -296,7 +297,7 @@ int main(void)
 				m2 = 0;// not use here
 				amp = a0_HV;
 				rp_GenAmp(RP_CH_1, amp);
-				fg_dummy = getchar();
+				getchar();
 				pin_write( FGTRIG, 1);
 				t_start = micros();
 				while((micros()-t_start)<ts_HV*1000)
