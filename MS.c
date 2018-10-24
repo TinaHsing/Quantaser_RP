@@ -294,7 +294,6 @@ int main(void)
 				pin_direction(FGTRIG, OUT);
 				pin_write( FGTRIG, 0);
 				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
-				m2 = 0;// not use here
 				amp = a0_HV;
 				rp_GenAmp(RP_CH_1, amp);
 				getchar();
