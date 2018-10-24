@@ -283,6 +283,7 @@ int main(void)
 						}
 				printf("set HVFG parameters (freq, ts, a0, a1, a2) :\n");
 				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
+				while ( getchar() != '\n' );
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenFreq(RP_CH_1, freq_HV);
 				rp_GenAmp(RP_CH_1, 0);
