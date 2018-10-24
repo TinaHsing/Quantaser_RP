@@ -296,7 +296,7 @@ int main(void)
 				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
 				amp = a0_HV;
 				rp_GenAmp(RP_CH_1, amp);
-				getchar();
+				printf("char= %c\n",getchar());
 				pin_write( FGTRIG, 1);
 				t_start = micros();
 				while((micros()-t_start)<ts_HV*1000)
