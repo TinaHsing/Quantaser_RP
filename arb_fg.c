@@ -37,17 +37,17 @@ int main(int argc, char **argv){
         x[i] = 0.2*sin(t[i]);
         y[i] = sin(t[i]);
     }
-    rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
-    // rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+    // rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
+    rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 
-    rp_GenArbWaveform(RP_CH_1, x, buff_size);
-    // rp_GenArbWaveform(RP_CH_2, y, buff_size);
+    // rp_GenArbWaveform(RP_CH_1, x, buff_size);
+    rp_GenArbWaveform(RP_CH_2, y, buff_size);
 
-    rp_GenAmp(RP_CH_1, 1.0);
-    // rp_GenAmp(RP_CH_2, 1.0);
+    // rp_GenAmp(RP_CH_1, 1.0);
+    rp_GenAmp(RP_CH_2, 1.0);
 
-    rp_GenFreq(RP_CH_1, 1000000/sweep_time);
-    // rp_GenFreq(RP_CH_2, freq);
+    // rp_GenFreq(RP_CH_1, 1000000/sweep_time);
+    rp_GenFreq(RP_CH_2, 1000000/sweep_time);
 	
 	t0 = micros();
     rp_GenOutEnable(RP_CH_1);

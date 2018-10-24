@@ -318,6 +318,7 @@ int main(void)
 				rp_GenAmp(RP_CH_1, amp);
 				pin_write( FGTRIG, 0);
 				pin_unexport(FGTRIG);
+				rp_Release();
 			break;
 			#endif
 			case CHIRP:
