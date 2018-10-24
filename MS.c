@@ -146,7 +146,7 @@ int main(void)
 	
     
 	/******UART******/
-	char uart_cmd[10];
+	char uart_cmd[15];
 	int uart_num=1;
 	char *size = "123456789123456789123456789123456789";
 	int uart_return = 0;
