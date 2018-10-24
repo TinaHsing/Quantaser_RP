@@ -18,7 +18,7 @@
 
 /* function gen*/
 #define updateRate 30 //us
-#FN_GEN_MODE 0
+#define FN_GEN_MODE 0
 // /* I2C */
 // #define I2C_ADDR 0x07
 /* MOS SW*/
@@ -128,23 +128,23 @@ int main(void)
 	/******function gen******/
 	long arb_size = 16384, t_now, t0;
 	#if FN_GEN_MODE
-	long t_temp[2] = {0,0};
-	#else 
-	long t_temp;
+	float *buff = (float *)malloc(buff_size * sizeof(float));
+	int	data_size=0, save=0;
+	/******ADC******/
+	uint32_t buff_size = 2;
+	#else
+	char fg_dummy;
 	#endif
+	long t_temp[2] = {0,0};
 	float start_freq, final_freq, k;
 	int sweep_time;
 	float m1, m2, amp;
 	float *adc_data;
 	bool fg_flag=1;
-	#if FN_GEN_MODE
-	char fg_dummy;
-	#endif
+	
 	// int num=0, num2=0;
-	int	data_size=0, save=0;
-	/******ADC******/
-	uint32_t buff_size = 2;
-    float *buff = (float *)malloc(buff_size * sizeof(float));
+	
+    
 	/******UART******/
 	char uart_cmd[10];
 	int uart_num=1;
@@ -281,7 +281,7 @@ int main(void)
 							fprintf(stderr, "Rp api init failed!\n");
 						}
 				printf("set HVFG parameters (freq, ts, a0, a1, a2) :\n");
-				scanf("%f%u%f%u%f%u%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
+				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenFreq(RP_CH_1, freq_HV);
 				rp_GenAmp(RP_CH_1, 0);
