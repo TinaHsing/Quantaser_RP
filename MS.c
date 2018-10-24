@@ -279,7 +279,7 @@ int main(void)
 				if(rp_Init() != RP_OK){
 							fprintf(stderr, "Rp api init failed!\n");
 						}
-				printf("set HVFG parameters (freq, ts, a0, a1, a2) :\n");
+				printf("set HVFG parameters (freq(Hz), ts(ms), a0, a1, a2(volt)) :\n");
 				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
 				while ( getchar() != '\n' );
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
@@ -295,7 +295,7 @@ int main(void)
 				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
 				amp = a0_HV;
 				rp_GenAmp(RP_CH_1, amp);
-				printf("enter any key to start scan : %c\n",getchar());
+				printf("Push enter key to start scan : %c\n",getchar());
 				pin_write( FGTRIG, 1);
 				t_start = micros();
 				while((micros()-t_start)<ts_HV*1000)
