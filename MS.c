@@ -18,6 +18,7 @@
 
 /* function gen*/
 #define updateRate 30 //us
+#FN_GEN_MODE 0
 // /* I2C */
 // #define I2C_ADDR 0x07
 /* MOS SW*/
@@ -70,7 +71,12 @@
 float freq_HV;
 
 float a0_HV, a1_HV, a2_HV, a_LV;
+#if FN_GEN_MODE
 uint32_t t0_HV, t1_HV, t2_HV;
+#else
+uint32_t ts_HV;
+#endif
+
 long t_start;
 int idx=0;
 /* UART */
@@ -120,13 +126,20 @@ int main(void)
 {
 	int com;
 	/******function gen******/
-	long arb_size = 16384;
-	long t_temp[2] = {0,0}, t_now, t0;
+	long arb_size = 16384, t_now, t0;
+	#if FN_GEN_MODE
+	long t_temp[2] = {0,0};
+	#else 
+	long t_temp;
+	#endif
 	float start_freq, final_freq, k;
 	int sweep_time;
 	float m1, m2, amp;
 	float *adc_data;
 	bool fg_flag=1;
+	#if FN_GEN_MODE
+	char fg_dummy;
+	#endif
 	// int num=0, num2=0;
 	int	data_size=0, save=0;
 	/******ADC******/
@@ -154,6 +167,7 @@ int main(void)
 		
 		switch(com)
 		{
+			#if FN_GEN_MODE
 			case FUNC_GEN_ADC:
 				printf("--Selecting Function Gen and ADC---\n");
 				printf("set HVFG parameters (freq, t0, a0, t1, a1, t2, a2) :\n");
@@ -250,18 +264,6 @@ int main(void)
 						
 					}					
 				}
-				// while(idx2<10)
-				// {
-					// tt1=micros();
-					// rp_GenAmp(RP_CH_1, amp);
-					// ADC_req(&buff_size, buff);
-					// tt2=micros();
-					// printf("%d: %ld\n",idx2, tt2-tt1);
-					// idx2++;
-				// }
-				// HVFG(freq_HV, a2_HV);
-				// LVFG(freq_HV, 0);
-				// printf("num=%d, num2=%d\n",num, num2);
 				rp_GenAmp(RP_CH_1, a2_HV);
 				rp_GenAmp(RP_CH_2, 0);
 				pin_write( FGTRIG, 0);
@@ -273,11 +275,56 @@ int main(void)
 				idx = 0;
 				
 			break;
+			#else 
+			case FUNC_GEN_ADC:
+				if(rp_Init() != RP_OK){
+							fprintf(stderr, "Rp api init failed!\n");
+						}
+				printf("set HVFG parameters (freq, ts, a0, a1, a2) :\n");
+				scanf("%f%u%f%u%f%u%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
+				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+				rp_GenFreq(RP_CH_1, freq_HV);
+				rp_GenAmp(RP_CH_1, 0);
+				rp_GenOutEnable(RP_CH_1);
+				// a0_HV /= 10;
+				// a1_HV /= 10;
+				// a2_HV /= 10;
+				pin_export(FGTRIG);
+				pin_direction(FGTRIG, OUT);
+				pin_write( FGTRIG, 0);
+				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
+				m2 = 0;// not use here
+				amp = a0_HV;
+				rp_GenAmp(RP_CH_1, amp);
+				fg_dummy = getchar();
+				pin_write( FGTRIG, 1);
+				t_start = micros();
+				while((micros()-t_start)<ts_HV*1000)
+				{
+					t_now = micros()-t_start;
+					if(fg_flag){
+						t_temp[0] = t_now;
+						fg_flag = 0;
+					}
+					t_temp[1] = t_now - t_temp[0];
+					if(t_temp[1] >= updateRate)
+					{	
+						amp = amp + m1*updateRate;
+						rp_GenAmp(RP_CH_1, amp);
+						t_temp[0]=t_now;
+					}	
+				}
+				amp = a2_HV;
+				rp_GenAmp(RP_CH_1, amp);
+				pin_write( FGTRIG, 0);
+				pin_unexport(FGTRIG);
+			break;
+			#endif
 			case CHIRP:
 				if(rp_Init() != RP_OK){
 						fprintf(stderr, "Rp api init failed!\n");
 					}
-				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				printf("set chirping amplitude (0~10V) :\n");
 				scanf("%f",&a_LV);
 				printf("enter chirp start and final freq in KHz: ");
@@ -292,13 +339,13 @@ int main(void)
 					t[i] = (float)sweep_time / arb_size * i;
 					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
 				}
-				rp_GenArbWaveform(RP_CH_1, x, arb_size);
-				rp_GenAmp(RP_CH_1, 1.0);
-				rp_GenFreq(RP_CH_1, 1000.0/sweep_time);
+				rp_GenArbWaveform(RP_CH_2, x, arb_size);
+				rp_GenAmp(RP_CH_2, 1.0);
+				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 				t0 = micros();
-				rp_GenOutEnable(RP_CH_1);
+				rp_GenOutEnable(RP_CH_2);
 				while((micros()-t0)<sweep_time*1000);
-				rp_GenOutDisable(RP_CH_1);
+				rp_GenOutDisable(RP_CH_2);
 				free(t);
 				free(x);
 				rp_Release();
