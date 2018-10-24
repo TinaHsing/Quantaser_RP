@@ -133,8 +133,6 @@ int main(void)
 	/******ADC******/
 	float *adc_data, m2;
 	uint32_t buff_size = 2;
-	#else
-	// char fg_dummy;
 	#endif
 	long t_temp[2] = {0,0};
 	float start_freq, final_freq, k;
@@ -297,7 +295,7 @@ int main(void)
 				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
 				amp = a0_HV;
 				rp_GenAmp(RP_CH_1, amp);
-				printf("char= %c\n",getchar());
+				printf("enter any key to start scan : %c\n",getchar());
 				pin_write( FGTRIG, 1);
 				t_start = micros();
 				while((micros()-t_start)<ts_HV*1000)
