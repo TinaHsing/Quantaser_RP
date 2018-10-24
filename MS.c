@@ -126,7 +126,8 @@ int main(void)
 {
 	int com;
 	/******function gen******/
-	long arb_size = 16384, t_now, t0;
+	long arb_size = 16384, t_now;
+	// long t0;
 	#if FN_GEN_MODE
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	int	data_size=0, save=0;
