@@ -22,7 +22,7 @@ int main(int argc, char **argv){
     }
 
     float *t = (float *)malloc(buff_size * sizeof(float));
-    float *x = (float *)malloc(buff_size * sizeof(float));
+    // float *x = (float *)malloc(buff_size * sizeof(float));
     float *y = (float *)malloc(buff_size * sizeof(float));
 	
 	printf("enter sweep time in us: ");
@@ -34,7 +34,7 @@ int main(int argc, char **argv){
     }
 
     for (int i = 0; i < buff_size; i++){
-        x[i] = 0.2*sin(t[i]);
+        // x[i] = 0.2*sin(t[i]);
         y[i] = sin(t[i]);
     }
     // rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
@@ -50,26 +50,26 @@ int main(int argc, char **argv){
     rp_GenFreq(RP_CH_2, 1000000/sweep_time);
 	
 	t0 = micros();
-    rp_GenOutEnable(RP_CH_1);
-    // rp_GenOutEnable(RP_CH_2);
+    // rp_GenOutEnable(RP_CH_1);
+    rp_GenOutEnable(RP_CH_2);
 	
 	while((micros()-t0)<sweep_time);
 	
-	rp_GenOutDisable(RP_CH_1);
+	rp_GenOutDisable(RP_CH_2);
 	
-	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
-	rp_GenArbWaveform(RP_CH_1, y, buff_size);
-	rp_GenAmp(RP_CH_1, 1.0);
-	rp_GenFreq(RP_CH_1, 1000000/sweep_time);
-	t0 = micros();
-	rp_GenOutEnable(RP_CH_1);
-	while((micros()-t0)<sweep_time);
-	rp_GenOutDisable(RP_CH_1);
+	// rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
+	// rp_GenArbWaveform(RP_CH_1, y, buff_size);
+	// rp_GenAmp(RP_CH_1, 1.0);
+	// rp_GenFreq(RP_CH_1, 1000000/sweep_time);
+	// t0 = micros();
+	// rp_GenOutEnable(RP_CH_1);
+	// while((micros()-t0)<sweep_time);
+	// rp_GenOutDisable(RP_CH_1);
 	// rp_GenOutDisable(RP_CH_2);
 
     /* Releasing resources */
     free(y);
-    free(x);
+    // free(x);
     free(t);
     rp_Release();
 }
