@@ -13,7 +13,7 @@ int main(int argc, char **argv){
 
     float sweep_time;
     int buff_size = 16384;
-	long t0;
+	// long t0;
 	float freq = 0.1;
 
     /* Print error, if rp_Init() function failed */
@@ -49,7 +49,7 @@ int main(int argc, char **argv){
     // rp_GenFreq(RP_CH_1, 1000000/sweep_time);
     rp_GenFreq(RP_CH_2, 1000000/sweep_time);
 	
-	t0 = micros();
+	// t0 = micros();
     // rp_GenOutEnable(RP_CH_1);
     rp_GenOutEnable(RP_CH_2);
 	
