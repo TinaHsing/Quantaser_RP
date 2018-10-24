@@ -127,7 +127,7 @@ int main(void)
 	int com;
 	/******function gen******/
 	long arb_size = 16384, t_now;
-	// long t0;
+	long t0;
 	#if FN_GEN_MODE
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	int	data_size=0, save=0;
@@ -344,10 +344,10 @@ int main(void)
 				rp_GenArbWaveform(RP_CH_2, x, arb_size);
 				rp_GenAmp(RP_CH_2, 1.0);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
-				// t0 = micros();
+				t0 = micros();
 				rp_GenOutEnable(RP_CH_2);
-				// while((micros()-t0)<sweep_time*1000);
-				// rp_GenOutDisable(RP_CH_2);
+				while((micros()-t0)<sweep_time*1000);
+				rp_GenOutDisable(RP_CH_2);
 				free(t);
 				free(x);
 				rp_Release();
