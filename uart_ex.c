@@ -16,6 +16,7 @@
 #include <fcntl.h>                  //Used for UART
 #include <termios.h>                //Used for UART
 #include <errno.h>
+#include <windows.h>
 
 
 /* Inline function definition */
@@ -163,7 +164,7 @@ int main(int argc, char *argv[]){
         printf("Uart write error\n");
         return -1;
     }
-
+	Sleep(1000);
     /* Sample read */
     if(uart_read(strlen(data)) < 0){
         printf("Uart read error\n");
