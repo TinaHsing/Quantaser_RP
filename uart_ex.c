@@ -151,7 +151,7 @@ static int release(){
 
 int main(int argc, char *argv[]){
 
-    char *data = "@25BR?;FF";
+    char *data = "@254BR?;FF";
 
     /* uart init */
     if(uart_init() < 0){
