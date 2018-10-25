@@ -141,7 +141,7 @@ int main(int argc, char *argv[]){
 
     // char *data = "abc";
 	char data[10];
-	char *size = "123456789";
+	char *size = "123456789123";
 
     /* uart init */
     if(uart_init() < 0){
