@@ -164,7 +164,7 @@ int main(int argc, char *argv[]){
         printf("Uart write error\n");
         return -1;
     }
-	Sleep(1000);
+	sleep(1000);
     /* Sample read */
     if(uart_read(strlen(data)) < 0){
         printf("Uart read error\n");
