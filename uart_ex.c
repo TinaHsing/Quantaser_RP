@@ -16,7 +16,7 @@
 #include <fcntl.h>                  //Used for UART
 #include <termios.h>                //Used for UART
 #include <errno.h>
-#include <windows.h>
+// #include <windows.h>
 
 
 /* Inline function definition */
