@@ -152,6 +152,7 @@ static int release(){
 int main(int argc, char *argv[]){
 
     char *data = "@254BR?;FF";
+	char *data2 = "123456789abcde"
 
     /* uart init */
     if(uart_init() < 0){
@@ -164,9 +165,9 @@ int main(int argc, char *argv[]){
         printf("Uart write error\n");
         return -1;
     }
-	sleep(1);
+	// sleep(1);
     /* Sample read */
-    if(uart_read(strlen(data)) < 0){
+    if(uart_read(strlen(data2)) < 0){
         printf("Uart read error\n");
         return -1;
     }
