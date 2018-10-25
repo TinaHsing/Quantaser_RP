@@ -152,7 +152,7 @@ static int release(){
 int main(int argc, char *argv[]){
 
     char *data = "@254BR?;FF";
-	char *data2 = "123456789abcde"
+	char *data2 = "123456789abcde";
 
     /* uart init */
     if(uart_init() < 0){
