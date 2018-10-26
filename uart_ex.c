@@ -77,7 +77,7 @@ static int uart_init(){
 	settings.c_oflag &= ~OPOST;/*No Output Processing*/
 
 	/* Setting Time outs */
-	settings.c_cc[VMIN] = 10; /* Read at least 10 characters */
+	settings.c_cc[VMIN] = 20; /* Read at least 10 characters */
 	settings.c_cc[VTIME] = 0; /* Wait indefinetly   */
 	
 	settings.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
