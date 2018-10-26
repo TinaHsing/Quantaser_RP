@@ -51,17 +51,9 @@ static int uart_init(){
     * cfsetispeed - Set input speed
     * cfsetspeed  - Set both output and input speed */
 
-    // cfsetspeed(&settings, baud_rate);
 	cfsetispeed(&settings,B9600);
 	cfsetospeed(&settings,B9600);
 
-    // settings.c_cflag &= ~PARENB; /* no parity */
-    // settings.c_cflag &= ~CSTOPB; /* 1 stop bit */
-    // settings.c_cflag &= ~CSIZE;
-	// settings.c_cflag &= ~ICRNL;
-    // settings.c_cflag |= CS8 | CLOCAL; /* 8 bits */
-    // settings.c_lflag = ICANON; /* canonical mode */
-    // settings.c_oflag &= ~OPOST; /* raw output */
 	settings.c_cflag &= ~PARENB;          /* Disables the Parity   Enable bit(PARENB),So No Parity   */
 	settings.c_cflag &= ~CSTOPB;          /* CSTOPB = 2 Stop bits,here it is cleared so 1 Stop bit */
 	settings.c_cflag &= ~CSIZE;           /* Clears the mask for setting the data size             */
@@ -112,12 +104,12 @@ static int uart_read(){
 
         // int rx_length = read(uart_fd, (void*)rx_buffer, size);
 		int rx_length = read(uart_fd, (void*)rx_buffer, 20);
-		printf("len= %d\n",rx_length);
+		// printf("len= %d\n",rx_length);
         if (rx_length < 0){
 
             /* No data yet avaliable, check again */
             if(errno == EAGAIN){
-                fprintf(stderr, "AGAIN!\n");
+                // fprintf(stderr, "AGAIN!\n");
                 continue;
             /* Error differs */
             }else{
