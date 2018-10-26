@@ -111,7 +111,7 @@ static int uart_read(){
 		unsigned char rx_buffer[255];
 
         // int rx_length = read(uart_fd, (void*)rx_buffer, size);
-		int rx_length = read(uart_fd, (void*)rx_buffer, 10);
+		int rx_length = read(uart_fd, (void*)rx_buffer, 20);
 		printf("len= %d\n",rx_length);
         if (rx_length < 0){
 
