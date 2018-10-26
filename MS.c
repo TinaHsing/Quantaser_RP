@@ -527,23 +527,30 @@ static int uart_init(){
     *       PARODD - Odd parity (else even) */
 
     /* Set baud rate - default set to 9600Hz */
-    speed_t baud_rate = B9600;
+	cfsetispeed(&settings,B9600);
+	cfsetospeed(&settings,B9600);
 
-    /* Baud rate fuctions
-    * cfsetospeed - Set output speed
-    * cfsetispeed - Set input speed
-    * cfsetspeed  - Set both output and input speed */
+	settings.c_cflag &= ~PARENB;          /* Disables the Parity   Enable bit(PARENB),So No Parity   */
+	settings.c_cflag &= ~CSTOPB;          /* CSTOPB = 2 Stop bits,here it is cleared so 1 Stop bit */
+	settings.c_cflag &= ~CSIZE;           /* Clears the mask for setting the data size             */
+	settings.c_cflag |=  CS8;             /* Set the data bits = 8                                 */
 
-    cfsetspeed(&settings, baud_rate);
+	settings.c_cflag &= ~CRTSCTS;         /* No Hardware flow Control                         */
+	settings.c_cflag |= CREAD | CLOCAL;   /* Enable receiver,Ignore Modem Control lines       */ 
 
-    settings.c_cflag &= ~PARENB; /* no parity */
-    settings.c_cflag &= CSTOPB; /* 1 stop bit */
-    settings.c_cflag &= ~CSIZE;
-	// settings.c_cflag &= ~ICRNL;
-    settings.c_cflag |= CS8 | CLOCAL; /* 8 bits */
-    settings.c_lflag = ICANON; /* canonical mode */
-    settings.c_oflag &= ~OPOST; /* raw output */
 
+	settings.c_iflag &= ~(IXON | IXOFF | IXANY);          /* Disable XON/XOFF flow control both i/p and o/p */
+	settings.c_iflag &= ~(ICANON | ECHO | ECHOE | ISIG);  /* Non Cannonical mode                            */
+
+	settings.c_oflag &= ~OPOST;/*No Output Processing*/
+
+	/* Setting Time outs */
+	settings.c_cc[VMIN] = 20; /* Read at least 10 characters */
+	settings.c_cc[VTIME] = 0; /* Wait indefinetly   */
+	
+	settings.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
+    settings.c_oflag &= ~OPOST;
+    settings.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
     /* Setting attributes */
     tcflush(uart_fd, TCIFLUSH);
     tcsetattr(uart_fd, TCSANOW, &settings);
