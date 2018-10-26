@@ -1,13 +1,3 @@
-/* @brief This is a simple application for testing UART communication on a RedPitaya
-* @Author Luka Golinar <luka.golinar@redpitaya.com>
-*
-* (c) Red Pitaya  http://www.redpitaya.com
-*
-* This part of code is written in C programming language.
-* Please visit http://en.wikipedia.org/wiki/C_(programming_language)
-* for more details on the language used herein.
-*/
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,7 +21,8 @@ int uart_fd = -1;
 
 static int uart_init(){
 
-    uart_fd = open("/dev/ttyPS1", O_RDWR | O_NOCTTY | O_NDELAY);
+    // uart_fd = open("/dev/ttyPS1", O_RDWR | O_NOCTTY | O_NDELAY);
+	uart_fd = open("/dev/ttyPS1", O_RDWR | O_NOCTTY | O_SYNC);
 
     if(uart_fd == -1){
         fprintf(stderr, "Failed to open uart.\n");
@@ -53,22 +44,47 @@ static int uart_init(){
     *       PARODD - Odd parity (else even) */
 
     /* Set baud rate - default set to 9600Hz */
-    speed_t baud_rate = B9600;
+    // speed_t baud_rate = B9600;
 
     /* Baud rate fuctions
     * cfsetospeed - Set output speed
     * cfsetispeed - Set input speed
     * cfsetspeed  - Set both output and input speed */
 
-    cfsetspeed(&settings, baud_rate);
+    // cfsetspeed(&settings, baud_rate);
+	cfsetispeed(&settings,B9600);
+	cfsetospeed(&settings,B9600);
 
-    settings.c_cflag &= ~PARENB; /* no parity */
-    settings.c_cflag &= ~CSTOPB; /* 1 stop bit */
-    settings.c_cflag &= ~CSIZE;
-	settings.c_cflag &= ~ICRNL;
-    settings.c_cflag |= CS8 | CLOCAL; /* 8 bits */
-    settings.c_lflag = ICANON; /* canonical mode */
-    settings.c_oflag &= ~OPOST; /* raw output */
+    // settings.c_cflag &= ~PARENB; /* no parity */
+    // settings.c_cflag &= ~CSTOPB; /* 1 stop bit */
+    // settings.c_cflag &= ~CSIZE;
+	// settings.c_cflag &= ~ICRNL;
+    // settings.c_cflag |= CS8 | CLOCAL; /* 8 bits */
+    // settings.c_lflag = ICANON; /* canonical mode */
+    // settings.c_oflag &= ~OPOST; /* raw output */
+	settings.c_cflag &= ~PARENB;          /* Disables the Parity   Enable bit(PARENB),So No Parity   */
+	settings.c_cflag &= ~CSTOPB;          /* CSTOPB = 2 Stop bits,here it is cleared so 1 Stop bit */
+	settings.c_cflag &= ~CSIZE;           /* Clears the mask for setting the data size             */
+	settings.c_cflag |=  CS8;             /* Set the data bits = 8                                 */
+
+	settings.c_cflag &= ~CRTSCTS;         /* No Hardware flow Control                         */
+	settings.c_cflag |= CREAD | CLOCAL;   /* Enable receiver,Ignore Modem Control lines       */ 
+
+
+	settings.c_iflag &= ~(IXON | IXOFF | IXANY);          /* Disable XON/XOFF flow control both i/p and o/p */
+	settings.c_iflag &= ~(ICANON | ECHO | ECHOE | ISIG);  /* Non Cannonical mode                            */
+
+	settings.c_oflag &= ~OPOST;/*No Output Processing*/
+
+	/* Setting Time outs */
+	settings.c_cc[VMIN] = 10; /* Read at least 10 characters */
+	settings.c_cc[VTIME] = 0; /* Wait indefinetly   */
+	
+	settings.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
+    settings.c_oflag &= ~OPOST;
+    settings.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
+    // termios_p->c_cflag &= ~(CSIZE | PARENB);
+    // termios_p->c_cflag |= CS8;
 
     /* Setting attributes */
     tcflush(uart_fd, TCIFLUSH);
@@ -95,7 +111,7 @@ static int uart_read(){
 		unsigned char rx_buffer[255];
 
         // int rx_length = read(uart_fd, (void*)rx_buffer, size);
-		int rx_length = read(uart_fd, (void*)rx_buffer, 255);
+		int rx_length = read(uart_fd, (void*)rx_buffer, 10);
 		printf("len= %d\n",rx_length);
         if (rx_length < 0){
 
