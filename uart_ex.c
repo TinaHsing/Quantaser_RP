@@ -22,7 +22,8 @@
 /* Inline function definition */
 static int uart_init();
 static int release();
-static int uart_read(int size);
+// static int uart_read(int size);
+static int uart_read();
 static int uart_write();
 
 /* File descriptor definition */
@@ -64,6 +65,7 @@ static int uart_init(){
     settings.c_cflag &= ~PARENB; /* no parity */
     settings.c_cflag &= ~CSTOPB; /* 1 stop bit */
     settings.c_cflag &= ~CSIZE;
+	settings.c_cflag &= ~ICRNL;
     settings.c_cflag |= CS8 | CLOCAL; /* 8 bits */
     settings.c_lflag = ICANON; /* canonical mode */
     settings.c_oflag &= ~OPOST; /* raw output */
@@ -75,7 +77,8 @@ static int uart_init(){
     return 0;
 }
 
-static int uart_read(int size){
+// static int uart_read(int size){
+static int uart_read(){
 
     /* Read some sample data from RX UART */
 
@@ -88,9 +91,11 @@ static int uart_read(int size){
             return -1;
         }
 
-        unsigned char rx_buffer[size];
+        // unsigned char rx_buffer[size];
+		unsigned char rx_buffer[255];
 
-        int rx_length = read(uart_fd, (void*)rx_buffer, size);
+        // int rx_length = read(uart_fd, (void*)rx_buffer, size);
+		int rx_length = read(uart_fd, (void*)rx_buffer, 255);
 		printf("len= %d\n",rx_length);
         if (rx_length < 0){
 
@@ -152,7 +157,7 @@ static int release(){
 int main(int argc, char *argv[]){
 
     char *data = "@254BR?;FF";
-	char *data2 = "123456789abcde";
+	// char *data2 = "123456789abcde";
 
     /* uart init */
     if(uart_init() < 0){
@@ -165,9 +170,10 @@ int main(int argc, char *argv[]){
         printf("Uart write error\n");
         return -1;
     }
-	sleep(1);
+	// sleep(1);
     /* Sample read */
-    if(uart_read(strlen(data2)) < 0){
+    // if(uart_read(strlen(data2)) < 0){
+	if(uart_read() < 0){
         printf("Uart read error\n");
         return -1;
     }
