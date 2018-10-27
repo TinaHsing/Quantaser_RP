@@ -287,9 +287,9 @@ int main(void)
 				rp_GenFreq(RP_CH_1, freq_HV);
 				rp_GenAmp(RP_CH_1, 0);
 				rp_GenOutEnable(RP_CH_1);
-				// a0_HV /= 10;
-				// a1_HV /= 10;
-				// a2_HV /= 10;
+				a0_HV /= 10;
+				a1_HV /= 10;
+				a2_HV /= 10;
 				pin_export(FGTRIG);
 				pin_direction(FGTRIG, OUT);
 				pin_write( FGTRIG, 0);
