@@ -333,7 +333,7 @@ int main(void)
 				scanf("%f%f",&start_freq, &final_freq);
 				printf("enter sweep time in ms: ");
 				scanf("%d",&sweep_time);
-				// a_LV /= 10;
+				a_LV /= 10;
 				float *t = (float *)malloc(arb_size * sizeof(float));
 				float *x = (float *)malloc(arb_size * sizeof(float));
 				k = (final_freq - start_freq) / sweep_time;
@@ -342,7 +342,7 @@ int main(void)
 					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
 				}
 				rp_GenArbWaveform(RP_CH_2, x, arb_size);
-				rp_GenAmp(RP_CH_2, 1.0);
+				rp_GenAmp(RP_CH_2, a_LV);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 				t0 = micros();
 				rp_GenOutEnable(RP_CH_2);
