@@ -344,9 +344,10 @@ int main(void)
 					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
 				}
 				rp_GenArbWaveform(RP_CH_1, x, arb_size);
-				rp_GenAmp(RP_CH_1, 1.0);
+				
 				rp_GenFreq(RP_CH_1, 1000.0/sweep_time);
 				// sleep(1);
+				rp_GenAmp(RP_CH_1, 1.0);
 				t0 = micros();		
 				
 				while((micros()-t0)<sweep_time*1000){
