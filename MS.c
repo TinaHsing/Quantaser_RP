@@ -327,6 +327,8 @@ int main(void)
 						fprintf(stderr, "Rp api init failed!\n");
 					}
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
+				rp_GenAmp(RP_CH_1, 0);
+				rp_GenOutEnable(RP_CH_1);
 				printf("set chirping amplitude (0~10V) :\n");
 				scanf("%f",&a_LV);
 				printf("enter chirp start and final freq in KHz: ");
@@ -344,7 +346,7 @@ int main(void)
 				rp_GenArbWaveform(RP_CH_1, x, arb_size);
 				rp_GenAmp(RP_CH_1, 1.0);
 				rp_GenFreq(RP_CH_1, 1000.0/sweep_time);
-				rp_GenOutEnable(RP_CH_1);
+				
 				t0 = micros();		
 				
 				while((micros()-t0)<sweep_time*1000){
