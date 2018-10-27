@@ -344,10 +344,10 @@ int main(void)
 				rp_GenArbWaveform(RP_CH_1, x, arb_size);
 				rp_GenAmp(RP_CH_1, 1.0);
 				rp_GenFreq(RP_CH_1, 1000.0/sweep_time);
-				t0 = micros();
 				rp_GenOutEnable(RP_CH_1);
+				t0 = micros();			
 				while((micros()-t0)<sweep_time*1000);
-				// rp_GenOutDisable(RP_CH_1);
+				rp_GenOutDisable(RP_CH_1);
 				free(t);
 				free(x);
 				rp_Release();
