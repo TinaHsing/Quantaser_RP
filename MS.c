@@ -346,11 +346,11 @@ int main(void)
 				rp_GenArbWaveform(RP_CH_1, x, arb_size);
 				rp_GenAmp(RP_CH_1, 1.0);
 				rp_GenFreq(RP_CH_1, 1000.0/sweep_time);
-				sleep(1);
+				// sleep(1);
 				t0 = micros();		
 				
 				while((micros()-t0)<sweep_time*1000){
-					printf("dt=%ld\n",micros()-t0);
+					// printf("dt=%ld\n",micros()-t0);
 				}
 				rp_GenOutDisable(RP_CH_1);
 				free(t);
