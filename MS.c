@@ -346,8 +346,10 @@ int main(void)
 				rp_GenFreq(RP_CH_1, 1000.0/sweep_time);
 				rp_GenOutEnable(RP_CH_1);
 				t0 = micros();		
-				printf("dt=%ld\n",micros()-t0);
-				while((micros()-t0)<sweep_time*1000);
+				
+				while((micros()-t0)<sweep_time*1000){
+					printf("dt=%ld\n",micros()-t0);
+				}
 				rp_GenOutDisable(RP_CH_1);
 				free(t);
 				free(x);
