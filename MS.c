@@ -66,6 +66,8 @@
 #define DAC9 	9
 #define DAC10 	10
 
+#define FN_GAIN 3
+
 //global vars//
 /*1. function gen and ADC*/
 float freq_HV;
@@ -287,9 +289,9 @@ int main(void)
 				rp_GenFreq(RP_CH_1, freq_HV);
 				rp_GenAmp(RP_CH_1, 0);
 				rp_GenOutEnable(RP_CH_1);
-				a0_HV /= 3;
-				a1_HV /= 3;
-				a2_HV /= 3;
+				a0_HV /= FN_GAIN;
+				a1_HV /= FN_GAIN;
+				a2_HV /= FN_GAIN;
 				pin_export(FGTRIG);
 				pin_direction(FGTRIG, OUT);
 				pin_write( FGTRIG, 0);
