@@ -355,7 +355,7 @@ int main(void)
 				while((micros()-t0)<sweep_time*1000){
 					// printf("dt=%ld\n",micros()-t0);
 				}
-				rp_GenOutDisable(RP_CH_2);
+				// rp_GenOutDisable(RP_CH_2);
 				free(t);
 				free(x);
 				rp_Release();
