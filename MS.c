@@ -280,16 +280,16 @@ int main(void)
 				if(rp_Init() != RP_OK){
 							fprintf(stderr, "Rp api init failed!\n");
 						}
-				printf("set HVFG parameters (freq(Hz), ts(ms), a0, a1, a2(Volt, 0~1V)) :\n");
+				printf("set HVFG parameters (freq(Hz), ts(ms), a0, a1, a2(Volt, 0~3V)) :\n");
 				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
 				while ( getchar() != '\n' );
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenFreq(RP_CH_1, freq_HV);
 				rp_GenAmp(RP_CH_1, 0);
 				rp_GenOutEnable(RP_CH_1);
-				// a0_HV /= 10;
-				// a1_HV /= 10;
-				// a2_HV /= 10;
+				a0_HV /= 3;
+				a1_HV /= 3;
+				a2_HV /= 3;
 				pin_export(FGTRIG);
 				pin_direction(FGTRIG, OUT);
 				pin_write( FGTRIG, 0);
