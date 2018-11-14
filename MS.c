@@ -28,15 +28,15 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
-#define POUT1 968
+#define POUT1 968 //DIO0_P
 #define POUT2 969
 #define POUT3 970
 #define POUT4 971
 #define UART1 972
 #define UART2 973
 #define UART3 974
-#define UART4 975
-#define FGTRIG 983
+#define UART4 975 //DIO7_P
+#define FGTRIG 977
 #define M_PI 3.14159265358979323846
 
 /* DAC LTC2615 */
