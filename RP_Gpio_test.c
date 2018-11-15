@@ -57,6 +57,13 @@ int main(void)
 	pin_write( NOUT8, 1);
 	printf("Push enter key to start scan :\n");
 	getchar();
+	pin_write( NOUT3, 1);
+	pin_write( NOUT4, 0);
+	pin_write( NOUT5, 1);
+	pin_write( NOUT6, 0);
+	pin_write( NOUT7, 1);
+	pin_write( NOUT8, 0);
+	getchar();
 	pin_write( NOUT3, 0);
 	pin_write( NOUT4, 0);
 	pin_write( NOUT5, 0);
