@@ -23,6 +23,13 @@
 #define NOUT7 982
 #define NOUT8 983
 
+#define VALUE_MAX 30
+#define MAX_PATH 64
+#define IN  0
+#define OUT 1
+#define LOW  0
+#define HIGH 1
+
 static int pin_export(int);
 static int pin_unexport(int);
 static int pin_direction(int, int);
