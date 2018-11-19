@@ -19,6 +19,7 @@
 /* function gen*/
 #define updateRate 30 //us
 #define FN_GEN_MODE 0
+#define CHIRP_MODE 0
 // /* I2C */
 // #define I2C_ADDR 0x07
 /* MOS SW*/
@@ -129,7 +130,9 @@ int main(void)
 	int com;
 	/******function gen******/
 	long arb_size = 16384, t_now;
+	#if CHIRP_MODE
 	long t0;
+	#endif
 	#if FN_GEN_MODE
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	int	data_size=0, save=0;
@@ -324,6 +327,7 @@ int main(void)
 				rp_Release();
 			break;
 			#endif
+			#if CHIRP_MODE
 			case CHIRP:
 				if(rp_Init() != RP_OK){
 						fprintf(stderr, "Rp api init failed!\n");
@@ -360,6 +364,49 @@ int main(void)
 				free(x);
 				rp_Release();
 			break;
+			#else
+			case CHIRP:
+				if(rp_Init() != RP_OK){
+						fprintf(stderr, "Rp api init failed!\n");
+					}
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+				rp_GenAmp(RP_CH_2, 0);
+				rp_GenMode(RP_CH_2, RP_GEN_MODE_BURST);
+				
+				printf("set chirping amplitude (0~10V) :\n");
+				scanf("%f",&a_LV);
+				printf("enter chirp start and final freq in KHz: ");
+				scanf("%f%f",&start_freq, &final_freq);
+				printf("enter sweep time in ms: ");
+				scanf("%d",&sweep_time);
+				a_LV /= 10;
+				float *t = (float *)malloc(arb_size * sizeof(float));
+				float *x = (float *)malloc(arb_size * sizeof(float));
+				k = (final_freq - start_freq) / sweep_time;
+				for(long i = 0; i < arb_size; i++){
+					t[i] = (float)sweep_time / arb_size * i;
+					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
+				}
+				rp_GenArbWaveform(RP_CH_2, x, arb_size);
+				
+				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+				// sleep(1);
+				rp_GenAmp(RP_CH_2, a_LV);
+				// t0 = micros();	
+				rp_GenBurstCount(RP_CH_2, 1);
+				rp_GenBurstRepetitions(RP_CH_2, 1);
+				rp_GenBurstPeriod(RP_CH_2, 1000);
+				rp_GenTrigger(1);				
+				rp_GenOutEnable(RP_CH_2);
+				// while((micros()-t0)<sweep_time*1000){
+					
+				// }
+				// rp_GenOutDisable(RP_CH_2);
+				free(t);
+				free(x);
+				rp_Release();
+			break;	
+			#endif
 			case UART:
 			    printf("\n");
 				printf("--Selecting Function UART---\n");
