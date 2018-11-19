@@ -36,8 +36,8 @@ int main(int argc, char **argv){
         rp_GenBurstCount(RP_CH_1, cnt);
         rp_GenBurstRepetitions(RP_CH_1, rp);
         rp_GenBurstPeriod(RP_CH_1, period);
-		rp_GenTrigger(1);
-        sleep(1);
+		// rp_GenTrigger(1);
+        // sleep(1);
         rp_GenOutEnable(RP_CH_1);
         rp_Release();
 }
