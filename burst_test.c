@@ -13,6 +13,7 @@ int main(int argc, char **argv){
 	    uint32_t period;
 
         /* Burst count */
+        printf("adam test=%d\n",ADAM_TEST);
 		printf("rp_GenBurstCountt: \n");
 		scanf("%d", &cnt);
 		printf("rp_GenBurstRepetitions: \n");
