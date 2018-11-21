@@ -13,7 +13,7 @@ int main(int argc, char **argv){
 	    uint32_t period;
 
         /* Burst count */
-		printf("rp_GenBurstCount: \n");
+		printf("rp_GenBurstCountt: \n");
 		scanf("%d", &cnt);
 		printf("rp_GenBurstRepetitions: \n");
 		scanf("%d", &rp);
