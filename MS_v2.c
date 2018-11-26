@@ -324,9 +324,9 @@ int main(void)
 				k = (final_freq - start_freq) / sweep_time;
 				for(long i = 0; i < arb_size; i++){
 					t2[i] = (float)sweep_time / arb_size * i;
-					x2[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
+					x2[i] = sin(2*M_PI*(start_freq*t2[i] + 0.5*k*t2[i]*t2[i]));
 				}
-				rp_GenArbWaveform(RP_CH_2, x, arb_size);
+				rp_GenArbWaveform(RP_CH_2, x2, arb_size);
 				
 				
 				
