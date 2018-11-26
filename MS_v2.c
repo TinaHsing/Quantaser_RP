@@ -152,14 +152,13 @@ int main(void)
 	float *adc_data, m2;
 	uint32_t buff_size = 2;
 	#endif
-	long t_temp[2] = {0,0};
+	// long t_temp[2] = {0,0};
 	float start_freq, final_freq, k, freq_factor;
 	int sweep_time;
-	float m1, m2, amp, amp2;
+	// float m1, m2, amp, amp2;
+	float amp;
+	// bool fg_flag=1;
 	
-	bool fg_flag=1;
-	
-	// int num=0, num2=0;
 	
     
 	/******UART******/
