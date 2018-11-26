@@ -297,7 +297,6 @@ int main(void)
 				if(rp_Init() != RP_OK){
 							fprintf(stderr, "Rp api init failed!\n");
 						}
-				fg_flag_init();
 				printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
 				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
 				printf("set chirping amplitude (0~10V) :\n");
@@ -403,6 +402,7 @@ int main(void)
 				rp_Release();
 			break;
 			#endif
+			
 			#if CHIRP_MODE
 			case CHIRP:
 				if(rp_Init() != RP_OK){
