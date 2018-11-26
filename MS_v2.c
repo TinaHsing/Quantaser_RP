@@ -20,6 +20,18 @@
 #define updateRate 30 //us
 #define FN_GEN_MODE 0
 #define CHIRP_MODE 0
+
+#define TTL_WAIT 1
+#define TTL_DURA 500
+#define DAMPING_WAIT 1
+#define DAMPING_DURA 50
+#define CHIRP_WAIT 1
+#define SCAN_WAIT 10
+#define CHIRP_SWEEP_TIME 2
+
+#define FGTTL 978 
+#define FGTRIG 977
+
 // /* I2C */
 // #define I2C_ADDR 0x07
 /* MOS SW*/
@@ -37,7 +49,7 @@
 #define UART2 973
 #define UART3 974
 #define UART4 975 //DIO7_P
-#define FGTRIG 977
+
 #define M_PI 3.14159265358979323846
 
 /* DAC LTC2615 */
@@ -104,6 +116,7 @@ void LVFG(float, float);
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
 void write_txt(float*, int);
+void fg_flag_init(void);
 /* UART */
 static int uart_init(void);
 static int release(void);
@@ -139,11 +152,13 @@ int main(void)
 	/******ADC******/
 	float *adc_data, m2;
 	uint32_t buff_size = 2;
+	#else
+	bool ttl_end_flag, chirp_flag;
 	#endif
 	long t_temp[2] = {0,0};
-	float start_freq, final_freq, k;
+	float start_freq, final_freq, k, freq_factor;
 	int sweep_time;
-	float m1, amp;
+	float m1, m2, amp, amp2;
 	
 	bool fg_flag=1;
 	
@@ -159,7 +174,7 @@ int main(void)
 	int dac_return = 0;
 	/******MOS Switch******/
 	int mos_sw1, mos_sw2, mos_sw3, mos_sw4;
-	printf("version v1.0\n");
+	printf("version v2.0\n");//date 2018-11-26
 	// system("cat /opt/redpitaya/fpga/classic/fpga.bit > /dev/xdevcfg");
 	system("cat /opt/redpitaya/fpga/red_pitaya_top.bit > /dev/xdevcfg");
 	DAC_out_init();
@@ -172,7 +187,7 @@ int main(void)
 		
 		switch(com)
 		{
-			#if FN_GEN_MODE //old: ch1 plus ch2
+			#if FN_GEN_MODE //ch1 plus ch2
 			case FUNC_GEN_ADC:
 				printf("--Selecting Function Gen and ADC---\n");
 				printf("set HVFG parameters (freq, t0, a0, t1, a1, t2, a2) :\n");
@@ -281,28 +296,87 @@ int main(void)
 				
 			break;
 			#else 
-			case FUNC_GEN_ADC:
+			case FUNC_GEN_ADC: //ch1_start_flag, ttl_start_flag, ttl_end_flag, chirp_flag;
 				if(rp_Init() != RP_OK){
 							fprintf(stderr, "Rp api init failed!\n");
 						}
-				printf("set HVFG parameters (freq(Hz), ts(ms), a0, a1, a2(Volt, 0~1V)) :\n");
+				fg_flag_init();
+				printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
 				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
+				printf("set chirping amplitude (0~10V) :\n");
+				scanf("%f",&a_LV);
+				printf("enter freq factor and chirp final freq in KHz: ");
+				scanf("%f%f", &freq_factor, &final_freq);
 				while ( getchar() != '\n' );
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 				rp_GenFreq(RP_CH_1, freq_HV);
 				rp_GenAmp(RP_CH_1, 0);
+				rp_GenAmp(RP_CH_2, 0);
 				rp_GenOutEnable(RP_CH_1);
-				// a0_HV /= FN_GAIN;
-				// a1_HV /= FN_GAIN;
-				// a2_HV /= FN_GAIN;
+				rp_GenOutEnable(RP_CH_2);
+				
+				
+				start_freq = 0.5*freq_HV/1000;
+				// printf("enter sweep time in ms: ");
+				// scanf("%d",&sweep_time);
+				sweep_time = CHIRP_SWEEP_TIME;
+				amp2 = 0;
+				a_LV /= 10;
+				float *t = (float *)malloc(arb_size * sizeof(float));
+				float *x = (float *)malloc(arb_size * sizeof(float));
+				k = (final_freq - start_freq) / sweep_time;
+				for(long i = 0; i < arb_size; i++){
+					t[i] = (float)sweep_time / arb_size * i;
+					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
+				}
+				rp_GenArbWaveform(RP_CH_2, x, arb_size);
+				
+				
+				
 				pin_export(FGTRIG);
+				pin_export(FGTTL);
 				pin_direction(FGTRIG, OUT);
+				pin_direction(FGTTL, OUT);
 				pin_write( FGTRIG, 0);
+				pin_write( FGTTL, 0);
+				
 				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
+				m2 = 1/(ts_HV)/1000;
 				amp = a0_HV;
 				rp_GenAmp(RP_CH_1, amp);
-				printf("Push enter key to start scan :\n");
-				getchar();
+				
+				t_start = micros();
+				while((micros()-t_start)<TTL_WAIT*1000){};
+				pin_write( FGTTL, 1);
+				
+				t_start = micros();
+				while((micros()-t_start)<TTL_DURA*1000){
+					t_now = micros()-t_start;
+					if(t_now>=DAMPING_WAIT && t_now<(DAMPING_WAIT+DAMPING_DURA))
+						rp_GenAmp(RP_CH_2, 1);
+					else if (t_now>=(DAMPING_WAIT+DAMPING_DURA)) 
+						rp_GenAmp(RP_CH_2, 0);
+				}
+				pin_write( FGTTL, 0);
+				
+				t_start = micros();
+				while((micros()-t_start)<CHIRP_WAIT*1000){};
+				/*add chirp below*/
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+				rp_GenAmp(RP_CH_2, a_LV);
+				t_start = micros();		
+				while((micros()-t_start)<sweep_time*1000){};
+				rp_GenAmp(RP_CH_2, 0);
+				
+				t_start = micros();	
+				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);	
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);				
+				while((micros()-t_start)<SCAN_WAIT*1000){};
+				
+				// printf("Push enter key to start scan :\n");
+				// getchar();
 				pin_write( FGTRIG, 1);
 				t_start = micros();
 				while((micros()-t_start)<ts_HV*1000)
@@ -316,14 +390,19 @@ int main(void)
 					if(t_temp[1] >= updateRate)
 					{	
 						amp = amp + m1*updateRate;
+						amp2 = amp2 + m2*updateRate;
 						rp_GenAmp(RP_CH_1, amp);
+						rp_GenAmp(RP_CH_2, amp2);
 						t_temp[0]=t_now;
 					}	
 				}
 				amp = a2_HV;
 				rp_GenAmp(RP_CH_1, amp);
+				rp_GenAmp(RP_CH_2, 0);
 				pin_write( FGTRIG, 0);
 				pin_unexport(FGTRIG);
+				free(t);
+				free(x);
 				rp_Release();
 			break;
 			#endif
@@ -530,6 +609,10 @@ void HVFG(float freq, float amp){
 void LVFG(float freq, float amp) {
 	rp_GenFreq(RP_CH_2, freq);
 	rp_GenAmp(RP_CH_2, amp);
+}
+void fg_flag_init() {
+	ttl_end_flag = 0;
+	chirp_flag = 0;
 }
 void ADC_init(void){
 	rp_AcqReset();
