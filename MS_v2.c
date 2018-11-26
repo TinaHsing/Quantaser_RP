@@ -319,12 +319,12 @@ int main(void)
 				sweep_time = CHIRP_SWEEP_TIME;
 				amp2 = 0;
 				a_LV /= 10;
-				float *t = (float *)malloc(arb_size * sizeof(float));
-				float *x = (float *)malloc(arb_size * sizeof(float));
+				float *t2 = (float *)malloc(arb_size * sizeof(float));
+				float *x2 = (float *)malloc(arb_size * sizeof(float));
 				k = (final_freq - start_freq) / sweep_time;
 				for(long i = 0; i < arb_size; i++){
-					t[i] = (float)sweep_time / arb_size * i;
-					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
+					t2[i] = (float)sweep_time / arb_size * i;
+					x2[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
 				}
 				rp_GenArbWaveform(RP_CH_2, x, arb_size);
 				
@@ -397,8 +397,8 @@ int main(void)
 				rp_GenAmp(RP_CH_2, 0);
 				pin_write( FGTRIG, 0);
 				pin_unexport(FGTRIG);
-				free(t);
-				free(x);
+				free(t2);
+				free(x2);
 				rp_Release();
 			break;
 			#endif
