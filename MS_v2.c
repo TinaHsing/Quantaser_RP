@@ -354,45 +354,45 @@ int main(void)
 				}
 				pin_write( FGTTL, 0);
 				
-				// t_start = micros();
-				// while((micros()-t_start)<CHIRP_WAIT*1000){};
-				// /*add chirp below*/
-				// rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-				// rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
-				// rp_GenAmp(RP_CH_2, a_LV);
-				// t_start = micros();		
-				// while((micros()-t_start)<sweep_time*1000){};
-				// rp_GenAmp(RP_CH_2, 0);
+				t_start = micros();
+				while((micros()-t_start)<CHIRP_WAIT*1000){};
+				/*add chirp below*/
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+				rp_GenAmp(RP_CH_2, a_LV);
+				t_start = micros();		
+				while((micros()-t_start)<sweep_time*1000){};
+				rp_GenAmp(RP_CH_2, 0);
 				
-				// t_start = micros();	
-				// rp_GenFreq(RP_CH_2, freq_factor*freq_HV);	
-				// rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);				
-				// while((micros()-t_start)<SCAN_WAIT*1000){};
+				t_start = micros();	
+				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);	
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);				
+				while((micros()-t_start)<SCAN_WAIT*1000){};
 				
-				// pin_write( FGTRIG, 1);
-				// t_start = micros();
-				// while((micros()-t_start)<ts_HV*1000)
-				// {
-					// t_now = micros()-t_start;
-					// if(fg_flag){
-						// t_temp[0] = t_now;
-						// fg_flag = 0;
-					// }
-					// t_temp[1] = t_now - t_temp[0];
-					// if(t_temp[1] >= updateRate)
-					// {	
-						// amp = amp + m1*updateRate;
-						// amp2 = amp2 + m2*updateRate;
-						// rp_GenAmp(RP_CH_1, amp);
-						// rp_GenAmp(RP_CH_2, amp2);
-						// t_temp[0]=t_now;
-					// }	
-				// }
-				// amp = a2_HV;
-				// rp_GenAmp(RP_CH_1, amp);
-				// rp_GenAmp(RP_CH_2, 0);
-				// pin_write( FGTRIG, 0);
-				// pin_unexport(FGTRIG);
+				pin_write( FGTRIG, 1);
+				t_start = micros();
+				while((micros()-t_start)<ts_HV*1000)
+				{
+					t_now = micros()-t_start;
+					if(fg_flag){
+						t_temp[0] = t_now;
+						fg_flag = 0;
+					}
+					t_temp[1] = t_now - t_temp[0];
+					if(t_temp[1] >= updateRate)
+					{	
+						amp = amp + m1*updateRate;
+						amp2 = amp2 + m2*updateRate;
+						rp_GenAmp(RP_CH_1, amp);
+						rp_GenAmp(RP_CH_2, amp2);
+						t_temp[0]=t_now;
+					}	
+				}
+				amp = a2_HV;
+				rp_GenAmp(RP_CH_1, amp);
+				rp_GenAmp(RP_CH_2, 0);
+				pin_write( FGTRIG, 0);
+				pin_unexport(FGTRIG);
 				free(t2);
 				free(x2);
 				rp_Release();
