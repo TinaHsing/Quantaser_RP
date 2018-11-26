@@ -116,7 +116,6 @@ void LVFG(float, float);
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
 void write_txt(float*, int);
-void fg_flag_init(void);
 /* UART */
 static int uart_init(void);
 static int release(void);
@@ -152,8 +151,6 @@ int main(void)
 	/******ADC******/
 	float *adc_data, m2;
 	uint32_t buff_size = 2;
-	#else
-	bool ttl_end_flag, chirp_flag;
 	#endif
 	long t_temp[2] = {0,0};
 	float start_freq, final_freq, k, freq_factor;
@@ -609,10 +606,6 @@ void HVFG(float freq, float amp){
 void LVFG(float freq, float amp) {
 	rp_GenFreq(RP_CH_2, freq);
 	rp_GenAmp(RP_CH_2, amp);
-}
-void fg_flag_init() {
-	ttl_end_flag = 0;
-	chirp_flag = 0;
 }
 void ADC_init(void){
 	rp_AcqReset();
