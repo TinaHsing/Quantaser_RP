@@ -368,8 +368,8 @@ int main(void)
 				pin_write( FGTTL, 0);
 				pin_write( TEST_TTL_2, 1);
 				
-				t_start = micros();
-				while((micros()-t_start)<CHIRP_WAIT*1000){};
+				// t_start = micros();
+				// while((micros()-t_start)<CHIRP_WAIT*1000){};
 				/*add chirp below*/
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
