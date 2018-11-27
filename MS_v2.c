@@ -27,7 +27,7 @@
 #define DAMPING_DURA 50
 #define CHIRP_WAIT 10
 #define SCAN_WAIT 10
-#define CHIRP_SWEEP_TIME 2
+#define CHIRP_SWEEP_TIME 1
 
 #define FGTRIG 977
 #define FGTTL 978 
