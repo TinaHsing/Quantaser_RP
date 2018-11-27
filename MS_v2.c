@@ -299,6 +299,21 @@ int main(void)
 				if(rp_Init() != RP_OK){
 							fprintf(stderr, "Rp api init failed!\n");
 						}
+				pin_export(FGTRIG);
+				pin_export(FGTTL);
+				pin_export(TEST_TTL_1);
+				pin_export(TEST_TTL_2);
+				pin_export(TEST_TTL_3);
+				pin_direction(FGTRIG, OUT);
+				pin_direction(FGTTL, OUT);
+				pin_direction(TEST_TTL_1, OUT);
+				pin_direction(TEST_TTL_2, OUT);
+				pin_direction(TEST_TTL_3, OUT);
+				pin_write( FGTRIG, 0);
+				pin_write( FGTTL, 0);
+				pin_write( TEST_TTL_1, 0);
+				pin_write( TEST_TTL_2, 0);
+				pin_write( TEST_TTL_3, 0);
 				printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
 				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
 				printf("set chirping amplitude (0~10V) :\n");
@@ -331,23 +346,6 @@ int main(void)
 				rp_GenArbWaveform(RP_CH_2, x2, arb_size);
 				
 				
-				
-				pin_export(FGTRIG);
-				pin_export(FGTTL);
-				pin_export(TEST_TTL_1);
-				pin_export(TEST_TTL_2);
-				pin_export(TEST_TTL_3);
-				pin_direction(FGTRIG, OUT);
-				pin_direction(FGTTL, OUT);
-				pin_direction(TEST_TTL_1, OUT);
-				pin_direction(TEST_TTL_2, OUT);
-				pin_direction(TEST_TTL_3, OUT);
-				pin_write( FGTRIG, 0);
-				pin_write( FGTTL, 0);
-				pin_write( TEST_TTL_1, 0);
-				pin_write( TEST_TTL_2, 0);
-				pin_write( TEST_TTL_3, 0);
-				
 				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
 				m2 = 1/(ts_HV)/1000;
 				amp = a0_HV;
@@ -367,6 +365,7 @@ int main(void)
 						rp_GenAmp(RP_CH_2, 0);
 				}
 				pin_write( FGTTL, 0);
+				pin_write( TEST_TTL_2, 1);
 				
 				t_start = micros();
 				while((micros()-t_start)<CHIRP_WAIT*1000){};
