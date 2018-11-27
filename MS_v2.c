@@ -502,7 +502,8 @@ int main(void)
 				rp_GenAmp(RP_CH_2, 0); //chirp end
 				
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
-				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);	
+				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
+				pin_write( FGTRIG, 1);	
 				pin_write( TEST_TTL_3, 1);
 				
 				t_start = micros();
@@ -518,7 +519,6 @@ int main(void)
 					{	
 						amp = amp + m1*updateRate;
 						amp2 = amp2 + m2*updateRate;
-						printf("%f, %f\n",m1, m2);
 						rp_GenAmp(RP_CH_1, amp);
 						rp_GenAmp(RP_CH_2, amp2);
 						t_temp[0]=t_now;
@@ -526,7 +526,7 @@ int main(void)
 				}
 				amp = a2_HV;
 				rp_GenAmp(RP_CH_1, amp);
-				rp_GenAmp(RP_CH_2, 0.5);
+				rp_GenAmp(RP_CH_2, 0);
 				pin_write( FGTRIG, 0);
 				pin_unexport(FGTRIG);
 //				rp_GenOutDisable(RP_CH_2);
