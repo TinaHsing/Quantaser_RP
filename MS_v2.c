@@ -19,7 +19,7 @@
 /* function gen*/
 #define updateRate 30 //us
 #define FN_GEN_MODE 0
-#define CHIRP_MODE 0
+#define CHIRP_MODE 1
 
 #define TTL_WAIT 1
 #define TTL_DURA 500
