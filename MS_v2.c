@@ -29,8 +29,12 @@
 #define SCAN_WAIT 10
 #define CHIRP_SWEEP_TIME 2
 
-#define FGTTL 978 
 #define FGTRIG 977
+#define FGTTL 978 
+#define TEST_TTL_1 979
+#define TEST_TTL_2 980
+#define TEST_TTL_3 981
+
 
 // /* I2C */
 // #define I2C_ADDR 0x07
@@ -330,10 +334,19 @@ int main(void)
 				
 				pin_export(FGTRIG);
 				pin_export(FGTTL);
+				pin_export(TEST_TTL_1);
+				pin_export(TEST_TTL_2);
+				pin_export(TEST_TTL_3);
 				pin_direction(FGTRIG, OUT);
 				pin_direction(FGTTL, OUT);
+				pin_direction(TEST_TTL_1, OUT);
+				pin_direction(TEST_TTL_2, OUT);
+				pin_direction(TEST_TTL_3, OUT);
 				pin_write( FGTRIG, 0);
 				pin_write( FGTTL, 0);
+				pin_write( TEST_TTL_1, 0);
+				pin_write( TEST_TTL_2, 0);
+				pin_write( TEST_TTL_3, 0);
 				
 				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
 				m2 = 1/(ts_HV)/1000;
@@ -343,6 +356,7 @@ int main(void)
 				t_start = micros();
 				while((micros()-t_start)<TTL_WAIT*1000){};
 				pin_write( FGTTL, 1);
+				pin_write( TEST_TTL_1, 1);
 				
 				t_start = micros();
 				while((micros()-t_start)<TTL_DURA*1000){
