@@ -518,7 +518,7 @@ int main(void)
 					{	
 						amp = amp + m1*updateRate;
 						amp2 = amp2 + m2*updateRate;
-						printf("%f, %f\n",amp, amp2);
+						printf("%f, %f\n",m1, m2);
 						rp_GenAmp(RP_CH_1, amp);
 						rp_GenAmp(RP_CH_2, amp2);
 						t_temp[0]=t_now;
