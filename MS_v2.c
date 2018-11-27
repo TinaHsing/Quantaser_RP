@@ -417,6 +417,10 @@ int main(void)
 				if(rp_Init() != RP_OK){
 						fprintf(stderr, "Rp api init failed!\n");
 					}
+				
+				pin_export(TEST_TTL_2);				
+				pin_direction(TEST_TTL_2, OUT);
+				pin_write( TEST_TTL_2, 0);
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenAmp(RP_CH_2, 0);
 				rp_GenOutEnable(RP_CH_2);
@@ -439,6 +443,7 @@ int main(void)
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 				// sleep(1);
 				rp_GenAmp(RP_CH_2, a_LV);
+				pin_write( TEST_TTL_2, 1);
 				t0 = micros();		
 				
 				while((micros()-t0)<sweep_time*1000){
