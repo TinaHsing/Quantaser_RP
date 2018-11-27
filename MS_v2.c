@@ -483,21 +483,14 @@ int main(void)
 				}
 				pin_write( FGTTL, 0);
 				
-				t_start = micros();
-				while((micros()-t_start)<TTL_DURA*1000){
-					t_now = micros()-t_start;
-					if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+DAMPING_DURA)*1000)
-						rp_GenAmp(RP_CH_2, 1);
-					else if (t_now>=(DAMPING_WAIT+DAMPING_DURA)*1000) 
-						rp_GenAmp(RP_CH_2, 0);
-				}
-				
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 				rp_GenAmp(RP_CH_2, a_LV);
-				pin_write( TEST_TTL_2, 1);
-				t0 = micros();		
 				
+				pin_write( TEST_TTL_2, 1);
+				
+				
+				t0 = micros();		
 				while((micros()-t0)<sweep_time*1000){
 					// printf("dt=%ld\n",micros()-t0);
 				}
