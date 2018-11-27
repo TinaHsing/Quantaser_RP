@@ -494,8 +494,9 @@ int main(void)
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 //				while((micros()-t_start)<CHIRP_WAIT*1000){};
-				pin_write( TEST_TTL_2, 1);
+				
 				rp_GenAmp(RP_CH_2, a_LV); // chirp start
+				pin_write( TEST_TTL_2, 1);
 									
 				t0 = micros();		
 				while((micros()-t0)<sweep_time*1000){
