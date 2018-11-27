@@ -500,6 +500,10 @@ int main(void)
 					// printf("dt=%ld\n",micros()-t0);
 				}
 				rp_GenAmp(RP_CH_2, 0);
+				
+//				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
+//				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);	
+				
 //				rp_GenOutDisable(RP_CH_2);
 				free(t3);
 				free(x3);
