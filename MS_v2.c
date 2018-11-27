@@ -451,7 +451,7 @@ int main(void)
 				rp_GenAmp(RP_CH_1, 0);
 				rp_GenOutEnable(RP_CH_1);
 				sweep_time = CHIRP_SWEEP_TIME;
-				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+//				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 				rp_GenAmp(RP_CH_2, 0);
 				rp_GenOutEnable(RP_CH_2);
@@ -490,6 +490,7 @@ int main(void)
 //				while((micros()-t_start)<CHIRP_WAIT*1000){};
 				
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 				rp_GenAmp(RP_CH_2, a_LV);
 				pin_write( TEST_TTL_2, 1);
 					
