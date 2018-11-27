@@ -525,7 +525,7 @@ int main(void)
 				}
 				amp = a2_HV;
 				rp_GenAmp(RP_CH_1, amp);
-				rp_GenAmp(RP_CH_2, 0);
+				rp_GenAmp(RP_CH_2, 0.5);
 				pin_write( FGTRIG, 0);
 				pin_unexport(FGTRIG);
 //				rp_GenOutDisable(RP_CH_2);
