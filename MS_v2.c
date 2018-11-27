@@ -491,7 +491,7 @@ int main(void)
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 //				while((micros()-t_start)<CHIRP_WAIT*1000){};
 				
-				printf("time=%ld\n",micros()-t_start);
+//				printf("time=%ld\n",micros()-t_start);
 				pin_write( TEST_TTL_2, 1);
 				rp_GenAmp(RP_CH_2, a_LV);
 									
@@ -499,7 +499,8 @@ int main(void)
 				while((micros()-t0)<sweep_time*1000){
 					// printf("dt=%ld\n",micros()-t0);
 				}
-				rp_GenOutDisable(RP_CH_2);
+				rp_GenAmp(RP_CH_2, 0);
+//				rp_GenOutDisable(RP_CH_2);
 				free(t3);
 				free(x3);
 				rp_Release();
