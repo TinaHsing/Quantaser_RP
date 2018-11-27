@@ -430,14 +430,14 @@ int main(void)
 				printf("enter sweep time in ms: ");
 				scanf("%d",&sweep_time);
 				a_LV /= 10;
-				float *t = (float *)malloc(arb_size * sizeof(float));
-				float *x = (float *)malloc(arb_size * sizeof(float));
+				float *t3 = (float *)malloc(arb_size * sizeof(float));
+				float *x3 = (float *)malloc(arb_size * sizeof(float));
 				k = (final_freq - start_freq) / sweep_time;
 				for(long i = 0; i < arb_size; i++){
-					t[i] = (float)sweep_time / arb_size * i;
-					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
+					t3[i] = (float)sweep_time / arb_size * i;
+					x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
 				}
-				rp_GenArbWaveform(RP_CH_2, x, arb_size);
+				rp_GenArbWaveform(RP_CH_2, x3, arb_size);
 				
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 				// sleep(1);
