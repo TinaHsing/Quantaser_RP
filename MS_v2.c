@@ -422,14 +422,14 @@ int main(void)
 				scanf("%f",&a_LV);
 				printf("enter freq factor and chirp final freq in KHz: ");
 				scanf("%f%f", &start_freq, &final_freq);
-				float *t2 = (float *)malloc(arb_size * sizeof(float));
-				float *x2 = (float *)malloc(arb_size * sizeof(float));
+				float *t3 = (float *)malloc(arb_size * sizeof(float));
+				float *x3 = (float *)malloc(arb_size * sizeof(float));
 				k = (final_freq - start_freq) / sweep_time;
 				for(long i = 0; i < arb_size; i++){
-					t2[i] = (float)sweep_time / arb_size * i;
-					x2[i] = sin(2*M_PI*(start_freq*t2[i] + 0.5*k*t2[i]*t2[i]));
+					t3[i] = (float)sweep_time / arb_size * i;
+					x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
 				}
-				rp_GenArbWaveform(RP_CH_2, x2, arb_size);
+				rp_GenArbWaveform(RP_CH_2, x3, arb_size);
 				
 				
 				pin_write( TEST_TTL_2, 1);
