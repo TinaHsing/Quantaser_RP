@@ -420,7 +420,7 @@ int main(void)
 				pin_export(TEST_TTL_2);				
 				pin_direction(TEST_TTL_2, OUT);
 				pin_write( TEST_TTL_2, 0);
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+				
 				rp_GenAmp(RP_CH_2, 0);
 				rp_GenOutEnable(RP_CH_2);
 				printf("set chirping amplitude (0~10V) :\n");
@@ -439,8 +439,16 @@ int main(void)
 				}
 				rp_GenArbWaveform(RP_CH_2, x3, arb_size);
 				
+				// t_start = micros();
+				// while((micros()-t_start)<TTL_DURA*1000){
+					// t_now = micros()-t_start;
+					// if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+DAMPING_DURA)*1000)
+						// rp_GenAmp(RP_CH_2, 1);
+					// else if (t_now>=(DAMPING_WAIT+DAMPING_DURA)*1000) 
+						// rp_GenAmp(RP_CH_2, 0);
+				// }
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
-				// sleep(1);
 				rp_GenAmp(RP_CH_2, a_LV);
 				pin_write( TEST_TTL_2, 1);
 				t0 = micros();		
