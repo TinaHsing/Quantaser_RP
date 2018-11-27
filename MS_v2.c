@@ -489,21 +489,45 @@ int main(void)
 				t_start = micros();				
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
-				while((micros()-t_start)<CHIRP_WAIT*1000){};
+//				while((micros()-t_start)<CHIRP_WAIT*1000){};
 				
 //				printf("time=%ld\n",micros()-t_start);
 				pin_write( TEST_TTL_2, 1);
-				rp_GenAmp(RP_CH_2, a_LV);
+				rp_GenAmp(RP_CH_2, a_LV); // chirp start
 									
 				t0 = micros();		
 				while((micros()-t0)<sweep_time*1000){
 					// printf("dt=%ld\n",micros()-t0);
 				}
+				rp_GenAmp(RP_CH_2, 0); //chirp end
+				
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
+				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);	
+				pin_write( TEST_TTL_3, 1);
+				
+				t_start = micros();
+				while((micros()-t_start)<ts_HV*1000)
+				{
+					t_now = micros()-t_start;
+					if(fg_flag){
+						t_temp[0] = t_now;
+						fg_flag = 0;
+					}
+					t_temp[1] = t_now - t_temp[0];
+					if(t_temp[1] >= updateRate)
+					{	
+						amp = amp + m1*updateRate;
+						amp2 = amp2 + m2*updateRate;
+						rp_GenAmp(RP_CH_1, amp);
+						rp_GenAmp(RP_CH_2, amp2);
+						t_temp[0]=t_now;
+					}	
+				}
+				amp = a2_HV;
+				rp_GenAmp(RP_CH_1, amp);
 				rp_GenAmp(RP_CH_2, 0);
-				
-//				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
-//				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);	
-				
+				pin_write( FGTRIG, 0);
+				pin_unexport(FGTRIG);
 //				rp_GenOutDisable(RP_CH_2);
 				free(t3);
 				free(x3);
