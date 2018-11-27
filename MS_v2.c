@@ -449,8 +449,8 @@ int main(void)
 					// printf("dt=%ld\n",micros()-t0);
 				}
 				rp_GenOutDisable(RP_CH_2);
-				free(t);
-				free(x);
+				free(t3);
+				free(x3);
 				rp_Release();
 			break;
 			#if CHIRP_MODE
