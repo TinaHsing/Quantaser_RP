@@ -422,10 +422,17 @@ int main(void)
 				pin_write( TEST_TTL_2, 0);
 				
 				
+				printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
+				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
 				printf("set chirping amplitude (0~10V) :\n");
 				scanf("%f",&a_LV);
-				printf("enter chirp start and final freq in KHz: ");
-				scanf("%f%f",&start_freq, &final_freq);
+				printf("enter freq factor and chirp final freq in KHz: ");
+				scanf("%f%f", &freq_factor, &final_freq);
+				start_freq = 0.5*freq_HV/1000;
+				// printf("set chirping amplitude (0~10V) :\n");
+				// scanf("%f",&a_LV);
+				// printf("enter chirp start and final freq in KHz: ");
+				// scanf("%f%f",&start_freq, &final_freq);
 				// printf("enter sweep time in ms: ");
 				// scanf("%d",&sweep_time);
 				sweep_time = 10;
