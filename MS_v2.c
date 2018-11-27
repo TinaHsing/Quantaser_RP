@@ -361,9 +361,9 @@ int main(void)
 				t_start = micros();
 				while((micros()-t_start)<TTL_DURA*1000){
 					t_now = micros()-t_start;
-					if(t_now>=DAMPING_WAIT && t_now<(DAMPING_WAIT+DAMPING_DURA))
+					if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+DAMPING_DURA)*1000)
 						rp_GenAmp(RP_CH_2, 1);
-					else if (t_now>=(DAMPING_WAIT+DAMPING_DURA)) 
+					else if (t_now>=(DAMPING_WAIT+DAMPING_DURA)*1000) 
 						rp_GenAmp(RP_CH_2, 0);
 				}
 				pin_write( FGTTL, 0);
