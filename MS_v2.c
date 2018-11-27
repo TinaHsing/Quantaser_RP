@@ -421,15 +421,17 @@ int main(void)
 				pin_direction(TEST_TTL_2, OUT);
 				pin_write( TEST_TTL_2, 0);
 				
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
-				rp_GenAmp(RP_CH_2, 0);
-				rp_GenOutEnable(RP_CH_2);
+				
 				printf("set chirping amplitude (0~10V) :\n");
 				scanf("%f",&a_LV);
 				printf("enter chirp start and final freq in KHz: ");
 				scanf("%f%f",&start_freq, &final_freq);
-				printf("enter sweep time in ms: ");
-				scanf("%d",&sweep_time);
+				// printf("enter sweep time in ms: ");
+				// scanf("%d",&sweep_time);
+				sweep_time = 10;
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
+				rp_GenAmp(RP_CH_2, 0);
+				rp_GenOutEnable(RP_CH_2);
 				a_LV /= 10;
 				float *t3 = (float *)malloc(arb_size * sizeof(float));
 				float *x3 = (float *)malloc(arb_size * sizeof(float));
