@@ -503,8 +503,9 @@ int main(void)
 				
 				t_start = micros();
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
-				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
 				printf("time2=%ld\n",micros()-t_start);
+				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
+				printf("time3=%ld\n",micros()-t_start);
 				
 				pin_write( FGTRIG, 1);	
 				pin_write( TEST_TTL_3, 1);
