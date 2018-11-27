@@ -416,12 +416,21 @@ int main(void)
 				if(rp_Init() != RP_OK){
 						fprintf(stderr, "Rp api init failed!\n");
 					}
-				
-				pin_export(TEST_TTL_2);				
+				pin_export(FGTRIG);
+				pin_export(FGTTL);
+				pin_export(TEST_TTL_1);
+				pin_export(TEST_TTL_2);
+				pin_export(TEST_TTL_3);
+				pin_direction(FGTRIG, OUT);
+				pin_direction(FGTTL, OUT);
+				pin_direction(TEST_TTL_1, OUT);
 				pin_direction(TEST_TTL_2, OUT);
+				pin_direction(TEST_TTL_3, OUT);
+				pin_write( FGTRIG, 0);
+				pin_write( FGTTL, 0);
+				pin_write( TEST_TTL_1, 0);
 				pin_write( TEST_TTL_2, 0);
-				
-				
+				pin_write( TEST_TTL_3, 0);
 				printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
 				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
 				printf("set chirping amplitude (0~10V) :\n");
@@ -435,6 +444,11 @@ int main(void)
 				// scanf("%f%f",&start_freq, &final_freq);
 				// printf("enter sweep time in ms: ");
 				// scanf("%d",&sweep_time);
+				while ( getchar() != '\n' );
+				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+				rp_GenFreq(RP_CH_1, freq_HV);
+				rp_GenAmp(RP_CH_1, 0);
+				rp_GenOutEnable(RP_CH_1);
 				sweep_time = 10;
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 				rp_GenAmp(RP_CH_2, 0);
