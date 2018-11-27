@@ -110,7 +110,8 @@ enum command{
 	CHIRP,
 	UART,
 	DAC,
-	SW
+	SW,
+	TEST
 }com_sel;
 
 /*function gen and ADC*/
@@ -182,7 +183,7 @@ int main(void)
 			printf("Select function : (0):Function Gen, (1):CHIRP, (2):UART, (3):DAC, (4):MOS Switch  ");
 			scanf("%d",&com);
 			fflush(stdin);
-		} while(!(com>=FUNC_GEN_ADC && com<=SW));
+		} while(!(com>=FUNC_GEN_ADC && com<=TEST));
 		
 		switch(com)
 		{
@@ -411,7 +412,38 @@ int main(void)
 				rp_Release();
 			break;
 			#endif
-			
+			case TEST:
+				pin_export(TEST_TTL_2);				
+				pin_direction(TEST_TTL_2, OUT);
+				pin_write( TEST_TTL_2, 0);
+				sweep_time = CHIRP_SWEEP_TIME;
+				rp_GenAmp(RP_CH_2, 0);
+				rp_GenOutEnable(RP_CH_2);
+				scanf("%f",&a_LV);
+				printf("enter freq factor and chirp final freq in KHz: ");
+				scanf("%f%f", &start_freq, &final_freq);
+				float *t2 = (float *)malloc(arb_size * sizeof(float));
+				float *x2 = (float *)malloc(arb_size * sizeof(float));
+				k = (final_freq - start_freq) / sweep_time;
+				for(long i = 0; i < arb_size; i++){
+					t2[i] = (float)sweep_time / arb_size * i;
+					x2[i] = sin(2*M_PI*(start_freq*t2[i] + 0.5*k*t2[i]*t2[i]));
+				}
+				rp_GenArbWaveform(RP_CH_2, x2, arb_size);
+				
+				
+				pin_write( TEST_TTL_2, 1);
+				
+				t_start = micros();
+				while((micros()-t_start)<CHIRP_WAIT*1000){};
+				/*add chirp below*/
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+				rp_GenAmp(RP_CH_2, a_LV);
+				t_start = micros();		
+				while((micros()-t_start)<sweep_time*1000){};
+				rp_GenAmp(RP_CH_2, 0);
+			break;
 			#if CHIRP_MODE
 			case CHIRP:
 				if(rp_Init() != RP_OK){
