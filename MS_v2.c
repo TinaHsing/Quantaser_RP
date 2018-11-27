@@ -31,9 +31,10 @@
 
 #define FGTRIG 977
 #define FGTTL 978 
-#define TEST_TTL_1 979
-#define TEST_TTL_2 980
-#define TEST_TTL_3 981
+#define TEST_TTL_0 979
+#define TEST_TTL_1 980
+#define TEST_TTL_2 981
+#define TEST_TTL_3 982
 
 
 // /* I2C */
@@ -419,16 +420,19 @@ int main(void)
 					}
 				pin_export(FGTRIG);
 				pin_export(FGTTL);
+				pin_export(TEST_TTL_0);
 				pin_export(TEST_TTL_1);
 				pin_export(TEST_TTL_2);
 				pin_export(TEST_TTL_3);
 				pin_direction(FGTRIG, OUT);
 				pin_direction(FGTTL, OUT);
+				pin_direction(TEST_TTL_0, OUT);
 				pin_direction(TEST_TTL_1, OUT);
 				pin_direction(TEST_TTL_2, OUT);
 				pin_direction(TEST_TTL_3, OUT);
 				pin_write( FGTRIG, 0);
 				pin_write( FGTTL, 0);
+				pin_write( TEST_TTL_0, 0);
 				pin_write( TEST_TTL_1, 0);
 				pin_write( TEST_TTL_2, 0);
 				pin_write( TEST_TTL_3, 0);
@@ -473,7 +477,7 @@ int main(void)
 				t_start = micros();
 				while((micros()-t_start)<TTL_WAIT*1000){};
 				pin_write( FGTTL, 1);
-				pin_write( TEST_TTL_1, 1);
+				pin_write( TEST_TTL_0, 1);
 				
 				t_start = micros();
 				while((micros()-t_start)<TTL_DURA*1000){
@@ -483,16 +487,13 @@ int main(void)
 					else if (t_now>=(DAMPING_WAIT+DAMPING_DURA)*1000) 
 						rp_GenAmp(RP_CH_2, 0);
 				}
+				pin_write( TEST_TTL_1, 1);
 				pin_write( FGTTL, 0);
 				
 				
-				t_start = micros();				
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);//RP_WAVEFORM_ARBITRARY
-				printf("time0=%ld\n",micros()-t_start);
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 //				while((micros()-t_start)<CHIRP_WAIT*1000){};
-				
-				printf("time1=%ld\n",micros()-t_start);
 				pin_write( TEST_TTL_2, 1);
 				rp_GenAmp(RP_CH_2, a_LV); // chirp start
 									
@@ -502,11 +503,9 @@ int main(void)
 				}
 				rp_GenAmp(RP_CH_2, 0); //chirp end
 				
-				t_start = micros();
+				// t_start = micros();
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
-				printf("time2=%ld\n",micros()-t_start);
 				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
-				printf("time3=%ld\n",micros()-t_start);
 				
 				pin_write( FGTRIG, 1);	
 				pin_write( TEST_TTL_3, 1);
@@ -534,6 +533,11 @@ int main(void)
 				rp_GenAmp(RP_CH_2, 0);
 				pin_write( FGTRIG, 0);
 				pin_unexport(FGTRIG);
+				pin_unexport(FGTTL);
+				pin_unexport(TEST_TTL_0);
+				pin_unexport(TEST_TTL_1);
+				pin_unexport(TEST_TTL_2);
+				pin_unexport(TEST_TTL_3);
 				free(t3);
 				free(x3);
 				rp_Release();
