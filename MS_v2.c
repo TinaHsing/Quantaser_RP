@@ -486,11 +486,12 @@ int main(void)
 				pin_write( FGTTL, 0);
 				
 				
-				t_start = micros();				
+//				t_start = micros();				
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
-				while((micros()-t_start)<CHIRP_WAIT*1000){};
-				printf("time=%ld\n",micros()-t_start);
+//				while((micros()-t_start)<CHIRP_WAIT*1000){};
+				
+//				printf("time=%ld\n",micros()-t_start);
 				pin_write( TEST_TTL_2, 1);
 				rp_GenAmp(RP_CH_2, a_LV);
 									
