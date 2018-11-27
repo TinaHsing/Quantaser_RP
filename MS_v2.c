@@ -413,36 +413,45 @@ int main(void)
 			break;
 			#endif
 			case TEST:
+				if(rp_Init() != RP_OK){
+						fprintf(stderr, "Rp api init failed!\n");
+					}
+				
 				pin_export(TEST_TTL_2);				
 				pin_direction(TEST_TTL_2, OUT);
 				pin_write( TEST_TTL_2, 0);
-				sweep_time = CHIRP_SWEEP_TIME;
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenAmp(RP_CH_2, 0);
 				rp_GenOutEnable(RP_CH_2);
+				printf("set chirping amplitude (0~10V) :\n");
 				scanf("%f",&a_LV);
-				printf("enter freq factor and chirp final freq in KHz: ");
-				scanf("%f%f", &start_freq, &final_freq);
-				float *t3 = (float *)malloc(arb_size * sizeof(float));
-				float *x3 = (float *)malloc(arb_size * sizeof(float));
+				printf("enter chirp start and final freq in KHz: ");
+				scanf("%f%f",&start_freq, &final_freq);
+				printf("enter sweep time in ms: ");
+				scanf("%d",&sweep_time);
+				a_LV /= 10;
+				float *t = (float *)malloc(arb_size * sizeof(float));
+				float *x = (float *)malloc(arb_size * sizeof(float));
 				k = (final_freq - start_freq) / sweep_time;
 				for(long i = 0; i < arb_size; i++){
-					t3[i] = (float)sweep_time / arb_size * i;
-					x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
+					t[i] = (float)sweep_time / arb_size * i;
+					x[i] = sin(2*M_PI*(start_freq*t[i] + 0.5*k*t[i]*t[i]));
 				}
-				rp_GenArbWaveform(RP_CH_2, x3, arb_size);
+				rp_GenArbWaveform(RP_CH_2, x, arb_size);
 				
-				
-				pin_write( TEST_TTL_2, 1);
-				
-				t_start = micros();
-				while((micros()-t_start)<CHIRP_WAIT*1000){};
-				/*add chirp below*/
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+				// sleep(1);
 				rp_GenAmp(RP_CH_2, a_LV);
-				t_start = micros();		
-				while((micros()-t_start)<sweep_time*1000){};
-				rp_GenAmp(RP_CH_2, 0);
+				pin_write( TEST_TTL_2, 1);
+				t0 = micros();		
+				
+				while((micros()-t0)<sweep_time*1000){
+					// printf("dt=%ld\n",micros()-t0);
+				}
+				rp_GenOutDisable(RP_CH_2);
+				free(t);
+				free(x);
+				rp_Release();
 			break;
 			#if CHIRP_MODE
 			case CHIRP:
