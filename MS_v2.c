@@ -161,7 +161,7 @@ int main(void)
 	float start_freq, final_freq, k, freq_factor;
 	int sweep_time;
 	float m1, m2, amp, amp2;
-	bool fg_flag=1;
+	bool fg_flag=1, arb_open_flag=1;
 	
 	
     
@@ -481,19 +481,27 @@ int main(void)
 					if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+DAMPING_DURA)*1000)
 						rp_GenAmp(RP_CH_2, 1);
 					else if (t_now>=(DAMPING_WAIT+DAMPING_DURA)*1000) 
+					{
 						rp_GenAmp(RP_CH_2, 0);
+						if(arb_open_flag==1)
+						{
+							arb_open_flag = 0;
+							rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+							rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+						}
+					}	
 				}
 				pin_write( FGTTL, 0);
 				
 				
 //				t_start = micros();
 //				while((micros()-t_start)<CHIRP_WAIT*1000){};
-				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 				
-				rp_GenAmp(RP_CH_2, a_LV);
+//				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+//				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 				pin_write( TEST_TTL_2, 1);
-					
+				rp_GenAmp(RP_CH_2, a_LV);
+									
 				t0 = micros();		
 				while((micros()-t0)<sweep_time*1000){
 					// printf("dt=%ld\n",micros()-t0);
