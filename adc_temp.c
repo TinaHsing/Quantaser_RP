@@ -29,6 +29,7 @@ int main(int argc, char **argv){
         float *buff = (float *)malloc(buff_size * sizeof(float));
 
         rp_AcqReset();
+		rp_AcqSetGain(RP_CH_1, RP_HIGH);
         rp_AcqSetDecimation(1);
         // rp_AcqSetTriggerLevel(RP_CH_1, 0.1); //Trig level is set in Volts while in SCPI
         // rp_AcqSetTriggerDelay(0);
@@ -82,6 +83,6 @@ int main(int argc, char **argv){
 	return time;
 }
 void ADC_req(uint32_t* buff_size, float* buff) {
-	rp_AcqGetLatestDataV(RP_CH_2, buff_size, buff);
+	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	printf("%f\n",buff[*buff_size-1]);
 }
