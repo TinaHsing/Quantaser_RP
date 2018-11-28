@@ -335,12 +335,6 @@ int main(void)
 				printf("save data to .txt file? yes(1), no(0) : \n");
 				scanf("%d",&save);
 				
-				// printf("set chirping amplitude (0~10V) :\n");
-				// scanf("%f",&a_LV);
-				// printf("enter chirp start and final freq in KHz: ");
-				// scanf("%f%f",&start_freq, &final_freq);
-				// printf("enter sweep time in ms: ");
-				// scanf("%d",&sweep_time);
 				while ( getchar() != '\n' );
 				start_freq = 0.5*freq_HV/1000;
 				data_size = ts_HV*1000/updateRate;
@@ -351,7 +345,6 @@ int main(void)
 				rp_GenAmp(RP_CH_1, 0);
 				rp_GenOutEnable(RP_CH_1);
 				sweep_time = CHIRP_SWEEP_TIME;
-//				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 				rp_GenAmp(RP_CH_2, 0);
 				rp_GenOutEnable(RP_CH_2);
