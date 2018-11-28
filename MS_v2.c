@@ -661,6 +661,7 @@ void ADC_init(void){
 	rp_AcqReset();
 	rp_AcqSetDecimation(1);
 	rp_AcqStart();
+	rp_AcqSetGain(RP_CH_1, RP_HIGH);
 }
 void write_txt(float* adc_data, int save)
 {
