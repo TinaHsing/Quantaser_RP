@@ -159,10 +159,11 @@ int main(void)
 	uint32_t buff_size = 2;
 	#endif
 	
+	uint32_t buff_size = 2;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	int	data_size=0, save=0, num=0;
 	float *adc_data;
-	uint32_t buff_size = 2;
+	
 	
 	long t_temp[2] = {0,0};
 	float start_freq, final_freq, k, freq_factor;
@@ -402,7 +403,7 @@ int main(void)
 				
 				pin_write( FGTRIG, 1);	
 				pin_write( TEST_TTL_3, 1);
-				// ADC_req(&buff_size, buff, adc_data);
+				ADC_req(&buff_size, buff, adc_data);
 				t_start = micros();
 				while((micros()-t_start)<ts_HV*1000)
 				{
