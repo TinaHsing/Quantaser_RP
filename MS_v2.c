@@ -406,7 +406,7 @@ int main(void)
 				
 				pin_write( FGTRIG, 1);	
 				pin_write( TEST_TTL_3, 1);
-				ADC_req(&buff_size, buff, adc_data);
+				
 				t_start = micros();
 				while((micros()-t_start)<ts_HV*1000)
 				{
@@ -418,6 +418,7 @@ int main(void)
 					t_temp[1] = t_now - t_temp[0];
 					if(t_temp[1] >= updateRate)
 					{	
+						ADC_req(&buff_size, buff, adc_data);
 						amp = amp + m1*updateRate;
 						amp2 = amp2 + m2*updateRate;
 						rp_GenAmp(RP_CH_1, amp);
