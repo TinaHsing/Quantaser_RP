@@ -12,6 +12,7 @@ long micros(void);
 int main(int argc, char **argv){
 		// long diff[64], time[2];
         /* Print error, if rp_Init() function failed */
+		system("cat /opt/redpitaya/fpga/red_pitaya_top.bit > /dev/xdevcfg");
         if(rp_Init() != RP_OK){
                 fprintf(stderr, "Rp api init failed!\n");
         }
