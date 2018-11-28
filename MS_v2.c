@@ -681,7 +681,7 @@ void ADC_req(uint32_t* buff_size, float* buff, float* adc_data) {
 	*(adc_data+idx) = buff[*buff_size-1];
 	
 	// printf("%f\n", buff[*buff_size-1]);
-	printf("%d. %f\n", idx, *(adc_data+idx));
+	// printf("%d. %f\n", idx, *(adc_data+idx));
 	idx++;
 }
 
