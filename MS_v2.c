@@ -439,10 +439,10 @@ int main(void)
 				pin_unexport(TEST_TTL_2);
 				pin_unexport(TEST_TTL_3);
 				free(t3);
-				free(x3);
-				free(buff);
+				free(x3);			
 				rp_Release();
 				write_txt(adc_data, save);
+				free(buff);
 			break;
 			#endif
 			case TEST:
