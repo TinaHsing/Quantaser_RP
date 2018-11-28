@@ -18,7 +18,7 @@
 
 /* function gen*/
 #define updateRate 30 //us
-#define FN_GEN_MODE 1
+#define FN_GEN_MODE 0
 #define CHIRP_MODE 1
 
 #define TTL_WAIT 1
@@ -156,6 +156,11 @@ int main(void)
 	int	data_size=0, save=0, num=0;
 	/******ADC******/
 	float *adc_data, m2;
+	uint32_t buff_size = 2;
+	#elseif
+	float *buff = (float *)malloc(buff_size * sizeof(float));
+	int	data_size=0, save=0, num=0;
+	float *adc_data;
 	uint32_t buff_size = 2;
 	#endif
 	long t_temp[2] = {0,0};
@@ -299,123 +304,6 @@ int main(void)
 			#else 
 			case FUNC_GEN_ADC: //ch1_start_flag, ttl_start_flag, ttl_end_flag, chirp_flag;
 				if(rp_Init() != RP_OK){
-							fprintf(stderr, "Rp api init failed!\n");
-						}
-				pin_export(FGTRIG);
-				pin_export(FGTTL);
-				pin_export(TEST_TTL_1);
-				pin_export(TEST_TTL_2);
-				pin_export(TEST_TTL_3);
-				pin_direction(FGTRIG, OUT);
-				pin_direction(FGTTL, OUT);
-				pin_direction(TEST_TTL_1, OUT);
-				pin_direction(TEST_TTL_2, OUT);
-				pin_direction(TEST_TTL_3, OUT);
-				pin_write( FGTRIG, 0);
-				pin_write( FGTTL, 0);
-				pin_write( TEST_TTL_1, 0);
-				pin_write( TEST_TTL_2, 0);
-				pin_write( TEST_TTL_3, 0);
-				printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
-				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
-				printf("set chirping amplitude (0~10V) :\n");
-				scanf("%f",&a_LV);
-				printf("enter freq factor and chirp final freq in KHz: ");
-				scanf("%f%f", &freq_factor, &final_freq);
-				while ( getchar() != '\n' );
-				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
-				rp_GenFreq(RP_CH_1, freq_HV);
-				rp_GenAmp(RP_CH_1, 0);
-				rp_GenAmp(RP_CH_2, 0);
-				rp_GenOutEnable(RP_CH_1);
-				rp_GenOutEnable(RP_CH_2);
-				
-				
-				start_freq = 0.5*freq_HV/1000;
-				// printf("enter sweep time in ms: ");
-				// scanf("%d",&sweep_time);
-				sweep_time = CHIRP_SWEEP_TIME;
-				amp2 = 0;
-				a_LV /= 10;
-				float *t2 = (float *)malloc(arb_size * sizeof(float));
-				float *x2 = (float *)malloc(arb_size * sizeof(float));
-				k = (final_freq - start_freq) / sweep_time;
-				for(long i = 0; i < arb_size; i++){
-					t2[i] = (float)sweep_time / arb_size * i;
-					x2[i] = sin(2*M_PI*(start_freq*t2[i] + 0.5*k*t2[i]*t2[i]));
-				}
-				rp_GenArbWaveform(RP_CH_2, x2, arb_size);
-				
-				
-				m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
-				m2 = 1/(ts_HV)/1000;
-				amp = a0_HV;
-				rp_GenAmp(RP_CH_1, amp);
-				
-				t_start = micros();
-				while((micros()-t_start)<TTL_WAIT*1000){};
-				pin_write( FGTTL, 1);
-				pin_write( TEST_TTL_1, 1);
-				
-				t_start = micros();
-				while((micros()-t_start)<TTL_DURA*1000){
-					t_now = micros()-t_start;
-					if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+DAMPING_DURA)*1000)
-						rp_GenAmp(RP_CH_2, 1);
-					else if (t_now>=(DAMPING_WAIT+DAMPING_DURA)*1000) 
-						rp_GenAmp(RP_CH_2, 0);
-				}
-				pin_write( FGTTL, 0);
-				pin_write( TEST_TTL_2, 1);
-				
-				t_start = micros();
-				while((micros()-t_start)<CHIRP_WAIT*1000){};
-				/*add chirp below*/
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-				rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
-				rp_GenAmp(RP_CH_2, a_LV);
-				
-				t_start = micros();		
-				while((micros()-t_start)<sweep_time*1000){};
-				rp_GenAmp(RP_CH_2, 0);
-				
-				t_start = micros();	
-				rp_GenFreq(RP_CH_2, freq_factor*freq_HV);	
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);				
-				while((micros()-t_start)<SCAN_WAIT*1000){};
-				
-				pin_write( FGTRIG, 1);
-				t_start = micros();
-				while((micros()-t_start)<ts_HV*1000)
-				{
-					t_now = micros()-t_start;
-					if(fg_flag){
-						t_temp[0] = t_now;
-						fg_flag = 0;
-					}
-					t_temp[1] = t_now - t_temp[0];
-					if(t_temp[1] >= updateRate)
-					{	
-						amp = amp + m1*updateRate;
-						amp2 = amp2 + m2*updateRate;
-						rp_GenAmp(RP_CH_1, amp);
-						rp_GenAmp(RP_CH_2, amp2);
-						t_temp[0]=t_now;
-					}	
-				}
-				amp = a2_HV;
-				rp_GenAmp(RP_CH_1, amp);
-				rp_GenAmp(RP_CH_2, 0);
-				pin_write( FGTRIG, 0);
-				pin_unexport(FGTRIG);
-				free(t2);
-				free(x2);
-				rp_Release();
-			break;
-			#endif
-			case TEST:
-				if(rp_Init() != RP_OK){
 						fprintf(stderr, "Rp api init failed!\n");
 					}
 				pin_export(FGTRIG);
@@ -547,6 +435,10 @@ int main(void)
 				free(t3);
 				free(x3);
 				rp_Release();
+			break;
+			#endif
+			case TEST:
+				
 			break;
 			#if CHIRP_MODE
 			case CHIRP:
