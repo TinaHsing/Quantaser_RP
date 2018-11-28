@@ -153,7 +153,7 @@ int main(void)
 	#endif
 	#if FN_GEN_MODE
 	float *buff = (float *)malloc(buff_size * sizeof(float));
-	int	data_size=0, save=0;
+	int	data_size=0, save=0, num=0;
 	/******ADC******/
 	float *adc_data, m2;
 	uint32_t buff_size = 2;
@@ -435,7 +435,7 @@ int main(void)
 				pin_write( TEST_TTL_0, 0);
 				pin_write( TEST_TTL_1, 0);
 				pin_write( TEST_TTL_2, 0);
-				pin_write( TEST_TTL_3, 0);
+				pin_write( TEST_TTL_3, 0);				
 				printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
 				scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
 				printf("set chirping amplitude (0~10V) :\n");
@@ -450,6 +450,9 @@ int main(void)
 				// printf("enter sweep time in ms: ");
 				// scanf("%d",&sweep_time);
 				while ( getchar() != '\n' );
+				data_size = ts_HV*1000/updateRate;
+				adc_data = (float *) malloc(sizeof(float)*data_size);
+				ADC_init();
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				rp_GenFreq(RP_CH_1, freq_HV);
 				rp_GenAmp(RP_CH_1, 0);
@@ -510,7 +513,7 @@ int main(void)
 				
 				pin_write( FGTRIG, 1);	
 				pin_write( TEST_TTL_3, 1);
-				
+				// ADC_req(&buff_size, buff, adc_data);
 				t_start = micros();
 				while((micros()-t_start)<ts_HV*1000)
 				{
@@ -527,8 +530,10 @@ int main(void)
 						rp_GenAmp(RP_CH_1, amp);
 						rp_GenAmp(RP_CH_2, amp2);
 						t_temp[0]=t_now;
+						num++;
 					}	
 				}
+				printf("num=%d\n",num);
 				amp = a2_HV;
 				rp_GenAmp(RP_CH_1, amp);
 				rp_GenAmp(RP_CH_2, 0);
