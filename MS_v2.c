@@ -157,12 +157,13 @@ int main(void)
 	/******ADC******/
 	float *adc_data, m2;
 	uint32_t buff_size = 2;
-	#elseif
+	#endif
+	
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	int	data_size=0, save=0, num=0;
 	float *adc_data;
 	uint32_t buff_size = 2;
-	#endif
+	
 	long t_temp[2] = {0,0};
 	float start_freq, final_freq, k, freq_factor;
 	int sweep_time;
