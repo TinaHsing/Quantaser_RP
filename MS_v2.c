@@ -440,7 +440,9 @@ int main(void)
 				pin_unexport(TEST_TTL_3);
 				free(t3);
 				free(x3);
+				free(buff);
 				rp_Release();
+				write_txt(adc_data, save);
 			break;
 			#endif
 			case TEST:
