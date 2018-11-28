@@ -499,7 +499,7 @@ int main(void)
 				pin_write( TEST_TTL_2, 1);
 									
 				t0 = micros();		
-				while((micros()-t0)<sweep_time*1000){
+				while((micros()-t0)<sweep_time*1000*0.9){
 					// printf("dt=%ld\n",micros()-t0);
 				}
 				rp_GenAmp(RP_CH_2, 0); //chirp end
