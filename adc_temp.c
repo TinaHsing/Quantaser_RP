@@ -54,7 +54,8 @@ int main(int argc, char **argv){
         // }
 
         // rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
-		
+		printf("Push enter key to start scan :\n");
+		getchar();
 		while(1)
 		{
 		// for(int i=0; i<64; i++)
