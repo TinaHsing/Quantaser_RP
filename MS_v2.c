@@ -108,10 +108,10 @@ float dac_value;
 
 enum command{
 	FUNC_GEN_ADC,
-	CHIRP,
 	UART,
 	DAC,
 	SW,
+	CHIRP,
 	TEST
 }com_sel;
 
@@ -188,10 +188,10 @@ int main(void)
 	DAC_out_init();
 		do
 		{
-			printf("Select function : (0):Function Gen, (1):CHIRP, (2):UART, (3):DAC, (4):MOS Switch  ");
+			printf("Select function : (0):Function Gen, (1):UART, (2):DAC, (3):MOS Switch  ");
 			scanf("%d",&com);
 			fflush(stdin);
-		} while(!(com>=FUNC_GEN_ADC && com<=TEST));
+		} while(!(com>=FUNC_GEN_ADC && com<=SW));
 		
 		switch(com)
 		{
