@@ -161,7 +161,8 @@ int main(void)
 	
 	uint32_t buff_size = 2;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
-	int	data_size=0, save=0, num=0;
+	int	data_size=0, save=0;
+	// int num=0;
 	float *adc_data;
 	
 	
@@ -417,10 +418,10 @@ int main(void)
 						rp_GenAmp(RP_CH_1, amp);
 						rp_GenAmp(RP_CH_2, amp2);
 						t_temp[0]=t_now;
-						num++;
+						// num++;
 					}	
 				}
-				printf("num=%d\n",num);
+				// printf("num=%d\n",num);
 				amp = a2_HV;
 				rp_GenAmp(RP_CH_1, amp);
 				rp_GenAmp(RP_CH_2, 0);
