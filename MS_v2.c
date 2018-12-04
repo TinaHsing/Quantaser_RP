@@ -441,8 +441,7 @@ int main(void)
 			break;
 			#endif
 			case FIND_FREQ:
-				printf("shit\n");
-				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 				// printf("set CH1 parameters (freq(Hz), amp(Volt, 0~1V)) :\n");
 				// scanf("%f%f", &freq_ch1, &a_ch1);
 				// while ( getchar() != '\n' );
