@@ -91,7 +91,7 @@
 float freq_HV;
 
 float a0_HV, a1_HV, a2_HV, a_LV;
-float freq_ch1, a_ch1;
+// float freq_ch1, a_ch1;
 #if FN_GEN_MODE
 uint32_t t0_HV, t1_HV, t2_HV;
 #else
@@ -112,7 +112,7 @@ enum command{
 	UART,
 	DAC,
 	SW,
-	FIND_FREQ,
+	// FIND_FREQ,
 	CHIRP
 }com_sel;
 
@@ -440,8 +440,8 @@ int main(void)
 				free(buff);
 			break;
 			#endif
-			case FIND_FREQ:
-				rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
+			// case FIND_FREQ:
+				// rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 				// printf("set CH1 parameters (freq(Hz), amp(Volt, 0~1V)) :\n");
 				// scanf("%f%f", &freq_ch1, &a_ch1);
 				// while ( getchar() != '\n' );
@@ -449,7 +449,7 @@ int main(void)
 				// rp_GenFreq(RP_CH_1, freq_ch1);
 				// rp_GenOutEnable(RP_CH_1);
 				// rp_Release();
-			break;
+			// break;
 			#if CHIRP_MODE
 			case CHIRP:
 				if(rp_Init() != RP_OK){
