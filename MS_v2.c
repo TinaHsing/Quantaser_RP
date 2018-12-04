@@ -441,14 +441,15 @@ int main(void)
 			break;
 			#endif
 			case FIND_FREQ:
-				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+				printf("shit\n");
+				// rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 				// printf("set CH1 parameters (freq(Hz), amp(Volt, 0~1V)) :\n");
 				// scanf("%f%f", &freq_ch1, &a_ch1);
 				// while ( getchar() != '\n' );
 				// rp_GenAmp(RP_CH_1, a_ch1);
 				// rp_GenFreq(RP_CH_1, freq_ch1);
 				// rp_GenOutEnable(RP_CH_1);
-				rp_Release();
+				// rp_Release();
 			break;
 			#if CHIRP_MODE
 			case CHIRP:
