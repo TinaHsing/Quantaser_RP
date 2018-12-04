@@ -91,6 +91,7 @@
 float freq_HV;
 
 float a0_HV, a1_HV, a2_HV, a_LV;
+// float freq_ch1, a_ch1;
 #if FN_GEN_MODE
 uint32_t t0_HV, t1_HV, t2_HV;
 #else
@@ -441,13 +442,12 @@ int main(void)
 			#endif
 			case FIND_FREQ:
 				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-				rp_GenFreq(RP_CH_1, freq_HV);
-				rp_GenAmp(RP_CH_1, 0);
-				rp_GenOutEnable(RP_CH_1);
 				printf("set CH1 parameters (freq_HV(Hz), a2_HV(Volt, 0~1V)) :\n");
 				scanf("%f%f", &freq_HV, &a2_HV);
 				while ( getchar() != '\n' );
 				rp_GenAmp(RP_CH_1, a2_HV);
+				rp_GenFreq(RP_CH_1, freq_HV);
+				rp_GenOutEnable(RP_CH_1);
 				rp_Release();
 			break;
 			#if CHIRP_MODE
