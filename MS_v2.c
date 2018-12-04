@@ -111,8 +111,8 @@ enum command{
 	UART,
 	DAC,
 	SW,
-	CHIRP,
-	TEST
+	FIND_FREQ,
+	CHIRP
 }com_sel;
 
 /*function gen and ADC*/
@@ -192,7 +192,7 @@ int main(void)
 			printf("Select function : (0):Function Gen, (1):UART, (2):DAC, (3):MOS Switch  ");
 			scanf("%d",&com);
 			fflush(stdin);
-		} while(!(com>=FUNC_GEN_ADC && com<=SW));
+		} while(!(com>=FUNC_GEN_ADC && com<=FIND_FREQ));
 		
 		switch(com)
 		{
@@ -439,8 +439,16 @@ int main(void)
 				free(buff);
 			break;
 			#endif
-			case TEST:
-				
+			case FIND_FREQ:
+				rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+				rp_GenFreq(RP_CH_1, freq_HV);
+				rp_GenAmp(RP_CH_1, 0);
+				rp_GenOutEnable(RP_CH_1);
+				printf("set CH1 parameters (freq_HV(Hz), a2_HV(Volt, 0~1V)) :\n");
+				scanf("%f%f", &freq_HV, &a2_HV);
+				while ( getchar() != '\n' );
+				rp_GenAmp(RP_CH_1, a2_HV);
+				rp_Release();
 			break;
 			#if CHIRP_MODE
 			case CHIRP:
