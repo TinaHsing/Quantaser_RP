@@ -193,7 +193,7 @@ int main(void)
 			printf("Select function : (0):Function Gen, (1):UART, (2):DAC, (3):MOS Switch, (4) :CH1_SINGLE  ");
 			scanf("%d",&com);
 			fflush(stdin);
-		} while(!(com>=FUNC_GEN_ADC && com<=FIND_FREQ));
+		} while(!(com>=FUNC_GEN_ADC && com<=SW));
 		
 		switch(com)
 		{
