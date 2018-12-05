@@ -22,9 +22,9 @@
 #define CHIRP_MODE 1
 
 #define TTL_WAIT 1
-#define TTL_DURA 500
+#define TTL_DURA 50 //500
 #define DAMPING_WAIT 1
-#define DAMPING_DURA 50
+#define DAMPING_DURA 5 //50
 #define CHIRP_WAIT 10
 #define SCAN_WAIT 10
 #define CHIRP_SWEEP_TIME 1
