@@ -96,12 +96,12 @@ int main(int argc, char *argv[])
 	// printf("save data to .txt file? yes(1), no(0) : \n");
 	// scanf("%d",&save);
 	// while ( getchar() != '\n' );
-	freq_HV = atof(arg[1]);
-	ts_HV = atol(arg[2]);
-	a0_HV = atof(arg[3]);
-	a1_HV = atof(arg[4]);
-	a2_HV = atof(arg[5]);
-	a_LV = atof(arg[6]);
+	freq_HV = atof(argv[1]);
+	ts_HV = atol(argv[2]);
+	a0_HV = atof(argv[3]);
+	a1_HV = atof(argv[4]);
+	a2_HV = atof(argv[5]);
+	a_LV = atof(argv[6]);
 	freq_factor = atof(arg[7]);
 	final_freq = atof(arg[8]);
 	save = atoi(arg[9]);
