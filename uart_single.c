@@ -22,6 +22,9 @@
 #define UART3 974
 #define UART4 975 
 
+#define VALUE_MAX 30
+#define MAX_PATH 64
+#define IN  0
 #define OUT 1
 ////////* gpio *///////////
 static int pin_export(int);
@@ -43,6 +46,8 @@ int uart_num=1;
 char *size = "123456789123456789123456789123456789";
 int uart_return = 0;
 
+
+int uart_fd = -1;
 int mian(int argc, char *argv[])
 {
 	pin_export(UART1);
