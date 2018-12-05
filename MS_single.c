@@ -59,11 +59,13 @@ int idx=0;
 
 int main(void) 
 {
-	float start_freq, k, m1, m2, amp;
+	float start_freq, k, m1, m2, amp, amp2=0;
 	int	data_size=0, save=0, sweep_time, num=0;
 	long arb_size = 16384, t_start, t_now, t_temp[2] = {0,0};
 	bool fg_flag=1;
-
+	uint32_t buff_size = 2;
+	float *buff = (float *)malloc(buff_size * sizeof(float));
+	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
@@ -173,7 +175,7 @@ int main(void)
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
 			t_temp[0]=t_now;
-			// num++;
+			num++;
 		}	
 	}
 	// printf("num=%d\n",num);
