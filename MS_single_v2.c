@@ -102,9 +102,9 @@ int main(int argc, char *argv[])
 	a1_HV = atof(argv[4]);
 	a2_HV = atof(argv[5]);
 	a_LV = atof(argv[6]);
-	freq_factor = atof(arg[7]);
-	final_freq = atof(arg[8]);
-	save = atoi(arg[9]);
+	freq_factor = atof(argv[7]);
+	final_freq = atof(argv[8]);
+	save = atoi(argv[9]);
 	start_freq = 0.5*freq_HV/1000;
 	data_size = ts_HV*1000/UPDATE_RATE;
 	float *adc_data = (float *) malloc(sizeof(float)*data_size);
