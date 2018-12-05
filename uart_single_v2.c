@@ -43,8 +43,8 @@ static int uart_write();
 void connect_uart(int *);
 void disconnect_uart(void);
 
-// int uart_num=1;
-// char uart_cmd[15];
+int uart_num=1;
+char *uart_cmd;
 
 
 
