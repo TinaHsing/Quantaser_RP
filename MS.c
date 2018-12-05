@@ -172,7 +172,7 @@ int main(void)
 		
 		switch(com)
 		{
-			#if FN_GEN_MODE //old: ch1 plus ch2
+			#if FN_GEN_MODE //ch1 plus ch2
 			case FUNC_GEN_ADC:
 				printf("--Selecting Function Gen and ADC---\n");
 				printf("set HVFG parameters (freq, t0, a0, t1, a1, t2, a2) :\n");
