@@ -50,7 +50,7 @@ int uart_return = 0;
 
 
 int uart_fd = -1;
-int mian(int argc, char *argv[])
+int mian(void)
 {
 	pin_export(UART1);
 	pin_export(UART2);
