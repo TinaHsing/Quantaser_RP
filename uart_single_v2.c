@@ -43,16 +43,16 @@ static int uart_write();
 void connect_uart(int *);
 void disconnect_uart(void);
 
+// int uart_num=1;
+// char uart_cmd[15];
 
-char uart_cmd[15];
-int uart_num=1;
-char *size = "123456789123456789123456789123456789";
-int uart_return = 0;
 
 
 int uart_fd = -1;
-int main(void)
+int main(int argc, char *argv[])
 {
+	char *size = "123456789123456789123456789123456789";
+	
 	pin_export(UART1);
 	pin_export(UART2);
 	pin_export(UART3);
@@ -61,34 +61,34 @@ int main(void)
 	pin_direction(UART2, OUT);
 	pin_direction(UART3, OUT);
 	pin_direction(UART4, OUT);
-	do
+	
+	if(uart_init() < 0)
 	{
-		if(uart_init() < 0)
-		{
-			printf("Uart init error.\n");
-			return -1;
-		}
-		printf("enter UART number to communicate (1~4): \n");
-		scanf("%d",&uart_num);
-		connect_uart(&uart_num);
-		// uart_write("*CLS");
-		// uart_write("SYST:REM");
-		printf("enter command: \n");
-		scanf("%s", uart_cmd);
-		if(uart_write(uart_cmd) < 0){
-		printf("Uart write error\n");
+		printf("Uart init error.\n");
 		return -1;
-		}
+	}
+	// printf("enter UART number to communicate (1~4): \n");
+	// scanf("%d",&uart_num);
+	
+	// printf("enter command: \n");
+	// scanf("%s", uart_cmd);
+	
+	uart_num = atoi(argv[1]);
+	uart_cmd = argv[2];
+	
+	connect_uart(&uart_num);
+	if(uart_write(uart_cmd) < 0){
+	printf("Uart write error\n");
+	return -1;
+	}
 
-		if(uart_read(strlen(size)) < 0)
-		{
-			printf("Uart read error\n");
-			return -1;
-		}
-		release();
-		printf("Exit uart? Yes:1, No:0\n");
-		scanf("%d",&uart_return);
-	}while(!uart_return);
+	if(uart_read(strlen(size)) < 0)
+	{
+		printf("Uart read error\n");
+		return -1;
+	}
+	release();
+	
 	disconnect_uart();
 	pin_unexport(UART1);
 	pin_unexport(UART2);
