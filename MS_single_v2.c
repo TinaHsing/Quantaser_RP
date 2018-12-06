@@ -55,7 +55,7 @@ long micros(void);
 float freq_HV, a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t ts_HV;
 float final_freq, freq_factor;
-int idx=0;
+int idx=0, ttl_dura, damping_dura;
 
 int main(int argc, char *argv[]) 
 {
@@ -104,6 +104,8 @@ int main(int argc, char *argv[])
 	a_LV = atof(argv[6]);
 	freq_factor = atof(argv[7]);
 	final_freq = atof(argv[8]);
+	ttl_dura = atoi(argv[9]);
+	damping_dura = atoi(argv[10]);
 	save = atoi(argv[9]);
 	start_freq = 0.5*freq_HV/1000;
 	data_size = ts_HV*1000/UPDATE_RATE;
@@ -138,11 +140,11 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_0, 1);
 	
 	t_start = micros();
-	while((micros()-t_start)<TTL_DURA*1000){
+	while((micros()-t_start)<ttl_dura*1000){
 		t_now = micros()-t_start;
-		if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+DAMPING_DURA)*1000)
+		if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+damping_dura)*1000)
 			rp_GenAmp(RP_CH_2, 1);
-		else if (t_now>=(DAMPING_WAIT+DAMPING_DURA)*1000) 
+		else if (t_now>=(DAMPING_WAIT+damping_dura)*1000) 
 			rp_GenAmp(RP_CH_2, 0);
 	}
 	pin_write( TEST_TTL_1, 1);
