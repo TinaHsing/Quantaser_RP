@@ -52,6 +52,7 @@ void LTC2615_write(bool, uint8_t, float);
 void DAC_out(uint8_t, float);
 void DAC_out_init(void);
 
+int g_i2cFile;
 int dac_num;
 float dac_value;
 
