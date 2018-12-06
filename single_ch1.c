@@ -7,15 +7,18 @@
 
 float freq, amp;
 
-int main(int argc, char **argv){
+int main(int argc, char *argv[]){
 
     /* Print error, if rp_Init() function failed */
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
-	printf("enter frequency(Hz) and amplitude(0~1V)\n");
-	scanf("%f%f",&freq,&amp);
-	while ( getchar() != '\n' );
+	// printf("enter frequency(Hz) and amplitude(0~1V)\n");
+	// scanf("%f%f",&freq,&amp);
+	// while ( getchar() != '\n' );
+	
+	freq = atof(argv[1]);
+	amp = atof(argv[2]);
     /* Generating frequency */
     rp_GenFreq(RP_CH_1, freq);
 
