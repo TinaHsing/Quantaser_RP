@@ -104,9 +104,9 @@ int main(int argc, char *argv[])
 	a_LV = atof(argv[6]);
 	freq_factor = atof(argv[7]);
 	final_freq = atof(argv[8]);
-	ttl_dura = atoi(argv[9]);
-	damping_dura = atoi(argv[10]);
 	save = atoi(argv[9]);
+	ttl_dura = atoi(argv[10]);
+	damping_dura = atoi(argv[11]);
 	start_freq = 0.5*freq_HV/1000;
 	data_size = ts_HV*1000/UPDATE_RATE;
 	float *adc_data = (float *) malloc(sizeof(float)*data_size);
