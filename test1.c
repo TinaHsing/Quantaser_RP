@@ -5,5 +5,5 @@
 
 int main(void)
 {
-	printf("hello");
+	print(33);
 }
