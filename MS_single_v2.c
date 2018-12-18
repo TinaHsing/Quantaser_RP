@@ -24,7 +24,7 @@
 #define SCAN_WAIT 10
 #define CHIRP_SWEEP_TIME 1
 ///////*gpio pin define*/////////
-#define FGTRIG 977
+#define FGTRIG 983 //977
 #define FGTTL 978 
 #define TEST_TTL_0 979
 #define TEST_TTL_1 980
