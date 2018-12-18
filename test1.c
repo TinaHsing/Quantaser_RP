@@ -5,5 +5,5 @@
 
 int main(void)
 {
-	print(33);
+	write(33);
 }
