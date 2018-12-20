@@ -56,6 +56,7 @@ float freq_HV, a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t ts_HV;
 float final_freq, freq_factor;
 int idx=0, ttl_dura, damping_dura;
+// int test(rp_channel_t, float);
 
 int main(int argc, char *argv[]) 
 {
@@ -119,6 +120,7 @@ int main(int argc, char *argv[])
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
+	generate_setAmplitude(0,0);
 	a_LV /= 10;
 	float *t3 = (float *)malloc(arb_size * sizeof(float));
 	float *x3 = (float *)malloc(arb_size * sizeof(float));
@@ -168,7 +170,7 @@ int main(int argc, char *argv[])
 	pin_write( FGTRIG, 1);	
 	pin_write( TEST_TTL_3, 1);
 	
-	t_start = micros();
+	t_start = micros(); // scan start
 	while((micros()-t_start)<ts_HV*1000)
 	{
 		t_now = micros()-t_start;
@@ -207,6 +209,14 @@ int main(int argc, char *argv[])
 	
 	return 0;
 }
+// int test(rp_channel_t channel, float amplitude)
+// {
+	// volatile ch_properties_t *ch_properties;
+	// generate_setAmplitude(0,0);
+	// getChannelPropertiesAddress(&ch_properties, channel);
+    // ch_properties->amplitudeScale = cmn_CnvVToCnt(DATA_BIT_LENGTH, amplitude, AMPLITUDE_MAX, false, amp_max, 0, 0.0);
+    // return RP_OK;
+// }
 
 static int pin_export(int pin)
 {
