@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
-	generate_setAmplitude(0,0);
+
 	a_LV /= 10;
 	float *t3 = (float *)malloc(arb_size * sizeof(float));
 	float *x3 = (float *)malloc(arb_size * sizeof(float));
