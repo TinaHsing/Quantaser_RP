@@ -14,6 +14,9 @@
 #include <termios.h> 
 #include <errno.h>
 #include <math.h>
+#include <signal.h>
+#include <ctype.h>
+#include <sys/mman.h>
 #include "redpitaya/rp.h"
 ///////*timing define*////////
 #define TTL_WAIT 1
@@ -38,7 +41,9 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
-
+////////*MMAP*///////////////
+#define MAP_SIZE 4096UL
+#define MAP_MASK (MAP_SIZE - 1)
 ////////* gpio *///////////
 static int pin_export(int);
 static int pin_unexport(int);
@@ -49,14 +54,16 @@ static int pin_write(int, int);
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
 void write_txt(float*, int);
-
+//////*AddressWrite*////////
+void AddrWrite(unsigned long, unsigned long);
+///////* time read*////////
 long micros(void);
 
 float freq_HV, a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t ts_HV;
 float final_freq, freq_factor;
 int idx=0, ttl_dura, damping_dura;
-// int test(rp_channel_t, float);
+void* map_base = (void*)(-1);
 
 int main(int argc, char *argv[]) 
 {
@@ -171,6 +178,7 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_3, 1);
 	
 	t_start = micros(); // scan start
+	AddrWrite(0x40200004, 0x4000);
 	while((micros()-t_start)<ts_HV*1000)
 	{
 		t_now = micros();
@@ -204,14 +212,29 @@ int main(int argc, char *argv[])
 	
 	return 0;
 }
-// int test(rp_channel_t channel, float amplitude)
-// {
-	// volatile ch_properties_t *ch_properties;
-	// generate_setAmplitude(0,0);
-	// getChannelPropertiesAddress(&ch_properties, channel);
-    // ch_properties->amplitudeScale = cmn_CnvVToCnt(DATA_BIT_LENGTH, amplitude, AMPLITUDE_MAX, false, amp_max, 0, 0.0);
-    // return RP_OK;
-// }
+
+void void AddrWrite(unsigned long addr, unsigned long value)
+{
+	int fd = -1;
+	void* virt_addr;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	/* Map one page */
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	if(map_base == (void *) -1) FATAL;
+	virt_addr = map_base + (a_addr & MAP_MASK);
+	*((unsigned long *) virt_addr) = value;
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		map_base = (void*)(-1);
+	}
+
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	}
+	if (fd != -1) {
+		close(fd);
+	}
+}
 
 static int pin_export(int pin)
 {
