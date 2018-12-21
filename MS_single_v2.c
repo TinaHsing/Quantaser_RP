@@ -180,18 +180,20 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_3, 1);
 	
 	t_start = micros(); // scan start
-	AddrWrite(0x40200004, 0x0000);
+	
 	while((micros()-t_start)<ts_HV*1000)
 	{
 		t_now = micros();
 		if((t_now - t_temp) >= UPDATE_RATE)
 		{
+			AddrWrite(0x40200004, 0x4000);
 			ADC_req(&buff_size, buff, adc_data);
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
 			t_temp=t_now;
+			AddrWrite(0x40200004, 0x0000);
 			num++;
 		}
 	}
