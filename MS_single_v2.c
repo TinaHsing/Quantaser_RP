@@ -31,7 +31,7 @@
 #define TEST_TTL_2 981
 #define TEST_TTL_3 982
 ///////*constant define*//////
-#define UPDATE_RATE 30 //us
+#define UPDATE_RATE 20 //us
 #define VALUE_MAX 30
 #define MAX_PATH 64
 #define IN  0
