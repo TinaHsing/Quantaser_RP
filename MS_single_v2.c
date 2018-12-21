@@ -190,8 +190,8 @@ int main(int argc, char *argv[])
 			ADC_req(&buff_size, buff, adc_data);
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
-			rp_GenAmp(RP_CH_1, amp);
-			rp_GenAmp(RP_CH_2, amp2);
+			// rp_GenAmp(RP_CH_1, amp);
+			// rp_GenAmp(RP_CH_2, amp2);
 			t_temp=t_now;
 			AddrWrite(0x40200004, 0x0000);
 			num++;
