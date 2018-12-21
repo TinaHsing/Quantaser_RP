@@ -180,10 +180,10 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_3, 1);
 	
 	t_start = micros(); // scan start
-	printf("t1=%ld\n",micros());
+	// printf("t1=%ld\n",micros());
 	// AddrWrite(0x40200004, 0x4000);
-	rp_GenAmp(RP_CH_1, amp);
-	printf("t2=%ld\n",micros());
+	// rp_GenAmp(RP_CH_1, amp);
+	// printf("t2=%ld\n",micros());
 	while((micros()-t_start)<ts_HV*1000)
 	{
 		t_now = micros();
