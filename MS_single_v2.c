@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 {
 	float start_freq, k, m1, m2, amp, amp2=0;
 	int	data_size=0, save=0, sweep_time, num=0;
-	long arb_size = 16384, t_start, t_now, t_temp[2] = {0,0};
+	long arb_size = 16384, t_start, t_now, t_temp = 0;//, t_temp[2] = {0,0}
 	bool fg_flag=1;
 	uint32_t buff_size = 2;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
@@ -173,22 +173,33 @@ int main(int argc, char *argv[])
 	t_start = micros(); // scan start
 	while((micros()-t_start)<ts_HV*1000)
 	{
-		t_now = micros()-t_start;
-		if(fg_flag){
-			t_temp[0] = t_now;
-			fg_flag = 0;
-		}
-		t_temp[1] = t_now - t_temp[0];
-		if(t_temp[1] >= UPDATE_RATE)
-		{	
+		// t_now = micros()-t_start;
+		// if(fg_flag){
+			// t_temp[0] = t_now;
+			// fg_flag = 0;
+		// }
+		// t_temp[1] = t_now - t_temp[0];
+		// if(t_temp[1] >= UPDATE_RATE)
+		// {	
+			// ADC_req(&buff_size, buff, adc_data);
+			// amp = amp + m1*UPDATE_RATE;
+			// amp2 = amp2 + m2*UPDATE_RATE;
+			// rp_GenAmp(RP_CH_1, amp);
+			// rp_GenAmp(RP_CH_2, amp2);
+			// t_temp[0]=t_now;
+			// num++;
+		// }	
+		t_now = micros();
+		if((t_now - t_temp) >= UPDATE_RATE)
+		{
 			ADC_req(&buff_size, buff, adc_data);
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
-			t_temp[0]=t_now;
+			t_temp=t_now;
 			num++;
-		}	
+		}
 	}
 	// printf("num=%d\n",num);
 	amp = a2_HV;
