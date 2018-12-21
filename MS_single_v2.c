@@ -192,10 +192,10 @@ int main(int argc, char *argv[])
 			amp2 = amp2 + m2*UPDATE_RATE;
 			// rp_GenAmp(RP_CH_1, amp);
 			// rp_GenAmp(RP_CH_2, amp2);
-			t_temp=t_now;
-			AddrWrite(0x40200004, 0x0000);
+			t_temp=t_now;			
 			num++;
 		}
+		AddrWrite(0x40200004, 0x0000);
 	}
 	
 	// printf("num=%d\n",num);
