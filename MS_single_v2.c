@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_3, 1);
 	
 	t_start = micros(); // scan start
-	AddrWrite(0x40200004, 0x4000);
+	AddrWrite(0x40200004, 0x0000);
 	while((micros()-t_start)<ts_HV*1000)
 	{
 		t_now = micros();
