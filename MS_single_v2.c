@@ -179,13 +179,10 @@ int main(int argc, char *argv[])
 	pin_write( FGTRIG, 1);	
 	pin_write( TEST_TTL_3, 1);
 	
-	t_start = micros(); // scan start
-	// printf("t1=%ld\n",micros());
-	// AddrWrite(0x40200004, 1);
-	// printf("t2=%ld\n",micros());
+	AddrWrite(0x40200004, 1);
+	t_start = micros(); // scan start	
 	while((micros()-t_start)<ts_HV*1000)
-	{
-		
+	{		
 		t_now = micros();
 		// printf("t_now: %ld\n",(t_now));
 		// printf("t_now: %ld\n",(t_temp));
@@ -200,11 +197,10 @@ int main(int argc, char *argv[])
 			rp_GenAmp(RP_CH_2, amp2);
 			t_temp=t_now;			
 			num++;
-		}
-		// AddrWrite(0x40200004, 0);
+		}		
 	}
-	
-	printf("num=%d\n",num);
+	AddrWrite(0x40200004, 0);
+	// printf("num=%d\n",num);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
 	rp_GenAmp(RP_CH_2, 0);
