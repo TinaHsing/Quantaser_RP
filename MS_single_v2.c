@@ -187,6 +187,7 @@ int main(int argc, char *argv[])
 	{
 		
 		t_now = micros();
+		printf("%ld\n",(t_now));
 		printf("%ld\n",(t_now - t_temp));
 		if((t_now - t_temp) >= UPDATE_RATE)
 		{
