@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 	
 	t_start = micros(); // scan start
 	// printf("t1=%ld\n",micros());
-	AddrWrite(0x40200004, 1);
+	// AddrWrite(0x40200004, 1);
 	// printf("t2=%ld\n",micros());
 	while((micros()-t_start)<ts_HV*1000)
 	{
@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
 			t_temp=t_now;			
 			num++;
 		}
-		AddrWrite(0x40200004, 0);
+		// AddrWrite(0x40200004, 0);
 	}
 	
 	// printf("num=%d\n",num);
