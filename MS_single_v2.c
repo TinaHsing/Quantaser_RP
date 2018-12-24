@@ -181,8 +181,7 @@ int main(int argc, char *argv[])
 	
 	t_start = micros(); // scan start
 	// printf("t1=%ld\n",micros());
-	// AddrWrite(0x40200004, 0x4000);
-	// rp_GenAmp(RP_CH_1, amp);
+	AddrWrite(0x40200004, 1);
 	// printf("t2=%ld\n",micros());
 	while((micros()-t_start)<ts_HV*1000)
 	{
@@ -198,10 +197,10 @@ int main(int argc, char *argv[])
 			t_temp=t_now;			
 			num++;
 		}
-		// AddrWrite(0x40200004, 0x0000);
+		AddrWrite(0x40200004, 0);
 	}
 	
-	printf("num=%d\n",num);
+	// printf("num=%d\n",num);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
 	rp_GenAmp(RP_CH_2, 0);
@@ -225,12 +224,16 @@ void AddrWrite(unsigned long addr, unsigned long value)
 {
 	int fd = -1;
 	void* virt_addr;
+	uint32_t read_result = 0;
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
 	/* Map one page */
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
-	*((unsigned long *) virt_addr) = value;
+	
+	read_result = *((uint32_t *) virt_addr); //read
+	
+	*((unsigned long *) virt_addr) = ((value<<14) | read_result); // write
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
