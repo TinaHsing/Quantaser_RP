@@ -199,7 +199,7 @@ int main(int argc, char *argv[])
 			num++;
 		}		
 	}
-	// AddrWrite(0x40200004, 0);
+	AddrWrite(0x40200004, 0);
 	// printf("num=%d\n",num);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
@@ -232,8 +232,10 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	virt_addr = map_base + (addr & MAP_MASK);
 	
 	read_result = *((uint32_t *) virt_addr); //read
-	
-	*((unsigned long *) virt_addr) = ((value<<14) | read_result); // write
+	if(value == 1)
+		*((unsigned long *) virt_addr) = ((value<<14) | read_result); // start of write
+	else
+		*((unsigned long *) virt_addr) = ((value<<15) | read_result); // start of write
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
