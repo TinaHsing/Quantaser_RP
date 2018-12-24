@@ -235,7 +235,7 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	if(value == 1)
 		*((unsigned long *) virt_addr) = ((value<<14) | read_result); // start of write
 	else
-		*((unsigned long *) virt_addr) = ((value<<15) | read_result); // start of write
+		*((unsigned long *) virt_addr) = ((value<<15) | read_result); // end of write
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
