@@ -187,8 +187,9 @@ int main(int argc, char *argv[])
 	{
 		
 		t_now = micros();
-		printf("%ld\n",(t_now));
-		printf("%ld\n",(t_now - t_temp));
+		printf("t_now: %ld\n",(t_now));
+		printf("t_now: %ld\n",(t_temp));
+		printf("t_now - t_temp :%ld\n",(t_now - t_temp));
 		if((t_now - t_temp) >= UPDATE_RATE)
 		{
 			// AddrWrite(0x40200004, 0x4000);
