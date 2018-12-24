@@ -77,7 +77,8 @@ int main(int argc, char *argv[])
 	uart_cmd = argv[2];
 	
 	connect_uart(&uart_num);
-	if(uart_write(uart_cmd) < 0){
+	// if(uart_write(uart_cmd) < 0){
+	if(uart_write("@254BR?;FF") < 0){
 	printf("Uart write error\n");
 	return -1;
 	}
