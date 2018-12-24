@@ -560,11 +560,13 @@ int main(void)
 					}
 					printf("enter UART number to communicate (1~4): \n");
 					scanf("%d",&uart_num);
+					while ( getchar() != '\n' );
 					connect_uart(&uart_num);
 					// uart_write("*CLS");
 					// uart_write("SYST:REM");
 					printf("enter command: \n");
 					scanf("%s", uart_cmd);
+					while ( getchar() != '\n' );
 					if(uart_write(uart_cmd) < 0){
 					printf("Uart write error\n");
 					return -1;
