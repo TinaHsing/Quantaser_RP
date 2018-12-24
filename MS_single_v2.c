@@ -341,7 +341,7 @@ long micros(){
 	long time;
 	gettimeofday(&currentTime, NULL);
 	time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
-	// if(time<0) time = time*(-1);
+	if(time<0) time += 2147483648;
 //	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 	return time;
 }
