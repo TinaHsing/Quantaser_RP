@@ -185,8 +185,9 @@ int main(int argc, char *argv[])
 	// printf("t2=%ld\n",micros());
 	while((micros()-t_start)<ts_HV*1000)
 	{
-		printf("%ld\n",(micros()-t_start));
+		
 		t_now = micros();
+		printf("%ld\n",(t_now - t_temp));
 		if((t_now - t_temp) >= UPDATE_RATE)
 		{
 			// AddrWrite(0x40200004, 0x4000);
