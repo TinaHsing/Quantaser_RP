@@ -205,6 +205,7 @@ int main(int argc, char *argv[])
 		}		
 	}
 	AddrWrite(0x40200044, END_SCAN);
+	AddrWrite(0x40200044, CLEAR);
 	// printf("num=%d\n",num);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
