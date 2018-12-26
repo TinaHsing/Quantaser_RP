@@ -41,6 +41,8 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
+#define START_SCAN 0
+#define END_SCAN 1 
 ////////*MMAP*///////////////
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
@@ -179,7 +181,7 @@ int main(int argc, char *argv[])
 	pin_write( FGTRIG, 1);	
 	pin_write( TEST_TTL_3, 1);
 	
-	AddrWrite(0x40200004, 1);
+	AddrWrite(0x40200044, START_SCAN);
 	t_start = micros(); // scan start	
 	while((micros()-t_start)<ts_HV*1000)
 	{		
@@ -199,7 +201,7 @@ int main(int argc, char *argv[])
 			num++;
 		}		
 	}
-	AddrWrite(0x40200004, 0);
+	AddrWrite(0x40200044, END_SCAN);
 	// printf("num=%d\n",num);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
@@ -224,18 +226,22 @@ void AddrWrite(unsigned long addr, unsigned long value)
 {
 	int fd = -1;
 	void* virt_addr;
-	uint32_t read_result = 0;
+	// uint32_t read_result = 0;
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
 	/* Map one page */
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
 	
-	read_result = *((uint32_t *) virt_addr); //read
-	if(value == 1)
-		*((unsigned long *) virt_addr) = ((value<<14) | read_result); // start of write
+	// read_result = *((uint32_t *) virt_addr); //read
+	// if(value == 1)
+		// *((unsigned long *) virt_addr) = ((value<<14) | read_result); // start of write
+	// else
+		// *((unsigned long *) virt_addr) = ((value<<15) | read_result); // end of write
+	if(value == START_SCAN)
+		*((unsigned long *) virt_addr) = 0x1; // start of write
 	else
-		*((unsigned long *) virt_addr) = ((value<<15) | read_result); // end of write
+		*((unsigned long *) virt_addr) = 0x2; // end of write
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
