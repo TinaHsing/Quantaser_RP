@@ -41,8 +41,10 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
+
 #define START_SCAN 0
 #define END_SCAN 1 
+#define CLEAR 2
 ////////*MMAP*///////////////
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
@@ -239,10 +241,22 @@ void AddrWrite(unsigned long addr, unsigned long value)
 		// *((unsigned long *) virt_addr) = ((value<<14) | read_result); // start of write
 	// else
 		// *((unsigned long *) virt_addr) = ((value<<15) | read_result); // end of write
-	if(value == START_SCAN)
-		*((unsigned long *) virt_addr) = 0x1; // start of write
-	else
-		*((unsigned long *) virt_addr) = 0x2; // end of write
+	switch(value)
+	{
+		case START_SCAN:
+			*((unsigned long *) virt_addr) = 0x1;
+		break;
+		case END_SCAN:
+			*((unsigned long *) virt_addr) = 0x2;
+		break;
+		case CLEAR:
+			*((unsigned long *) virt_addr) = 0x0;
+		break;
+	}
+	// if(value == START_SCAN)
+		// *((unsigned long *) virt_addr) = 0x1; // start of write
+	// else
+		// *((unsigned long *) virt_addr) = 0x2; // end of write
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
