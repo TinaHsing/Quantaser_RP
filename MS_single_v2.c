@@ -193,10 +193,11 @@ int main(int argc, char *argv[])
 		{
 			// AddrWrite(0x40200004, 0x4000);
 			ADC_req(&buff_size, buff, adc_data);
-			amp = amp + m1*UPDATE_RATE;
-			amp2 = amp2 + m2*UPDATE_RATE;
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
+			amp = amp + m1*UPDATE_RATE;
+			amp2 = amp2 + m2*UPDATE_RATE;
+			
 			t_temp=t_now;			
 			num++;
 		}		
