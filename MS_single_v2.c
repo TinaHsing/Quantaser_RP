@@ -210,10 +210,6 @@ int main(int argc, char *argv[])
 			t_temp=t_now;			
 			num++;
 		}	
-		if(adc_read_flag==1)
-		{
-			
-		}
 	}
 	AddrWrite(0x40200044, END_SCAN);
 	AddrWrite(0x40200044, CLEAR);
