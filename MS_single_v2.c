@@ -75,8 +75,8 @@ int main(int argc, char *argv[])
 {
 	float start_freq, k, m1, m2, amp, amp2=0;
 	int	data_size=0, save=0, sweep_time, num=0;
-	long arb_size = 16384, t_start, t_now, t_temp = 0;
-	// bool fg_flag=1;
+	long arb_size = 16384, t_start, t_now, t_temp = 0, adc_read_start_time;
+	// bool adc_read_flag=0;
 	uint32_t buff_size = 2;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	long tt[4];
@@ -196,17 +196,24 @@ int main(int argc, char *argv[])
 		{
 			// AddrWrite(0x40200004, 0x4000);
 			tt[0] = micros();
-			ADC_req(&buff_size, buff, adc_data);
+			
 			tt[1] = micros();
 			tt[2] = micros();
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
+			adc_read_start_time = micros();
+			while( (micros()-adc_read_start_time)<=25 ){};
+			ADC_req(&buff_size, buff, adc_data);
 			tt[3] = micros();
 			t_temp=t_now;			
 			num++;
-		}		
+		}	
+		if(adc_read_flag==1)
+		{
+			
+		}
 	}
 	AddrWrite(0x40200044, END_SCAN);
 	AddrWrite(0x40200044, CLEAR);
