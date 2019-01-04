@@ -204,7 +204,7 @@ int main(int argc, char *argv[])
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
 			adc_read_start_time = micros();
-			while( (micros()-adc_read_start_time)<=25 ){};
+			while( (micros()-adc_read_start_time)<=22 ){};
 			ADC_req(&buff_size, buff, adc_data);
 			tt[3] = micros();
 			t_temp=t_now;			
