@@ -210,6 +210,8 @@ int main(int argc, char *argv[])
 	AddrWrite(0x40200044, END_SCAN);
 	AddrWrite(0x40200044, CLEAR);
 	printf("num=%d\n",num);
+	printf("tt[0]=%ld",tt[0]);
+	printf("tt[1]=%ld",tt[1]);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
 	rp_GenAmp(RP_CH_2, 0);
