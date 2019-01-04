@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
 	// bool fg_flag=1;
 	uint32_t buff_size = 2;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
+	long tt[2];
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -194,7 +195,9 @@ int main(int argc, char *argv[])
 		if((t_now - t_temp) >= UPDATE_RATE)
 		{
 			// AddrWrite(0x40200004, 0x4000);
+			tt[0] = micros();
 			ADC_req(&buff_size, buff, adc_data);
+			tt[1] = micros();
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
 			amp = amp + m1*UPDATE_RATE;
@@ -206,7 +209,7 @@ int main(int argc, char *argv[])
 	}
 	AddrWrite(0x40200044, END_SCAN);
 	AddrWrite(0x40200044, CLEAR);
-	// printf("num=%d\n",num);
+	printf("num=%d\n",num);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
 	rp_GenAmp(RP_CH_2, 0);
