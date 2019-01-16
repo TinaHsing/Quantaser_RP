@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 	// bool adc_read_flag=0;
 	uint32_t buff_size = 2;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
-	long *tt;
+	long tt[3];
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -207,11 +207,11 @@ int main(int argc, char *argv[])
 			num++;
 		}	
 	}
-	*(tt + 0) = micros();
+	tt[0] = micros();
 	AddrWrite(0x40200044, END_SCAN);
-	*(tt + 1) = micros();
+	tt[1] = micros();
 	AddrWrite(0x40200044, CLEAR);
-	*(tt + 2) = micros();
+	tt[2] = micros();
 	printf("num=%d\n",num);
 	printf("tt[0]=%ld\n",tt[0]);
 	printf("tt[1]=%ld\n",tt[1]);
