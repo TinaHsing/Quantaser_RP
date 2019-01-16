@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 	// bool adc_read_flag=0;
 	uint32_t buff_size = 2;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
-	long tt[4];
+	long *tt;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -195,10 +195,6 @@ int main(int argc, char *argv[])
 		if((t_now - t_temp) >= UPDATE_RATE)
 		{
 			// AddrWrite(0x40200004, 0x4000);
-			tt[0] = micros();
-			
-			tt[1] = micros();
-			tt[2] = micros();
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
 			amp = amp + m1*UPDATE_RATE;
@@ -206,18 +202,21 @@ int main(int argc, char *argv[])
 			adc_read_start_time = micros();
 			while( (micros()-adc_read_start_time)<=21 ){};
 			ADC_req(&buff_size, buff, adc_data);
-			tt[3] = micros();
+			
 			t_temp=t_now;			
 			num++;
 		}	
 	}
+	*(tt + 0) = micros();
 	AddrWrite(0x40200044, END_SCAN);
+	*(tt + 1) = micros();
 	AddrWrite(0x40200044, CLEAR);
+	*(tt + 2) = micros();
 	printf("num=%d\n",num);
 	printf("tt[0]=%ld\n",tt[0]);
 	printf("tt[1]=%ld\n",tt[1]);
 	printf("tt[2]=%ld\n",tt[2]);
-	printf("tt[3]=%ld\n",tt[3]);
+	// printf("tt[3]=%ld\n",tt[3]);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
 	rp_GenAmp(RP_CH_2, 0);
@@ -342,7 +341,7 @@ static int pin_write(int pin, int value)
 void ADC_init(void){
 	rp_AcqReset();
 	rp_AcqSetDecimation(1);
-	rp_AcqStart();
+	rp_AcqStart(); //寫osc address 0x0 value 0x01=> adc_arm_do = 1
 	rp_AcqSetGain(RP_CH_1, RP_HIGH);
 }
 void write_txt(float* adc_data, int save)
