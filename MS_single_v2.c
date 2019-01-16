@@ -197,10 +197,12 @@ int main(int argc, char *argv[])
 			// AddrWrite(0x40200004, 0x4000);
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
+			sprintf(shell,"monitor 0x40100018");
+			system(shell);
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
 			adc_read_start_time = micros();
-			while( (micros()-adc_read_start_time)<=21 ){};
+			// while( (micros()-adc_read_start_time)<=21 ){};
 			ADC_req(&buff_size, buff, adc_data);
 			
 			t_temp=t_now;			
