@@ -199,8 +199,8 @@ int main(int argc, char *argv[])
 			rp_GenAmp(RP_CH_2, amp2);			
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
-			// adc_read_start_time = micros();
-			// while( (micros()-adc_read_start_time)<=21 ){};
+			adc_read_start_time = micros();
+			while( (micros()-adc_read_start_time)<=21 ){};
 			ADC_req(&buff_size, buff, adc_data);
 			
 			t_temp=t_now;			
