@@ -70,7 +70,6 @@ uint32_t ts_HV;
 float final_freq, freq_factor;
 int idx=0, ttl_dura, damping_dura;
 void* map_base = (void*)(-1);
-char shell2[MAX_PATH];
 
 int main(int argc, char *argv[]) 
 {
@@ -197,11 +196,7 @@ int main(int argc, char *argv[])
 		{
 			// AddrWrite(0x40200004, 0x4000);
 			rp_GenAmp(RP_CH_1, amp);
-			rp_GenAmp(RP_CH_2, amp2);
-			tt[0] = micros();
-			sprintf(shell2,"monitor 0x40100018");
-			system(shell2);
-			tt[1] = micros();
+			rp_GenAmp(RP_CH_2, amp2);			
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
 			// adc_read_start_time = micros();
@@ -212,9 +207,9 @@ int main(int argc, char *argv[])
 			num++;
 		}	
 	}
-	
+	tt[0] = micros();
 	AddrWrite(0x40200044, END_SCAN);
-	
+	tt[1] = micros();
 	AddrWrite(0x40200044, CLEAR);
 	tt[2] = micros();
 	printf("num=%d\n",num);
