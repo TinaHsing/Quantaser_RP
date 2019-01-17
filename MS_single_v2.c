@@ -68,7 +68,7 @@ long micros(void);
 float freq_HV, a0_HV, a1_HV, a2_HV, a_LV;
 uint32_t ts_HV;
 float final_freq, freq_factor;
-int idx=0, ttl_dura, damping_dura;
+int idx=0, ttl_dura, damping_dura, integrator_delay;
 void* map_base = (void*)(-1);
 
 int main(int argc, char *argv[]) 
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 	// bool adc_read_flag=0;
 	uint32_t buff_size = 2;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
-	long tt[3];
+	// long tt[3];
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -123,6 +123,7 @@ int main(int argc, char *argv[])
 	save = atoi(argv[9]);
 	ttl_dura = atoi(argv[10]);
 	damping_dura = atoi(argv[11]);
+	integrator_delay = atoi(argv[12]);
 	start_freq = 0.5*freq_HV/1000;
 	data_size = ts_HV*1000/UPDATE_RATE;
 	float *adc_data = (float *) malloc(sizeof(float)*data_size);
@@ -201,22 +202,22 @@ int main(int argc, char *argv[])
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
 			adc_read_start_time = micros();
-			while( (micros()-adc_read_start_time)<=21 ){};
+			while( (micros()-adc_read_start_time)<=integrator_delay ){};
 			ADC_req(&buff_size, buff, adc_data);
 			
 			t_temp=t_now;			
 			num++;
 		}	
 	}
-	tt[0] = micros();
+	// tt[0] = micros();
 	AddrWrite(0x40200044, END_SCAN);
-	tt[1] = micros();
+	// tt[1] = micros();
 	AddrWrite(0x40200044, CLEAR);
-	tt[2] = micros();
+	// tt[2] = micros();
 	printf("num=%d\n",num);
-	printf("tt[0]=%ld\n",tt[0]);
-	printf("tt[1]=%ld\n",tt[1]);
-	printf("tt[2]=%ld\n",tt[2]);
+	// printf("tt[0]=%ld\n",tt[0]);
+	// printf("tt[1]=%ld\n",tt[1]);
+	// printf("tt[2]=%ld\n",tt[2]);
 	// printf("tt[3]=%ld\n",tt[3]);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
