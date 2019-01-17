@@ -74,7 +74,7 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	float start_freq, k, m1, m2, amp, amp2=0;
-	int	data_size=0, save=0, sweep_time, num=0;
+	int	data_size=0, save=0, sweep_time;//, num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
 	long adc_read_start_time;
 	// bool adc_read_flag=0;
@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
 			ADC_req(&buff_size, buff, adc_data);
 			
 			t_temp=t_now;			
-			num++;
+			// num++;
 		}	
 	}
 	// tt[0] = micros();
@@ -354,7 +354,7 @@ void write_txt(float* adc_data, int save)
 	if(save)
 		for(int i=0;i<idx;i++)
 		{
-			printf("%f\n",*(adc_data+i));
+			printf("%d. %f\n",i+1, *(adc_data+i));
 			sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+i));
 			system(shell);
 		}
