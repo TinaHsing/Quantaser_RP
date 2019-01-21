@@ -27,7 +27,7 @@
 #define SCAN_WAIT 10
 #define CHIRP_SWEEP_TIME 1
 ///////*gpio pin define*/////////
-#define FGTRIG 979 //amplitude scan start trigger, BNC 977
+#define FGTRIG 977 //amplitude scan start trigger, BNC 977
 #define FGTTL 980
 #define TEST_TTL_0 981
 #define TEST_TTL_1 982
