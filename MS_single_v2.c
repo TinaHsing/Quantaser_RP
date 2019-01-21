@@ -27,7 +27,7 @@
 #define SCAN_WAIT 10
 #define CHIRP_SWEEP_TIME 1
 ///////*gpio pin define*/////////
-#define FGTRIG 977 //amplitude scan start trigger, BNC
+// #define FGTRIG 977 //amplitude scan start trigger, BNC
 #define FGTTL 980
 #define TEST_TTL_0 981
 #define TEST_TTL_1 982
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	// long tt[3];
 	
-	system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
+	// system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
 	system("monitor 0x40200048 0xFA");
 	system("monitor 0x4020004C 0xFA");
 	system("monitor 0x40200050 0xBB8");
