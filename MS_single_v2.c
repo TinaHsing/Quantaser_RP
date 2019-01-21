@@ -27,11 +27,11 @@
 #define SCAN_WAIT 10
 #define CHIRP_SWEEP_TIME 1
 ///////*gpio pin define*/////////
-#define FGTRIG 983 
-#define FGTTL 982
-#define TEST_TTL_0 979
-#define TEST_TTL_1 980
-#define TEST_TTL_2 981
+#define FGTRIG 977 //amplitude scan start trigger, BNC
+#define FGTTL 980
+#define TEST_TTL_0 981
+#define TEST_TTL_1 982
+#define TEST_TTL_2 983
 // #define TEST_TTL_3 982
 ///////*constant define*//////
 #define UPDATE_RATE 30 //us
@@ -90,19 +90,16 @@ int main(int argc, char *argv[])
 	pin_export(TEST_TTL_0);
 	pin_export(TEST_TTL_1);
 	pin_export(TEST_TTL_2);
-	// pin_export(TEST_TTL_3);
 	pin_direction(FGTRIG, OUT);
 	pin_direction(FGTTL, OUT);
 	pin_direction(TEST_TTL_0, OUT);
 	pin_direction(TEST_TTL_1, OUT);
 	pin_direction(TEST_TTL_2, OUT);
-	// pin_direction(TEST_TTL_3, OUT);
 	pin_write( FGTRIG, 0);
 	pin_write( FGTTL, 0);
 	pin_write( TEST_TTL_0, 0);
 	pin_write( TEST_TTL_1, 0);
 	pin_write( TEST_TTL_2, 0);
-	// pin_write( TEST_TTL_3, 0);				
 	// printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
 	// scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
 	// printf("set chirping amplitude (0~10V) :\n");
@@ -184,7 +181,6 @@ int main(int argc, char *argv[])
 	rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
 	
 	pin_write( FGTRIG, 1);	
-	// pin_write( TEST_TTL_3, 1);
 	
 	AddrWrite(0x40200044, START_SCAN);
 	t_start = micros(); // scan start	
@@ -228,7 +224,6 @@ int main(int argc, char *argv[])
 	pin_unexport(TEST_TTL_0);
 	pin_unexport(TEST_TTL_1);
 	pin_unexport(TEST_TTL_2);
-	// pin_unexport(TEST_TTL_3);
 	free(t3);
 	free(x3);			
 	rp_Release();
