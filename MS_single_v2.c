@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 	save = atoi(argv[9]);
 	ttl_dura = atoi(argv[10]);
 	damping_dura = atoi(argv[11]);
-	integrator_delay = atoi(argv[12]);
+	integrator_delay = UPDATE_RATE - atoi(argv[12]);
 	start_freq = 0.5*freq_HV/1000;
 	data_size = ts_HV*1000/UPDATE_RATE;
 	float *adc_data = (float *) malloc(sizeof(float)*data_size);
