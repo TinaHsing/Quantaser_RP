@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
-	// pin_export(FGTRIG);
+	pin_export(FGTRIG);
 	pin_export(FGTTL);
 	pin_export(TEST_TTL_0);
 	pin_export(TEST_TTL_1);
