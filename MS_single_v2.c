@@ -82,6 +82,12 @@ int main(int argc, char *argv[])
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	// long tt[3];
 	
+	system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
+	system("monitor 0x40200048 0xFA");
+	system("monitor 0x4020004C 0xFA");
+	system("monitor 0x40200050 0xBB8");
+	system("monitor 0x40200054 0xFA");
+	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
