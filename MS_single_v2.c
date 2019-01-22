@@ -355,7 +355,7 @@ void write_txt(float* adc_data, int save)
 	if(save)
 		for(int i=0;i<idx;i++)
 		{
-			printf("%d. %f\n",i+1, *(adc_data+i));
+			// printf("%d. %f\n",i+1, *(adc_data+i));
 			sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+i));
 			system(shell);
 		}
