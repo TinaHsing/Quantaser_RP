@@ -28,6 +28,7 @@
 #define CHIRP_SWEEP_TIME 1
 ///////*gpio pin define*/////////
 #define FGTRIG 977 //amplitude scan start trigger, BNC 977
+////***978, 979 用在integrator***///
 #define FGTTL 980
 #define TEST_TTL_0 981
 #define TEST_TTL_1 982
@@ -345,7 +346,8 @@ void ADC_init(void){
 	rp_AcqReset();
 	rp_AcqSetDecimation(1);
 	rp_AcqStart(); //寫osc address 0x0 value 0x01=> adc_arm_do = 1
-	rp_AcqSetGain(RP_CH_1, RP_HIGH);
+	// rp_AcqSetGain(RP_CH_1, RP_HIGH); //broken
+	rp_AcqSetGain(RP_CH_2, RP_HIGH);
 }
 void write_txt(float* adc_data, int save)
 {
@@ -362,7 +364,8 @@ void write_txt(float* adc_data, int save)
 		}
 }
 void ADC_req(uint32_t* buff_size, float* buff, float* adc_data) {
-	rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
+	// rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
+	rp_AcqGetLatestDataV(RP_CH_2, buff_size, buff);
 	*(adc_data+idx) = buff[*buff_size-1];
 	
 	// printf("%f\n", buff[*buff_size-1]);
