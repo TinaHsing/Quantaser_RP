@@ -7,7 +7,7 @@
 void ADC_req(uint32_t* , float*, int );
 long micros(void);
 int main(int argc, char **argv){
-		long time[2];
+		// long time[2];
         if(rp_Init() != RP_OK){
                 fprintf(stderr, "Rp api init failed!\n");
         }
@@ -30,11 +30,11 @@ int main(int argc, char **argv){
 		// {
 		// for(int i=0; i<64; i++)
 		// {
-			time[0]=micros();
+			// time[0]=micros();
 			ADC_req(&buff_size, buff, ch);
-			time[1]=micros();
+			// time[1]=micros();
 			// diff[i]=time[1]-time[0];
-			printf("%ld\n", time[1]-time[0]);
+			// printf("%ld\n", time[1]-time[0]);
 			
 		// }
 		// }
