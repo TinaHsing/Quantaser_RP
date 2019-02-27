@@ -55,7 +55,7 @@ int main(int argc, char **argv){
 void ADC_req(uint32_t* buff_size, float* buff, int ch) {
 	rp_AcqGetLatestDataV(ch, buff_size, buff);
 	int i;
-        for(i = 0; i < buff_size; i++){
+        for(i = 0; i < *buff_size; i++){
                 printf("%f\n", buff[i]);
         }
 }
