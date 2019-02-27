@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include "redpitaya/rp.h"
 #include <sys/time.h>
-void ADC_req(uint32_t* , float* );
+void ADC_req(uint32_t* , float*, int );
 long micros(void);
 int main(int argc, char **argv){
 		// long time[2];
