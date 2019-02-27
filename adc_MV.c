@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <unistd.h>
+#include "redpitaya/rp.h"
+#include <sys/time.h>
+void ADC_req(uint32_t* , float* );
+long micros(void);
+int main(int argc, char **argv){
+		// long time[2];
+        if(rp_Init() != RP_OK){
+                fprintf(stderr, "Rp api init failed!\n");
+        }
+
+        // uint32_t buff_size = 16384;
+		int ch, buff_size, gain;
+        float *buff;
+
+		ch = atoi(argv[1]);
+		buff_size = atoi(argv[2]);
+		buff = (float *)malloc(buff_size * sizeof(float));
+		gain = atoi(argv[3]);
+		
+        rp_AcqReset();
+		rp_AcqSetDecimation(1);
+
+        rp_AcqStart();
+		rp_AcqSetGain(ch, RP_HIGH);
+		getchar();
+		while(1)
+		{
+		// for(int i=0; i<64; i++)
+		// {
+			// time[0]=micros();
+			ADC_req(&buff_size, buff, ch);
+			// time[1]=micros();
+			// diff[i]=time[1]-time[0];
+			
+		// }
+		}
+        // /* Releasing resources */
+        free(buff);
+        rp_Release();
+        return 0;
+}
+ long micros(){
+	struct timeval currentTime;
+	long time;
+	gettimeofday(&currentTime, NULL);
+	time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	// if(time<0) time = time*(-1);
+//	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	return time;
+}
+void ADC_req(int* buff_size, float* buff, int ch) {
+	rp_AcqGetLatestDataV(ch, buff_size, buff);
+	int i;
+        for(i = 0; i < buff_size; i++){
+                printf("%f\n", buff[i]);
+        }
+}
