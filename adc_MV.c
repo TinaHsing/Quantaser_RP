@@ -13,7 +13,8 @@ int main(int argc, char **argv){
         }
 
         // uint32_t buff_size = 16384;
-		int ch, buff_size, gain;
+		uint32_t buff_size;
+		int ch, gain;
         float *buff;
 
 		ch = atoi(argv[1]);
@@ -25,8 +26,7 @@ int main(int argc, char **argv){
 		rp_AcqSetDecimation(1);
 
         rp_AcqStart();
-		rp_AcqSetGain(ch, RP_HIGH);
-		getchar();
+		rp_AcqSetGain(ch, gain);
 		while(1)
 		{
 		// for(int i=0; i<64; i++)
@@ -52,7 +52,7 @@ int main(int argc, char **argv){
 //	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 	return time;
 }
-void ADC_req(int* buff_size, float* buff, int ch) {
+void ADC_req(uint32_t* buff_size, float* buff, int ch) {
 	rp_AcqGetLatestDataV(ch, buff_size, buff);
 	int i;
         for(i = 0; i < buff_size; i++){
