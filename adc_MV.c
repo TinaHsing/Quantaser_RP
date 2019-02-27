@@ -60,6 +60,6 @@ void ADC_req(uint32_t* buff_size, float* buff, int ch) {
                 printf("%f\n", buff[i]);
 				avg += buff[i];
         }
-	avg = avg/buff_size;
+	avg = avg / (float)*buff_size;
 	printf("%f\n", avg);
 }
