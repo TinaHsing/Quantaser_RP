@@ -117,36 +117,28 @@ void WriteRegisterPair(uint8_t reg, uint16_t value)
 
 void LTC2615_write(bool sel, uint8_t ch, float value)
 {
-	#ifdef DAC_BIT_14
-		uint8_t t[2];
-	#endif
+	uint8_t t[2];
 	uint16_t code;
 	
 	code = (uint16_t)(value/ref*max);
 	#ifdef DAC_BIT_14
-		t[0] = (code >> 8)<<2 | ((uint8_t)code & 0b11000000)>>6;
-		t[1] = (uint8_t)code << 2;
+		t[0] = (code >> 8)<<2 | ((uint8_t)code & 0b11000000)>>6; //high byte
+		t[1] = (uint8_t)code << 2; //low byte
+	#endif
+	#ifdef DAC_BIT_16
+		t[0] = code >> 8;
+		t[1] = (uint8_t)code; 
 	#endif
 	
 	if(!sel)
 	{
 		i2cSetAddress(DAC0_ADD);
-		#ifdef DAC_BIT_14
-			WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
-		#endif
-		#ifdef DAC_BIT_16
-			WriteRegisterPair((CC << 4) | ch, code >> 2);
-		#endif
+		WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
 	}
 	else
 	{
 		i2cSetAddress(DAC1_ADD);
-		#ifdef DAC_BIT_14
-			WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
-		#endif
-		#ifdef DAC_BIT_16
-			WriteRegisterPair((CC << 4) | ch, code >> 2);
-		#endif
+		WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
 	}	
 	// Wire.beginTransmission(ADD);
 	// Wire.write((CC << 4) | ch);
