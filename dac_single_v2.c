@@ -135,7 +135,7 @@ void LTC2615_write(bool sel, uint8_t ch, float value)
 			WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
 		#endif
 		#ifdef DAC_BIT_16
-			WriteRegisterPair((CC << 4) | ch, code);
+			WriteRegisterPair((CC << 4) | ch, code >> 2);
 		#endif
 	}
 	else
@@ -145,7 +145,7 @@ void LTC2615_write(bool sel, uint8_t ch, float value)
 			WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
 		#endif
 		#ifdef DAC_BIT_16
-			WriteRegisterPair((CC << 4) | ch, code);
+			WriteRegisterPair((CC << 4) | ch, code >> 2);
 		#endif
 	}	
 	// Wire.beginTransmission(ADD);
