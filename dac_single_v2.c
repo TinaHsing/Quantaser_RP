@@ -117,7 +117,9 @@ void WriteRegisterPair(uint8_t reg, uint16_t value)
 
 void LTC2615_write(bool sel, uint8_t ch, float value)
 {
-	uint8_t t[2];
+	#ifdef DAC_BIT_14
+		uint8_t t[2];
+	#endif
 	uint16_t code;
 	
 	code = (uint16_t)(value/ref*max);
