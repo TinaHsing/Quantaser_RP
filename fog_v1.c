@@ -14,6 +14,9 @@
 #include <termios.h> 
 #include <errno.h>
 #include <math.h>
+#include <signal.h>
+#include <ctype.h>
+#include <sys/mman.h>
 #include "redpitaya/rp.h"
 
 
@@ -24,7 +27,7 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
-
+//monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
 #define MAP_SIZE 4096UL
@@ -45,7 +48,8 @@ static int uart_write();
 int uart_num=1;
 char *uart_cmd;
 
-
+//monitor
+void* map_base = (void*)(-1);
 
 int uart_fd = -1;
 int main(int argc, char *argv[])
