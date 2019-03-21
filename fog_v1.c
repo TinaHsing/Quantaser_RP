@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 	t0 = micros();
 	while(1) 
 	{	
-		
+		printf("A\n");
 		uart_read(10);
 		
 		
