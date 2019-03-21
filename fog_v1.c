@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	
-	t0 = micros();
+	// t0 = micros();
 		uart_read(10);
 		if(command[0] == '1')
 		{
