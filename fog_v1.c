@@ -73,6 +73,19 @@ int main(int argc, char *argv[])
 		// uart_write(data);
 		uart_read(10);
 		printf("cmd= %s\n",command);
+		switch(command)
+		{
+			case '1':
+				printf("it's 1!\n");
+			break;
+			case '0':
+				printf("it's 0!\n");
+			break;
+			default:
+				printf("nonono\n");
+			break;
+			
+		}
 	}
 	
 	sprintf(data,"%d", AddrRead(0x40000100));
