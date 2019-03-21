@@ -88,10 +88,10 @@ int main(int argc, char *argv[])
 			}	
 			printf("B\n");
 		}
-		else ;
+		else printf("D\n");;
 		printf("C\n");
 	}
-	printf("D\n");
+	printf("E\n");
 	sprintf(data,"%d", AddrRead(0x40000100));
 	uart_write(data);
 
