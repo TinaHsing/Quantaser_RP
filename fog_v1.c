@@ -47,7 +47,7 @@ static int uart_write();
 
 int uart_num=1;
 char *uart_cmd;
-unsigned char *command;
+unsigned char command[1];
 
 //monitor
 void* map_base = (void*)(-1);
@@ -72,13 +72,16 @@ int main(int argc, char *argv[])
 		// sprintf(data,"%d", AddrRead(0x40000100));
 		// uart_write(data);
 		uart_read(10);
-		printf("cmd= %s\n",command);
-		if(command[0] == "1")
-			printf("it's 1!\n");
-		else if(command[0] == "0")
-			printf("it's 0!\n");
-		else 
-			printf("nonono\n");
+		printf("cmd= %s\n",command[0]);
+		
+		
+		// if(command[0] == "1")
+			// printf("it's 1!\n");
+		// else if(command[0] == "0")
+			// printf("it's 0!\n");
+		// else 
+			// printf("nonono\n");
+		
 		// switch(atoi(command))
 		// {
 			// case 1:
@@ -276,7 +279,7 @@ static int uart_read(int size){
             rx_buffer[rx_length] = '\0';
             // printf("%i bytes read : %s\n", rx_length, rx_buffer);
 			printf("%s\n", rx_buffer);
-			command = rx_buffer;
+			command[0] = rx_buffer[0];
             break;
         }
     }
