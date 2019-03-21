@@ -73,9 +73,9 @@ int main(int argc, char *argv[])
 		// uart_write(data);
 		uart_read(10);
 		printf("cmd= %s\n",command);
-		if(command == '1')
+		if(command[0] == "1")
 			printf("it's 1!\n");
-		else if(command == '0')
+		else if(command[0] == "0")
 			printf("it's 0!\n");
 		else 
 			printf("nonono\n");
