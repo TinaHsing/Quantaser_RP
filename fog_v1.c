@@ -39,7 +39,7 @@
 // static int pin_write(int, int);
 
 static uint32_t AddrRead(unsigned long);
-long micros(void);
+// long micros(void);
 ///////* UART *//////////
 static int uart_init(void);
 static int release(void);
@@ -53,7 +53,7 @@ unsigned char command[1];
 //monitor
 void* map_base = (void*)(-1);
 //time
-long t0=0, t1=0;
+// long t0=0, t1=0;
 
 int uart_fd = -1;
 int main(int argc, char *argv[])
@@ -67,41 +67,20 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	
-	// uart_num = atoi(argv[1]);
-	// uart_cmd = argv[2];
 	t0 = micros();
-	while(1) 
-	{	
-		printf("A\n");
 		uart_read(10);
-		
-		
-		if(command[0] == '0')
-			printf("stop\n");
-		else if(command[0] == '1')
+		if(command[0] == '1')
 		{
-			while(1) {
-				t1 = micros();
-				if((t1 - t0)>1000000) {
+			// while(1) {
+				// t1 = micros();
+				// if((t1 - t0)>1000000) {
 					sprintf(data,"%d", AddrRead(0x40000100));
 					uart_write(data);
-					t0 = t1;
-				}	
-			}
-			printf("B\n");
+					// t0 = t1;
+				// }	
+			// }
 		}
-		else printf("D\n");;
-		printf("C\n");
-	}
-	printf("E\n");
-	sprintf(data,"%d", AddrRead(0x40000100));
-	uart_write(data);
 
-	if(uart_read(strlen(size)) < 0)
-	{
-		printf("Uart read error\n");
-		return -1;
-	}
 	release();
 	return 0;
 }
@@ -315,12 +294,12 @@ static int release(){
     return 0;
 }
 
-long micros(){
-	struct timeval currentTime;
-	long time;
-	gettimeofday(&currentTime, NULL);
-	time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
-	if(time<0) time += 2147483648;
-//	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
-	return time;
-}
+// long micros(){
+	// struct timeval currentTime;
+	// long time;
+	// gettimeofday(&currentTime, NULL);
+	// time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	// if(time<0) time += 2147483648;
+	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	// return time;
+// }
