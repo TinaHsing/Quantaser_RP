@@ -73,12 +73,12 @@ int main(int argc, char *argv[])
 		// uart_write(data);
 		uart_read(10);
 		printf("cmd= %s\n",command);
-		switch(command)
+		switch(atoi(command))
 		{
-			case '1':
+			case 1:
 				printf("it's 1!\n");
 			break;
-			case '0':
+			case 0:
 				printf("it's 0!\n");
 			break;
 			default:
