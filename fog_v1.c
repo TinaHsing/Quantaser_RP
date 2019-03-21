@@ -47,6 +47,7 @@ static int uart_write();
 
 int uart_num=1;
 char *uart_cmd;
+int command = 0;
 
 //monitor
 void* map_base = (void*)(-1);
@@ -69,11 +70,10 @@ int main(int argc, char *argv[])
 
 	while(1) 
 	{	
-		read_data = AddrRead(0x40000100);
-		sprintf(data,"%d", read_data);
-		printf("%d\n", read_data);
-		uart_write(data);
-		return 0;
+		// sprintf(data,"%d", AddrRead(0x40000100));
+		// uart_write(data);
+		uart_read(10);
+		
 	}
 	
 	
