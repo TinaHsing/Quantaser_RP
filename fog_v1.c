@@ -97,21 +97,21 @@ int main(int argc, char *argv[])
 		// return -1;
 	// }
 	// if(value==LOW){
-		write low
+		// write low
 		// if (1 != write(fd, "0", 1)) {
 			// fprintf(stderr, "Unable to write value\n");
 			// return -1;
 		// }
 	// }
         // else if(value==HIGH){
-		write high
+		// write high
 		// if (1 != write(fd, "1", 1)) {
                 	// fprintf(stderr, "Unable to write value\n");
                 	// return -1;
 		// }
 	// }else fprintf(stderr, "Nonvalid pin value requested\n");
 
-	close file
+	// close file
 	// close(fd);
 	// return 0;
 // }
