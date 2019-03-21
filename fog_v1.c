@@ -85,11 +85,11 @@ int main(int argc, char *argv[])
 				sprintf(data,"%d", AddrRead(0x40000100));
 				uart_write(data);
 				t0 = t1;
-			}
-			
+			}	
+			printf("B\n");
 		}
 		else ;
-		
+		printf("C\n");
 	}
 	
 	sprintf(data,"%d", AddrRead(0x40000100));
