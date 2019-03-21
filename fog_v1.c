@@ -47,7 +47,7 @@ static int uart_write();
 
 int uart_num=1;
 char *uart_cmd;
-unsigned char command[10];
+unsigned char *command;
 
 //monitor
 void* map_base = (void*)(-1);
