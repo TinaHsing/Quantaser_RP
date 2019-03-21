@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 
 	while(1) 
 	{
-		uart_write("abc");
+		uart_write("system(\"monitor 0x40000100 \")");
 		read_monitor();
 		return 0;
 	}
