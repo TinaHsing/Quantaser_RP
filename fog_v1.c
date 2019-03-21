@@ -73,6 +73,7 @@ int main(int argc, char *argv[])
 		// uart_write(data);
 		uart_read(10);
 		printf("cmd= %c\n",command[0]);
+		printf("cmd= %d\n",command[0]);
 		
 		
 		// if(command[0] == "1")
