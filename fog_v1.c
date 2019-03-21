@@ -58,7 +58,7 @@ void* map_base = (void*)(-1);
 int uart_fd = -1;
 int main(int argc, char *argv[])
 {
-	char *size = "123456789123456789123456789123456789";
+	// char *size = "123456789123456789123456789123456789";
 	char data[10];
 	
 	if(uart_init() < 0)
@@ -300,6 +300,6 @@ static int release(){
 	// gettimeofday(&currentTime, NULL);
 	// time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 	// if(time<0) time += 2147483648;
-	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	// return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 	// return time;
 // }
