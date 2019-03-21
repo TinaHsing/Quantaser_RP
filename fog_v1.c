@@ -63,13 +63,16 @@ int main(int argc, char *argv[])
 		printf("Uart init error.\n");
 		return -1;
 	}
-	
-	uart_read(10);
-	if(command[0] == '1')
+	while(1) 
 	{
-		sprintf(data,"%d", AddrRead(0x40000100));
-		uart_write(data);
+		uart_read(10);
+		if(command[0] == '1')
+		{
+			sprintf(data,"%d", AddrRead(0x40000100));
+			uart_write(data);
+		}
 	}
+	
 
 	release();
 	return 0;
