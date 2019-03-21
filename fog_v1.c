@@ -30,6 +30,8 @@
 // static int pin_direction(int, int);
 // static int pin_write(int, int);
 
+static void read_monitor(void);
+
 ///////* UART *//////////
 static int uart_init(void);
 static int release(void);
@@ -58,8 +60,9 @@ int main(int argc, char *argv[])
 
 	while(1) 
 	{
-		uart_write("abc");
-		return -1;
+		// uart_write("abc");
+		
+		return 0;
 	}
 	
 	
@@ -74,6 +77,12 @@ int main(int argc, char *argv[])
 }
 
 
+static void read_monitor(void )
+{
+	// char shell[MAX_PATH];
+	// snprintf(shell, MAX_PATH, "echo %s > /sys/class/gpio/gpio%d/direction",((dir==IN)?"in":"out"),pin);
+	system("monitor 0x40000100 ");
+}
 
 // static int pin_direction(int pin, int dir){
 
