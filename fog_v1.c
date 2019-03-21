@@ -79,9 +79,11 @@ int main(int argc, char *argv[])
 
 static void read_monitor(void )
 {
+	int data;
 	// char shell[MAX_PATH];
 	// snprintf(shell, MAX_PATH, "echo %s > /sys/class/gpio/gpio%d/direction",((dir==IN)?"in":"out"),pin);
-	system("monitor 0x40000100 ");
+	data = system("monitor 0x40000100 ");
+	printf("data=%x\n",data);
 }
 
 // static int pin_direction(int pin, int dir){
