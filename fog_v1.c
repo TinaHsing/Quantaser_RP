@@ -25,10 +25,10 @@
 #define LOW  0
 #define HIGH 1
 ////////* gpio *///////////
-static int pin_export(int);
-static int pin_unexport(int);
-static int pin_direction(int, int);
-static int pin_write(int, int);
+// static int pin_export(int);
+// static int pin_unexport(int);
+// static int pin_direction(int, int);
+// static int pin_write(int, int);
 
 ///////* UART *//////////
 static int uart_init(void);
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 	// int fd;
 
 	// snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin);
-	get pin value file descrptor
+	// get pin value file descrptor
 	// fd = open(path, O_WRONLY);
 	// if (-1 == fd) {
 		// fprintf(stderr, "Unable to to open sysfs pins value file %s for writing\n",path);
