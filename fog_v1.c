@@ -54,6 +54,7 @@ unsigned char command[1];
 void* map_base = (void*)(-1);
 
 int uart_fd = -1;
+int address;
 int main(int argc, char *argv[])
 {
 	char data[10];
@@ -63,12 +64,13 @@ int main(int argc, char *argv[])
 		printf("Uart init error.\n");
 		return -1;
 	}
+	address = atoi(argv[1]);
 	while(1) 
 	{
 		uart_read(10);
 		if(command[0] == '1')
 		{
-			sprintf(data,"%d", AddrRead(0x40000100));
+			sprintf(data,"%d", AddrRead(address));
 			uart_write(data);
 		}
 	}
