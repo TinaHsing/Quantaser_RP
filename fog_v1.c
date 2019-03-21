@@ -24,14 +24,18 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
+
+#define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
+  __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
+#define MAP_SIZE 4096UL
+#define MAP_MASK (MAP_SIZE - 1)
 ////////* gpio *///////////
 // static int pin_export(int);
 // static int pin_unexport(int);
 // static int pin_direction(int, int);
 // static int pin_write(int, int);
 
-static void read_monitor(void);
-
+static void AddrRead(unsigned long);
 ///////* UART *//////////
 static int uart_init(void);
 static int release(void);
@@ -61,7 +65,7 @@ int main(int argc, char *argv[])
 	while(1) 
 	{
 		uart_write("system(\"monitor 0x40000100 \")");
-		read_monitor();
+		AddrRead(0x40000100);
 		return 0;
 	}
 	
@@ -76,15 +80,45 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-
-static void read_monitor(void )
+static void AddrRead(unsigned long addr)
 {
-	int data;
-	// char shell[MAX_PATH];
-	// snprintf(shell, MAX_PATH, "echo %s > /sys/class/gpio/gpio%d/direction",((dir==IN)?"in":"out"),pin);
-	data = system("monitor 0x40000100 ");
-	printf("data=%x\n",data);
+	int fd = -1;
+	void* virt_addr;
+	uint32_t read_result = 0;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	/* Map one page */
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	if(map_base == (void *) -1) FATAL;
+	virt_addr = map_base + (addr & MAP_MASK);
+	
+	read_result = *((uint32_t *) virt_addr); //read
+	printf("read= %d\n", read_result);
+
+	// switch(value)
+	// {
+		// case START_SCAN:
+			// *((unsigned long *) virt_addr) = 0x1;
+		// break;
+		// case END_SCAN:
+			// *((unsigned long *) virt_addr) = 0x2;
+		// break;
+		// case CLEAR:
+			// *((unsigned long *) virt_addr) = 0x0;
+		// break;
+	// }
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		map_base = (void*)(-1);
+	}
+
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	}
+	if (fd != -1) {
+		close(fd);
+	}
 }
+
 
 // static int pin_direction(int pin, int dir){
 
