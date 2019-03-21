@@ -55,7 +55,7 @@ int uart_fd = -1;
 int main(int argc, char *argv[])
 {
 	char *size = "123456789123456789123456789123456789";
-	char data[100];
+	char data[10];
 	uint32_t read_data;
 	
 	if(uart_init() < 0)
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 	while(1) 
 	{	
 		read_data = AddrRead(0x40000100);
-		itoa(read_data, data, 10);
+		sprintf(data,"%d", read_data);
 		printf("%d\n", read_data);
 		uart_write(data);
 		return 0;
