@@ -52,13 +52,10 @@ unsigned char command[1];
 
 //monitor
 void* map_base = (void*)(-1);
-//time
-// long t0=0, t1=0;
 
 int uart_fd = -1;
 int main(int argc, char *argv[])
 {
-	// char *size = "123456789123456789123456789123456789";
 	char data[10];
 	
 	if(uart_init() < 0)
@@ -67,19 +64,12 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	
-	// t0 = micros();
-		uart_read(10);
-		if(command[0] == '1')
-		{
-			// while(1) {
-				// t1 = micros();
-				// if((t1 - t0)>1000000) {
-					sprintf(data,"%d", AddrRead(0x40000100));
-					uart_write(data);
-					// t0 = t1;
-				// }	
-			// }
-		}
+	uart_read(10);
+	if(command[0] == '1')
+	{
+		sprintf(data,"%d", AddrRead(0x40000100));
+		uart_write(data);
+	}
 
 	release();
 	return 0;
@@ -254,7 +244,7 @@ static int uart_read(int size){
         }else{
             rx_buffer[rx_length] = '\0';
             // printf("%i bytes read : %s\n", rx_length, rx_buffer);
-			printf("%s\n", rx_buffer);
+			// printf("%s\n", rx_buffer);
 			command[0] = rx_buffer[0];
             break;
         }
@@ -294,12 +284,3 @@ static int release(){
     return 0;
 }
 
-// long micros(){
-	// struct timeval currentTime;
-	// long time;
-	// gettimeofday(&currentTime, NULL);
-	// time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
-	// if(time<0) time += 2147483648;
-	// return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
-	// return time;
-// }
