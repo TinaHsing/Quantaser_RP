@@ -38,7 +38,7 @@
 // static int pin_direction(int, int);
 // static int pin_write(int, int);
 
-static void AddrRead(unsigned long);
+static uint32_t AddrRead(unsigned long);
 ///////* UART *//////////
 static int uart_init(void);
 static int release(void);
@@ -55,7 +55,7 @@ int uart_fd = -1;
 int main(int argc, char *argv[])
 {
 	char *size = "123456789123456789123456789123456789";
-	
+	uint32_t read_data;
 	
 	if(uart_init() < 0)
 	{
@@ -67,9 +67,9 @@ int main(int argc, char *argv[])
 	// uart_cmd = argv[2];
 
 	while(1) 
-	{
-		uart_write("system(\"monitor 0x40000100 \")");
-		AddrRead(0x40000100);
+	{	
+		read_data = AddrRead(0x40000100);
+		uart_write(read_data);
 		return 0;
 	}
 	
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-static void AddrRead(unsigned long addr)
+static uint32_t AddrRead(unsigned long addr)
 {
 	int fd = -1;
 	void* virt_addr;
@@ -96,7 +96,8 @@ static void AddrRead(unsigned long addr)
 	virt_addr = map_base + (addr & MAP_MASK);
 	
 	read_result = *((uint32_t *) virt_addr); //read
-	printf("read= %d\n", read_result);
+	// printf("read= %d\n", read_result);
+	
 
 	// switch(value)
 	// {
@@ -121,6 +122,7 @@ static void AddrRead(unsigned long addr)
 	if (fd != -1) {
 		close(fd);
 	}
+	return read_result;
 }
 
 
