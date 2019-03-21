@@ -69,6 +69,7 @@ int main(int argc, char *argv[])
 	while(1) 
 	{	
 		read_data = AddrRead(0x40000100);
+		printf("%d\n", read_data);
 		uart_write("read_data");
 		return 0;
 	}
