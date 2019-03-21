@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
 {
 	char *size = "123456789123456789123456789123456789";
 	char data[10];
-	uint32_t read_data;
 	
 	if(uart_init() < 0)
 	{
