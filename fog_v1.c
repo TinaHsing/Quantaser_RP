@@ -76,9 +76,9 @@ int main(int argc, char *argv[])
 		printf("cmd= %d\n",command[0]);
 		
 		
-		if(command[0] == 48)
+		if(command[0] == '0')
 			printf("it's 0!\n");
-		else if(command[0] == 49)
+		else if(command[0] == '1')
 			printf("it's 1!\n");
 		else 
 			printf("nonono\n");
