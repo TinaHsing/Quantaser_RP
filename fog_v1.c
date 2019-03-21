@@ -80,12 +80,14 @@ int main(int argc, char *argv[])
 			printf("stop\n");
 		else if(command[0] == '1')
 		{
-			t1 = micros();
-			if((t1 - t0)>1000000) {
-				sprintf(data,"%d", AddrRead(0x40000100));
-				uart_write(data);
-				t0 = t1;
-			}	
+			while(1) {
+				t1 = micros();
+				if((t1 - t0)>1000000) {
+					sprintf(data,"%d", AddrRead(0x40000100));
+					uart_write(data);
+					t0 = t1;
+				}	
+			}
 			printf("B\n");
 		}
 		else printf("D\n");;
