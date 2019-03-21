@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 		// sprintf(data,"%d", AddrRead(0x40000100));
 		// uart_write(data);
 		uart_read(10);
-		printf("cmd= %s\n",command[0]);
+		printf("cmd= %c\n",command[0]);
 		
 		
 		// if(command[0] == "1")
