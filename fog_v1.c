@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 		else ;
 		printf("C\n");
 	}
-	
+	printf("D\n");
 	sprintf(data,"%d", AddrRead(0x40000100));
 	uart_write(data);
 
