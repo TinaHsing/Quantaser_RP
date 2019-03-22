@@ -28,7 +28,7 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
-#define CONTINUE
+// #define CONTINUE
 //monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
@@ -60,7 +60,7 @@ void* map_base = (void*)(-1);
 long t1, t2;
 #endif
 int uart_fd = -1;
-uint32_t address = 0x40000104;
+uint32_t address = 0x40000118;
 int main(int argc, char *argv[])
 {
 	char data[10];
