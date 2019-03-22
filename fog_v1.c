@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 		uart_read(10);
 		if(command[0] == '1')
 		{
-			sprintf(data,"%d", AddrRead(address));
+			sprintf(data,"%d", AddrRead(1073742084));
 			uart_write(data);
 		}
 	}
