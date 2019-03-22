@@ -64,13 +64,13 @@ int main(int argc, char *argv[])
 		printf("Uart init error.\n");
 		return -1;
 	}
-	// address = atol(argv[1]);
+	printf("addr=%ld\n",atol(argv[1]));
 	while(1) 
 	{
 		uart_read(10);
 		if(command[0] == '1')
 		{
-			sprintf(data,"%d", AddrRead(1073742084));
+			sprintf(data,"%d", AddrRead(1073742084));//1073742084
 			uart_write(data);
 		}
 	}
