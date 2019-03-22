@@ -28,7 +28,7 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
-// #define CONTINUE
+#define CONTINUE
 //monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 			while(1)
 			{
 				t2 = micros();
-				if((t2-t1)>1000000) {
+				if((t2-t1)>100000) {
 					sprintf(data,"%d", AddrRead(address));
 					uart_write(data);
 					t1 = t2;
