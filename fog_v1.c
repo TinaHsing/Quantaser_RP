@@ -17,6 +17,7 @@
 #include <signal.h>
 #include <ctype.h>
 #include <sys/mman.h>
+#include <math.h>
 #include "redpitaya/rp.h"
 
 
@@ -27,6 +28,7 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
+#define CONTINUE
 //monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
@@ -39,6 +41,7 @@
 // static int pin_write(int, int);
 
 static uint32_t AddrRead(unsigned long);
+long micros(void);
 // long micros(void);
 ///////* UART *//////////
 static int uart_init(void);
@@ -53,6 +56,9 @@ unsigned char command[1];
 //monitor
 void* map_base = (void*)(-1);
 
+#ifdef CONTINUE
+long t1, t2;
+#endif
 int uart_fd = -1;
 uint32_t address = 0x40000104;
 int main(int argc, char *argv[])
@@ -64,14 +70,29 @@ int main(int argc, char *argv[])
 		printf("Uart init error.\n");
 		return -1;
 	}
-	printf("addr=%ld\n",atol(argv[1]));
+	// printf("addr=%ld\n",atol(argv[1]));
+	#ifdef CONTINUE
+	t1=micros();
+	#endif
 	while(1) 
 	{
 		uart_read(10);
 		if(command[0] == '1')
 		{
-			sprintf(data,"%d", AddrRead(1073742084));//1073742084
-			uart_write(data);
+			#ifdef CONTINUE
+			while(1)
+			{
+				t2 = micros();
+				if((t2-t1)>1000000) {
+					sprintf(data,"%d", AddrRead(address));
+					uart_write(data);
+					t1 = t2;
+				}
+			}
+			#else
+				sprintf(data,"%d", AddrRead(address));
+				uart_write(data);
+			#endif
 		}
 	}
 	
@@ -289,3 +310,12 @@ static int release(){
     return 0;
 }
 
+long micros(){
+	struct timeval currentTime;
+	long time;
+	gettimeofday(&currentTime, NULL);
+	time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	if(time<0) time += 2147483648;
+//	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	return time;
+}
