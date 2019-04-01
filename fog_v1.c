@@ -64,7 +64,7 @@ uint32_t address = 0x40000118;
 int main(int argc, char *argv[])
 {
 	char data[10];
-	
+	printf("enter\n");
 	if(uart_init() < 0)
 	{
 		printf("Uart init error.\n");
@@ -82,6 +82,7 @@ int main(int argc, char *argv[])
 			#ifdef CONTINUE
 			while(1)
 			{
+				printf("hi!\n");
 				t2 = micros();
 				if((t2-t1)>100000) {
 					sprintf(data,"%d", AddrRead(address));
