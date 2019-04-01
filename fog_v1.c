@@ -86,7 +86,6 @@ int main(int argc, char *argv[])
 					sprintf(data,"%d", AddrRead(address));
 					uart_write(data);
 					t1 = t2;
-					printf("now!\n");
 				}
 			}
 			#else
