@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 {
 	long delay_us;
 	long t1, t2;
-	long adc, min=8191, max=0, tt;
+	long adc, min=8191, max=0;
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > adc_data.txt");
@@ -61,11 +61,10 @@ int main(int argc, char *argv[])
 		adc = AddrRead(address);
 		if((adc>>13)==1) 
 		{
-			tt = ~((0xffffc000|adc)-1);
+			adc = -1*~((0xffffc000|adc)-1);
 			
 		}
-		else tt = 0;
-		printf("%lx, %ld, %ld\n", adc, adc>>13, tt);
+		// printf("%lx, %ld, %ld\n", adc, adc>>13, tt);
 		sprintf(shell,"echo %ld >> adc_data.txt", adc);
 		system(shell);
 		if(adc < min) min = adc;
