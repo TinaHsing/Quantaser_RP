@@ -42,12 +42,13 @@ static uint32_t AddrRead(unsigned long);
 void* map_base = (void*)(-1);
 
 uint32_t address = 0x40000124;
-char shell[MAX_PATH];
-system("touch adc_data.txt");
-system("echo "" > adc_data.txt");
+
 
 int main(int argc, char *argv[])
 {
+	char shell[MAX_PATH];
+	system("touch adc_data.txt");
+	system("echo "" > adc_data.txt");
 	for(int i=0; i<10; i++) 
 	{
 		// sprintf(data,"%d", AddrRead(address));
