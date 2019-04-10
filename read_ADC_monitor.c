@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
 	printf("%ld\n", t2-t1);
 	printf("min = %ld\n", min);
 	printf("max = %ld\n", max);
+	printf("diff = %ld\n", max-min);
 	return 0;
 }
 
