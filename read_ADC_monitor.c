@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 			adc = (~((unsigned long)adc-1));
 			// adc = -10;
 		}
-		printf("%lx\n", adc);
+		printf("%lx, %ld\n", adc, adc>>13);
 		sprintf(shell,"echo %ld >> adc_data.txt", adc);
 		system(shell);
 		if(adc < min) min = adc;
