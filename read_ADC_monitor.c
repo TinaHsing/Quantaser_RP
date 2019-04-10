@@ -37,7 +37,7 @@
 
 static uint32_t AddrRead(unsigned long);
 
-
+long micros(void);
 //monitor
 void* map_base = (void*)(-1);
 
@@ -46,9 +46,11 @@ uint32_t address = 0x40000124;
 
 int main(int argc, char *argv[])
 {
+	long t1, t2;
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > adc_data.txt");
+	t1=micros();
 	for(int i=0; i<100; i++) 
 	{
 		// sprintf(data,"%d", AddrRead(address));
@@ -56,6 +58,8 @@ int main(int argc, char *argv[])
 		sprintf(shell,"echo %d >> adc_data.txt", AddrRead(address));
 		system(shell);
 	}
+	t2=micros();
+	printf("ld\n", t2-t1);
 	return 0;
 }
 
@@ -99,5 +103,12 @@ static uint32_t AddrRead(unsigned long addr)
 	}
 	return read_result;
 }
-
-
+long micros(){
+	struct timeval currentTime;
+	long time;
+	gettimeofday(&currentTime, NULL);
+	time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	if(time<0) time += 2147483648;
+//	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	return time;
+}
