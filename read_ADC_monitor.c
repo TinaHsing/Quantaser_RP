@@ -46,11 +46,13 @@ uint32_t address = 0x40000124;
 
 int main(int argc, char *argv[])
 {
+	long delay_us;
 	long t1, t2;
 	long adc, min=8191, max=0;
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > adc_data.txt");
+	delay_us = atol(argv[1]);
 	t1=micros();
 	for(int i=0; i<100; i++) 
 	{
@@ -61,7 +63,7 @@ int main(int argc, char *argv[])
 		system(shell);
 		if(adc < min) min = adc;
 		if(adc > max) max = adc;
-		usleep(50000);
+		usleep(delay_us);
 	}
 	t2=micros();
 	printf("%ld\n", t2-t1);
