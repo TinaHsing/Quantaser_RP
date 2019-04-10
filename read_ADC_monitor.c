@@ -61,11 +61,11 @@ int main(int argc, char *argv[])
 		adc = AddrRead(address);
 		if((adc>>13)==1) 
 		{
-			tt = (~(0xffffc000|adc));
+			tt = ~((0xffffc000|adc)-1);
 			
 		}
 		else tt = 0;
-		printf("%lx, %ld, %lx\n", adc, adc>>13, tt);
+		printf("%lx, %ld, %ld\n", adc, adc>>13, tt);
 		sprintf(shell,"echo %ld >> adc_data.txt", adc);
 		system(shell);
 		if(adc < min) min = adc;
