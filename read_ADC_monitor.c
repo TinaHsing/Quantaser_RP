@@ -59,6 +59,10 @@ int main(int argc, char *argv[])
 		// sprintf(data,"%d", AddrRead(address));
 		// printf("%d\n", AddrRead(address));
 		adc = AddrRead(address);
+		if((adc>>13)==1) 
+		{
+			adc = -1*(~(adc-1));
+		}
 		sprintf(shell,"echo %ld >> adc_data.txt", adc);
 		system(shell);
 		if(adc < min) min = adc;
