@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 	system("echo "" > adc_data.txt");
 	delay_us = atol(argv[1]);
 	t1=micros();
-	for(int i=0; i<100; i++) 
+	for(int i=0; i<10; i++) 
 	{
 		// sprintf(data,"%d", AddrRead(address));
 		// printf("%d\n", AddrRead(address));
@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
 			adc = (~((unsigned long)adc-1));
 			// adc = -10;
 		}
+		printf("%x\n", adc);
 		sprintf(shell,"echo %ld >> adc_data.txt", adc);
 		system(shell);
 		if(adc < min) min = adc;
