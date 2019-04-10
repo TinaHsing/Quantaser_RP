@@ -59,11 +59,11 @@ int main(int argc, char *argv[])
 		// sprintf(data,"%d", AddrRead(address));
 		// printf("%d\n", AddrRead(address));
 		adc = AddrRead(address);
-		if((adc>>13)==1) 
-		{
-			adc = (~((unsigned long)adc-1));
+		// if((adc>>13)==1) 
+		// {
+			// adc = (~((unsigned long)adc-1));
 			// adc = -10;
-		}
+		// }
 		printf("%lx, %ld\n", adc, adc>>13);
 		sprintf(shell,"echo %ld >> adc_data.txt", adc);
 		system(shell);
