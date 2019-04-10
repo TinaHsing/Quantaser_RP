@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 		system(shell);
 	}
 	t2=micros();
-	printf("ld\n", t2-t1);
+	printf("%ld\n", t2-t1);
 	return 0;
 }
 
