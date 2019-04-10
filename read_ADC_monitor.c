@@ -64,7 +64,8 @@ int main(int argc, char *argv[])
 			tt = (~(0xffffc000|adc));
 			
 		}
-		printf("%lx, %ld\n", adc, adc>>13);
+		else tt = 0;
+		printf("%lx, %ld, %lx\n", adc, adc>>13, tt);
 		sprintf(shell,"echo %ld >> adc_data.txt", adc);
 		system(shell);
 		if(adc < min) min = adc;
