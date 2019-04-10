@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
 		adc = AddrRead(address);
 		if((adc>>13)==1) 
 		{
-			// adc = -1*(~(adc-1));
-			adc = -10;
+			adc = (~((unsigned long)adc-1));
+			// adc = -10;
 		}
 		sprintf(shell,"echo %ld >> adc_data.txt", adc);
 		system(shell);
