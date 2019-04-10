@@ -49,10 +49,10 @@ int main(int argc, char *argv[])
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > adc_data.txt");
-	for(int i=0; i<10; i++) 
+	for(int i=0; i<100; i++) 
 	{
 		// sprintf(data,"%d", AddrRead(address));
-		printf("%d\n", AddrRead(address));
+		// printf("%d\n", AddrRead(address));
 		sprintf(shell,"echo %d >> adc_data.txt", AddrRead(address));
 		system(shell);
 	}
