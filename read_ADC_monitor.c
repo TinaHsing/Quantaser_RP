@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 		// printf("%d\n", AddrRead(address));
 		sprintf(shell,"echo %d >> adc_data.txt", AddrRead(address));
 		system(shell);
+		usleep(50000);
 	}
 	t2=micros();
 	printf("%ld\n", t2-t1);
