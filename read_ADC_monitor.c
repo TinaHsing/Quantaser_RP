@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 		// sprintf(data,"%d", AddrRead(address));
 		// printf("%d\n", AddrRead(address));
 		adc = AddrRead(address);
-		sprintf(shell,"echo %d >> adc_data.txt", adc);
+		sprintf(shell,"echo %ld >> adc_data.txt", adc);
 		system(shell);
 		if(adc < min) min = adc;
 		if(adc > max) max = adc;
