@@ -47,6 +47,7 @@ uint32_t address = 0x40000124;
 int main(int argc, char *argv[])
 {
 	long t1, t2;
+	long adc, min=8191, max=0;
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > adc_data.txt");
@@ -55,12 +56,17 @@ int main(int argc, char *argv[])
 	{
 		// sprintf(data,"%d", AddrRead(address));
 		// printf("%d\n", AddrRead(address));
-		sprintf(shell,"echo %d >> adc_data.txt", AddrRead(address));
+		adc = AddrRead(address);
+		sprintf(shell,"echo %d >> adc_data.txt", adc);
 		system(shell);
+		if(adc < min) min = adc;
+		if(adc > max) max = adc;
 		usleep(50000);
 	}
 	t2=micros();
 	printf("%ld\n", t2-t1);
+	printf("min = %ld\n", min);
+	printf("max = %ld\n", max);
 	return 0;
 }
 
