@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 {
 	long delay_us;
 	long t1, t2;
-	long adc, min=8191, max=0;
+	long adc, min=8191, max=0, sum=0;
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > adc_data.txt");
@@ -69,6 +69,7 @@ int main(int argc, char *argv[])
 		system(shell);
 		if(adc < min) min = adc;
 		if(adc > max) max = adc;
+		sum += adc;
 		usleep(delay_us);
 	}
 	t2=micros();
@@ -76,6 +77,7 @@ int main(int argc, char *argv[])
 	printf("min = %ld\n", min);
 	printf("max = %ld\n", max);
 	printf("diff = %ld\n", max-min);
+	printf("sum = %ld\n", sum);
 	return 0;
 }
 
