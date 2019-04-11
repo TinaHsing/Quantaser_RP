@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 {
 	long delay_us;
 	long t1, t2;
-	long adc, min=8191, max=0, sum=0;
+	long adc, min=8191, max=-8191, sum=0;
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > adc_data.txt");
