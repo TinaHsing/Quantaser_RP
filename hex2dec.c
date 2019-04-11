@@ -1,7 +1,9 @@
 #include <stdio.h>
 
-main(int argc, char *argv[])
+char data[8];
+int main(int argc, char *argv[])
 {
-	printf("%s\n", argv[1]);
+	data = argv[1];
+	printf("%s\n", data);
 	return 0;
 }
