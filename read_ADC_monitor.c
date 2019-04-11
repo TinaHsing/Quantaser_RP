@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 	system("echo "" > adc_data.txt");
 	delay_us = atol(argv[1]);
 	t1=micros();
-	for(int i=0; i<10; i++) 
+	for(int i=0; i<100; i++) 
 	{
 		// sprintf(data,"%d", AddrRead(address));
 		// printf("%d\n", AddrRead(address));
