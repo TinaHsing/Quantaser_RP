@@ -5,7 +5,7 @@
 
 #include "redpitaya/rp.h"
 
-float freq, amp;
+float freq, amp, offset;
 
 int main(int argc, char *argv[]){
 
@@ -19,8 +19,11 @@ int main(int argc, char *argv[]){
 	
 	freq = atof(argv[1]);
 	amp = atof(argv[2]);
+	offset = atof(argv[3]);
     /* Generating frequency */
     rp_GenFreq(RP_CH_1, freq);
+	
+	rp_GenOffset(RP_CH_1, offset);
 
     /* Generating amplitude */
     rp_GenAmp(RP_CH_1, amp);
