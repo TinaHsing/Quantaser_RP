@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 	rp_Release();
 	write_txt(adc_data, save);
 	free(buff);
-	
+	printf("hi\n");
 	return 0;
 }
 
