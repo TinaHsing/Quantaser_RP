@@ -157,8 +157,8 @@ int main(int argc, char *argv[])
 	m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
 	m2 = 1.0/(ts_HV)/1000;
 	amp = a0_HV;
-	// rp_GenAmp(RP_CH_1, amp);
-	rp_GenAmp(RP_CH_1, 1);
+	rp_GenAmp(RP_CH_1, amp);
+	// rp_GenAmp(RP_CH_1, 1);
 	// getchar();
 	// printf("getchar1\n");
 	t_start = micros();
