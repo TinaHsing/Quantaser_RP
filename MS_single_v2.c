@@ -135,8 +135,10 @@ int main(int argc, char *argv[])
 	ADC_init();
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq_HV);
-	rp_GenAmp(RP_CH_1, 0);
+	rp_GenAmp(RP_CH_1, 1);
 	rp_GenOutEnable(RP_CH_1);
+	getchar();
+	printf("gc0\n");
 	sweep_time = CHIRP_SWEEP_TIME;
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 	rp_GenAmp(RP_CH_2, 0);
