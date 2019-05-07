@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
 	m2 = 1.0/(ts_HV)/1000;
 	amp = a0_HV;
 	rp_GenAmp(RP_CH_1, amp);
-	
+	getchar();
 	t_start = micros();
 	while((micros()-t_start)<TTL_WAIT*1000){};
 	pin_write( FGTTL, 1);
