@@ -18,8 +18,8 @@ int main(int argc, char *argv[]){
 	// while ( getchar() != '\n' );
 	
 	freq = atof(argv[1]);
-	amp = atof(argv[2]);
-	offset = atof(argv[3]);
+	amp = atof(argv[2])/1000;
+	offset = atof(argv[3])/1000;
     /* Generating frequency */
     rp_GenFreq(RP_CH_1, freq);
 	

@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 	ts_HV = atol(argv[2]);
 	a0_HV = atof(argv[3]);
 	a1_HV = atof(argv[4]);
-	a2_HV = atof(argv[5]);
+	a2_HV = atof(argv[5])/1000;
 	a_LV = atof(argv[6]);
 	freq_factor = atof(argv[7]);
 	final_freq = atof(argv[8]);
