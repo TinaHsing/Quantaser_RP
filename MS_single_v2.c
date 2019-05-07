@@ -66,7 +66,7 @@ void AddrWrite(unsigned long, unsigned long);
 ///////* time read*////////
 long micros(void);
 
-float freq_HV, a0_HV, a1_HV, a2_HV, a_LV;
+float freq_HV, a0_HV, a1_HV, a2_HV, a_LV, offset;
 uint32_t ts_HV;
 float final_freq, freq_factor;
 int idx=0, ttl_dura, damping_dura, integrator_delay;
@@ -128,6 +128,7 @@ int main(int argc, char *argv[])
 	ttl_dura = atoi(argv[10]);
 	damping_dura = atoi(argv[11]);
 	integrator_delay = UPDATE_RATE - atoi(argv[12]);
+	offset = atof(argv[13])/1000;
 	start_freq = 0.5*freq_HV/1000;
 	data_size = ts_HV*1000/UPDATE_RATE;
 	float *adc_data = (float *) malloc(sizeof(float)*data_size);
@@ -140,7 +141,7 @@ int main(int argc, char *argv[])
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
-
+	rp_GenOffset(RP_CH_2, offset);
 	a_LV /= 10;
 	float *t3 = (float *)malloc(arb_size * sizeof(float));
 	float *x3 = (float *)malloc(arb_size * sizeof(float));
