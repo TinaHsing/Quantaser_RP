@@ -159,8 +159,8 @@ int main(int argc, char *argv[])
 	amp = a0_HV;
 	// rp_GenAmp(RP_CH_1, amp);
 	rp_GenAmp(RP_CH_1, 1);
-	getchar();
-	printf("getchar1\n");
+	// getchar();
+	// printf("getchar1\n");
 	t_start = micros();
 	while((micros()-t_start)<TTL_WAIT*1000){};
 	pin_write( FGTTL, 1);
@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
 	rp_Release();
 	write_txt(adc_data, save);
 	free(buff);
-	printf("hi\n");
+	// printf("hi\n");
 	return 0;
 }
 
