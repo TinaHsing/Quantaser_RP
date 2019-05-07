@@ -135,10 +135,10 @@ int main(int argc, char *argv[])
 	ADC_init();
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq_HV);
-	rp_GenAmp(RP_CH_1, 1);
+	rp_GenAmp(RP_CH_1, 0);
 	rp_GenOutEnable(RP_CH_1);
-	getchar();
-	printf("gc0\n");
+	// getchar();
+	// printf("gc0\n");
 	sweep_time = CHIRP_SWEEP_TIME;
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 	rp_GenAmp(RP_CH_2, 0);
@@ -157,7 +157,8 @@ int main(int argc, char *argv[])
 	m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
 	m2 = 1.0/(ts_HV)/1000;
 	amp = a0_HV;
-	rp_GenAmp(RP_CH_1, amp);
+	// rp_GenAmp(RP_CH_1, amp);
+	rp_GenAmp(RP_CH_1, 1);
 	getchar();
 	printf("getchar1\n");
 	t_start = micros();
