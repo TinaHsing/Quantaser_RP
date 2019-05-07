@@ -157,6 +157,7 @@ int main(int argc, char *argv[])
 	amp = a0_HV;
 	rp_GenAmp(RP_CH_1, amp);
 	getchar();
+	printf("getchar1\n");
 	t_start = micros();
 	while((micros()-t_start)<TTL_WAIT*1000){};
 	pin_write( FGTTL, 1);
