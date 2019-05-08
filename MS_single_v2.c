@@ -75,7 +75,8 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	float start_freq, k, m1, m2, amp, amp2=0;
-	int	data_size=0, save=0, sweep_time;//, num=0;
+	int	data_size=0, save=0, sweep_time;
+	int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
 	long adc_read_start_time;
 	// bool adc_read_flag=0;
