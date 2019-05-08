@@ -214,7 +214,7 @@ int main(int argc, char *argv[])
 			ADC_req(&buff_size, buff, adc_data);
 			
 			t_temp=t_now;			
-			// num++;
+			num++;
 		}	
 	}
 	// tt[0] = micros();
@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
 	// tt[1] = micros();
 	AddrWrite(0x40200044, CLEAR);
 	// tt[2] = micros();
-	// printf("num=%d\n",num);
+	printf("num=%d\n",num);
 	// printf("tt[0]=%ld\n",tt[0]);
 	// printf("tt[1]=%ld\n",tt[1]);
 	// printf("tt[2]=%ld\n",tt[2]);
