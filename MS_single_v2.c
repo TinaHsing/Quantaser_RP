@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 {
 	float start_freq, k, m1, m2, amp, amp2=0;
 	int	data_size=0, save=0, sweep_time;
-	int num=0;
+	// int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
 	long adc_read_start_time;
 	// bool adc_read_flag=0;
@@ -156,10 +156,10 @@ int main(int argc, char *argv[])
 	rp_GenArbWaveform(RP_CH_2, x3, arb_size);
 	
 	m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
-	printf("a1_HV=%f\n", a1_HV);
-	printf("a0_HV=%f\n", a0_HV);
-	printf("ts_HV=%d\n", ts_HV);
-	printf("m1=%f\n", m1);
+	// printf("a1_HV=%f\n", a1_HV);
+	// printf("a0_HV=%f\n", a0_HV);
+	// printf("ts_HV=%d\n", ts_HV);
+	// printf("m1=%f\n", m1);
 	m2 = 1.0/(ts_HV)/1000;
 	amp = a0_HV;
 	rp_GenAmp(RP_CH_1, amp);
@@ -221,7 +221,7 @@ int main(int argc, char *argv[])
 			ADC_req(&buff_size, buff, adc_data);
 			
 			t_temp=t_now;			
-			num++;
+			// num++;
 		}	
 	}
 	// tt[0] = micros();
@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
 	// tt[1] = micros();
 	AddrWrite(0x40200044, CLEAR);
 	// tt[2] = micros();
-	printf("num=%d\n",num);
+	// printf("num=%d\n",num);
 	// printf("tt[0]=%ld\n",tt[0]);
 	// printf("tt[1]=%ld\n",tt[1]);
 	// printf("tt[2]=%ld\n",tt[2]);
