@@ -211,6 +211,7 @@ int main(int argc, char *argv[])
 		if((t_now - t_temp) >= UPDATE_RATE)
 		{
 			// AddrWrite(0x40200004, 0x4000);
+			printf("amp=%f\n", amp);
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);			
 			amp = amp + m1*UPDATE_RATE;
