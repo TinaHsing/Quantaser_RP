@@ -160,8 +160,8 @@ int main(int argc, char *argv[])
 	amp = a0_HV;
 	rp_GenAmp(RP_CH_1, amp);
 	// rp_GenAmp(RP_CH_1, 1);
-	getchar();
-	printf("getchar1\n");
+	// getchar();
+	// printf("getchar1\n");
 	t_start = micros();
 	while((micros()-t_start)<TTL_WAIT*1000){};
 	pin_write( FGTTL, 1);
@@ -194,8 +194,8 @@ int main(int argc, char *argv[])
 	rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
 	
 	pin_write( FGTRIG, 1);	
-	getchar();
-	printf("getchar2\n");
+	// getchar();
+	// printf("getchar2\n");
 	AddrWrite(0x40200044, START_SCAN);
 	t_start = micros(); // scan start	
 	while((micros()-t_start)<ts_HV*1000)
