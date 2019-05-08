@@ -156,6 +156,7 @@ int main(int argc, char *argv[])
 	rp_GenArbWaveform(RP_CH_2, x3, arb_size);
 	
 	m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
+	printf("m1=%f\n", m1);
 	m2 = 1.0/(ts_HV)/1000;
 	amp = a0_HV;
 	rp_GenAmp(RP_CH_1, amp);
