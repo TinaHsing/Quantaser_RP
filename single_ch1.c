@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 	// scanf("%f%f",&freq,&amp);
 	// while ( getchar() != '\n' );
 	
-	freq = atof(argv[1]);
+	freq = atof(argv[1])*1000; //KHz
 	amp = atof(argv[2])/1000;
 	offset = atof(argv[3])/1000;
     /* Generating frequency */
