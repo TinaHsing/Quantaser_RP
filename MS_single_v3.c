@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 	int	data_size=0, save=0, sweep_time;
 	// int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
-	long adc_read_start_time;
+	// long adc_read_start_time;
 	// bool adc_read_flag=0;
 	uint32_t buff_size = 2, adc_counter;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
@@ -226,8 +226,8 @@ int main(int argc, char *argv[])
 	}
 	// tt[0] = micros();
 	AddrWrite(0x40200044, END_SCAN);
-	adc_counter = AddrRead(unsigned long addr);
-	printf("adc_counter= /ld\n",adc_counter);
+	adc_counter = AddrRead(0x40200060);
+	printf("adc_counter= %ld\n",adc_counter);
 	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 	// tt[1] = micros();
 	// AddrWrite(0x40200044, CLEAR);
@@ -279,9 +279,9 @@ void AddrWrite(unsigned long addr, unsigned long value)
 		case END_SCAN:
 			*((unsigned long *) virt_addr) = 0x2;
 		break;
-		case CLEAR:
-			*((unsigned long *) virt_addr) = 0x0;
-		break;
+		// case CLEAR:
+			// *((unsigned long *) virt_addr) = 0x0;
+		// break;
 	}
 	// if(value == START_SCAN)
 		// *((unsigned long *) virt_addr) = 0x1; // start of write
