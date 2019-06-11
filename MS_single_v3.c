@@ -60,8 +60,9 @@ static int pin_write(int, int);
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
 void write_txt(float*, int);
-//////*AddressWrite*////////
+//////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
+uint32_t AddrRead(unsigned long);
 ///////* time read*////////
 long micros(void);
 
@@ -79,7 +80,7 @@ int main(int argc, char *argv[])
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
 	long adc_read_start_time;
 	// bool adc_read_flag=0;
-	uint32_t buff_size = 2;
+	uint32_t buff_size = 2, adc_counter;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
 	// long tt[3];
 	
@@ -215,9 +216,9 @@ int main(int argc, char *argv[])
 			rp_GenAmp(RP_CH_2, amp2);
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
-			adc_read_start_time = micros();
-			while( (micros()-adc_read_start_time)<=integrator_delay ){};
-			ADC_req(&buff_size, buff, adc_data);
+			// adc_read_start_time = micros();
+			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
+			// ADC_req(&buff_size, buff, adc_data);
 			
 			t_temp=t_now;			
 			// num++;
@@ -225,7 +226,9 @@ int main(int argc, char *argv[])
 	}
 	// tt[0] = micros();
 	AddrWrite(0x40200044, END_SCAN);
-	AddrWrite(0x40200058, 1); //end scan flag, python start read data
+	adc_counter = AddrRead(unsigned long addr);
+	printf("adc_counter= /ld\n",adc_counter);
+	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 	// tt[1] = micros();
 	// AddrWrite(0x40200044, CLEAR);
 	// tt[2] = micros();
@@ -295,6 +298,53 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	if (fd != -1) {
 		close(fd);
 	}
+}
+
+uint32_t AddrRead(unsigned long addr)
+{
+	int fd = -1;
+	void* virt_addr;
+	uint32_t read_result = 0;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	/* Map one page */
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	if(map_base == (void *) -1) FATAL;
+	virt_addr = map_base + (addr & MAP_MASK);
+	
+	read_result = *((uint32_t *) virt_addr); //read
+	
+	// if(value == 1)
+		// *((unsigned long *) virt_addr) = ((value<<14) | read_result); // start of write
+	// else
+		// *((unsigned long *) virt_addr) = ((value<<15) | read_result); // end of write
+	// switch(value)
+	// {
+		// case START_SCAN:
+			// *((unsigned long *) virt_addr) = 0x1;
+		// break;
+		// case END_SCAN:
+			// *((unsigned long *) virt_addr) = 0x2;
+		// break;
+		// case CLEAR:
+			// *((unsigned long *) virt_addr) = 0x0;
+		// break;
+	// }
+	// if(value == START_SCAN)
+		// *((unsigned long *) virt_addr) = 0x1; // start of write
+	// else
+		// *((unsigned long *) virt_addr) = 0x2; // end of write
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		map_base = (void*)(-1);
+	}
+
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	}
+	if (fd != -1) {
+		close(fd);
+	}
+	return read_result;
 }
 
 static int pin_export(int pin)
