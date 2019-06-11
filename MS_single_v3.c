@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 	offset = atof(argv[13])/1000;
 	start_freq = 0.5*freq_HV/1000;
 	data_size = ts_HV*1000/UPDATE_RATE;
-	uint32_t *adc_data = (float *) malloc(sizeof(float)*data_size);
+	uint32_t *adc_data = (uint32_t *) malloc(sizeof(uint32_t)*data_size);
 	ADC_init();
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq_HV);
