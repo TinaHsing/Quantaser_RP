@@ -59,7 +59,7 @@ static int pin_write(int, int);
 ///////*ADC*//////////////
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
-void write_txt(float*, int, uint32_t);
+void write_txt(uint32_t*, int, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
