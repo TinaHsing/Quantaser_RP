@@ -227,7 +227,7 @@ int main(int argc, char *argv[])
 	// tt[0] = micros();
 	AddrWrite(0x40200044, END_SCAN);
 	adc_counter = AddrRead(0x40200060);
-	printf("adc_counter= %ld\n",adc_counter);
+	printf("adc_counter= %d\n",adc_counter);
 	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 	// tt[1] = micros();
 	// AddrWrite(0x40200044, CLEAR);
