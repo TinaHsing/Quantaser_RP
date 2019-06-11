@@ -289,9 +289,9 @@ void AddrWrite(unsigned long addr, unsigned long value)
 		// case END_SCAN:
 			// *((unsigned long *) virt_addr) = 0x2;
 		// break;
-		case CLEAR:
-			*((unsigned long *) virt_addr) = 0x0;
-		break;
+		// case CLEAR:
+			// *((unsigned long *) virt_addr) = 0x0;
+		// break;
 	// }
 	// if(value == START_SCAN)
 		// *((unsigned long *) virt_addr) = 0x1; // start of write
