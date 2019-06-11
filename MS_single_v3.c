@@ -391,7 +391,7 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 		{
 			printf("%d. %d\n",i+1, *(adc_data+i));
 			// printf("%d\n", *(adc_data+i));
-			sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+i));
+			sprintf(shell,"echo %d >> adc_data.txt", *(adc_data+i));
 			system(shell);
 		}
 }
