@@ -82,6 +82,7 @@ int main(int argc, char *argv[])
 	// bool adc_read_flag=0;
 	uint32_t buff_size = 2, adc_counter;
 	float *buff = (float *)malloc(buff_size * sizeof(float));
+	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	// long tt[3];
 	
 	// system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
@@ -228,7 +229,6 @@ int main(int argc, char *argv[])
 	AddrWrite(0x40200044, END_SCAN);
 	adc_counter = AddrRead(0x40200060);
 	printf("adc_counter= %d\n",adc_counter);
-	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 	// tt[1] = micros();
 	// AddrWrite(0x40200044, CLEAR);
 	// tt[2] = micros();
@@ -241,6 +241,14 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_1, amp);
 	rp_GenAmp(RP_CH_2, 0);
 	pin_write( FGTRIG, 0);
+	for(int i=0; i<adc_counter; i++)
+	{
+		AddrWrite(0x40200064, i);//addwrite idx 
+		adc_mem[i] = AddrRead(0x40200068); //read fpga adc_mem[idx]
+		printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
+	}
+	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
+	
 	pin_unexport(FGTRIG);
 	pin_unexport(FGTTL);
 	pin_unexport(TEST_TTL_0);
@@ -251,7 +259,7 @@ int main(int argc, char *argv[])
 	rp_Release();
 	write_txt(adc_data, save);
 	free(buff);
-	// printf("hi\n");
+	free(adc_mem);
 	return 0;
 }
 
