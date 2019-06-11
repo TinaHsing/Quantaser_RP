@@ -59,7 +59,7 @@ static int pin_write(int, int);
 ///////*ADC*//////////////
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
-void write_txt(float*, int);
+void write_txt(float*, int, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 	offset = atof(argv[13])/1000;
 	start_freq = 0.5*freq_HV/1000;
 	data_size = ts_HV*1000/UPDATE_RATE;
-	float *adc_data = (float *) malloc(sizeof(float)*data_size);
+	uint32_t *adc_data = (float *) malloc(sizeof(float)*data_size);
 	ADC_init();
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq_HV);
@@ -244,9 +244,9 @@ int main(int argc, char *argv[])
 	for(int i=0; i<adc_counter; i++)
 	{
 		AddrWrite(0x40200064, i);//addwrite idx 
-		printf("idx=%d, ",AddrRead(0x40200064));
+		// printf("idx=%d, ",AddrRead(0x40200064));
 		adc_mem[i] = AddrRead(0x40200068); //read fpga adc_mem[idx]
-		printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
+		// printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
 	}
 	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 	
@@ -258,7 +258,7 @@ int main(int argc, char *argv[])
 	free(t3);
 	free(x3);			
 	rp_Release();
-	write_txt(adc_data, save);
+	write_txt(adc_data, save, adc_counter);
 	free(buff);
 	free(adc_mem);
 	return 0;
@@ -276,27 +276,7 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	virt_addr = map_base + (addr & MAP_MASK);
 	
 	*((unsigned long *) virt_addr) = value;
-	// read_result = *((uint32_t *) virt_addr); //read
-	// if(value == 1)
-		// *((unsigned long *) virt_addr) = ((value<<14) | read_result); // start of write
-	// else
-		// *((unsigned long *) virt_addr) = ((value<<15) | read_result); // end of write
-	// switch(value)
-	// {
-		// case START_SCAN:
-			// *((unsigned long *) virt_addr) = 0x1;
-		// break;
-		// case END_SCAN:
-			// *((unsigned long *) virt_addr) = 0x2;
-		// break;
-		// case CLEAR:
-			// *((unsigned long *) virt_addr) = 0x0;
-		// break;
-	// }
-	// if(value == START_SCAN)
-		// *((unsigned long *) virt_addr) = 0x1; // start of write
-	// else
-		// *((unsigned long *) virt_addr) = 0x2; // end of write
+	
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
@@ -323,26 +303,6 @@ uint32_t AddrRead(unsigned long addr)
 	
 	read_result = *((uint32_t *) virt_addr); //read
 	
-	// if(value == 1)
-		// *((unsigned long *) virt_addr) = ((value<<14) | read_result); // start of write
-	// else
-		// *((unsigned long *) virt_addr) = ((value<<15) | read_result); // end of write
-	// switch(value)
-	// {
-		// case START_SCAN:
-			// *((unsigned long *) virt_addr) = 0x1;
-		// break;
-		// case END_SCAN:
-			// *((unsigned long *) virt_addr) = 0x2;
-		// break;
-		// case CLEAR:
-			// *((unsigned long *) virt_addr) = 0x0;
-		// break;
-	// }
-	// if(value == START_SCAN)
-		// *((unsigned long *) virt_addr) = 0x1; // start of write
-	// else
-		// *((unsigned long *) virt_addr) = 0x2; // end of write
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
@@ -421,16 +381,16 @@ void ADC_init(void){
 	// rp_AcqSetGain(RP_CH_1, RP_HIGH); //broken
 	rp_AcqSetGain(RP_CH_2, RP_HIGH);
 }
-void write_txt(float* adc_data, int save)
+void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 {
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > adc_data.txt");
 	if(save)
-		for(int i=0;i<idx;i++)
+		for(int i=0;i<adc_counter;i++)
 		{
-			// printf("%d. %f\n",i+1, *(adc_data+i));
-			// printf("%f\n", *(adc_data+i));
+			printf("%d. %d\n",i+1, *(adc_data+i));
+			// printf("%d\n", *(adc_data+i));
 			sprintf(shell,"echo %f >> adc_data.txt", *(adc_data+i));
 			system(shell);
 		}
