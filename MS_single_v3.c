@@ -243,7 +243,7 @@ int main(int argc, char *argv[])
 	pin_write( FGTRIG, 0);
 	for(int i=0; i<adc_counter; i++)
 	{
-		AddrWrite(0x40200064, 20);//addwrite idx 
+		AddrWrite(0x40200064, i);//addwrite idx 
 		printf("idx=%d, ",AddrRead(0x40200064));
 		adc_mem[i] = AddrRead(0x40200068); //read fpga adc_mem[idx]
 		printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
