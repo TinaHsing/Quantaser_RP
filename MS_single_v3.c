@@ -258,7 +258,7 @@ int main(int argc, char *argv[])
 	free(t3);
 	free(x3);			
 	rp_Release();
-	write_txt(adc_data, save, adc_counter);
+	write_txt(adc_mem, save, adc_counter);
 	free(buff);
 	free(adc_mem);
 	return 0;
