@@ -75,7 +75,8 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	float start_freq, k, m1, m2, amp, amp2=0;
-	int	data_size=0, save=0, sweep_time;
+	int	save=0, sweep_time;
+	// int data_size=0;
 	// int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
 	// long adc_read_start_time;
@@ -132,8 +133,8 @@ int main(int argc, char *argv[])
 	integrator_delay = UPDATE_RATE - atoi(argv[12]);
 	offset = atof(argv[13])/1000;
 	start_freq = 0.5*freq_HV/1000;
-	data_size = ts_HV*1000/UPDATE_RATE;
-	uint32_t *adc_data = (uint32_t *) malloc(sizeof(uint32_t)*data_size);
+	// data_size = ts_HV*1000/UPDATE_RATE;
+	// uint32_t *adc_data = (uint32_t *) malloc(sizeof(uint32_t)*data_size);
 	ADC_init();
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq_HV);
