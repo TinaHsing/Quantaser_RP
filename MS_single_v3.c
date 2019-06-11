@@ -243,7 +243,7 @@ int main(int argc, char *argv[])
 	pin_write( FGTRIG, 0);
 	for(int i=0; i<adc_counter; i++)
 	{
-		AddrWrite(0x40200064, 10);//addwrite idx 
+		AddrWrite(0x40200064, 20);//addwrite idx 
 		printf("idx=%d, ",AddrRead(0x40200064));
 		adc_mem[i] = AddrRead(0x40200068); //read fpga adc_mem[idx]
 		printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
@@ -275,23 +275,24 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
 	
+	*((unsigned long *) virt_addr) = value;
 	// read_result = *((uint32_t *) virt_addr); //read
 	// if(value == 1)
 		// *((unsigned long *) virt_addr) = ((value<<14) | read_result); // start of write
 	// else
 		// *((unsigned long *) virt_addr) = ((value<<15) | read_result); // end of write
-	switch(value)
-	{
-		case START_SCAN:
-			*((unsigned long *) virt_addr) = 0x1;
-		break;
-		case END_SCAN:
-			*((unsigned long *) virt_addr) = 0x2;
-		break;
-		// case CLEAR:
-			// *((unsigned long *) virt_addr) = 0x0;
+	// switch(value)
+	// {
+		// case START_SCAN:
+			// *((unsigned long *) virt_addr) = 0x1;
 		// break;
-	}
+		// case END_SCAN:
+			// *((unsigned long *) virt_addr) = 0x2;
+		// break;
+		case CLEAR:
+			*((unsigned long *) virt_addr) = 0x0;
+		break;
+	// }
 	// if(value == START_SCAN)
 		// *((unsigned long *) virt_addr) = 0x1; // start of write
 	// else
