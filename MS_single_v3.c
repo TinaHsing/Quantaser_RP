@@ -66,6 +66,7 @@ uint32_t AddrRead(unsigned long);
 ///////* time read*////////
 long micros(void);
 
+float int2float(uint32_t, float);
 float freq_HV, a0_HV, a1_HV, a2_HV, a_LV, offset;
 uint32_t ts_HV;
 float final_freq, freq_factor;
@@ -229,7 +230,7 @@ int main(int argc, char *argv[])
 	// tt[0] = micros();
 	AddrWrite(0x40200044, END_SCAN);
 	adc_counter = AddrRead(0x40200060);
-	printf("adc_counter= %d\n",adc_counter);
+	// printf("adc_counter= %d\n",adc_counter);
 	// tt[1] = micros();
 	// AddrWrite(0x40200044, CLEAR);
 	// tt[2] = micros();
@@ -390,12 +391,23 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 	if(save)
 		for(int i=0;i<adc_counter;i++)
 		{
-			printf("%d. %d\n",i+1, *(adc_data+i));
+			// printf("%d. %d\n",i+1, *(adc_data+i));
+			printf("%d. %f\n",i+1, int2float(*(adc_data+i), 1.0));
 			// printf("%d\n", *(adc_data+i));
 			sprintf(shell,"echo %d >> adc_data.txt", *(adc_data+i));
 			system(shell);
 		}
 }
+
+float int2float(uint32_t in, float gain) {
+	float adc;
+	if((in>>13)==1)
+		adc = -1*gain*(~(in-1));
+	else adc = gain*in;
+	
+	return adc;
+}
+
 void ADC_req(uint32_t* buff_size, float* buff, float* adc_data) {
 	// rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
 	rp_AcqGetLatestDataV(RP_CH_2, buff_size, buff);
