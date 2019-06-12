@@ -18,6 +18,12 @@
 #include <ctype.h>
 #include <sys/mman.h>
 #include "redpitaya/rp.h"
+
+#include "common.h"
+#include "calib.h"
+#include "oscilloscope.h"
+#include "acq_handler.h"
+
 ///////*timing define*////////
 #define TTL_WAIT 1
 #define TTL_DURA 50 //500
