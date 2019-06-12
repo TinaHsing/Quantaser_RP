@@ -406,7 +406,6 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 float int2float(uint32_t in, float gain_p, float gain_n) {
 	float adc;
 	
-	in += 82;
 	if((in>>13)==1)
 		adc = -1*gain_n*((~(in-1))& 0x3fff)/8192.0;
 	else adc = gain_p*in/8191.0;
