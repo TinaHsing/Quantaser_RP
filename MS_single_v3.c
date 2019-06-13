@@ -397,9 +397,9 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 		for(int i=0;i<adc_counter;i++)
 		{
 			// printf("%d. %d\n",i+1, *(adc_data+i));
-			printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, 70), *(adc_data+i));
+			printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset), *(adc_data+i));
 			// printf("%d\n", *(adc_data+i));
-			sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n, 70));
+			sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset));
 			system(shell);
 		}
 }
