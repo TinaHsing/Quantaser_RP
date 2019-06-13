@@ -67,12 +67,13 @@ uint32_t AddrRead(unsigned long);
 ///////* time read*////////
 long micros(void);
 float adc_gain_p, adc_gain_n;
+uint32_t adc_offset;
 
-float int2float(uint32_t, float, float);
+float int2float(uint32_t, float, float, uint32_t);
 float freq_HV, a0_HV, a1_HV, a2_HV, a_LV, offset;
 uint32_t ts_HV;
 float final_freq, freq_factor;
-int idx=0, ttl_dura, damping_dura, integrator_delay;
+int idx=0, ttl_dura, damping_dura;
 void* map_base = (void*)(-1);
 
 int main(int argc, char *argv[]) 
@@ -133,7 +134,7 @@ int main(int argc, char *argv[])
 	save = atoi(argv[9]);
 	ttl_dura = atoi(argv[10]);
 	damping_dura = atoi(argv[11]);
-	integrator_delay = UPDATE_RATE - atoi(argv[12]);
+	adc_offset = atoi(argv[12]);
 	offset = atof(argv[13])/1000;
 	adc_gain_p = atof(argv[14]);
 	adc_gain_n = atof(argv[15]);
@@ -396,16 +397,16 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 		for(int i=0;i<adc_counter;i++)
 		{
 			// printf("%d. %d\n",i+1, *(adc_data+i));
-			printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n), *(adc_data+i));
+			printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, 70), *(adc_data+i));
 			// printf("%d\n", *(adc_data+i));
-			sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n));
+			sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n, 70));
 			system(shell);
 		}
 }
 
-float int2float(uint32_t in, float gain_p, float gain_n) {
+float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
 	float adc;
-	in += 70;
+	in += adc_offset; //set gain_p and gain_n to 1, add 50 ohm terminal, check offset value 
 	if(in>16384) in-=16384;
 	if((in>>13)>=1)
 		adc = -1*gain_n*((~(in-1))& 0x3fff)/8192.0;
