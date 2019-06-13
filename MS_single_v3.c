@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 	// long adc_read_start_time;
 	// bool adc_read_flag=0;
 	uint32_t buff_size = 2, adc_counter;
-	float *buff = (float *)malloc(buff_size * sizeof(float));
+	// float *buff = (float *)malloc(buff_size * sizeof(float));
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	// long tt[3];
 	
@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
 	free(x3);			
 	rp_Release();
 	write_txt(adc_mem, save, adc_counter);
-	AddrWrite(0x40200058, 1) //write end_write to H，此時python解鎖run 按鈕
+	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	free(buff);
 	free(adc_mem);
 	return 0;
