@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
 	}
 	// tt[0] = micros();
 	AddrWrite(0x40200044, END_SCAN);
-	adc_counter = AddrRead(0x40200060);
+	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
 	// printf("adc_counter= %d\n",adc_counter);
 	// tt[1] = micros();
 	// AddrWrite(0x40200044, CLEAR);
@@ -266,6 +266,7 @@ int main(int argc, char *argv[])
 	free(x3);			
 	rp_Release();
 	write_txt(adc_mem, save, adc_counter);
+	AddrWrite(0x40200058, 1) //write end_write to H，此時python解鎖run 按鈕
 	free(buff);
 	free(adc_mem);
 	return 0;
