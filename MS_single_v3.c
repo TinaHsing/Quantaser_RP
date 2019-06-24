@@ -61,6 +61,7 @@ static int pin_write(int, int);
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
 void write_txt(uint32_t*, int, uint32_t);
+void write_file(float*, int, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
@@ -70,6 +71,7 @@ float adc_gain_p, adc_gain_n;
 uint32_t adc_offset;
 
 float int2float(uint32_t, float, float, uint32_t);
+
 float freq_HV, a0_HV, a1_HV, a2_HV, a_LV, offset;
 uint32_t ts_HV;
 float final_freq, freq_factor;
@@ -88,6 +90,7 @@ int main(int argc, char *argv[])
 	uint32_t adc_counter;
 	// float *buff = (float *)malloc(buff_size * sizeof(float));
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
+	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
 	// long tt[3];
 	
 	// system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
@@ -253,6 +256,7 @@ int main(int argc, char *argv[])
 		AddrWrite(0x40200064, i);//addwrite idx 
 		// printf("idx=%d, ",AddrRead(0x40200064));
 		adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
+		adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 		// printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
 	}
 	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
@@ -265,10 +269,12 @@ int main(int argc, char *argv[])
 	free(t3);
 	free(x3);			
 	rp_Release();
+	write_file(adc_mem_f, save, adc_counter);
 	write_txt(adc_mem, save, adc_counter);
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	// free(buff);
 	free(adc_mem);
+	free(adc_mem_f);
 	return 0;
 }
 
@@ -401,6 +407,17 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 			sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset));
 			system(shell);
 		}
+}
+
+void write_file(float *adc_data, int save, uint32_t adc_counter)
+{
+	if(save)
+	{
+		FILE *fp;
+		fp = fopen("adc_data.bin", "wb");
+		fwrite(adc_data, sizeof(float), adc_counter, fp);
+		fclose(fp);
+	}	
 }
 
 float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
