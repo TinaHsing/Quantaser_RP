@@ -413,10 +413,14 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 {
 	if(save)
 	{
-		FILE *fp;
+		FILE *fp *fp2;
+		uint32_t cnt = adc_counter;
 		fp = fopen("adc_data.bin", "wb");
+		fp2 = fopen("cnt.txt", "w");
 		fwrite(adc_data, sizeof(float), adc_counter, fp);
+		fwrite(&adc_counter, sizeof(uint32_t), 1, fp2);
 		fclose(fp);
+		fclose(fp2);
 	}	
 }
 
