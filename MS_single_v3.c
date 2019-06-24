@@ -270,7 +270,7 @@ int main(int argc, char *argv[])
 	free(x3);			
 	rp_Release();
 	write_file(adc_mem_f, save, adc_counter);
-	write_txt(adc_mem, save, adc_counter);
+	// write_txt(adc_mem, save, adc_counter);
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	// free(buff);
 	free(adc_mem);
@@ -398,7 +398,7 @@ void ADC_init(void){
 void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 {
 	char shell[MAX_PATH];
-	system("touch adc_data.txt");
+	system("touch cnt.txt");
 	system("echo "" > cnt.txt");
 	if(save) 
 	{
@@ -422,7 +422,7 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 		fp = fopen("adc_data.bin", "wb");
 		fp2 = fopen("cnt.txt", "w");
 		fwrite(adc_data, sizeof(float), adc_counter, fp);
-		fwrite(&adc_counter, sizeof(uint32_t), 1, fp2);
+		fprintf(fp2, "%d", adc_counter);
 		fclose(fp);
 		fclose(fp2);
 	}	
