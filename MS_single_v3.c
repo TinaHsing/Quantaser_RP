@@ -400,14 +400,18 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 	char shell[MAX_PATH];
 	system("touch adc_data.txt");
 	system("echo "" > cnt.txt");
-	if(save)
-		for(int i=0;i<adc_counter;i++)
-		{
+	if(save) 
+	{
+		// for(int i=0;i<adc_counter;i++)
+		// {
 			// printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset), *(adc_data+i));
 			// sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset));
-			sprintf(shell,"echo %d >> cnt.txt", adc_counter);
-			system(shell);
-		}
+			// sprintf(shell,"echo %d >> cnt.txt", adc_counter);
+			// system(shell);
+		// }
+		sprintf(shell,"echo %d >> cnt.txt", adc_counter);
+		system(shell);
+	}
 }
 
 void write_file(float *adc_data, int save, uint32_t adc_counter)
