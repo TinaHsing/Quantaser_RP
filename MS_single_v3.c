@@ -28,7 +28,7 @@
 #define SCAN_WAIT 10
 #define CHIRP_SWEEP_TIME 1
 ///////*gpio pin define*/////////
-#define FGTRIG 977 //amplitude scan start trigger, BNC 977
+#define FGTRIG 977 //DIO1_N, amplitude scan start trigger, BNC 977
 ////***978, 979 用在integrator***///
 #define FGTTL 980
 #define TEST_TTL_0 981
