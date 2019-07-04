@@ -30,10 +30,10 @@
 ///////*gpio pin define*/////////
 #define FGTRIG 977 //DIO1_N, amplitude scan start trigger, BNC 977
 ////***978, 979 用在integrator***///
-#define FGTTL 980
-#define TEST_TTL_0 981
-#define TEST_TTL_1 982
-#define TEST_TTL_2 983
+#define FGTTL 980 //DIO4_N
+#define TEST_TTL_0 981 ////DIO5_N
+#define TEST_TTL_1 982 //DIO6_N
+#define TEST_TTL_2 983 //DIO7_N
 // #define TEST_TTL_3 982
 ///////*constant define*//////
 #define UPDATE_RATE 30 //us
