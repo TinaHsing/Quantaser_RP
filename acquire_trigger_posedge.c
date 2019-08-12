@@ -40,14 +40,14 @@ int main(int argc, char **argv){
         sleep(1);
         rp_AcqSetTriggerSrc(RP_TRIG_SRC_CHA_PE);
         rp_acq_trig_state_t state = RP_TRIG_STATE_TRIGGERED;
-
+		printf("1\n");
         while(1){
                 rp_AcqGetTriggerState(&state);
                 if(state == RP_TRIG_STATE_TRIGGERED){
                 break;
                 }
         }
-                
+		printf("2\n");
         rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
         int i;
         for(i = 0; i < buff_size; i++){
