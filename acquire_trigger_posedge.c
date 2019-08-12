@@ -67,7 +67,7 @@ void write_file(float *adc_data)
 	fp = fopen("trig_data.txt", "w");
 	
 	for(i = 0; i < buff_size; i++){
-		fprintf(fp, "%f", adc_data[i]);
+		fprintf(fp, "%f\n", adc_data[i]);
 	}
 	
 	fclose(fp);
