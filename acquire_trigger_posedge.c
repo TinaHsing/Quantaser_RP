@@ -64,7 +64,7 @@ void write_file(float *adc_data)
 {
 	FILE *fp;
 	fp = fopen("trig_data.txt", "w");
-	fprintf(fp, "%f", (double *)adc_data);
+	fprintf(fp, "%f", (double)adc_data);
 	fclose(fp);
 
 }
