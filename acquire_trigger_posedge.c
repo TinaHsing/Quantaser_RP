@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include "redpitaya/rp.h"
 
+void write_file(float *);
+
 int main(int argc, char **argv){
 
         /* Print error, if rp_Init() function failed */
@@ -51,9 +53,20 @@ int main(int argc, char **argv){
         for(i = 0; i < buff_size; i++){
                 printf("%f\n", buff[i]);
         }
+		write_file(buff);
         /* Releasing resources */
         free(buff);
         rp_Release();
         return 0;
 }
         
+void write_file(float *adc_data)
+{
+	if(save)
+	{
+		FILE *fp;
+		fp = fopen("trig_data.txt", "w");
+		fprintf(fp, "%f", adc_data);
+		fclose(fp);
+	}	
+}
