@@ -62,11 +62,9 @@ int main(int argc, char **argv){
         
 void write_file(float *adc_data)
 {
-	if(save)
-	{
-		FILE *fp;
-		fp = fopen("trig_data.txt", "w");
-		fprintf(fp, "%f", adc_data);
-		fclose(fp);
-	}	
+	FILE *fp;
+	fp = fopen("trig_data.txt", "w");
+	fprintf(fp, "%f", adc_data);
+	fclose(fp);
+
 }
