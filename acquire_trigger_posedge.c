@@ -7,7 +7,7 @@
 #include "redpitaya/rp.h"
 
 void write_file(float *);
-
+uint32_t buff_size = 16384;
 int main(int argc, char **argv){
 
         /* Print error, if rp_Init() function failed */
@@ -23,7 +23,7 @@ int main(int argc, char **argv){
         rp_GenOutEnable(RP_CH_1);
 
 
-        uint32_t buff_size = 16384;
+        
         float *buff = (float *)malloc(buff_size * sizeof(float));
 
         rp_AcqReset();
