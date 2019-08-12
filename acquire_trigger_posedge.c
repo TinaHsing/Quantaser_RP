@@ -28,7 +28,7 @@ int main(int argc, char **argv){
 
         rp_AcqReset();
         rp_AcqSetDecimation(1);
-        rp_AcqSetTriggerLevel(RP_CH_1, 0.1);
+        rp_AcqSetTriggerLevel(RP_CH_2, 0.1);
         rp_AcqSetTriggerDelay(0);
 
         rp_AcqStart();
@@ -38,7 +38,7 @@ int main(int argc, char **argv){
         /*length and smaling rate*/
 
         sleep(1);
-        rp_AcqSetTriggerSrc(RP_TRIG_SRC_CHA_PE);
+        rp_AcqSetTriggerSrc(RP_TRIG_SRC_CHB_PE);
         rp_acq_trig_state_t state = RP_TRIG_STATE_TRIGGERED;
 		printf("1\n");
         while(1){
@@ -48,7 +48,7 @@ int main(int argc, char **argv){
                 }
         }
 		printf("2\n");
-        rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
+        rp_AcqGetOldestDataV(RP_CH_2, &buff_size, buff);
         int i;
         for(i = 0; i < buff_size; i++){
                 printf("%f\n", buff[i]);
