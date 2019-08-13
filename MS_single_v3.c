@@ -81,7 +81,7 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	float start_freq, k, m1, m2, amp, amp2=0;
-	int	save=0, sweep_time;
+	int	save=0, sweep_time, update_rate_auto;
 	// int data_size=0;
 	// int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
 	// printf("save data to .txt file? yes(1), no(0) : \n");
 	// scanf("%d",&save);
 	// while ( getchar() != '\n' );
-	freq_HV = atof(argv[1]);
+	freq_HV = atof(argv[1]);	
 	ts_HV = atol(argv[2]);
 	a0_HV = atof(argv[3]);
 	a1_HV = atof(argv[4]);
@@ -141,6 +141,7 @@ int main(int argc, char *argv[])
 	offset = atof(argv[13])/1000;
 	adc_gain_p = atof(argv[14]);
 	adc_gain_n = atof(argv[15]);
+	update_rate_auto = atoi(argv[16]);
 	start_freq = 0.5*freq_HV/1000;
 	// data_size = ts_HV*1000/UPDATE_RATE;
 	// uint32_t *adc_data = (uint32_t *) malloc(sizeof(uint32_t)*data_size);
@@ -213,20 +214,23 @@ int main(int argc, char *argv[])
 	// printf("getchar2\n");
 	AddrWrite(0x40200044, START_SCAN);
 	t_start = micros(); // scan start	
-	while((micros()-t_start)<ts_HV*1000)
+	while((micros()-t_start)<ts_HV*1000) 
 	{		
 		t_now = micros();
 		// printf("t_now: %ld\n",(t_now));
 		// printf("t_now: %ld\n",(t_temp));
 		// printf("t_now - t_temp :%ld\n",(t_now - t_temp));
-		if((t_now - t_temp) >= UPDATE_RATE)
+		// if((t_now - t_temp) >= UPDATE_RATE) 
+		if((t_now - t_temp) >= update_rate_auto)
 		{
 			// AddrWrite(0x40200004, 0x4000);
 			// printf("amp=%f\n", amp);
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
-			amp = amp + m1*UPDATE_RATE;
-			amp2 = amp2 + m2*UPDATE_RATE;
+			// amp = amp + m1*UPDATE_RATE;
+			// amp2 = amp2 + m2*UPDATE_RATE;
+			amp = amp + m1*update_rate_auto;
+			amp2 = amp2 + m2*update_rate_auto;
 			// adc_read_start_time = micros();
 			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
 			// ADC_req(&buff_size, buff, adc_data);
