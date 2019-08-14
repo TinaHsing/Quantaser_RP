@@ -6,7 +6,7 @@
 #include "redpitaya/rp.h"
 
 float freq, amp, offset;
-void write_file(int, float , float);
+void write_file(int, float *, float *);
 
 int main(int argc, char *argv[]){
 
@@ -18,7 +18,8 @@ int main(int argc, char *argv[]){
     RP_DEC_8192,  //!< Sample rate 15.258ksps; Buffer time length 1.073s; Decimation 8192
     RP_DEC_65536  //!< Sample rate 1.907ksps; Buffer time length 8.589s; Decimation 65536
 	*/
-	int samp_rate, trig_src, buff_size;
+	int samp_rate, trig_src;
+	uint32_t buff_size;
 	float trig_level;
 	
 	
