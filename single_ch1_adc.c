@@ -96,7 +96,7 @@ void write_file(int buff_size, float *adc_data, float *adc_data2)
 	FILE *fp, *fp2;
 	int i=0;
 	fp = fopen("trig_data.txt", "w");
-	fp2 = fopen("trig_data2txt", "w");
+	fp2 = fopen("trig_data2.txt", "w");
 	
 	for(i = 0; i < buff_size; i++){
 		fprintf(fp, "%f\n", adc_data[i]);
