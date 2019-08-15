@@ -81,7 +81,8 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	float start_freq, k, m1, m2, amp, amp2=0;
-	int	save=0, sweep_time, update_rate_auto;
+	int	save=0, sweep_time;
+	int update_rate_auto;
 	// int data_size=0;
 	// int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
@@ -141,7 +142,7 @@ int main(int argc, char *argv[])
 	offset = atof(argv[13])/1000;
 	adc_gain_p = atof(argv[14]);
 	adc_gain_n = atof(argv[15]);
-	update_rate_auto = atoi(argv[16]);
+	// update_rate_auto = atoi(argv[16]);
 	start_freq = 0.5*freq_HV/1000;
 	// data_size = ts_HV*1000/UPDATE_RATE;
 	// uint32_t *adc_data = (uint32_t *) malloc(sizeof(uint32_t)*data_size);
