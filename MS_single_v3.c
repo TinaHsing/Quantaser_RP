@@ -29,7 +29,7 @@
 #define CHIRP_SWEEP_TIME 1
 ///////*gpio pin define*/////////
 #define FGTRIG 977 //DIO1_N, amplitude scan start trigger, BNC 977
-////***978, 979 用在integrator***///
+////***978, 979 用在integrator, DIO2_N DIO3_N***///
 #define FGTTL 980 //DIO4_N
 #define TEST_TTL_0 981 ////DIO5_N
 #define TEST_TTL_1 982 //DIO6_N
@@ -220,17 +220,17 @@ int main(int argc, char *argv[])
 		// printf("t_now: %ld\n",(t_now));
 		// printf("t_now: %ld\n",(t_temp));
 		// printf("t_now - t_temp :%ld\n",(t_now - t_temp));
-		// if((t_now - t_temp) >= UPDATE_RATE) 
-		if((t_now - t_temp) >= update_rate_auto)
+		if((t_now - t_temp) >= UPDATE_RATE) 
+		// if((t_now - t_temp) >= update_rate_auto)
 		{
 			// AddrWrite(0x40200004, 0x4000);
 			// printf("amp=%f\n", amp);
 			rp_GenAmp(RP_CH_1, amp);
 			rp_GenAmp(RP_CH_2, amp2);
-			// amp = amp + m1*UPDATE_RATE;
-			// amp2 = amp2 + m2*UPDATE_RATE;
-			amp = amp + m1*update_rate_auto;
-			amp2 = amp2 + m2*update_rate_auto;
+			amp = amp + m1*UPDATE_RATE;
+			amp2 = amp2 + m2*UPDATE_RATE;
+			// amp = amp + m1*update_rate_auto;
+			// amp2 = amp2 + m2*update_rate_auto;
 			// adc_read_start_time = micros();
 			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
 			// ADC_req(&buff_size, buff, adc_data);
