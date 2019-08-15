@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 {
 	float start_freq, k, m1, m2, amp, amp2=0;
 	int	save=0, sweep_time;
-	int update_rate_auto;
+	// int update_rate_auto;
 	// int data_size=0;
 	// int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
