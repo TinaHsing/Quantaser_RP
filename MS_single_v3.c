@@ -35,6 +35,44 @@
 #define TEST_TTL_1 982 //DIO6_N
 #define TEST_TTL_2 983 //DIO7_N
 // #define TEST_TTL_3 982
+
+/////******define DAC*******/////////
+#define DAC_BIT_16
+/* DAC LTC2615 */
+#define DAC0_ADD 0x10
+#define DAC1_ADD 0x52
+#define CC 0b0011
+#define ref 2.5
+
+#ifdef DAC_BIT_14
+	#define max 16383
+#endif
+#ifdef DAC_BIT_16
+	#define max 65535
+#endif	
+
+#define CH_A 0b0000
+#define CH_B 0b0001
+#define CH_C 0b0010
+#define CH_D 0b0011
+#define CH_E 0b0100
+#define CH_F 0b0101
+#define CH_G 0b0110
+#define CH_H 0b0111
+
+#define DAC1 	1
+#define DAC2 	2
+#define DAC3 	3
+#define DAC4 	4
+#define DAC5 	5
+#define DAC6 	6
+#define DAC7 	7
+#define DAC8 	8
+#define DAC9 	9
+#define DAC10 	10
+
+int g_i2cFile;
+
 ///////*constant define*//////
 #define UPDATE_RATE 30 //us
 #define VALUE_MAX 30
@@ -56,6 +94,15 @@ static int pin_export(int);
 static int pin_unexport(int);
 static int pin_direction(int, int);
 static int pin_write(int, int);
+
+/* I2C */
+void i2cOpen(void);
+void i2cClose(void);
+void i2cSetAddress(int);
+void WriteRegisterPair(uint8_t, uint16_t);
+void LTC2615_write(bool, uint8_t, float);
+void DAC_out(uint8_t, float);
+
 
 ///////*ADC*//////////////
 void ADC_init(void);
@@ -103,6 +150,7 @@ int main(int argc, char *argv[])
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
+	i2cOpen();
 	pin_export(FGTRIG);
 	pin_export(FGTTL);
 	pin_export(TEST_TTL_0);
@@ -235,7 +283,7 @@ int main(int argc, char *argv[])
 			// adc_read_start_time = micros();
 			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
 			// ADC_req(&buff_size, buff, adc_data);
-			
+			DAC_out(DAC1, 0.2);
 			t_temp=t_now;			
 			num++;
 		}	
@@ -461,4 +509,84 @@ long micros(){
 	if(time<0) time += 2147483648;
 //	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 	return time;
+}
+
+void i2cOpen()
+{
+	g_i2cFile = open("/dev/i2c-0", O_RDWR);
+	if (g_i2cFile < 0) {
+		perror("i2cOpen");
+		exit(1);
+	}
+}
+
+// close the Linux device
+void i2cClose()
+{
+	close(g_i2cFile);
+}
+
+void i2cSetAddress(int address)
+{
+	if (ioctl(g_i2cFile, I2C_SLAVE, address) < 0) {
+		perror("i2cSetAddress");
+		exit(1);
+	}
+}
+
+void WriteRegisterPair(uint8_t reg, uint16_t value)
+{
+	uint8_t data[3];
+	data[0] = reg;
+	data[1] = value & 0xff;
+	data[2] = (value >> 8) & 0xff;
+	if (write(g_i2cFile, data, 3) != 3) {
+		perror("pca9555SetRegisterPair");
+	}
+}
+
+void LTC2615_write(bool sel, uint8_t ch, float value)
+{
+	uint8_t t[2];
+	uint16_t code;
+	
+	code = (uint16_t)(value/ref*max);
+	#ifdef DAC_BIT_14
+		t[0] = (code >> 8)<<2 | ((uint8_t)code & 0b11000000)>>6; //high byte
+		t[1] = (uint8_t)code << 2; //low byte
+	#endif
+	#ifdef DAC_BIT_16
+		t[0] = code >> 8;
+		t[1] = (uint8_t)code; 
+	#endif
+	
+	if(!sel)
+	{
+		i2cSetAddress(DAC0_ADD);
+		WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
+	}
+	else
+	{
+		i2cSetAddress(DAC1_ADD);
+		WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
+	}	
+	// Wire.beginTransmission(ADD);
+	// Wire.write((CC << 4) | ch);
+	// Wire.write(t,2); 
+	// Wire.endTransmission();
+}
+
+void DAC_out(uint8_t dac_num, float value)
+{
+	value = value/4.0;
+	if(dac_num == DAC1) LTC2615_write(0, CH_A, value);
+	else if(dac_num == DAC2) LTC2615_write(0, CH_B, value);
+	else if(dac_num == DAC3) LTC2615_write(0, CH_C, value);
+	else if(dac_num == DAC4) LTC2615_write(0, CH_F, value);
+	else if(dac_num == DAC5) LTC2615_write(0, CH_E, value);
+	else if(dac_num == DAC6) LTC2615_write(1, CH_A, value);
+	else if(dac_num == DAC7) LTC2615_write(1, CH_B, value);
+	else if(dac_num == DAC8) LTC2615_write(1, CH_C, value);
+	else if(dac_num == DAC9) LTC2615_write(1, CH_D, value);
+	else if(dac_num == DAC10) LTC2615_write(1, CH_E, value);
 }
