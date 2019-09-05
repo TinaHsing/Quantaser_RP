@@ -299,9 +299,9 @@ int main(int argc, char *argv[])
 	// AddrWrite(0x40200044, CLEAR);
 	
 	printf("num=%d\n",num);
-	// printf("tt[0]=%ld\n",tt[0]);
-	// printf("tt[1]=%ld\n",tt[1]);
-	// printf("tt[2]=%ld\n",tt[2]);
+	printf("tt[0]=%ld\n",tt[0]);
+	printf("tt[1]=%ld\n",tt[1]);
+	printf("tt[2]=%ld\n",tt[2]);
 	// printf("tt[3]=%ld\n",tt[3]);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
