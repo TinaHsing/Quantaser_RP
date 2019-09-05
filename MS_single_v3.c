@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
 	int	save=0, sweep_time;
 	// int update_rate_auto;
 	// int data_size=0;
-	int num=0;
+	// int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
 	// long adc_read_start_time;
 	// bool adc_read_flag=0;
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 	// float *buff = (float *)malloc(buff_size * sizeof(float));
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
-	long tt[3];
+	// long tt[3];
 	
 	// system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
 	// system("monitor 0x40200048 0xFA");
@@ -284,7 +284,7 @@ int main(int argc, char *argv[])
 			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
 			// ADC_req(&buff_size, buff, adc_data);
 			t_temp=t_now;			
-			num++;
+			// num++;
 		}	
 	}
 	tt[0] = micros();
@@ -298,10 +298,10 @@ int main(int argc, char *argv[])
 	
 	// AddrWrite(0x40200044, CLEAR);
 	
-	printf("num=%d\n",num);
-	printf("tt[0]=%ld\n",tt[0]);
-	printf("tt[1]=%ld\n",tt[1]);
-	printf("tt[2]=%ld\n",tt[2]);
+	// printf("num=%d\n",num);
+	// printf("tt[0]=%ld\n",tt[0]);
+	// printf("tt[1]=%ld\n",tt[1]);
+	// printf("tt[2]=%ld\n",tt[2]);
 	// printf("tt[3]=%ld\n",tt[3]);
 	amp = a2_HV;
 	rp_GenAmp(RP_CH_1, amp);
