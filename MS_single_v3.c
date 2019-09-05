@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 	// float *buff = (float *)malloc(buff_size * sizeof(float));
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
-	// long tt[3];
+	long tt[3];
 	
 	// system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
 	// system("monitor 0x40200048 0xFA");
@@ -283,18 +283,21 @@ int main(int argc, char *argv[])
 			// adc_read_start_time = micros();
 			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
 			// ADC_req(&buff_size, buff, adc_data);
-			DAC_out(DAC1, 0.2);
 			t_temp=t_now;			
 			num++;
 		}	
 	}
-	// tt[0] = micros();
+	tt[0] = micros();
+	DAC_out(DAC1, 0.2);
+	tt[1] = micros();
+	LTC2615_write(0, CH_A, 0.06);
+	tt[2] = micros();
 	AddrWrite(0x40200044, END_SCAN);
 	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
 	// printf("adc_counter= %d\n",adc_counter);
-	// tt[1] = micros();
+	
 	// AddrWrite(0x40200044, CLEAR);
-	// tt[2] = micros();
+	
 	printf("num=%d\n",num);
 	// printf("tt[0]=%ld\n",tt[0]);
 	// printf("tt[1]=%ld\n",tt[1]);
