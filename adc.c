@@ -85,21 +85,21 @@ void write_file(int buff_size, float *adc_data, float *adc_data2)
 {
 	FILE *fp, *fp2;
 	// int i=0;
-	// fp = fopen("trig_data.bin", "w");
-	// fp2 = fopen("trig_data2.bin", "w");
+	fp = fopen("trig_data.bin", "w");
+	fp2 = fopen("trig_data2.bin", "w");
 	
-	// fwrite(adc_data, sizeof(float), buff_size, fp);
-	// fwrite(adc_data2, sizeof(float), buff_size, fp2);
+	fwrite(adc_data, sizeof(float), buff_size, fp);
+	fwrite(adc_data2, sizeof(float), buff_size, fp2);
 	
-	fp = fopen("trig_data.txt", "w");
-	fp2 = fopen("trig_data2.txt", "w");
+	// fp = fopen("trig_data.txt", "w");
+	// fp2 = fopen("trig_data2.txt", "w");
 	
-	for(int i = 0; i < buff_size; i++){
-		fprintf(fp, "%f\n", adc_data[i]);
-		fprintf(fp2, "%f\n", adc_data2[i]);
-	}
+	// for(int i = 0; i < buff_size; i++){
+		// fprintf(fp, "%f\n", adc_data[i]);
+		// fprintf(fp2, "%f\n", adc_data2[i]);
+	// }
 	
-	// for(i = 0; i < buff_size; i++){
+	// for(int i = 0; i < buff_size; i++){
 		// printf("%f, ", adc_data[i]);
 		// printf("%f\n", adc_data2[i]);
 	// }
