@@ -7,7 +7,7 @@
 #include "redpitaya/rp.h"
 
 void write_file(float *);
-uint32_t buff_size = 16384;
+uint32_t buff_size = 4096;
 int main(int argc, char **argv){
 
         /* Print error, if rp_Init() function failed */
@@ -64,7 +64,7 @@ void write_file(float *adc_data)
 {
 	FILE *fp;
 	int i=0;
-	fp = fopen("trig_data.txt", "w");
+	fp = fopen("trig_data2.txt", "w");
 	
 	for(i = 0; i < buff_size; i++){
 		fprintf(fp, "%f\n", adc_data[i]);
