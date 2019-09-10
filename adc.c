@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 	rp_AcqSetTriggerLevel(trig_src, trig_level);
 	rp_AcqSetTriggerDelay(0);
 	rp_AcqStart();
-	
+	sleep(1);
 	if(trig_src == RP_CH_1) 
 		rp_AcqSetTriggerSrc(RP_TRIG_SRC_CHA_PE);
 	else if(trig_src == RP_CH_2)
