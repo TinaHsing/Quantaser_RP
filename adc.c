@@ -84,7 +84,7 @@ int main(int argc, char *argv[]){
 void write_file(int buff_size, float *adc_data, float *adc_data2)
 {
 	FILE *fp, *fp2;
-	// int i=0;
+	int i=0;
 	fp = fopen("trig_data.bin", "w");
 	fp2 = fopen("trig_data2.bin", "w");
 	
