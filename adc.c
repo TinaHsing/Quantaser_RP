@@ -84,7 +84,7 @@ int main(int argc, char *argv[]){
 void write_file(int buff_size, float *adc_data, float *adc_data2)
 {
 	FILE *fp, *fp2;
-	int i=0;
+	// int i=0;
 	fp = fopen("trig_data.bin", "w");
 	fp2 = fopen("trig_data2.bin", "w");
 	
@@ -93,15 +93,13 @@ void write_file(int buff_size, float *adc_data, float *adc_data2)
 		// fprintf(fp2, "%f\n", adc_data2[i]);
 	// }
 	
-	for(i = 0; i < buff_size; i++){
-		printf("%f, ", adc_data[i]);
-		printf("%f\n", adc_data2[i]);
-	}
+	// for(i = 0; i < buff_size; i++){
+		// printf("%f, ", adc_data[i]);
+		// printf("%f\n", adc_data2[i]);
+	// }
 	
 	fwrite(adc_data, sizeof(float), buff_size, fp);
-	fwrite(adc_data2, sizeof(float), buff_size, fp);
-	
-	
+	fwrite(adc_data2, sizeof(float), buff_size, fp2);
 	
 	fclose(fp);
 	fclose(fp2);
