@@ -70,8 +70,8 @@ int main(int argc, char *argv[]){
 	}
 	fp = fopen("trig_pass", "w");
 	fclose(fp);
-	rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
 	rp_AcqGetOldestDataV(RP_CH_2, &buff_size, buff2);
+	rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
 	
 	write_file(buff_size, buff, buff2);
 	
