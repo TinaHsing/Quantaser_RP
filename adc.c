@@ -70,7 +70,7 @@ int main(int argc, char *argv[]){
 	}
 	fp = fopen("trig_pass", "w");
 	fclose(fp);
-	sleep(0.5);
+	sleep(1);
 	rp_AcqGetOldestDataV(RP_CH_2, &buff_size, buff2);
 	rp_AcqGetOldestDataV(RP_CH_1, &buff_size, buff);
 	
