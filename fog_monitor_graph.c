@@ -1,9 +1,30 @@
+//////*header include*//////
 #include <stdio.h>
-#include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/time.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <linux/ioctl.h>
+#include <linux/i2c-dev.h>
+#include <stdint.h>
 #include <unistd.h>
-
+#include <fcntl.h> 
+#include <termios.h> 
+#include <errno.h>
+#include <math.h>
+#include <signal.h>
+#include <ctype.h>
+#include <sys/mman.h>
 #include "redpitaya/rp.h"
+
+
+////////*MMAP*///////////////
+#define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
+  __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
+#define MAP_SIZE 4096UL
+#define MAP_MASK (MAP_SIZE - 1)
 
 uint32_t AddrRead(unsigned long);
 void write_file(int, uint32_t *, uint32_t *, uint32_t *, uint32_t *);
