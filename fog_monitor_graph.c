@@ -26,6 +26,7 @@
 #define MAP_SIZE 4096UL
 #define MAP_MASK (MAP_SIZE - 1)
 
+void* map_base = (void*)(-1);
 uint32_t AddrRead(unsigned long);
 void write_file(int, uint32_t *, uint32_t *, uint32_t *, uint32_t *);
 
