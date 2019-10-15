@@ -33,7 +33,7 @@ void write_file(int, uint32_t *, uint32_t *, uint32_t *, uint32_t *);
 unsigned long addr1=0x40000130; //error signal
 unsigned long addr2=0x40000178; //1st integrator_ unlimited
 unsigned long addr3=0x4000016C; //1st integrator_ after divide
-unsigned long addr4=0x4000017C; //2st integrator_ after divide
+unsigned long addr4=0x4000017C; //2nd integrator_ after divide
 
 int main(int argc, char *argv[])
 {
