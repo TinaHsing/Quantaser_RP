@@ -28,7 +28,7 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
-#define CONTINUE
+// #define CONTINUE
 //monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
