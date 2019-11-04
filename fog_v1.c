@@ -269,7 +269,7 @@ static int uart_read(int size){
         /* Print data and exit while loop */
         }else{
             rx_buffer[rx_length] = '\0';
-            // printf("%i bytes read : %s\n", rx_length, rx_buffer);
+            printf("%i bytes read : %s\n", rx_length, rx_buffer);
 			// printf("%s\n", rx_buffer);
 			command[0] = rx_buffer[0];
             break;
