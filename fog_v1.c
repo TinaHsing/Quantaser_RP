@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 				}
 			}
 			#else
-				// sprintf(data,"%d", AddrRead(address));
+				sprintf(data,"%d", AddrRead(address));
 				sprintf(data,"%d", (int)65535);
 				uart_write(data);
 			#endif
