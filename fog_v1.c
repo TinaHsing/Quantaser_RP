@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 			}
 			#else
 				sprintf(data,"%d", AddrRead(address));
-				printf("%d\n", AddrRead(address))
+				printf("%d\n", AddrRead(address));
 				printf("%d\n", (int)data);
 				// sprintf(data,"%d", (int)1234567890);
 				uart_write(data);
