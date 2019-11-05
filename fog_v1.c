@@ -60,7 +60,7 @@ void* map_base = (void*)(-1);
 long t1, t2;
 #endif
 int uart_fd = -1;
-uint32_t address = 0x40000118;
+uint32_t address = 0x40000178;
 int main(int argc, char *argv[])
 {
 	char data[4];
@@ -90,7 +90,8 @@ int main(int argc, char *argv[])
 			}
 			#else
 				sprintf(data,"%d", AddrRead(address));
-				printf("%ud\n", (uint32_t)data);
+				printf("%d\n", AddrRead(address))
+				printf("%d\n", (int)data);
 				// sprintf(data,"%d", (int)1234567890);
 				uart_write(data);
 			#endif
