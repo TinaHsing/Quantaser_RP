@@ -63,7 +63,7 @@ int uart_fd = -1;
 uint32_t address = 0x40000118;
 int main(int argc, char *argv[])
 {
-	char data[32];
+	char data[4];
 	if(uart_init() < 0)
 	{
 		printf("Uart init error.\n");
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 			}
 			#else
 				sprintf(data,"%d", AddrRead(address));
-				printf("%c\n", data);
+				printf("%d\n", (*int)data);
 				// sprintf(data,"%d", (int)65535);
 				uart_write(data);
 			#endif
