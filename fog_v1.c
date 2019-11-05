@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 			#else
 				sprintf(data,"%d", AddrRead(address));
 				printf("%ud\n", (uint32_t)data);
-				sprintf(data,"%d", (int)1234567890);
+				// sprintf(data,"%d", (int)1234567890);
 				uart_write(data);
 			#endif
 		}
