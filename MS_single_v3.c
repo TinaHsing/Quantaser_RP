@@ -292,6 +292,9 @@ int main(int argc, char *argv[])
 	tt[1] = micros();
 	LTC2615_write(0, CH_A, 0.06);
 	tt[2] = micros();
+	printf("%ld\n",tt[1])-tt[0]);
+	printf("%ld\n",tt[2])-tt[1]);
+
 	AddrWrite(0x40200044, END_SCAN);
 	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
 	// printf("adc_counter= %d\n",adc_counter);
