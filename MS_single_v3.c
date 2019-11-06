@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
 	int	save=0, sweep_time;
 	// int update_rate_auto;
 	// int data_size=0;
-	int num=0;
+	// int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
 	// long adc_read_start_time;
 	// bool adc_read_flag=0;
@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
 			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
 			// ADC_req(&buff_size, buff, adc_data);
 			t_temp=t_now;			
-			num++;
+			// num++;
 		}	
 	}
 	// tt[0] = micros();
