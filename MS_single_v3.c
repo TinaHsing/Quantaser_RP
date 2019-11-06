@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 	// float *buff = (float *)malloc(buff_size * sizeof(float));
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
-	// long tt[3];
+	long tt[3];
 	
 	// system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
 	// system("monitor 0x40200048 0xFA");
