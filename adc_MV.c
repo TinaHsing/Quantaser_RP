@@ -28,6 +28,7 @@ void* map_base = (void*)(-1);
 float ADC_req(uint32_t* , float*, int);
 long micros(void);
 uint32_t AddrRead(unsigned long);
+void AddrWrite(unsigned long, unsigned long);
 int main(int argc, char **argv){
 		// long time[2];
         if(rp_Init() != RP_OK){
@@ -51,7 +52,7 @@ int main(int argc, char **argv){
 
         rp_AcqStart();
 		rp_AcqSetGain(ch, gain); //gain : 0:LOW, 1:HIGH;   ch: 0:ch1, 1:ch2
-
+		AddrWrite(0x40200044, 1)
 		for(int i=0; i<hold_times; i++)
 		{
 			// time[0]=micros();
@@ -115,4 +116,29 @@ uint32_t AddrRead(unsigned long addr)
 		close(fd);
 	}
 	return read_result;
+}
+void AddrWrite(unsigned long addr, unsigned long value)
+{
+	int fd = -1;
+	void* virt_addr;
+	// uint32_t read_result = 0;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	/* Map one page */
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	if(map_base == (void *) -1) FATAL;
+	virt_addr = map_base + (addr & MAP_MASK);
+	
+	*((unsigned long *) virt_addr) = value;
+	
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		map_base = (void*)(-1);
+	}
+
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	}
+	if (fd != -1) {
+		close(fd);
+	}
 }
