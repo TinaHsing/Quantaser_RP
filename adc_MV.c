@@ -45,7 +45,7 @@ int main(int argc, char **argv){
 		buff_size = atoi(argv[2]);
 		buff = (float *)malloc(buff_size * sizeof(float));
 		gain = atoi(argv[3]);
-		hold_times = atoi(argv[2]);
+		hold_times = atoi(argv[4]);
 		
         rp_AcqReset();
 		rp_AcqSetDecimation(1);
