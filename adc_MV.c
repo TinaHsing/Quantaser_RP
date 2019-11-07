@@ -19,6 +19,12 @@
 #include <sys/mman.h>
 #include "redpitaya/rp.h"
 
+////////*MMAP*///////////////
+#define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
+  __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
+#define MAP_SIZE 4096UL
+#define MAP_MASK (MAP_SIZE - 1)
+void* map_base = (void*)(-1);
 float ADC_req(uint32_t* , float*, int);
 long micros(void);
 uint32_t AddrRead(unsigned long);
@@ -72,9 +78,9 @@ int main(int argc, char **argv){
 //	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 	return time;
 }
-float ADC_req(uint32_t* buff_size, float* buff, int ch, uint32_t hold_times) {
+float ADC_req(uint32_t* buff_size, float* buff, int ch) {
 	rp_AcqGetLatestDataV(ch, buff_size, buff);
-	int i, j;
+	int i;
 	float avg = 0;
 	for(i = 0; i < *buff_size; i++){
 			// printf("%f\n", buff[i]);
