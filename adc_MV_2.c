@@ -89,7 +89,7 @@ float ADC_req(uint32_t* buff_size, float* buff, int ch) {
 			avg += buff[i];
 	}
 	avg = avg / (float)*buff_size;
-	printf("%f\n", avg);
+	// printf("%f\n", avg);
 	return avg;
 }
 uint32_t AddrRead(unsigned long addr)
