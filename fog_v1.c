@@ -47,7 +47,7 @@ long micros(void);
 static int uart_init(void);
 static int release(void);
 static int uart_read(int);
-static int uart_write();
+static int uart_write(char*);
 
 int uart_num=1;
 char *uart_cmd;
@@ -93,8 +93,8 @@ int main(int argc, char *argv[])
 				printf("%d\n", AddrRead(address));
 				// sprintf(data,"%d", (int)1234567890);
 				// uart_write(data);
-				uart_write(12345);
-				uart_write(6789);
+				uart_write("abc");
+				uart_write("efg");
 			#endif
 		}
 	}
