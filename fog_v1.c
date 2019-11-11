@@ -51,7 +51,7 @@ static int uart_write(char*);
 
 int uart_num=1;
 char *uart_cmd;
-unsigned char command[1];
+unsigned char command[5];
 
 //monitor
 void* map_base = (void*)(-1);
@@ -89,9 +89,9 @@ int main(int argc, char *argv[])
 				}
 			}
 			#else
+				printf("%x\n",((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1] );
 				for(int i=0; i<10; i++) {
 					sprintf(data[i],"%d", AddrRead(address));
-					// printf("%d\n", AddrRead(address));
 					uart_write(data[i]);
 				}
 				
