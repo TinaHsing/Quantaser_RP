@@ -275,23 +275,37 @@ static int uart_read(int size){
         int rx_length = read(uart_fd, (void*)rx_buffer, size);
 		// printf("length = %d\n", rx_length);
 		command[0] = '0';
-        if (rx_length < 0){
+		
+        // if (rx_length < 0){
 
-            /* No data yet avaliable, check again */
-            if(errno == EAGAIN){
+            // /* No data yet avaliable, check again */
+            // if(errno == EAGAIN){
                 // fprintf(stderr, "AGAIN!\n");
                 // continue;
-            /* Error differs */
-            }else{
-                fprintf(stderr, "Error!\n");
-                return -1;
-            }
+            // /* Error differs */
+            // }else{
+                // fprintf(stderr, "Error!\n");
+                // return -1;
+            // }
 
-        }else if (rx_length == 0){
-            fprintf(stderr, "No data waiting\n");
-        /* Print data and exit while loop */
-        }else{
-            rx_buffer[rx_length] = '\0';
+        // }else if (rx_length == 0){
+            // fprintf(stderr, "No data waiting\n");
+        // /* Print data and exit while loop */
+        // }else{
+            // rx_buffer[rx_length] = '\0';
+            // printf("%i bytes read : %s\n", rx_length, rx_buffer);
+			// printf("%s\n", rx_buffer);
+			// command[0] = rx_buffer[0];
+			// command[1] = rx_buffer[1];
+			// command[2] = rx_buffer[2];
+			// command[3] = rx_buffer[3];
+			// command[4] = rx_buffer[4];
+            // break;
+        // }
+		
+		if(rx_length >0)
+		{
+			rx_buffer[rx_length] = '\0';
             printf("%i bytes read : %s\n", rx_length, rx_buffer);
 			// printf("%s\n", rx_buffer);
 			command[0] = rx_buffer[0];
@@ -299,8 +313,8 @@ static int uart_read(int size){
 			command[2] = rx_buffer[2];
 			command[3] = rx_buffer[3];
 			command[4] = rx_buffer[4];
-            break;
-        }
+		}
+		
     }
 
     return 0;
