@@ -92,8 +92,8 @@ int main(int argc, char *argv[])
 				if((t2-t1)>500000) 
 				{
 					printf("c5:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
-					address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
-					sprintf(data,"%d", AddrRead(address));
+					// address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
+					sprintf(data,"%d", AddrRead(((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4]));
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 			// }
 				printf("cmd=0\n");
 			#else
-				printf("c5:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
+				printf("c6:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
 				address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
 				for(int i=0; i<10; i++) {
 					sprintf(data[i],"%d", AddrRead(address));
