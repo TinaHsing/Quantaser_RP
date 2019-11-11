@@ -261,20 +261,22 @@ static int uart_init(){
 }
 static int uart_read(int size){
 
+
     /* Read some sample data from RX UART */
 
     /* Don't block serial read */
+	unsigned char rx_buffer[size];
+	int rx_length = read(uart_fd, (void*)rx_buffer, size);
+	
     fcntl(uart_fd, F_SETFL, FNDELAY);
-    while(1){
-        if(uart_fd == -1){
-            fprintf(stderr, "Failed to read from UART.\n");
-            return -1;
-        }
-        unsigned char rx_buffer[size];
-
-        int rx_length = read(uart_fd, (void*)rx_buffer, size);
+    // while(1){
+        // if(uart_fd == -1){
+            // fprintf(stderr, "Failed to read from UART.\n");
+            // return -1;
+        // }
+        
 		// printf("length = %d\n", rx_length);
-		command[0] = '0';
+		
 		
         // if (rx_length < 0){
 
@@ -303,7 +305,11 @@ static int uart_read(int size){
             // break;
         // }
 		
-		if(rx_length >0)
+		
+		
+    // }
+	command[0] = '0';
+	if(rx_length >0)
 		{
 			rx_buffer[rx_length] = '\0';
             printf("%i bytes read : %s\n", rx_length, rx_buffer);
@@ -314,9 +320,6 @@ static int uart_read(int size){
 			command[3] = rx_buffer[3];
 			command[4] = rx_buffer[4];
 		}
-		
-    }
-
     return 0;
 }
 static int uart_write(char *data){
