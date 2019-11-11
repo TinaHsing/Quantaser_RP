@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 				t2 = micros();
 				if((t2-t1)>500000) 
 				{
-					printf("%x\n",((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1] );
+					printf("c5:%x\n",((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1] );
 					address = ((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1];
 					sprintf(data,"%d", AddrRead(address));
 					uart_write(data);
