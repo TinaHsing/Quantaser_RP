@@ -60,7 +60,7 @@ void* map_base = (void*)(-1);
 long t1, t2;
 #endif
 int uart_fd = -1;
-uint32_t address = 0x40000100;
+uint32_t address = 10010020441;
 int main(int argc, char *argv[])
 {
 	#ifdef CONTINUE
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 				{
 					printf("c5:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
 					// address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
-					sprintf(data,"%d", AddrRead(((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4]));
+					sprintf(data,"%d", address);
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
