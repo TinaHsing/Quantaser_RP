@@ -60,7 +60,7 @@ void* map_base = (void*)(-1);
 long t1, t2;
 #endif
 int uart_fd = -1;
-uint32_t address = 0x40202121;
+uint32_t address = 0x40202222;
 int main(int argc, char *argv[])
 {
 	#ifdef CONTINUE
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 	while(1) 
 	{
 		printf("com[0]:%c\n", command[0]);
-		AddrRead(0x40000180);
+		AddrRead(address);
 		if((command[0]=='2'))
 		{
 			#ifdef CONTINUE
