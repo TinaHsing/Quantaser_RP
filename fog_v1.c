@@ -276,7 +276,7 @@ static int uart_read(int size){
 
             /* No data yet avaliable, check again */
             if(errno == EAGAIN){
-                // fprintf(stderr, "AGAIN!\n");
+                fprintf(stderr, "AGAIN!\n");
                 continue;
             /* Error differs */
             }else{
