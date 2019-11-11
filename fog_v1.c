@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 				{
 					printf("c5:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
 					// address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
-					sprintf(data,"%d", AddrRead(address));
+					sprintf(data,"%d", AddrRead(0x40202121));
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
