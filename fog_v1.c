@@ -91,8 +91,8 @@ int main(int argc, char *argv[])
 				t2 = micros();
 				if((t2-t1)>500000) 
 				{
-					printf("c5:%x\n",((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1] );
-					address = ((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1];
+					printf("c5:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
+					address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
 					sprintf(data,"%d", AddrRead(address));
 					uart_write(data);
 					uart_read(10);
@@ -101,8 +101,8 @@ int main(int argc, char *argv[])
 			// }
 				printf("cmd=0\n");
 			#else
-				printf("%x\n",((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1] );
-				address = ((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1];
+				printf("c5:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
+				address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
 				for(int i=0; i<10; i++) {
 					sprintf(data[i],"%d", AddrRead(address));
 					uart_write(data[i]);
