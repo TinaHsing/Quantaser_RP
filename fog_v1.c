@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
 	while(1) 
 	{
 		
-		if(command[0] != '1' || '2')
+		if((command[0]!='1') || (command[0]!='2'))
 		{
 			#ifdef CONTINUE
 			// while(1)
