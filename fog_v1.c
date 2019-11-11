@@ -80,8 +80,13 @@ int main(int argc, char *argv[])
 	uart_read(10);
 	while(1) 
 	{
+		if(command[0]==NULL)
+		{
+			printf("hello\n");
+			sleep(1);
+		}
 		
-		if((command[0]!='1') || (command[0]!='2'))
+		else if((command[0]!='0'))
 		{
 			#ifdef CONTINUE
 			// while(1)
