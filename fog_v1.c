@@ -60,7 +60,7 @@ void* map_base = (void*)(-1);
 long t1, t2;
 #endif
 int uart_fd = -1;
-uint32_t address = 4000017c;
+uint32_t address = 0x4000017c;
 int main(int argc, char *argv[])
 {
 	#ifdef CONTINUE
