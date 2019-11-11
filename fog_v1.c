@@ -28,7 +28,7 @@
 #define OUT 1
 #define LOW  0
 #define HIGH 1
-// #define CONTINUE
+#define CONTINUE
 //monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
@@ -73,29 +73,40 @@ int main(int argc, char *argv[])
 	#ifdef CONTINUE
 	t1=micros();
 	#endif
+	uart_read(10);
 	while(1) 
 	{
-		uart_read(10);
-		if(command[0] == '1')
+		
+		if(command[0] != '1' || '2')
 		{
 			#ifdef CONTINUE
-			while(1)
-			{
+			// while(1)
+			// {
 				t2 = micros();
-				if((t2-t1)>100000) {
+				if((t2-t1)>500000) 
+				{
+					printf("%x\n",((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1] );
+					address = ((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1];
 					sprintf(data,"%d", AddrRead(address));
 					uart_write(data);
+					uart_read(10);
 					t1 = t2;
 				}
-			}
+			// }
 			#else
 				printf("%x\n",((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1] );
+				address = ((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1];
 				for(int i=0; i<10; i++) {
 					sprintf(data[i],"%d", AddrRead(address));
 					uart_write(data[i]);
 				}
 				
 			#endif
+		}
+		else if(command[0] == '1')
+		{
+			printf("hi\n");
+			sleep(1);
 		}
 	}
 	
