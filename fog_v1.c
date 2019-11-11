@@ -113,8 +113,9 @@ int main(int argc, char *argv[])
 		else if(command[0] == '1')
 		{
 			printf("cmd=1\n");
-			uart_read(10);
+			
 			sleep(1);
+			uart_read(10);
 		}
 	}
 	
