@@ -51,7 +51,7 @@ static int uart_write(char*);
 
 int uart_num=1;
 char *uart_cmd;
-unsigned char command[5];
+unsigned char command[5]={'0','0','0','0','0'};
 
 //monitor
 void* map_base = (void*)(-1);
