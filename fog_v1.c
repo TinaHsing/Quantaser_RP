@@ -99,6 +99,7 @@ int main(int argc, char *argv[])
 					t1 = t2;
 				}
 			// }
+				printf("cmd=0\n");
 			#else
 				printf("%x\n",((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1] );
 				address = ((int)command[4] << 24)| ((int)command[3] << 16)|((int)command[2] << 8)|(int)command[1];
@@ -111,7 +112,8 @@ int main(int argc, char *argv[])
 		}
 		else if(command[0] == '1')
 		{
-			printf("hi\n");
+			printf("cmd=1\n");
+			uart_read(10);
 			sleep(1);
 		}
 	}
@@ -272,12 +274,13 @@ static int uart_read(int size){
 
         int rx_length = read(uart_fd, (void*)rx_buffer, size);
 		// printf("length = %d\n", rx_length);
+		command[0] = '0';
         if (rx_length < 0){
 
             /* No data yet avaliable, check again */
             if(errno == EAGAIN){
                 // fprintf(stderr, "AGAIN!\n");
-                continue;
+                // continue;
             /* Error differs */
             }else{
                 fprintf(stderr, "Error!\n");
