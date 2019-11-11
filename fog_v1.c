@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 	while(1) 
 	{
 		printf("com[0]:%c\n", command[0]);
-		AddrRead(0x40202121);
+		AddrRead(0x40000180);
 		if((command[0]=='2'))
 		{
 			#ifdef CONTINUE
