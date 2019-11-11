@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 	{
 		printf("com[0]:%c\n", command[0]);
 		
-		else if((command[0]!='0'))
+		if((command[0]=='0'))
 		{
 			#ifdef CONTINUE
 			// while(1)
