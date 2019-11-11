@@ -63,7 +63,11 @@ int uart_fd = -1;
 uint32_t address = 0x40000100;
 int main(int argc, char *argv[])
 {
-	char data[10][4];
+	#ifdef CONTINUE
+		char data[4];
+	#else
+		char data[10][4];
+	#endif
 	if(uart_init() < 0)
 	{
 		printf("Uart init error.\n");
