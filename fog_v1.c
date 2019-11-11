@@ -78,13 +78,10 @@ int main(int argc, char *argv[])
 	t1=micros();
 	#endif
 	uart_read(10);
+	printf("1.com[0]:%c\n", command[0]);
 	while(1) 
 	{
-		if(command[0]==NULL)
-		{
-			printf("hello\n");
-			sleep(1);
-		}
+		printf("com[0]:%c\n", command[0]);
 		
 		else if((command[0]!='0'))
 		{
