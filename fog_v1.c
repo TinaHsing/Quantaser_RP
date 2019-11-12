@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 				t2 = micros();
 				if((t2-t1)>SEND_DELAY_us) 
 				{
-					sprintf(data[1],"%d", AddrRead(address));
+					sprintf(&data[1],"%d", AddrRead(address));
 					// uart_write("o");
 					data[0]="o";
 					// data[1] = 0x02;
