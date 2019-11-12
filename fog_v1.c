@@ -67,7 +67,7 @@ uint32_t address = 1075847712;
 int main(int argc, char *argv[])
 {
 	#ifdef CONTINUE
-		char data[CMD_SIZE];
+		char data[11];
 	#else
 		char data[10][CMD_SIZE];
 	#endif
@@ -91,13 +91,13 @@ int main(int argc, char *argv[])
 				t2 = micros();
 				if((t2-t1)>SEND_DELAY_us) 
 				{
-					sprintf(data,"%c", AddrRead(address));
+					sprintf(data[1],"%d", AddrRead(address));
 					// uart_write("o");
-					data[0]=0x01;
-					data[1] = 0x02;
-					data[2] = 0x00;
-					data[3] = 0x00;
-					data[4] = 0x00;
+					data[0]="o";
+					// data[1] = 0x02;
+					// data[2] = 0x00;
+					// data[3] = 0x00;
+					// data[4] = 0x00;
 					// data[1] = AddrRead(address)>>24;
 					// data[2] = AddrRead(address)>>16;
 					// data[3] = AddrRead(address)>>8;
