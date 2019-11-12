@@ -52,7 +52,8 @@ static int uart_write(char*);
 
 int uart_num=1;
 char *uart_cmd;
-unsigned char command[5]={'0','0','0','0','0'};
+int cmd_size = 6;
+unsigned char command[cmd_size];
 
 //monitor
 void* map_base = (void*)(-1);
@@ -65,9 +66,9 @@ uint32_t address = 1075847712;
 int main(int argc, char *argv[])
 {
 	#ifdef CONTINUE
-		char data[4];
+		char data[cmd_size-1];
 	#else
-		char data[10][4];
+		char data[10][cmd_size-1];
 	#endif
 	if(uart_init() < 0)
 	{
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
 				t2 = micros();
 				if((t2-t1)>SEND_DELAY_us) 
 				{
-					sprintf(data,"%d", AddrRead(address));
+					sprintf(data,"%d", (0xff<<32) | AddrRead(address));
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
@@ -309,11 +310,7 @@ static int uart_read(int size){
 			rx_buffer[rx_length] = '\0';
             printf("%i bytes read : %s\n", rx_length, rx_buffer);
 			// printf("%s\n", rx_buffer);
-			command[0] = rx_buffer[0];
-			command[1] = rx_buffer[1];
-			command[2] = rx_buffer[2];
-			command[3] = rx_buffer[3];
-			command[4] = rx_buffer[4];
+			for(int i=0;i<cmd_size;i++) command[i] = rx_buffer[i];
 		}
     return 0;
 }
