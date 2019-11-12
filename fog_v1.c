@@ -93,8 +93,8 @@ int main(int argc, char *argv[])
 				{
 					sprintf(data,"%c", AddrRead(address));
 					// uart_write("o");
-					data[0]=0x00;
-					data[1] = 0x00;
+					data[0]=0x01;
+					data[1] = 0x02;
 					data[2] = 0x00;
 					data[3] = 0x00;
 					data[4] = 0x00;
