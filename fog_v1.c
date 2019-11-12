@@ -67,9 +67,9 @@ uint32_t address = 1075847712;
 int main(int argc, char *argv[])
 {
 	#ifdef CONTINUE
-		char data[CMD_SIZE-1];
+		char data[CMD_SIZE];
 	#else
-		char data[10][CMD_SIZE-1];
+		char data[10][CMD_SIZE];
 	#endif
 	if(uart_init() < 0)
 	{
@@ -94,9 +94,10 @@ int main(int argc, char *argv[])
 					sprintf(data,"%c", AddrRead(address));
 					// uart_write("o");
 					data[0]=0xff;
-					data[1]=0xff;
-					data[2]=0xff;
-					data[3]=0xff;
+					data[1] = AddrRead(address)>>24
+					data[2] = AddrRead(address)>>16
+					data[3] = AddrRead(address)>>8
+					data[4] = AddrRead(address)
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
