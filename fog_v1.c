@@ -94,10 +94,14 @@ int main(int argc, char *argv[])
 					sprintf(data,"%c", AddrRead(address));
 					// uart_write("o");
 					data[0]=0x00;
-					data[1] = AddrRead(address)>>24;
-					data[2] = AddrRead(address)>>16;
-					data[3] = AddrRead(address)>>8;
-					data[4] = AddrRead(address);
+					data[1] = 0x00;
+					data[2] = 0x00;
+					data[3] = 0x00;
+					data[4] = 0x00;
+					// data[1] = AddrRead(address)>>24;
+					// data[2] = AddrRead(address)>>16;
+					// data[3] = AddrRead(address)>>8;
+					// data[4] = AddrRead(address);
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
