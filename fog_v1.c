@@ -30,6 +30,7 @@
 #define HIGH 1
 #define CONTINUE
 #define SEND_DELAY_us 1000000 
+#define CMD_SIZE 5
 //monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
@@ -52,8 +53,8 @@ static int uart_write(char*);
 
 int uart_num=1;
 char *uart_cmd;
-int cmd_size = 5;
-unsigned char command[cmd_size];
+
+unsigned char command[CMD_SIZE], const_255=0xFF;
 
 //monitor
 void* map_base = (void*)(-1);
@@ -91,7 +92,7 @@ int main(int argc, char *argv[])
 				if((t2-t1)>SEND_DELAY_us) 
 				{
 					sprintf(data,"%d", AddrRead(address));
-					uart_write(0xff);
+					uart_write(&const_255);
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
@@ -311,7 +312,7 @@ static int uart_read(int size){
 			rx_buffer[rx_length] = '\0';
             printf("%i bytes read : %s\n", rx_length, rx_buffer);
 			// printf("%s\n", rx_buffer);
-			for(int i=0;i<cmd_size;i++) command[i] = rx_buffer[i];
+			for(int i=0;i<CMD_SIZE;i++) command[i] = rx_buffer[i];
 		}
     return 0;
 }
