@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
 	printf("1.com[0]:%c\n", command[0]);
 	while(1) 
 	{
-		printf("com[0]:%c\n", command[0]);
+		// printf("com[0]:%c\n", command[0]);
 		// printf("addr read=%d\n", AddrRead(address));
 		if((command[0]=='0'))
 		{
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 				t2 = micros();
 				if((t2-t1)>500000) 
 				{
-					printf("c5:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
+					// printf("c5:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
 					// address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
 					sprintf(data,"%d", AddrRead(address));
 					uart_write(data);
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 			// }
 				printf("cmd=0\n");
 			#else
-				printf("c6:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
+				
 				address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
 				for(int i=0; i<10; i++) {
 					sprintf(data[i],"%d", AddrRead(address));
@@ -113,7 +113,8 @@ int main(int argc, char *argv[])
 		else if(command[0] == '1')
 		{
 			printf("cmd=1\n");
-			
+			address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
+			printf("addr:%x\n", address);
 			sleep(1);
 			uart_read(10);
 		}
