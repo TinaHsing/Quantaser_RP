@@ -29,6 +29,7 @@
 #define LOW  0
 #define HIGH 1
 #define CONTINUE
+#define SEND_DELAY_us 1000000 
 //monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
@@ -78,7 +79,6 @@ int main(int argc, char *argv[])
 	t1=micros();
 	#endif
 	uart_read(10);
-	printf("1.com[0]:%c\n", command[0]);
 	while(1) 
 	{
 		// printf("com[0]:%c\n", command[0]);
@@ -86,20 +86,14 @@ int main(int argc, char *argv[])
 		if((command[0]=='0'))
 		{
 			#ifdef CONTINUE
-			// while(1)
-			// {
 				t2 = micros();
-				if((t2-t1)>500000) 
+				if((t2-t1)>SEND_DELAY_us) 
 				{
-					// printf("c5:%x\n",((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4] );
-					// address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
 					sprintf(data,"%d", AddrRead(address));
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
 				}
-			// }
-				printf("cmd=0\n");
 			#else
 				
 				address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
@@ -112,9 +106,8 @@ int main(int argc, char *argv[])
 		}
 		else if(command[0] == '1')
 		{
-			printf("cmd=1\n");
 			address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
-			printf("addr:%x\n", address);
+			// printf("addr:%x\n", address);
 			sleep(1);
 			uart_read(10);
 		}
