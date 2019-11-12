@@ -52,7 +52,7 @@ static int uart_write(char*);
 
 int uart_num=1;
 char *uart_cmd;
-int cmd_size = 6;
+int cmd_size = 5;
 unsigned char command[cmd_size];
 
 //monitor
@@ -90,7 +90,8 @@ int main(int argc, char *argv[])
 				t2 = micros();
 				if((t2-t1)>SEND_DELAY_us) 
 				{
-					sprintf(data,"%d", (0xff<<32) | AddrRead(address));
+					sprintf(data,"%d", AddrRead(address));
+					uart_write(0xff);
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
