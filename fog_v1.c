@@ -52,9 +52,9 @@ static int uart_read(int);
 static int uart_write(char*);
 
 int uart_num=1;
-char *uart_cmd;
+char *uart_cmd, const_255=0xFF;
 
-unsigned char command[CMD_SIZE], const_255=0xFF;
+unsigned char command[CMD_SIZE];
 
 //monitor
 void* map_base = (void*)(-1);
@@ -67,9 +67,9 @@ uint32_t address = 1075847712;
 int main(int argc, char *argv[])
 {
 	#ifdef CONTINUE
-		char data[cmd_size-1];
+		char data[CMD_SIZE-1];
 	#else
-		char data[10][cmd_size-1];
+		char data[10][CMD_SIZE-1];
 	#endif
 	if(uart_init() < 0)
 	{
