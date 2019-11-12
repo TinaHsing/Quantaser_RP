@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-// static uint32_t AddrRead(unsigned long addr)
+static uint32_t AddrRead(unsigned long addr)
 {
 	int fd = -1;
 	void* virt_addr;
