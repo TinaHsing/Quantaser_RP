@@ -198,6 +198,7 @@ int main(int argc, char *argv[])
 	
 	// printf("num=%d\n",num);
 	rp_GenAmp(RP_CH_1, 0);
+	DAC_out(DAC8, 0);
 	rp_Release();
 
 /*
