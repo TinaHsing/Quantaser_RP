@@ -109,7 +109,7 @@ uint32_t AddrRead(unsigned long);
 long micros(void);
 float adc_gain_p, adc_gain_n;
 uint32_t adc_offset;
-
+int idx=0;
 float int2float(uint32_t, float, float, uint32_t);
 
 float freq_HV, a0_HV, a1_HV, a0_LV, a1_LV;
@@ -120,13 +120,13 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	float step1=0, step2=0;
-	int	save=0;
+	// int	save=0;
 	int num=0;
-	long arb_size = 16384, t_now, t_temp = 0;
+	long arb_size = 16384;
 
-	uint32_t adc_counter;
-	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
-	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
+	// uint32_t adc_counter;
+	// uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
+	// float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
 	// long tt[3];
 	
 	// system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
