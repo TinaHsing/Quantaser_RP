@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 {
 	float step1=0, step2=0;
 	// int	save=0;
-	int num=0;
+	// int num=0;
 	// long arb_size = 16384;
 
 	// uint32_t adc_counter;
@@ -189,14 +189,14 @@ int main(int argc, char *argv[])
 		step1 += a1_HV;
 		step2 += a1_LV;
 		rp_GenAmp(RP_CH_1, a0_HV+step1);
-		DAC_out(DAC9, a0_LV+step2);
-		num++;
+		DAC_out(DAC8, a0_LV+step2);
+		// num++;
 	}
 
 	AddrWrite(0x40200044, END_SCAN);
 	// adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
 	
-	printf("num=%d\n",num);
+	// printf("num=%d\n",num);
 	rp_GenAmp(RP_CH_1, 0);
 	rp_Release();
 
