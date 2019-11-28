@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 	int num=0;
 	// long arb_size = 16384;
 
-	uint32_t adc_counter;
+	// uint32_t adc_counter;
 	// uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	// float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
 	// long tt[3];
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
 	}
 
 	AddrWrite(0x40200044, END_SCAN);
-	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
+	// adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
 	
 	printf("num=%d\n",num);
 	rp_GenAmp(RP_CH_1, 0);
