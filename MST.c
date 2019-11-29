@@ -186,6 +186,7 @@ int main(int argc, char *argv[])
 	pin_write( FGTRIG, 1);	// scan start trigger
 	for(int i=0; i<ts_HV; i++) 
 	{	
+		AddrWrite(0x40200064, i);//addwrite idx
 		step1 += a1_HV;
 		step2 += a1_LV;
 		rp_GenAmp(RP_CH_1, a0_HV+step1);
