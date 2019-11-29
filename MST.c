@@ -122,11 +122,11 @@ int main(int argc, char *argv[])
 	float step1=0, step2=0;
 	// int	save=0;
 	// int num=0;
-	// long arb_size = 16384;
+	long arb_size = 16384;
 
-	// uint32_t adc_counter;
-	// uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
-	// float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
+	uint32_t adc_counter;
+	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
+	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
 	// long tt[3];
 	
 	// system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
@@ -184,6 +184,7 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_1, a0_HV);
 	DAC_out(DAC8, a0_LV);
 	AddrWrite(0x40200044, START_SCAN);
+	pin_write( FGTRIG, 1);	// scan start trigger
 	for(int i=0; i<ts_HV; i++) 
 	{	
 		step1 += a1_HV;
@@ -192,16 +193,17 @@ int main(int argc, char *argv[])
 		DAC_out(DAC8, a0_LV+step2);
 		// num++;
 	}
-
+	pin_write( FGTRIG, 0);
 	AddrWrite(0x40200044, END_SCAN);
-	// adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
+	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
+	printf("adc_counter= %d\n",adc_counter); // 要<16384
 	
 	// printf("num=%d\n",num);
 	rp_GenAmp(RP_CH_1, 0);
 	DAC_out(DAC8, 0);
 	rp_Release();
 
-/*
+
 	for(int i=0; i<adc_counter; i++)
 	{
 		AddrWrite(0x40200064, i);//addwrite idx 
@@ -215,7 +217,7 @@ int main(int argc, char *argv[])
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	free(adc_mem);
 	free(adc_mem_f);
-*/	
+
 	pin_unexport(FGTRIG);
 	pin_unexport(FGTTL);
 	pin_unexport(TEST_TTL_0);
