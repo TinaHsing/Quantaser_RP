@@ -120,7 +120,7 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	float step1=0, step2=0;
-	// int	save=0;
+	int	save=0;
 	// int num=0;
 	long arb_size = 16384;
 
@@ -169,11 +169,10 @@ int main(int argc, char *argv[])
 	a1_HV = atof(argv[4]);		//AC 掃描step
 	a0_LV = atof(argv[5]);		//DC 起始電壓
 	a1_LV = atof(argv[6]);		//DC 掃描step
-	// freq_factor = atof(argv[7]);
-	// save = atoi(argv[9]);
-	// adc_offset = atoi(argv[12]);
-	// adc_gain_p = atof(argv[14]);
-	// adc_gain_n = atof(argv[15]);
+	save = atoi(argv[7]);
+	adc_offset = atoi(argv[8]);
+	adc_gain_p = atof(argv[9]);
+	adc_gain_n = atof(argv[10]);
 
 	ADC_init();
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
