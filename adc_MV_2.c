@@ -56,10 +56,10 @@ int main(int argc, char **argv){
 		for(int i=0; i<hold_times; i++)
 		{
 			// time[0]=micros();
-			AddrWrite(0x40200044, 1);
-			while(AddrRead(0x40200054)) {};
+			AddrWrite(0x40200044, 1); // start integrate process
+			while(!AddrRead(0x40200054)) {}; //integrate finish
 			sum += ADC_req(&buff_size, buff, ch);
-			while(!AddrRead(0x40200054)) {};
+			// while(!AddrRead(0x40200054)) {};
 			// time[1]=micros();
 			// diff[i]=time[1]-time[0];
 			// printf("%ld\n", time[1]-time[0]);
