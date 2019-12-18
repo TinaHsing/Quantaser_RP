@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 				if(cnt==100) 
 				{
 					t_end = micros();
-					printf("t_100 = %ld\n", (t_end - t_start)/1000);
+					printf("t_100 = %ld\n", t_end - t_start);
 					t_start = t_end;
 					cnt = 0;
 				}
