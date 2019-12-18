@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
-					cnt++;
+					// cnt++;
 				}
 				// if(cnt==100) 
 				// {
