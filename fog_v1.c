@@ -29,7 +29,7 @@
 #define LOW  0
 #define HIGH 1
 #define CONTINUE
-#define SEND_DELAY_us 1000000 
+#define SEND_DELAY_us 10000 
 #define CMD_SIZE 5
 //monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
@@ -60,7 +60,7 @@ unsigned char command[CMD_SIZE];
 void* map_base = (void*)(-1);
 
 #ifdef CONTINUE
-long t1, t2;
+long t1, t2, t_start, t_end, cnt=0;
 #endif
 int uart_fd = -1;
 uint32_t address = 0x40000184; //1075847712 = 0x4020_2220 
@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
 	// printf("addr=%ld\n",atol(argv[1]));
 	#ifdef CONTINUE
 	t1=micros();
+	t_start=micros();
 	#endif
 	uart_read(10);
 	while(1) 
@@ -104,6 +105,14 @@ int main(int argc, char *argv[])
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
+					cnt++;
+				}
+				if(cnt==100) 
+				{
+					t_end = micros();
+					printf("t_100 = %d\n", (t_end - t_start)/1000);
+					t_start = t_end;
+					cnt = 0;
 				}
 			#else
 				
