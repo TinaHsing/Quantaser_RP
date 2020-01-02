@@ -117,10 +117,11 @@ int main(int argc, char *argv[])
 		}
 		else if(command[0] == '1')
 		{
-			address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
+			// address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
 			// printf("addr:%x\n", address);
-			sleep(1);
-			uart_read(10);
+			// sleep(1);
+			// uart_read(10);
+			printf("stop here!\n");
 		}
 	}
 	
