@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
 			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
 			// ADC_req(&buff_size, buff, adc_data);
 			t_temp=t_now;			
-			// num++;
+			num++;
 		}	
 	}
 	// tt[0] = micros();
