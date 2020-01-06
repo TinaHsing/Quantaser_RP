@@ -452,8 +452,8 @@ void ADC_init(void){
 	rp_AcqReset();
 	rp_AcqSetDecimation(1);
 	rp_AcqStart(); //寫osc address 0x0 value 0x01=> adc_arm_do = 1
-	rp_AcqSetGain(RP_CH_1, RP_HIGH); //broken
-	// rp_AcqSetGain(RP_CH_2, RP_HIGH);
+	// rp_AcqSetGain(RP_CH_1, RP_HIGH); //broken
+	rp_AcqSetGain(RP_CH_2, RP_HIGH);
 }
 void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 {
