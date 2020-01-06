@@ -278,7 +278,7 @@ int main(int argc, char *argv[])
 			rp_GenAmp(RP_CH_2, amp2);
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
-			DAC_out(DAC1, 0.2);
+			// DAC_out(DAC1, 0.2);
 			// amp = amp + m1*update_rate_auto;
 			// amp2 = amp2 + m2*update_rate_auto;
 			// adc_read_start_time = micros();
