@@ -298,7 +298,7 @@ int main(int argc, char *argv[])
 
 	AddrWrite(0x40200044, END_SCAN);
 	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
-	// printf("adc_counter= %d\n",adc_counter);
+	printf("adc_counter= %d\n",adc_counter);
 	
 	// AddrWrite(0x40200044, CLEAR);
 	
