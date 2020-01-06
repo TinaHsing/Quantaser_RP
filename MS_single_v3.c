@@ -278,7 +278,7 @@ int main(int argc, char *argv[])
 			rp_GenAmp(RP_CH_2, amp2);
 			amp = amp + m1*UPDATE_RATE;
 			amp2 = amp2 + m2*UPDATE_RATE;
-			DAC_out(DAC1, 0.2);
+			// DAC_out(DAC1, 0.2);
 			// amp = amp + m1*update_rate_auto;
 			// amp2 = amp2 + m2*update_rate_auto;
 			// adc_read_start_time = micros();
@@ -298,7 +298,7 @@ int main(int argc, char *argv[])
 
 	AddrWrite(0x40200044, END_SCAN);
 	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
-	// printf("adc_counter= %d\n",adc_counter);
+	printf("adc_counter= %d\n",adc_counter);
 	
 	// AddrWrite(0x40200044, CLEAR);
 	
