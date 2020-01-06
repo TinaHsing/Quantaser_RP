@@ -302,7 +302,7 @@ int main(int argc, char *argv[])
 	
 	// AddrWrite(0x40200044, CLEAR);
 	
-	printf("num=%d\n",num);
+	// printf("num=%d\n",num);
 	// printf("tt[0]=%ld\n",tt[0]);
 	// printf("tt[1]=%ld\n",tt[1]);
 	// printf("tt[2]=%ld\n",tt[2]);
