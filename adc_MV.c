@@ -26,8 +26,8 @@ int main(int argc, char **argv){
 
         rp_AcqStart();
 		rp_AcqSetGain(ch, gain); //gain : 0:LOW, 1:HIGH;   ch: 0:ch1, 1:ch2
-		// while(1)
-		// {
+		while(1)
+		{
 		// for(int i=0; i<64; i++)
 		// {
 			// time[0]=micros();
@@ -37,7 +37,7 @@ int main(int argc, char **argv){
 			// printf("%ld\n", time[1]-time[0]);
 			
 		// }
-		// }
+		}
         // /* Releasing resources */
         free(buff);
         rp_Release();
