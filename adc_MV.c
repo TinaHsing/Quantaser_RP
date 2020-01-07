@@ -26,7 +26,7 @@ int main(int argc, char **argv){
 
         rp_AcqStart();
 		rp_AcqSetGain(ch, gain); //gain : 0:LOW, 1:HIGH;   ch: 0:ch1, 1:ch2
-		while(1)
+		while(1)ee
 		{
 		// for(int i=0; i<64; i++)
 		// {
