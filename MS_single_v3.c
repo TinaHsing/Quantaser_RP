@@ -329,8 +329,8 @@ int main(int argc, char *argv[])
 	free(t3);
 	free(x3);			
 	rp_Release();
-	// write_file(adc_mem_f, save, adc_counter);
-	write_txt(adc_mem, save, adc_counter);
+	write_file(adc_mem_f, save, adc_counter);
+	// write_txt(adc_mem, save, adc_counter);
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	// free(buff);
 	free(adc_mem);
