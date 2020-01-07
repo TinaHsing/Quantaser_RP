@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
 	int	save=0, sweep_time;
 	// int update_rate_auto;
 	// int data_size=0;
-	int num=0;
+	// int num=0;
 	long arb_size = 16384, t_start, t_now, t_temp = 0;
 	// long adc_read_start_time;
 	// bool adc_read_flag=0;
@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
 			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
 			// ADC_req(&buff_size, buff, adc_data);
 			t_temp=t_now;			
-			num++;
+			// num++;
 		}	
 	}
 	// tt[0] = micros();
@@ -298,11 +298,11 @@ int main(int argc, char *argv[])
 
 	AddrWrite(0x40200044, END_SCAN);
 	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
-	printf("adc_counter= %d\n",adc_counter);
+	// printf("adc_counter= %d\n",adc_counter);
 	
 	// AddrWrite(0x40200044, CLEAR);
 	
-	printf("num=%d\n",num);
+	// printf("num=%d\n",num);
 	// printf("tt[0]=%ld\n",tt[0]);
 	// printf("tt[1]=%ld\n",tt[1]);
 	// printf("tt[2]=%ld\n",tt[2]);
