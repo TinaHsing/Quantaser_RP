@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 		if((command[0]=='0'))
 		{
 			#ifdef CONTINUE
-				printf("hi\n");
+				// printf("hi\n");
 				t2 = micros();
 				if((t2-t1)>SEND_DELAY_us) 
 				{
