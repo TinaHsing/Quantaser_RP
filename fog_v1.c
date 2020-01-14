@@ -94,9 +94,10 @@ int main(int argc, char *argv[])
 				if((t2-t1)>SEND_DELAY_us) 
 				{
 					sprintf(data,"%d", AddrRead(address));
-					uart_write(data);
+					// uart_write(data);
 					uart_read(10);
 					t1 = t2;
+					printf("hi!\n");
 					// cnt++;
 				}
 				// if(cnt==100) 
