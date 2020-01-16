@@ -63,7 +63,9 @@ void* map_base = (void*)(-1);
 long t1, t2;//, t_start, t_end, cnt=0;
 #endif
 int uart_fd = -1;
-uint32_t address = 0x40000184; //1075847712 = 0x4020_2220 
+uint32_t address = 0x4000012C; 
+//0x40000184 : kalmman filter output
+//0x4000012C : err out
 int main(int argc, char *argv[])
 {
 	#ifdef CONTINUE
