@@ -44,6 +44,7 @@
 // static int pin_write(int, int);
 
 static uint32_t AddrRead(unsigned long);
+void AddrWrite(unsigned long, unsigned long);
 long micros(void);
 // long micros(void);
 ///////* UART *//////////
@@ -112,6 +113,7 @@ int main(int argc, char *argv[])
 				if(AddrRead(plot_data_flag)==1) 
 				{
 					ta = micros();
+					//30us for one data write, 50000 data take ~1500000 = 1.5s
 					for(int i=0; i<DATA_SIZE; i++)
 					{
 						data_in = AddrRead(data_addr);
@@ -122,6 +124,7 @@ int main(int argc, char *argv[])
 					fp = fopen("data.bin", "wb");
 					fwrite(data_int, sizeof(int), DATA_SIZE, fp);
 					fclose(fp);
+					AddrWrite(plot_data_flag, 0);
 					tc = micros();
 				}
 				printf("%ld, \n", tb-ta);
@@ -198,7 +201,31 @@ static uint32_t AddrRead(unsigned long addr)
 	}
 	return read_result;
 }
+void AddrWrite(unsigned long addr, unsigned long value)
+{
+	int fd = -1;
+	void* virt_addr;
+	// uint32_t read_result = 0;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	/* Map one page */
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	if(map_base == (void *) -1) FATAL;
+	virt_addr = map_base + (addr & MAP_MASK);
+	
+	*((unsigned long *) virt_addr) = value;
+	
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		map_base = (void*)(-1);
+	}
 
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	}
+	if (fd != -1) {
+		close(fd);
+	}
+}
 
 // static int pin_direction(int pin, int dir){
 
