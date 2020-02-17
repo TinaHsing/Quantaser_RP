@@ -31,7 +31,7 @@
 #define CONTINUE
 #define SEND_DELAY_us 10000 
 #define CMD_SIZE 5
-#define DATA_SIZE 10000
+#define DATA_SIZE 50000
 //monitor
 #define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
