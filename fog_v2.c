@@ -63,7 +63,7 @@ void* map_base = (void*)(-1);
 #ifdef CONTINUE
 long t1, t2;//, t_start, t_end, cnt=0;
 #endif
-long ta, tb;
+long ta, tb, tc;
 int uart_fd = -1;
 uint32_t address = 0x40000184; 
 //0x40000184 : kalmman filter output
@@ -112,15 +112,20 @@ int main(int argc, char *argv[])
 				if(AddrRead(plot_data_flag)==1) 
 				{
 					ta = micros();
-					data_in = AddrRead(data_addr);
-					if((data_in >> 14) == 1) data_in = data_in - 32769 ; 
-					for(int i=0; i<DATA_SIZE; i++) data_int[i] = data_in;
+					for(int i=0; i<DATA_SIZE; i++)
+					{
+						data_in = AddrRead(data_addr);
+						if((data_in >> 14) == 1) data_in = data_in - 32769 ; 
+						data_int[i] = data_in;
+					}	
+					tb = micros();
 					fp = fopen("data.bin", "wb");
 					fwrite(data_int, sizeof(int), DATA_SIZE, fp);
 					fclose(fp);
-					tb = micros();
+					tc = micros();
 				}
-				printf("t=%ld\n", tb-ta);
+				printf("%ld, \n", tb-ta);
+				printf("%ld\n", tc-tb);
 				// if(cnt==100) 
 				// {
 					// t_end = micros();
