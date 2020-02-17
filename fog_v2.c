@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 					fclose(fp);
 					tb = micros();
 				}
-				printf("t=%d\n", tb-ta);
+				printf("t=%ld\n", tb-ta);
 				// if(cnt==100) 
 				// {
 					// t_end = micros();
