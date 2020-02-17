@@ -106,11 +106,12 @@ int main(int argc, char *argv[])
 					t1 = t2;
 					// cnt++;
 				}
-				if(AddrRead(plot_data_flag)==1) 
-				{
-					printf("hi!\n");
-				}
-				else printf("bye!\n");
+				// if(AddrRead(plot_data_flag)==1) 
+				// {
+					// printf("hi!\n");
+				// }
+				// else printf("bye!\n");
+				printf(AddrRead(plot_data_flag));
 				// if(cnt==100) 
 				// {
 					// t_end = micros();
