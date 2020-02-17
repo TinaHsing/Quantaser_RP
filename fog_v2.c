@@ -67,7 +67,7 @@ int uart_fd = -1;
 uint32_t address = 0x40000184; 
 //0x40000184 : kalmman filter output
 //0x4000012C : err out
-uint32_t plot_data_flag;
+uint32_t plot_data_flag = 0x400001D4;
 uint32_t data_addr;
 uint32_t data_int[DATA_SIZE];
 
