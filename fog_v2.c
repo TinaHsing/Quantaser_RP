@@ -68,7 +68,7 @@ uint32_t address = 0x40000184;
 //0x40000184 : kalmman filter output
 //0x4000012C : err out
 uint32_t plot_data_flag = 0x400001D4;
-uint32_t data_addr;
+uint32_t data_addr = 0x4000012C;
 uint32_t data_int[DATA_SIZE];
 
 int main(int argc, char *argv[])
@@ -108,9 +108,8 @@ int main(int argc, char *argv[])
 				}
 				if(AddrRead(plot_data_flag)==1) 
 				{
-					printf("hi!\n");
+					printf("%d\n", (AddrRead(data_addr));
 				}
-				else printf("bye!\n");
 				// if(cnt==100) 
 				// {
 					// t_end = micros();
