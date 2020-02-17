@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 				}
 				if(AddrRead(plot_data_flag)==1) 
 				{
-					printf("%d\n", (AddrRead(data_addr));
+					printf("%d\n", AddrRead(data_addr));
 				}
 				// if(cnt==100) 
 				// {
