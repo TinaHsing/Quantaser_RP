@@ -70,6 +70,7 @@ uint32_t address = 0x40000184;
 uint32_t plot_data_flag = 0x400001D4;
 uint32_t data_addr = 0x4000012C;
 uint32_t data_int[DATA_SIZE];
+int data_in;
 
 int main(int argc, char *argv[])
 {
@@ -108,7 +109,9 @@ int main(int argc, char *argv[])
 				}
 				if(AddrRead(plot_data_flag)==1) 
 				{
-					printf("%d\n", AddrRead(data_addr));
+					data_in = AddrRead(data_addr);
+					if((data_in >> 14) == 1) data_in = data_in - 32769 ; 
+					printf("%d\n", data_in);
 				}
 				// if(cnt==100) 
 				// {
