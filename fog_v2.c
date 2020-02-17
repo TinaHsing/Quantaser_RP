@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
 					// printf("hi!\n");
 				// }
 				// else printf("bye!\n");
-				printf(AddrRead(plot_data_flag));
+				printf("%d\n",AddrRead(plot_data_flag));
 				// if(cnt==100) 
 				// {
 					// t_end = micros();
