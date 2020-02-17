@@ -126,9 +126,10 @@ int main(int argc, char *argv[])
 					fclose(fp);
 					AddrWrite(plot_data_flag, 0);
 					tc = micros();
+					printf("%ld, \n", tb-ta);
+					printf("%ld\n", tc-tb);
 				}
-				printf("%ld, \n", tb-ta);
-				printf("%ld\n", tc-tb);
+				
 				// if(cnt==100) 
 				// {
 					// t_end = micros();
