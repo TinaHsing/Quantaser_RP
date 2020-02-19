@@ -152,8 +152,8 @@ int main(int argc, char *argv[])
 				printf("%ld, \n", tb-ta);
 				printf("%ld\n", tc-tb);
 			}
-			release();
-			return 0;
+			// release();
+			// return 0;
 		}
 		else if(command[0] == '2')
 		{
