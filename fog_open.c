@@ -125,6 +125,8 @@ int main(int argc, char *argv[])
 			// sleep(1);
 			// uart_read(10);
 			printf("stop here!\n");
+			release();
+			return 0;
 		}
 	}
 	
