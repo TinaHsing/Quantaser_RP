@@ -93,7 +93,8 @@ int main(int argc, char *argv[])
 	t1=micros();
 	// t_start=micros();
 	#endif
-	uart_read(10);
+	// uart_read(10);
+	command[0]=='0'
 	while(1) 
 	{
 		// printf("com[0]:%c\n", command[0]);
