@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 	// printf("addr=%ld\n",atol(argv[1]));
 	#ifdef CONTINUE
 	t1=micros();
-	t_start=micros();
+	// t_start=micros();
 	#endif
 	uart_read(10);
 	while(1) 
