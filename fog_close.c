@@ -140,6 +140,7 @@ int main(int argc, char *argv[])
 					data_in = AddrRead(data_addr);
 					if((data_in >> 14) == 1) data_in = data_in - 32769 ; 
 					data_int[i] = data_in;
+					printf("%ld\n",data_int[i]);
 				}	
 				tb = micros();
 				fp = fopen("data.bin", "wb");
