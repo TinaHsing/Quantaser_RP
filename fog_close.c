@@ -152,6 +152,8 @@ int main(int argc, char *argv[])
 				printf("%ld, \n", tb-ta);
 				printf("%ld\n", tc-tb);
 			}
+			release();
+			return 0;
 		}
 		else if(command[0] == '2')
 		{
@@ -160,6 +162,8 @@ int main(int argc, char *argv[])
 			// sleep(1);
 			// uart_read(10);
 			printf("stop here!\n");
+			release();
+			return 0;
 		}
 	}
 	
