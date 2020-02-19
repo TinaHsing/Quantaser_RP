@@ -63,6 +63,7 @@ void* map_base = (void*)(-1);
 long t1, t2;//, t_start, t_end, cnt=0;
 #endif
 int uart_fd = -1;
+int data_in;
 uint32_t address = 0x4000012C; 
 //0x40000184 : kalmman filter output
 //0x4000012C : err out
@@ -90,12 +91,14 @@ int main(int argc, char *argv[])
 		// printf("addr read=%d\n", AddrRead(address));
 		if((command[0]=='0'))
 		{
+			data_in = AddrRead(address);
+			if((data_in >> 14) == 1) data_in = data_in - 32769 ; 
 			#ifdef CONTINUE
 				// printf("hi\n");
 				t2 = micros();
 				if((t2-t1)>SEND_DELAY_us) 
 				{
-					sprintf(data,"%d", AddrRead(address));
+					sprintf(data,"%d", data_in);
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
