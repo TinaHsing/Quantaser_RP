@@ -5,10 +5,10 @@ int main(int argc, char *argv[])
 {
 	FILE *fp;
 	size_t cnt = atoi(argv[2]);
-	float arr[16384];
+	int arr[50000];
 	
 	fp = fopen(argv[1], "rb");
-	fread(arr, sizeof(float), cnt, fp);
+	fread(arr, sizeof(int), cnt, fp);
 	for(int i=0; i<cnt; i++) {
 		printf("%d. %f\n", i, arr[i]);
 	}
