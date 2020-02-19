@@ -152,6 +152,7 @@ int main(int argc, char *argv[])
 				printf("%ld, \n", tb-ta);
 				printf("%ld\n", tc-tb);
 			}
+			uart_read(10);
 			// release();
 			// return 0;
 		}
@@ -382,7 +383,7 @@ static int uart_read(int size){
 		
 		
     // }
-	command[0] = '0';
+	// command[0] = '0';
 	if(rx_length >0)
 		{
 			rx_buffer[rx_length] = '\0';
