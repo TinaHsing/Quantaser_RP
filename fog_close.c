@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 			// sleep(1);
 			// uart_read(10);
 			printf("stop here!\n");
-			uart_write("stop here!");
+			// uart_write("stop here!");
 			release();
 			return 0;
 		}
