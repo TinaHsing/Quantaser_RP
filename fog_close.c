@@ -63,7 +63,7 @@ void* map_base = (void*)(-1);
 
 #ifdef CONTINUE
 long t1, t2;
-long t_start, t_end, cnt=0;
+// long t_start, t_end, cnt=0;
 #endif
 long ta, tb, tc;
 int uart_fd = -1;
@@ -109,17 +109,17 @@ int main(int argc, char *argv[])
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
-					cnt++;
+					// cnt++;
 				}
 				
 				
-				if(cnt==100) 
-				{
-					t_end = micros();
-					printf("t_100 = %ld\n", t_end - t_start);
-					t_start = t_end;
-					cnt = 0;
-				}
+				// if(cnt==100) 
+				// {
+					// t_end = micros();
+					// printf("t_100 = %ld\n", t_end - t_start);
+					// t_start = t_end;
+					// cnt = 0;
+				// }
 			#else
 				
 				address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
