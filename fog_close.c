@@ -72,7 +72,7 @@ uint32_t address = 0x40000184;
 //0x4000012C : err out
 //0x400001E0 : kalmman filter of err out
 uint32_t plot_data_flag = 0x400001D4;
-uint32_t data_addr = 0x4000012C;
+uint32_t data_addr = 0x400001E0;
 uint32_t data_int[DATA_SIZE];
 int data_in, data_in_2;
 FILE *fp;
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 				for(int i=0; i<DATA_SIZE; i++)
 				{
 					data_in = AddrRead(data_addr);
-					if((data_in >> 14) == 1) data_in = data_in - 32769 ; 
+					// if((data_in >> 14) == 1) data_in = data_in - 32769 ; 
 					data_int[i] = data_in;
 					// printf("%d\n",data_int[i]);
 				}	
