@@ -73,7 +73,7 @@ uint32_t address = 0x4000012C;
 uint32_t plot_data_flag = 0x400001D4;
 uint32_t data_addr = 0x4000012C;
 uint32_t data_int[DATA_SIZE];
-int data_in;
+int data_in, data_in_2;
 FILE *fp;
 
 int main(int argc, char *argv[])
@@ -106,7 +106,12 @@ int main(int argc, char *argv[])
 				t2 = micros();
 				if((t2-t1)>SEND_DELAY_us) 
 				{
-					sprintf(data,"%d", AddrRead(address));
+					data_in_2 = AddrRead(address);
+					if((data_in_2 >> 14) == 1) data_in_2 = data_in_2 - 32769 ; 
+					sprintf(data,"%d", data_in_2);
+					///////for kalmman out///////////
+					// sprintf(data,"%d", AddrRead(address));
+					//////////////////////////////////
 					uart_write(data);
 					uart_read(10);
 					t1 = t2;
