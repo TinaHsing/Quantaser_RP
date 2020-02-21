@@ -67,9 +67,10 @@ long t1, t2;
 #endif
 long ta, tb, tc;
 int uart_fd = -1;
-uint32_t address = 0x4000012C; 
-//0x40000184 : kalmman filter output
+uint32_t address = 0x400001E0; 
+//0x40000184 : kalmman filter of int output
 //0x4000012C : err out
+//0x400001E0 : kalmman filter of err out
 uint32_t plot_data_flag = 0x400001D4;
 uint32_t data_addr = 0x4000012C;
 uint32_t data_int[DATA_SIZE];
@@ -106,11 +107,11 @@ int main(int argc, char *argv[])
 				t2 = micros();
 				if((t2-t1)>SEND_DELAY_us) 
 				{
-					data_in_2 = AddrRead(address);
-					if((data_in_2 >> 14) == 1) data_in_2 = data_in_2 - 32769 ; 
-					sprintf(data,"%d", data_in_2);
+					// data_in_2 = AddrRead(address);
+					// if((data_in_2 >> 14) == 1) data_in_2 = data_in_2 - 32769 ; 
+					// sprintf(data,"%d", data_in_2);
 					///////for kalmman out///////////
-					// sprintf(data,"%d", AddrRead(address));
+					sprintf(data,"%d", AddrRead(address));
 					//////////////////////////////////
 					uart_write(data);
 					uart_read(10);
