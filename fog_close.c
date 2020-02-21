@@ -67,7 +67,7 @@ long t1, t2;
 #endif
 long ta, tb, tc;
 int uart_fd = -1;
-uint32_t address = 0x40000184; 
+uint32_t address = 0x4000012C; 
 //0x40000184 : kalmman filter output
 //0x4000012C : err out
 uint32_t plot_data_flag = 0x400001D4;
