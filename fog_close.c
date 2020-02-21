@@ -67,7 +67,7 @@ long t1, t2;
 #endif
 long ta, tb, tc;
 int uart_fd = -1;
-uint32_t address = 0x400001E0; 
+uint32_t address = 0x40000184; 
 //0x40000184 : kalmman filter of int output
 //0x4000012C : err out
 //0x400001E0 : kalmman filter of err out
