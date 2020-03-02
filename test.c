@@ -1,59 +1,40 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <stdint.h>
-#include <unistd.h>
-#include "redpitaya/rp.h"
-//#include "C:\Users\Quantaser\Dropbox\projects\MassSpectrometer\rp.h"
 
 
-//global vars//
-/*1. function gen and ADC*/
 
-int main(int argc, char **argv){
+static uint32_t AddrRead(unsigned long);
 
-	/* Print error, if rp_Init() function failed */
-	if(rp_Init() != RP_OK){
-		fprintf(stderr, "Rp api init failed!\n");
-	}
-	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-	rp_GenOutEnable(RP_CH_1);
-	/* Generating frequency */
-	rp_GenFreq(RP_CH_1, 1000.0);
+uint32_t address = 0x40000184; 
 
-	/* Generating amplitude */
-	rp_GenAmp(RP_CH_1, 0.5);
-
-	/* Generating wave form */
-	
-
-	/* Enable channel */
-	
-
-	/* Releasing resources */
-//	rp_Release();
-	
-	sleep(1);
-//	if(rp_Init() != RP_OK){
-//		fprintf(stderr, "Rp api init failed!\n");
-//	}
-
-	/* Generating frequency */
-	rp_GenFreq(RP_CH_1, 500.0);
-
-	/* Generating amplitude */
-	rp_GenAmp(RP_CH_1, 1);
-
-	/* Generating wave form */
-//	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-
-	/* Enable channel */
-//	rp_GenOutEnable(RP_CH_1);
-
-	/* Releasing resources */
-	rp_Release();
-
+int main(int argc, char *argv[])
+{
+	printf("%d", AddrRead(address));
 	return 0;
 }
- 
 
+static uint32_t AddrRead(unsigned long addr)
+{
+	int fd = -1;
+	void* virt_addr;
+	uint32_t read_result = 0;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	/* Map one page */
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	if(map_base == (void *) -1) FATAL;
+	virt_addr = map_base + (addr & MAP_MASK);
+	
+	read_result = *((uint32_t *) virt_addr); //read
+
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		map_base = (void*)(-1);
+	}
+
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	}
+	if (fd != -1) {
+		close(fd);
+	}
+	return read_result;
+}
