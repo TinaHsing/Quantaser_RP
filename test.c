@@ -23,6 +23,7 @@
   __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
 #define MAP_SIZE 4096UL
 #define MAP_MASK (MAP_SIZE - 1)
+void* map_base = (void*)(-1);
 
 static uint32_t AddrRead(unsigned long);
 
