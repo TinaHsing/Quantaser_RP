@@ -1,7 +1,22 @@
 #include <stdio.h>
-#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/time.h>
+#include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <linux/ioctl.h>
+#include <linux/i2c-dev.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <fcntl.h> 
+#include <termios.h> 
+#include <errno.h>
+#include <math.h>
+#include <signal.h>
+#include <ctype.h>
+#include <sys/mman.h>
+#include <math.h>
 
 static uint32_t AddrRead(unsigned long);
 
