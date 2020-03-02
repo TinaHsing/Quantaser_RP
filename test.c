@@ -18,6 +18,12 @@
 #include <sys/mman.h>
 #include <math.h>
 
+//monitor
+#define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
+  __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
+#define MAP_SIZE 4096UL
+#define MAP_MASK (MAP_SIZE - 1)
+
 static uint32_t AddrRead(unsigned long);
 
 uint32_t address = 0x40000184; 
