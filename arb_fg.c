@@ -14,7 +14,7 @@ int main(int argc, char **argv){
     float sweep_time;
     int buff_size = 16384;
 	// long t0;
-	float freq = 0.1;
+	float freq = 1000;
 
     /* Print error, if rp_Init() function failed */
     if(rp_Init() != RP_OK){
@@ -25,7 +25,7 @@ int main(int argc, char **argv){
     // float *x = (float *)malloc(buff_size * sizeof(float));
     float *y = (float *)malloc(buff_size * sizeof(float));
 	
-	printf("enter sweep time in us: ");
+	printf("enter sweep time in s: ");
 	scanf("%f",&sweep_time);
 
 	// sweep_time /= 1000000;
@@ -47,7 +47,7 @@ int main(int argc, char **argv){
     rp_GenAmp(RP_CH_2, 1.0);
 
     // rp_GenFreq(RP_CH_1, 1000000/sweep_time);
-    rp_GenFreq(RP_CH_2, 1000000/sweep_time);
+    rp_GenFreq(RP_CH_2, 1/sweep_time);
 	
 	// t0 = micros();
     // rp_GenOutEnable(RP_CH_1);
