@@ -23,7 +23,8 @@ int main(int argc, char **argv){
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
-
+	rp_GenOutEnable(RP_CH_2);
+	
     float *t = (float *)malloc(arb_size * sizeof(float));
 	float *x_1 = (float *)malloc(arb_size * sizeof(float));
 	k_1 = (final_freq_1 - start_freq_1) / sweep_time_1;
@@ -32,9 +33,9 @@ int main(int argc, char **argv){
 		x_1[i] = sin(2*M_PI*(start_freq_1*t[i] + 0.5*k_1*t[i]*t[i]));
 	}
 	
-	rp_GenOutEnable(RP_CH_2);
+	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
     rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-    rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
+    
 	rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
 	
 	
