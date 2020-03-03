@@ -129,7 +129,7 @@ void LTC2615_write(bool sel, uint8_t ch, float value)
 		t[0] = code >> 8;
 		t[1] = (uint8_t)code; 
 	#endif
-	printf("%d\n", code);
+	
 	if(!sel)
 	{
 		i2cSetAddress(DAC0_ADD);
