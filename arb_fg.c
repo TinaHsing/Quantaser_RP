@@ -40,7 +40,7 @@ int main(int argc, char **argv){
 	
     rp_GenAmp(RP_CH_2, 1.0);
 	t_start = micros();		
-	while((micros()-t_start)<sweep_time*1000*0.9){}
+	while((micros()-t_start)<sweep_time_1*1000){}
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
 
