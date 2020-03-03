@@ -11,65 +11,40 @@ long micros(void);
 
 int main(int argc, char **argv){
 
-    float sweep_time;
-    int buff_size = 16384;
-	// long t0;
-	float freq = 1000;
-
+    float sweep_time_1;
+	long arb_size = 16384, t_start;
+	float start_freq_1, final_freq_1, k_1;
+	
+	start_freq_1 = atof(argv[1]);
+	final_freq_1 = atof(argv[2]);
+	sweep_time_1 = atof(argv[3]);
+	
     /* Print error, if rp_Init() function failed */
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
 
-    float *t = (float *)malloc(buff_size * sizeof(float));
-    // float *x = (float *)malloc(buff_size * sizeof(float));
-    float *y = (float *)malloc(buff_size * sizeof(float));
+    float *t = (float *)malloc(arb_size * sizeof(float));
+	float *x_1 = (float *)malloc(arb_size * sizeof(float));
+	k_1 = (final_freq_1 - start_freq_1) / sweep_time_1;
+	for(long i = 0; i < arb_size; i++){
+		t[i] = (float)sweep_time_1 / arb_size * i;
+		x_1[i] = sin(2*M_PI*(start_freq_1*t[i] + 0.5*k_1*t[i]*t[i]));
+	}
 	
-	printf("enter sweep time in s: ");
-	scanf("%f",&sweep_time);
-
-	// sweep_time /= 1000000;
-    for(int i = 0; i < buff_size; i++){ //test
-        t[i] = (2 * M_PI * freq)*sweep_time / buff_size * i;
-    }
-
-    for (int i = 0; i < buff_size; i++){
-        // x[i] = 0.2*sin(t[i]);
-        y[i] = sin(t[i]);
-    }
-    // rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
+	rp_GenOutEnable(RP_CH_2);
     rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-
-    // rp_GenArbWaveform(RP_CH_1, x, buff_size);
-    rp_GenArbWaveform(RP_CH_2, y, buff_size);
-
-    // rp_GenAmp(RP_CH_1, 1.0);
+    rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
+	rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
+	
+	
     rp_GenAmp(RP_CH_2, 1.0);
+	t_start = micros();		
+	while((micros()-t_start)<sweep_time*1000*0.9){}
+	rp_GenAmp(RP_CH_2, 0); //chirp end
+	
 
-    // rp_GenFreq(RP_CH_1, 1000000/sweep_time);
-    rp_GenFreq(RP_CH_2, 1/sweep_time);
-	
-	// t0 = micros();
-    // rp_GenOutEnable(RP_CH_1);
-    rp_GenOutEnable(RP_CH_2);
-	
-	// while((micros()-t0)<sweep_time);
-	
-	// rp_GenOutDisable(RP_CH_2);
-	
-	// rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
-	// rp_GenArbWaveform(RP_CH_1, y, buff_size);
-	// rp_GenAmp(RP_CH_1, 1.0);
-	// rp_GenFreq(RP_CH_1, 1000000/sweep_time);
-	// t0 = micros();
-	// rp_GenOutEnable(RP_CH_1);
-	// while((micros()-t0)<sweep_time);
-	// rp_GenOutDisable(RP_CH_1);
-	// rp_GenOutDisable(RP_CH_2);
-
-    /* Releasing resources */
-    free(y);
-    // free(x);
+    free(x_1);
     free(t);
     rp_Release();
 }
