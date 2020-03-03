@@ -55,8 +55,8 @@ int main(int argc, char **argv){
 	while((micros()-t_start)<sweep_time_1*1000){}
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
-	t_start = micros();		
-	while((micros()-t_start)<WAIT*1000){}
+	// t_start = micros();		
+	// while((micros()-t_start)<WAIT*1000){}
 	
 	rp_GenArbWaveform(RP_CH_2, x_2, arb_size);
 	rp_GenFreq(RP_CH_2, 1000/sweep_time_2);
