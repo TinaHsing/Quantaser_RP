@@ -27,11 +27,14 @@ void* map_base = (void*)(-1);
 
 static uint32_t AddrRead(unsigned long);
 
-uint32_t address = 0x40000184; 
+uint32_t address = 0x40000000; 
 
 int main(int argc, char *argv[])
 {
-	printf("%d", AddrRead(address));
+	printf("data : %d\n", AddrRead(address));
+	printf("data : %x\n", AddrRead(address));
+	printf("data : %d\n", AddrRead(0x40000004));
+	printf("data : %d\n", AddrRead(0x40000008));
 	return 0;
 }
 
