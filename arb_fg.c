@@ -66,28 +66,28 @@ int main(int argc, char **argv){
 		out = (int)(x_1[i]*8191.0);
 		AddrWrite(0x40220000, out);
 	}
-	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+	// rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	
 	
-	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
-	rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
+	// rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
+	// rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
 	
 	
-    rp_GenAmp(RP_CH_2, 1.0);
-	t_start = micros();		
-	while((micros()-t_start)<sweep_time_1*1000){}
-	rp_GenAmp(RP_CH_2, 0); //chirp end
+    // rp_GenAmp(RP_CH_2, 1.0);
+	// t_start = micros();		
+	// while((micros()-t_start)<sweep_time_1*1000){}
+	// rp_GenAmp(RP_CH_2, 0); //chirp end
 	
-	t_start = micros();		
-	while((micros()-t_start)<WAIT*1000){}
+	// t_start = micros();		
+	// while((micros()-t_start)<WAIT*1000){}
 	
-	rp_GenArbWaveform(RP_CH_2, x_2, arb_size);
-	rp_GenFreq(RP_CH_2, 1000/sweep_time_2);
+	// rp_GenArbWaveform(RP_CH_2, x_2, arb_size);
+	// rp_GenFreq(RP_CH_2, 1000/sweep_time_2);
 	
-	rp_GenAmp(RP_CH_2, 1.0);
-	t_start = micros();		
-	while((micros()-t_start)<sweep_time_2*1000){}
-	rp_GenAmp(RP_CH_2, 0); //chirp end
+	// rp_GenAmp(RP_CH_2, 1.0);
+	// t_start = micros();		
+	// while((micros()-t_start)<sweep_time_2*1000){}
+	// rp_GenAmp(RP_CH_2, 0); //chirp end
 	
     free(x_1);
     free(t);
