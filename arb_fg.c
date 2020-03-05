@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/mman.h>
 
+#include <math.h>
 #include <sys/time.h>
 #include "redpitaya/rp.h"
 
