@@ -36,7 +36,7 @@ int main(int argc, char **argv){
 	float start_freq_1, final_freq_1, k_1;
 	float start_freq_2, final_freq_2, k_2;
 	// int out[arb_size];
-	// int out;
+	int out;
 	
 	start_freq_1 = atof(argv[1]);
 	final_freq_1 = atof(argv[2]);
