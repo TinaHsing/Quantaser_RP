@@ -9,6 +9,7 @@
 #define WAIT 10
 
 long micros(void);
+void AddrWrite(unsigned long, unsigned long);
 
 int main(int argc, char **argv){
 
@@ -16,6 +17,8 @@ int main(int argc, char **argv){
 	long arb_size = 16384, t_start;
 	float start_freq_1, final_freq_1, k_1;
 	float start_freq_2, final_freq_2, k_2;
+	// int out[arb_size];
+	int out;
 	
 	start_freq_1 = atof(argv[1]);
 	final_freq_1 = atof(argv[2]);
@@ -42,6 +45,9 @@ int main(int argc, char **argv){
 		x_1[i] = sin(2*M_PI*(start_freq_1*t[i] + 0.5*k_1*t[i]*t[i]));
 		t2[i] = (float)sweep_time_2 / arb_size * i;
 		x_2[i] = sin(2*M_PI*(start_freq_2*t2[i] + 0.5*k_2*t2[i]*t2[i]));
+		// out[i] = x_1[i]*8191; 
+		out = (int)(x_1[i]*8191.0);
+		AddrWrite(0x40220000, out);
 	}
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	
@@ -55,8 +61,8 @@ int main(int argc, char **argv){
 	while((micros()-t_start)<sweep_time_1*1000){}
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
-	// t_start = micros();		
-	// while((micros()-t_start)<WAIT*1000){}
+	t_start = micros();		
+	while((micros()-t_start)<WAIT*1000){}
 	
 	rp_GenArbWaveform(RP_CH_2, x_2, arb_size);
 	rp_GenFreq(RP_CH_2, 1000/sweep_time_2);
@@ -71,6 +77,32 @@ int main(int argc, char **argv){
 	free(x_2);
     free(t2);
     rp_Release();
+}
+
+void AddrWrite(unsigned long addr, unsigned long value)
+{
+	int fd = -1;
+	void* virt_addr;
+	// uint32_t read_result = 0;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	/* Map one page */
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	if(map_base == (void *) -1) FATAL;
+	virt_addr = map_base + (addr & MAP_MASK);
+	
+	*((unsigned long *) virt_addr) = value;
+	
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		map_base = (void*)(-1);
+	}
+
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	}
+	if (fd != -1) {
+		close(fd);
+	}
 }
 
  long micros(){
