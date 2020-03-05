@@ -64,8 +64,8 @@ int main(int argc, char **argv){
 		t2[i] = (float)sweep_time_2 / arb_size * i;
 		x_2[i] = sin(2*M_PI*(start_freq_2*t2[i] + 0.5*k_2*t2[i]*t2[i]));
 		// out[i] = x_1[i]*8191; 
-		// out = (int)(x_1[i]*8191.0);
-		AddrWrite(0x40200080, 4000);
+		out = (int)(x_1[i]*8191.0);
+		AddrWrite(0x40200080, out);
 	}
 	// rp_GenAmp(RP_CH_2, 0);
 	AddrWrite(0x40200024, 0);
