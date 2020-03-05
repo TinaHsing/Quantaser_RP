@@ -30,7 +30,8 @@ void AddrWrite(unsigned long, unsigned long);
 
 int main(int argc, char **argv){
 
-    float sweep_time_1, sweep_time_2;
+	float sweep_time_1;
+    // float sweep_time_1, sweep_time_2;
 	long arb_size = 800000;
 	// long t_start;
 	float start_freq_1, final_freq_1, k_1;
@@ -94,10 +95,10 @@ int main(int argc, char **argv){
 	// while((micros()-t_start)<sweep_time_2*1000){}
 	// rp_GenAmp(RP_CH_2, 0); //chirp end
 	
-    free(x_1);
-    free(t);
-	free(x_2);
-    free(t2);
+    // free(x_1);
+    // free(t);
+	// free(x_2);
+    // free(t2);
     rp_Release();
 }
 
