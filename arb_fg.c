@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <signal.h>
 #include <fcntl.h>
 #include <ctype.h>
-#include <sys/time.h>
+//#include <termios.h>
 #include <sys/types.h>
 #include <sys/mman.h>
-#include "redpitaya/rp.h"
-#include <stdint.h>
 
+#include <sys/time.h>
+#include "redpitaya/rp.h"
 
 #define M_PI 3.14159265358979323846
 #define WAIT 10
@@ -18,6 +21,8 @@
  
 #define MAP_SIZE 4096UL
 #define MAP_MASK (MAP_SIZE - 1)
+
+void* map_base = (void*)(-1);
 
 long micros(void);
 void AddrWrite(unsigned long, unsigned long);
