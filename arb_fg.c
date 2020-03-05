@@ -2,11 +2,20 @@
 #include <stdlib.h>
 #include <math.h>
 #include <sys/time.h>
-
+#include <sys/types.h>
+#include <sys/mman.h>
 #include "redpitaya/rp.h"
+#include <stdint.h>
+
 
 #define M_PI 3.14159265358979323846
 #define WAIT 10
+
+#define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
+  __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
+ 
+#define MAP_SIZE 4096UL
+#define MAP_MASK (MAP_SIZE - 1)
 
 long micros(void);
 void AddrWrite(unsigned long, unsigned long);
