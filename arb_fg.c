@@ -49,7 +49,7 @@ int main(int argc, char **argv){
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
-	rp_GenAmp(RP_CH_2, 0);
+	rp_GenAmp(RP_CH_2, 1);
 	rp_GenOutEnable(RP_CH_2);
 	
     float *t = (float *)malloc(arb_size * sizeof(float));
