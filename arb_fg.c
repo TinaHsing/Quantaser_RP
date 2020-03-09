@@ -76,10 +76,11 @@ int main(int argc, char **argv){
 	}
 	// rp_GenAmp(RP_CH_2, 0);
 	// AddrWrite(0x40200024, 0);
-	rp_GenAmp(RP_CH_2, 1);
+	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	
 	rp_GenFreq(RP_CH_2, freq);
+	rp_GenAmp(RP_CH_2, 1);
 	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
 	// rp_GenArbWaveform(RP_CH_2, x_2, arb_size);
 	rp_GenAmp(RP_CH_2, 0);
