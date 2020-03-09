@@ -70,7 +70,7 @@ int main(int argc, char **argv){
 		// out = (int)(x*8191.0);
 		// AddrWrite(0x40200080, out);
 	}
-	rp_GenAmp(RP_CH_2, 0);
+	// rp_GenAmp(RP_CH_2, 0);
 	// AddrWrite(0x40200024, 0);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	
