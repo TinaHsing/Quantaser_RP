@@ -29,6 +29,7 @@ uint32_t *ptr;
 
 long micros(void);
 void AddrWrite(unsigned long, unsigned long);
+uint32_t AddrRead(unsigned long);
 
 int main(int argc, char **argv){
 
@@ -80,7 +81,11 @@ int main(int argc, char **argv){
 	
 	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
 	rp_GenFreq(RP_CH_2, freq);
-	printf("%d\n", *ptr);
+	while(1)
+	{
+		printf("%ld\n", AddrRead(0x40200084));
+	}
+	
 	// rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
 	
 	
@@ -131,6 +136,33 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	if (fd != -1) {
 		close(fd);
 	}
+}
+
+uint32_t AddrRead(unsigned long addr)
+{
+	int fd = -1;
+	void* virt_addr;
+	uint32_t read_result = 0;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	/* Map one page */
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	if(map_base == (void *) -1) FATAL;
+	virt_addr = map_base + (addr & MAP_MASK);
+	
+	read_result = *((uint32_t *) virt_addr); //read
+	
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		map_base = (void*)(-1);
+	}
+
+	if (map_base != (void*)(-1)) {
+		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	}
+	if (fd != -1) {
+		close(fd);
+	}
+	return read_result;
 }
 
  long micros(){
