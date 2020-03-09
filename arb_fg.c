@@ -25,7 +25,7 @@
 
 void* map_base = (void*)(-1);
 
-unsigned long *ptr = (uint32_t*)0x40200008;
+uint32_t *ptr;
 
 long micros(void);
 void AddrWrite(unsigned long, unsigned long);
@@ -48,7 +48,7 @@ int main(int argc, char **argv){
 	// start_freq_2 = atof(argv[4]);
 	// final_freq_2 = atof(argv[5]);
 	// sweep_time_2 = atof(argv[6]);
-	
+	ptr = (uint32_t*)0x40200008;
     /* Print error, if rp_Init() function failed */
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
