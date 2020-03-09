@@ -88,8 +88,9 @@ int main(int argc, char **argv){
 		{
 			buf[i] = AddrRead(0x40200084);
 			printf("%d\n", AddrRead(0x40200084));
+			i++;
 		}
-		i++;
+		
 		if(i==10) break;
 	}
 	for(i=0; i<10; i++) printf("%d : %d\n", i, buf[i]);
