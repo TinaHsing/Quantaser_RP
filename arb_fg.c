@@ -25,7 +25,7 @@
 
 void* map_base = (void*)(-1);
 
-unsigned long *ptr = 0x40200008;
+unsigned long *ptr = (uint32_t*)0x40200008;
 
 long micros(void);
 void AddrWrite(unsigned long, unsigned long);
