@@ -34,7 +34,7 @@ int main(int argc, char **argv){
     // float sweep_time_1, sweep_time_2;
 	long arb_size = 16384;
 	// long t_start;
-	float start_freq_1, final_freq_1, k_1;
+	float start_freq_1, final_freq_1, freq, k_1;
 	// float start_freq_2, final_freq_2, k_2;
 	// int out[arb_size];
 	// int out;
@@ -42,6 +42,7 @@ int main(int argc, char **argv){
 	start_freq_1 = atof(argv[1]);
 	final_freq_1 = atof(argv[2]);
 	sweep_time_1 = atof(argv[3]);
+	freq = atof(argv[4]);
 	// start_freq_2 = atof(argv[4]);
 	// final_freq_2 = atof(argv[5]);
 	// sweep_time_2 = atof(argv[6]);
@@ -76,7 +77,8 @@ int main(int argc, char **argv){
 	
 	
 	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
-	rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
+	rp_GenFreq(RP_CH_2, freq);
+	// rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
 	
 	
     // rp_GenAmp(RP_CH_2, 1.0);
