@@ -80,7 +80,7 @@ int main(int argc, char **argv){
 	
 	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
 	rp_GenFreq(RP_CH_2, freq);
-	printf("%ld\n", *ptr);
+	printf("%d\n", *ptr);
 	// rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
 	
 	
