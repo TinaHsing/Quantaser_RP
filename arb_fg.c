@@ -29,7 +29,7 @@ uint32_t *ptr;
 
 long micros(void);
 void AddrWrite(unsigned long, unsigned long);
-uint32_t AddrRead(unsigned long);
+uint32_t AddrRead(unsigned long), buf[10];
 
 int main(int argc, char **argv){
 
@@ -81,11 +81,14 @@ int main(int argc, char **argv){
 	
 	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
 	rp_GenFreq(RP_CH_2, freq);
+	int i = 0;
 	while(1)
 	{
-		printf("%d\n", AddrRead(0x40200084));
+		if(AddrRead(0x40200084) >= 8191) buf[i] = AddrRead(0x40200084);
+		i++;
+		if(i==10) break;
 	}
-	
+	for(i=0; i<10; i++) printf("%d : %d\n", i, buf[i]);
 	// rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
 	
 	
