@@ -84,7 +84,11 @@ int main(int argc, char **argv){
 	int i = 0;
 	while(1)
 	{
-		if(AddrRead(0x40200084) >= 8191) buf[i] = AddrRead(0x40200084);
+		if(AddrRead(0x40200084) >= 8191) 
+		{
+			buf[i] = AddrRead(0x40200084);
+			prinf("%d\n", AddrRead(0x40200084));
+		}
 		i++;
 		if(i==10) break;
 	}
