@@ -83,7 +83,7 @@ int main(int argc, char **argv){
 	rp_GenFreq(RP_CH_2, freq);
 	while(1)
 	{
-		printf("%ld\n", AddrRead(0x40200084));
+		printf("%d\n", AddrRead(0x40200084));
 	}
 	
 	// rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
