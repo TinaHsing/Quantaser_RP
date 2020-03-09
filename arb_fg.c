@@ -25,6 +25,8 @@
 
 void* map_base = (void*)(-1);
 
+unsigned long *ptr = 0x40200008;
+
 long micros(void);
 void AddrWrite(unsigned long, unsigned long);
 
@@ -78,7 +80,7 @@ int main(int argc, char **argv){
 	
 	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
 	rp_GenFreq(RP_CH_2, freq);
-	printf("%d\n", (*0x40200008));
+	printf("%ld\n", *ptr);
 	// rp_GenFreq(RP_CH_2, 1000/sweep_time_1);
 	
 	
