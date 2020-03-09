@@ -37,8 +37,8 @@ int main(int argc, char **argv){
 	float start_freq_1, final_freq_1, k_1;
 	// float start_freq_2, final_freq_2, k_2;
 	// int out[arb_size];
-	int out;
-	float t, x;
+	// int out;
+	// float t, x;
 	start_freq_1 = atof(argv[1]);
 	final_freq_1 = atof(argv[2]);
 	sweep_time_1 = atof(argv[3]);
@@ -53,22 +53,22 @@ int main(int argc, char **argv){
 	// rp_GenAmp(RP_CH_2, 1);
 	// rp_GenOutEnable(RP_CH_2);
 	AddrWrite(0x40200024, 8192);
-    // float *t = (float *)malloc(arb_size * sizeof(float));
-	// float *x_1 = (float *)malloc(arb_size * sizeof(float));
+    float *t = (float *)malloc(arb_size * sizeof(float));
+	float *x_1 = (float *)malloc(arb_size * sizeof(float));
 	// float *t2 = (float *)malloc(arb_size * sizeof(float));
 	// float *x_2 = (float *)malloc(arb_size * sizeof(float));
 	k_1 = (final_freq_1 - start_freq_1) / sweep_time_1;
 	// k_2 = (final_freq_2 - start_freq_2) / sweep_time_2;
 	for(long i = 0; i < arb_size; i++){
-		// t[i] = (float)sweep_time_1 / arb_size * i;
-		// x_1[i] = sin(2*M_PI*(start_freq_1*t[i] + 0.5*k_1*t[i]*t[i]));
+		t[i] = (float)sweep_time_1 / arb_size * i;
+		x_1[i] = sin(2*M_PI*(start_freq_1*t[i] + 0.5*k_1*t[i]*t[i]));
 		// t2[i] = (float)sweep_time_2 / arb_size * i;
 		// x_2[i] = sin(2*M_PI*(start_freq_2*t2[i] + 0.5*k_2*t2[i]*t2[i]));
 		// out[i] = x_1[i]*8191; 
-		t = (float)sweep_time_1 / arb_size * i;
-		x = sin(2*M_PI*(start_freq_1*t + 0.5*k_1*t*t));
-		out = (int)(x*8191.0);
-		AddrWrite(0x40200080, out);
+		// t = (float)sweep_time_1 / arb_size * i;
+		// x = sin(2*M_PI*(start_freq_1*t + 0.5*k_1*t*t));
+		// out = (int)(x*8191.0);
+		// AddrWrite(0x40200080, out);
 	}
 	// rp_GenAmp(RP_CH_2, 0);
 	AddrWrite(0x40200024, 0);
@@ -95,8 +95,8 @@ int main(int argc, char **argv){
 	// while((micros()-t_start)<sweep_time_2*1000){}
 	// rp_GenAmp(RP_CH_2, 0); //chirp end
 	
-    // free(x_1);
-    // free(t);
+    free(x_1);
+    free(t);
 	// free(x_2);
     // free(t2);
     rp_Release();
