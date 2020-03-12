@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 			i++;
 			t1 = t2;
 		}	
-		if(i==10) break;
+		if(i==600) break;
 	}
 	
 	return 0;
