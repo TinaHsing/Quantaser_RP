@@ -46,7 +46,8 @@ int main(int argc, char *argv[])
 			printf("i=%d\n", i);
 			i++;
 			t1 = t2;
-		}		
+		}	
+		if(i==10) break;
 	}
 	
 	return 0;
