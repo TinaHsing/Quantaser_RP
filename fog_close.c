@@ -117,6 +117,12 @@ int main(int argc, char *argv[])
 					uart_read(10);
 					t1 = t2;
 					// cnt++;
+					break_cnt++;
+					if(break_cnt==10)
+					{
+						printf("break\n");
+						break;
+					}
 				}
 				
 				
@@ -127,12 +133,7 @@ int main(int argc, char *argv[])
 					// t_start = t_end;
 					// cnt = 0;
 				// }
-				break_cnt++;
-				if(break_cnt==10)
-				{
-					printf("break\n");
-					break;
-				}
+				
 			#else
 				
 				address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
