@@ -26,9 +26,10 @@
 void* map_base = (void*)(-1);
 
 static uint32_t AddrRead(unsigned long);
+long micros(void);
 
 uint32_t i=0;
- 
+long t1, t2;
 
 int main(int argc, char *argv[])
 {
@@ -36,11 +37,29 @@ int main(int argc, char *argv[])
 	// printf("data : %x\n", AddrRead(address));
 	// printf("data : %d\n", AddrRead(0x40000004));
 	// printf("data : %d\n", AddrRead(0x40000008));
-	printf("i=%d\n", i);
-	i++;
+	t1 = micros();
+	while(1)
+	{
+		t2 = micros();
+		if((t2-t1)>=1000000)
+		{
+			printf("i=%d\n", i);
+			i++;
+			t1 = t2;
+		}		
+	}
+	
 	return 0;
 }
-
+long micros(){
+	struct timeval currentTime;
+	long time;
+	gettimeofday(&currentTime, NULL);
+	time = currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	if(time<0) time += 2147483648;
+//	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+	return time;
+}
 static uint32_t AddrRead(unsigned long addr)
 {
 	int fd = -1;
