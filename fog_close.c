@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
 					t1 = t2;
 					// cnt++;
 					break_cnt++;
-					if(break_cnt==10)
+					if(break_cnt==900000) //15min
 					{
 						printf("break\n");
 						break;
