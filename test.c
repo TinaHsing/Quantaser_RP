@@ -27,7 +27,7 @@ void* map_base = (void*)(-1);
 
 static uint32_t AddrRead(unsigned long);
 
-uint32_t address = 0x40000000, i=0;
+uint32_t i=0;
  
 
 int main(int argc, char *argv[])
