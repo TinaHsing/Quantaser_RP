@@ -127,6 +127,12 @@ int main(int argc, char *argv[])
 					// t_start = t_end;
 					// cnt = 0;
 				// }
+				break_cnt++;
+				if(break_cnt==10)
+				{
+					printf("break\n");
+					break;
+				}
 			#else
 				
 				address = ((int)command[1] << 24)| ((int)command[2] << 16)|((int)command[3] << 8)|(int)command[4];
@@ -136,12 +142,7 @@ int main(int argc, char *argv[])
 				}
 				
 			#endif
-			break_cnt++;
-			if(break_cnt==10)
-			{
-				printf("break\n");
-				break;
-			}
+			
 		}
 		else if(command[0] == '1')
 		{
