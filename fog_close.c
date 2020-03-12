@@ -65,7 +65,7 @@ void* map_base = (void*)(-1);
 long t1, t2;
 // long t_start, t_end, cnt=0;
 #endif
-long ta, tb, tc;
+long ta, tb, tc, break_cnt = 0;
 int uart_fd = -1;
 uint32_t address = 0x40000184; 
 //0x40000184 : kalmman filter of int output
@@ -136,6 +136,12 @@ int main(int argc, char *argv[])
 				}
 				
 			#endif
+			break_cnt++;
+			if(break_cnt==10)
+			{
+				printf("break\n");
+				break;
+			}
 		}
 		else if(command[0] == '1')
 		{
