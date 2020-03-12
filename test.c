@@ -25,7 +25,7 @@
 #define MAP_MASK (MAP_SIZE - 1)
 void* map_base = (void*)(-1);
 
-static uint32_t AddrRead(unsigned long);
+// static uint32_t AddrRead(unsigned long);
 long micros(void);
 
 uint32_t i=0;
@@ -60,29 +60,29 @@ long micros(){
 //	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 	return time;
 }
-static uint32_t AddrRead(unsigned long addr)
-{
-	int fd = -1;
-	void* virt_addr;
-	uint32_t read_result = 0;
-	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
-	/* Map one page */
-	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
-	if(map_base == (void *) -1) FATAL;
-	virt_addr = map_base + (addr & MAP_MASK);
+// static uint32_t AddrRead(unsigned long addr)
+// {
+	// int fd = -1;
+	// void* virt_addr;
+	// uint32_t read_result = 0;
+	// if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	// /* Map one page */
+	// map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	// if(map_base == (void *) -1) FATAL;
+	// virt_addr = map_base + (addr & MAP_MASK);
 	
-	read_result = *((uint32_t *) virt_addr); //read
+	// read_result = *((uint32_t *) virt_addr); //read
 
-	if (map_base != (void*)(-1)) {
-		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
-		map_base = (void*)(-1);
-	}
+	// if (map_base != (void*)(-1)) {
+		// if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		// map_base = (void*)(-1);
+	// }
 
-	if (map_base != (void*)(-1)) {
-		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
-	}
-	if (fd != -1) {
-		close(fd);
-	}
-	return read_result;
-}
+	// if (map_base != (void*)(-1)) {
+		// if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	// }
+	// if (fd != -1) {
+		// close(fd);
+	// }
+	// return read_result;
+// }
