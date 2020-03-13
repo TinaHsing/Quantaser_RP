@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 	}
 	// printf("addr=%ld\n",atol(argv[1]));
 	#ifdef CONTINUE
-	t1=micros();
+	// t1=micros();
 	// t_start=micros();
 	#endif
 	// uart_read(10);
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
 					//////////////////////////////////
 					uart_write(data);
 					uart_read(10);
-					delay(10);
+					usleep(SEND_DELAY_us);
 					// t1 = t2;
 					// cnt++;
 					// break_cnt++;
