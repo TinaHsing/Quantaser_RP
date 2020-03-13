@@ -118,7 +118,6 @@ int main(int argc, char *argv[])
 					uart_read(10);
 					usleep(SEND_DELAY_us);
 					// t1 = t2;
-					// cnt++;
 					// break_cnt++;
 					// if(break_cnt==900000) //15min
 					// {
