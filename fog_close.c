@@ -62,8 +62,7 @@ unsigned char command[CMD_SIZE];
 void* map_base = (void*)(-1);
 
 #ifdef CONTINUE
-// long t1, t2;
-// long t_start, t_end, cnt=0;
+// long cnt=0;
 #endif
 long ta, tb, tc; 
 // long break_cnt = 0;
@@ -104,36 +103,22 @@ int main(int argc, char *argv[])
 		if((command[0]=='0'))
 		{
 			#ifdef CONTINUE
-				// printf("hi\n");
-				// t2 = micros();
-				// if((t2-t1)>SEND_DELAY_us) 
-				// {
-					// data_in_2 = AddrRead(address);
-					// if((data_in_2 >> 14) == 1) data_in_2 = data_in_2 - 32769 ; 
-					// sprintf(data,"%d", data_in_2);
-					///////for kalmman out///////////
-					sprintf(data,"%d", AddrRead(address));
-					//////////////////////////////////
-					uart_write(data);
-					uart_read(10);
-					usleep(SEND_DELAY_us);
-					// t1 = t2;
-					// break_cnt++;
-					// if(break_cnt==900000) //15min
-					// {
-						// printf("break\n");
-						// break;
-					// }
-				// }
-				
-				
-				// if(cnt==100) 
-				// {
-					// t_end = micros();
-					// printf("t_100 = %ld\n", t_end - t_start);
-					// t_start = t_end;
-					// cnt = 0;
-				// }
+
+				///////for kalmman out///////////
+				sprintf(data,"%d", AddrRead(address));
+				//////////////////////////////////
+				uart_write(data);
+				uart_read(10);
+				usleep(SEND_DELAY_us);
+			
+			
+			// if(cnt==100) 
+			// {
+				// t_end = micros();
+				// printf("t_100 = %ld\n", t_end - t_start);
+				// t_start = t_end;
+				// cnt = 0;
+			// }
 				
 			#else
 				
