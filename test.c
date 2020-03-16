@@ -31,14 +31,13 @@ unsigned long address = 0x00100000;
 
 int main(int argc, char *argv[])
 {
-	// printf("data : %d\n", AddrRead(address));
-	// printf("data : %x\n", AddrRead(address));
-	// printf("data : %d\n", AddrRead(0x40000004));
-	// printf("data : %d\n", AddrRead(0x40000008));
-	AddrWrite(address, 0x01);
-	AddrWrite(address + 0x4, 0x02);
-	printf("%d\n", AddrRead(address));
-	printf("%d\n", AddrRead(address+0x4));
+	fot(int i=0; i<4*5+1; i+=4)
+	{
+		AddrWrite(address+i, i);
+		printf("i= %d",i);
+		printf("%d\n", AddrRead(address+i));
+	}
+	// AddrWrite(address, 0Sad(address+0x4));
 	return 0;
 }
 
