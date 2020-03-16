@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
 	// printf("data : %d\n", AddrRead(0x40000008));
 	AddrWrite(address, 0x01);
 	AddrWrite(address + 0x4, 0x02);
+	printf("%d\n", AddrRead(address));
+	printf("%d\n", AddrRead(address+0x4));
 	return 0;
 }
 
