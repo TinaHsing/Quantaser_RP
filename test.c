@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
 	for(int i=0;i<10;i++)
 	{
 		AddrWrite(address, 1000+500*i);
+		printf("%d\n", AddrRead(address));
 		usleep(1000000);
 	}
 	// AddrWrite(address, 0Sad(address+0x4));
