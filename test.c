@@ -31,11 +31,16 @@ unsigned long address = 0x00100000;
 
 int main(int argc, char *argv[])
 {
-	for(int i=0; i<4*5+1; i+=4)
+	// for(int i=0; i<4*5+1; i+=4)
+	// {
+		// AddrWrite(address+i, i);
+		// printf("i= %d, ",i);
+		// printf("%x\n", AddrRead(address+i));
+	// }
+	for(int i=0;i<10;i++)
 	{
-		AddrWrite(address+i, i);
-		printf("i= %d, ",i);
-		printf("%x\n", AddrRead(address+i));
+		AddrWrite(address, 1000+500*i);
+		usleep(1000000);
 	}
 	// AddrWrite(address, 0Sad(address+0x4));
 	return 0;
