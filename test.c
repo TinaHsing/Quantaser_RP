@@ -31,7 +31,7 @@ unsigned long address = 0x00100000;
 int j=0;
 int main(int argc, char *argv[])
 {
-	for(int i=0; i<4*10+1; i+=4)
+	for(int i=0; i<4*10; i+=4)
 	{
 		AddrWrite(address+i, 0 + j*910);
 		printf("j: %d, ",j);
