@@ -33,9 +33,9 @@ int main(int argc, char *argv[])
 {
 	for(int i=0; i<4*10+1; i+=4)
 	{
-		AddrWrite(address+i, 3000 + i*500);
+		AddrWrite(address+i, 0 + i*910);
 		printf("i: %d, ",i);
-		printf("0x%lx , ",address+i);
+		printf("0x%ld , ",address+i);
 		printf("%x\n", AddrRead(address+i));
 	}
 	// for(int i=0;i<10;i++)
