@@ -34,10 +34,12 @@ int main(int argc, char *argv[])
 	for(int i=0; i<10; i++)
 	{
 		// AddrWrite(address+i, 0 + j*910);
-		AddrWrite(address+i*4, 1000);
+		if(i<3) AddrWrite(address+i*4, 1000);			
+		else if(i<6) AddrWrite(address+i*4, 4000);
+		else AddrWrite(address+i*4, 8000);
 		printf("i: %d, ",i);
 		printf("0x%lx , ",address+i*4);
-		printf("%d\n", AddrRead(address+i));
+		printf("%d\n", AddrRead(address+i*4));
 		j++;
 	}
 	// for(int i=0;i<10;i++)
