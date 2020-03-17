@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	{
 		AddrWrite(address+i, 3000 + i*500);
 		printf("i: %d, ",i);
-		printf("%x , ",address+i);
+		printf("0x%lx , ",address+i);
 		printf("%x\n", AddrRead(address+i));
 	}
 	// for(int i=0;i<10;i++)
