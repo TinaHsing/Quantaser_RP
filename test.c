@@ -28,15 +28,16 @@ void* map_base = (void*)(-1);
 void AddrWrite(unsigned long, unsigned long);
 static uint32_t AddrRead(unsigned long);
 unsigned long address = 0x00100000;
-
+int j=0;
 int main(int argc, char *argv[])
 {
 	for(int i=0; i<4*10+1; i+=4)
 	{
-		AddrWrite(address+i, 0 + i*910);
-		printf("i: %d, ",i);
+		AddrWrite(address+i, 0 + j*910);
+		printf("j: %d, ",j);
 		printf("0x%lx , ",address+i);
 		printf("%d\n", AddrRead(address+i));
+		j++;
 	}
 	// for(int i=0;i<10;i++)
 	// {
