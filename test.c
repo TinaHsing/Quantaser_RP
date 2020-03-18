@@ -31,6 +31,9 @@ unsigned long address = 0x00100000;
 int j=0;
 int main(int argc, char *argv[])
 {
+	AddrWrite(0x40200080, 62500000);
+	AddrWrite(0x40200084, 0);
+	AddrWrite(0x40200088, 10);
 	for(int i=0; i<10; i++)
 	{
 		// AddrWrite(address+i, 0 + j*910);
