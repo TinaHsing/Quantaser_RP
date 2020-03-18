@@ -49,6 +49,10 @@ int main(int argc, char *argv[])
 		// usleep(1000000);
 	// }
 	// AddrWrite(address, 0Sad(address+0x4));
+	while(1)
+	{
+		printf("%d\n", AddrRead(0x4020008c));
+	}
 	return 0;
 }
 
