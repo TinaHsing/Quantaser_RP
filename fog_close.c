@@ -76,7 +76,8 @@ uint32_t data_addr = 0x400001E0;
 uint32_t data_int[DATA_SIZE];
 int data_in, data_in_2;
 FILE *fp;
-char ii = 0;
+char a = 0;
+char *ii=&a;
 int main(int argc, char *argv[])
 {
 	#ifdef CONTINUE
@@ -108,7 +109,7 @@ int main(int argc, char *argv[])
 				sprintf(data,"%d", AddrRead(address));
 				//////////////////////////////////
 				uart_write(ii);
-				ii++;
+				*ii++;
 				uart_read(10);
 				usleep(SEND_DELAY_us);
 			
