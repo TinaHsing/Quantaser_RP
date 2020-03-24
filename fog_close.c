@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 				sprintf(data,"%d", AddrRead(address));
 				//////////////////////////////////
 				uart_write(ii);
-				*ii++;
+				*ii = *ii + 1;
 				uart_read(10);
 				usleep(SEND_DELAY_us);
 			
