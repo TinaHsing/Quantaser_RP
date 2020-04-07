@@ -16,12 +16,20 @@
 #include <math.h>
 #include "redpitaya/rp.h"
 
+/////******define DAC*******/////////
+#define DAC_BIT_16
 /* DAC LTC2615 */
 #define DAC0_ADD 0x10
 #define DAC1_ADD 0x52
 #define CC 0b0011
 #define ref 2.5
-#define max 16383
+
+#ifdef DAC_BIT_14
+	#define max 16383
+#endif
+#ifdef DAC_BIT_16
+	#define max 65535
+#endif	
 
 #define CH_A 0b0000
 #define CH_B 0b0001
@@ -59,12 +67,13 @@ float dac_value;
 int main(int argc, char *argv[])
 {
 	i2cOpen();
-	printf("Select DAC#(1~10): ");
-	scanf("%d",&dac_num);
+	// printf("Select DAC#(1~10): ");
+	// scanf("%d",&dac_num);
 	
-	printf("Enter DAC value to output(0~10): ");
-	scanf("%f",&dac_value);
-	
+	// printf("Enter DAC value to output(0~10): ");
+	// scanf("%f",&dac_value);
+	dac_num = atol(argv[1]);
+	dac_value = atof(argv[2]);
 	DAC_out((uint8_t)dac_num, dac_value);
 	
 	i2cClose();
@@ -111,8 +120,14 @@ void LTC2615_write(bool sel, uint8_t ch, float value)
 	uint16_t code;
 	
 	code = (uint16_t)(value/ref*max);
-	t[0] = (code >> 8)<<2 | ((uint8_t)code & 0b11000000)>>6;
-	t[1] = (uint8_t)code << 2;
+	#ifdef DAC_BIT_14
+		t[0] = (code >> 8)<<2 | ((uint8_t)code & 0b11000000)>>6; //high byte
+		t[1] = (uint8_t)code << 2; //low byte
+	#endif
+	#ifdef DAC_BIT_16
+		t[0] = code >> 8;
+		t[1] = (uint8_t)code; 
+	#endif
 	
 	if(!sel)
 	{
@@ -124,10 +139,6 @@ void LTC2615_write(bool sel, uint8_t ch, float value)
 		i2cSetAddress(DAC1_ADD);
 		WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
 	}	
-	// Wire.beginTransmission(ADD);
-	// Wire.write((CC << 4) | ch);
-	// Wire.write(t,2); 
-	// Wire.endTransmission();
 }
 
 void DAC_out(uint8_t dac_num, float value)

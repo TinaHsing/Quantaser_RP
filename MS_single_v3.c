@@ -577,10 +577,6 @@ void LTC2615_write(bool sel, uint8_t ch, float value)
 		i2cSetAddress(DAC1_ADD);
 		WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
 	}	
-	// Wire.beginTransmission(ADD);
-	// Wire.write((CC << 4) | ch);
-	// Wire.write(t,2); 
-	// Wire.endTransmission();
 }
 
 void DAC_out(uint8_t dac_num, float value)
