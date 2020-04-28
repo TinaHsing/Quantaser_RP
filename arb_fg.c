@@ -37,9 +37,9 @@ int main(int argc, char **argv){
 	// float sweep_time_1;
 	long arb_size;
 	float freq;
-
-	freq = atof(argv[1]);
-	arb_size = (int)(4*1000.0/0.25);
+	arb_size = atoi(argv[1]);
+	freq = atof(argv[2]);
+	// arb_size = (int)(size*1000.0/0.25);
 
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
