@@ -52,7 +52,7 @@ int main(int argc, char **argv){
 	for(long i = 0; i < arb_size; i++){
 		t[i] = (float)0.25*1e-3* i;
 		x_1[i] = sin(2*M_PI*freq*t[i]);
-
+		printf("%f\n",x_1[i]);
 	}
 
 	
@@ -60,7 +60,7 @@ int main(int argc, char **argv){
 	
 	rp_GenFreq(RP_CH_2, freq);
 	
-	rp_GenArbWaveform(RP_CH_1, x_1, arb_size);
+	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
 	rp_GenAmp(RP_CH_2, 1);
 	
 	t_start = micros();		
