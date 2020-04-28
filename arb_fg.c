@@ -34,11 +34,12 @@ long t_start;
 
 int main(int argc, char **argv){
 
-	// float sweep_time_1;
+	long sweep_time;
 	long arb_size;
 	float freq;
-	arb_size = atoi(argv[1]);
-	freq = atof(argv[2]);
+	sweep_time = atoi(argv[1]);
+	arb_size = atoi(argv[2]);
+	freq = atof(argv[3]);
 	// arb_size = (int)(size*1000.0/0.25);
 
     if(rp_Init() != RP_OK){
@@ -50,7 +51,7 @@ int main(int argc, char **argv){
 	float *x_1 = (float *)malloc(arb_size * sizeof(float));
 
 	for(long i = 0; i < arb_size; i++){
-		t[i] = (float)0.25*1e-3* i;
+		t[i] = (float)8.0/arb_size * i;
 		x_1[i] = sin(2*M_PI*freq*t[i]);
 		printf("%f\n",x_1[i]);
 	}
