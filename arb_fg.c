@@ -52,8 +52,8 @@ int main(int argc, char **argv){
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
-	rp_GenAmp(RP_CH_2, 0);
-	rp_GenOutEnable(RP_CH_2);
+	rp_GenAmp(RP_CH_1, 0);
+	rp_GenOutEnable(RP_CH_1);
     float *t = (float *)malloc(arb_size * sizeof(float));
 	float *x_1 = (float *)malloc(arb_size * sizeof(float));
 	// float *t2 = (float *)malloc(arb_size * sizeof(float));
@@ -74,13 +74,13 @@ int main(int argc, char **argv){
 	// rp_GenAmp(RP_CH_2, 0);
 	// AddrWrite(0x40200024, 0);
 	
-	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_ARBITRARY);
 	
-	rp_GenFreq(RP_CH_2, freq);
-	rp_GenAmp(RP_CH_2, 1);
+	rp_GenFreq(RP_CH_1, freq);
+	rp_GenAmp(RP_CH_1, 1);
 	// rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
-	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
-	rp_GenAmp(RP_CH_2, 0);
+	rp_GenArbWaveform(RP_CH_1, x_1, arb_size);
+	rp_GenAmp(RP_CH_1, 0);
 	// int i = 0;
 	// while(1)
 	// {
