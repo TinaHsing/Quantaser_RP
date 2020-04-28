@@ -25,7 +25,6 @@
 
 void* map_base = (void*)(-1);
 
-uint32_t *ptr;
 
 long micros(void);
 void AddrWrite(unsigned long, unsigned long);
@@ -49,25 +48,23 @@ int main(int argc, char **argv){
 	// start_freq_2 = atof(argv[4]);
 	// final_freq_2 = atof(argv[5]);
 	// sweep_time_2 = atof(argv[6]);
-	ptr = (uint32_t*)0x40200008;
     /* Print error, if rp_Init() function failed */
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
-	// AddrWrite(0x40200024, 8192);
     float *t = (float *)malloc(arb_size * sizeof(float));
 	float *x_1 = (float *)malloc(arb_size * sizeof(float));
 	// float *t2 = (float *)malloc(arb_size * sizeof(float));
-	float *x_2 = (float *)malloc(arb_size * sizeof(float));
+	// float *x_2 = (float *)malloc(arb_size * sizeof(float));
 	k_1 = (final_freq_1 - start_freq_1) / sweep_time_1;
 	// k_2 = (final_freq_2 - start_freq_2) / sweep_time_2;
 	for(long i = 0; i < arb_size; i++){
 		t[i] = (float)sweep_time_1 / arb_size * i;
 		x_1[i] = sin(2*M_PI*(start_freq_1*t[i] + 0.5*k_1*t[i]*t[i]));
 		// t2[i] = (float)sweep_time_2 / arb_size * i;
-		x_2[i] = sin(2*M_PI*(start_freq_1*0.5*t[i] + 0.5*k_1*t[i]*t[i]));
+		// x_2[i] = sin(2*M_PI*(start_freq_1*0.5*t[i] + 0.5*k_1*t[i]*t[i]));
 		// out[i] = x_1[i]*8191; 
 		// t = (float)sweep_time_1 / arb_size * i;
 		// x = sin(2*M_PI*(start_freq_1*t + 0.5*k_1*t*t));
