@@ -34,7 +34,7 @@ int main(int argc, char **argv){
 
 	float sweep_time_1;
     // float sweep_time_1, sweep_time_2;
-	long arb_size = 16384;
+	long arb_size = 16385;
 	// long t_start;
 	float start_freq_1, final_freq_1, freq, k_1;
 	// float start_freq_2, final_freq_2, k_2;
