@@ -94,7 +94,7 @@ int main(int argc, char **argv){
 	// free(x_2);
 	// free(x);
     // free(t);
-	free(arr);
+	// free(arr);
 	// free(x_2);
     // free(t2);
     rp_Release();
