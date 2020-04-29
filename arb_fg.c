@@ -60,7 +60,7 @@ int main(int argc, char **argv){
 		x_2[i] = sin(2*M_PI*freq2*t[i]);
 		x[i] = (x_1[i] + x_2[i])/2;
 		// x[i] = x_1[i];
-		printf("%f\n",x[i]);
+		// printf("%f\n",x[i]);
 	}
 
 	
