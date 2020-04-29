@@ -72,7 +72,7 @@ int main(int argc, char **argv){
 	for(int i=0; i<arb_size; i++)
 	{
 		arrf[i] = arr[i];
-		printf("%d. %f\n", i, arrf[i]);
+		// printf("%d. %f\n", i, arrf[i]);
 	}
 	fclose(fp);
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
