@@ -75,7 +75,7 @@ int main(int argc, char **argv){
 	// rp_GenFreq(CH, 7629.39);
 	printf("%d\n", AddrRead(0x40200030));
 	
-	rp_GenArbWaveform(CH, arr, arb_size);
+	rp_GenArbWaveform(CH, (float *)arr, arb_size);
 	rp_GenAmp(CH, 1);
 	
 	t_start = micros();		
