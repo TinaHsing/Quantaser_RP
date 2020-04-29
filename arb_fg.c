@@ -30,7 +30,7 @@ long micros(void);
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
 long t_start;
-
+#define CH RP_CH_1
 
 int main(int argc, char **argv){
 
@@ -45,8 +45,8 @@ int main(int argc, char **argv){
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
-	rp_GenAmp(RP_CH_2, 0);
-	rp_GenOutEnable(RP_CH_2);
+	rp_GenAmp(CH, 0);
+	rp_GenOutEnable(CH);
     float *t = (float *)malloc(arb_size * sizeof(float));
 	float *x_1 = (float *)malloc(arb_size * sizeof(float));
 
@@ -57,16 +57,16 @@ int main(int argc, char **argv){
 	}
 
 	
-	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
 	
-	rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+	rp_GenFreq(CH, 1000.0/sweep_time);
 	
-	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
-	rp_GenAmp(RP_CH_2, 1);
+	rp_GenArbWaveform(CH, x_1, arb_size);
+	rp_GenAmp(CH, 1);
 	
 	t_start = micros();		
 	while((micros()-t_start)<sweep_time*1000){}
-	rp_GenAmp(RP_CH_2, 0); //chirp end
+	rp_GenAmp(CH, 0); //chirp end
 	
 	// int i = 0;
 	// while(1)
