@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 		t[i] = (float)sweep_time/arb_size * i;
 		x_1[i] = sin(2*M_PI*freq1*t[i]);
 		x_2[i] = sin(2*M_PI*freq2*t[i]);
-		x[i] = x_1[i] + x_2[i];
+		x[i] = (x_1[i] + x_2[i])/2;
 		// x[i] = x_1[i];
 		printf("%f\n",x[i]);
 	}
@@ -72,7 +72,7 @@ int main(int argc, char **argv){
 	printf("%d\n", AddrRead(0x40200030));
 	
 	rp_GenArbWaveform(CH, x, arb_size);
-	rp_GenAmp(CH, 0.5);
+	rp_GenAmp(CH, 1);
 	
 	t_start = micros();		
 	while((micros()-t_start)<sweep_time*1000){}
