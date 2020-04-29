@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
 	FILE *fp;
 	size_t cnt = atoi(argv[2]);
-	float arr[50000];
+	double arr[50000];
 	
 	fp = fopen(argv[1], "rb");
 	fread(arr, sizeof(double), cnt, fp);
