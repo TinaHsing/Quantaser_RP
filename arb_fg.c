@@ -108,7 +108,7 @@ int main(int argc, char **argv){
 	// rp_GenAmp(RP_CH_2, 0); //chirp end
 	
     free(x_1);
-	free(x_2);
+	// free(x_2);
 	free(x);
     free(t);
 	// free(x_2);
