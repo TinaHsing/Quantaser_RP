@@ -41,7 +41,7 @@ int main(int argc, char **argv){
 	sweep_time = atoi(argv[1]); //ms
 	arb_size = atoi(argv[2]);
 	freq1 = atof(argv[3]); //KHz
-	// freq2 = atof(argv[4]);
+	freq2 = atof(argv[4]);
 	// arb_size = (int)(size*1000.0/0.25);
 
     if(rp_Init() != RP_OK){
