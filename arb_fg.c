@@ -68,7 +68,7 @@ int main(int argc, char **argv){
 	
 	t_start = micros();		
 	while((micros()-t_start)<sweep_time*1000){}
-	rp_GenAmp(CH, 0); //chirp end
+	// rp_GenAmp(CH, 0); //chirp end
 	
 	// int i = 0;
 	// while(1)
