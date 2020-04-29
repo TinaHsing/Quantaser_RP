@@ -34,14 +34,17 @@ long t_start;
 
 int main(int argc, char **argv){
 
+	FILE *fp;
 	float sweep_time;
 	long arb_size;
-	float freq1;
-	float freq2;
-	sweep_time = atoi(argv[1]); //ms
-	arb_size = atoi(argv[2]);
-	freq1 = atof(argv[3]); //KHz
-	freq2 = atof(argv[4]);
+	// float freq1;
+	// float freq2;
+	fp = fopen(argv[1], "rb");
+	sweep_time = atoi(argv[2]); //ms
+	arb_size = atoi(argv[3]);
+	
+	// freq1 = atof(argv[3]); //KHz
+	// freq2 = atof(argv[4]);
 	// arb_size = (int)(size*1000.0/0.25);
 
     if(rp_Init() != RP_OK){
@@ -49,20 +52,21 @@ int main(int argc, char **argv){
     }
 	rp_GenAmp(CH, 0);
 	rp_GenOutEnable(CH);
-    float *t = (float *)malloc(arb_size * sizeof(float));
-	float *x = (float *)malloc(arb_size * sizeof(float));
-	float *x_1 = (float *)malloc(arb_size * sizeof(float));
-	float *x_2 = (float *)malloc(arb_size * sizeof(float));
+    // float *t = (float *)malloc(arb_size * sizeof(float));
+	// float *x = (float *)malloc(arb_size * sizeof(float));
+	// float *x_1 = (float *)malloc(arb_size * sizeof(float));
+	// float *x_2 = (float *)malloc(arb_size * sizeof(float));
+	double *arr = (double *)malloc(arb_size * sizeof(float));
 
-	for(long i = 0; i < arb_size; i++){
-		t[i] = (float)sweep_time/arb_size * i;
-		x_1[i] = sin(2*M_PI*freq1*t[i]);
-		x_2[i] = sin(2*M_PI*freq2*t[i]);
-		x[i] = (x_1[i] + x_2[i])/2;
-		// x[i] = x_1[i];
-		printf("%f\n",x[i]);
-	}
-
+	// for(long i = 0; i < arb_size; i++){
+		// t[i] = (float)sweep_time/arb_size * i;
+		// x_1[i] = sin(2*M_PI*freq1*t[i]);
+		// x_2[i] = sin(2*M_PI*freq2*t[i]);
+		// x[i] = (x_1[i] + x_2[i])/2;
+		// printf("%f\n",x[i]);
+	// }
+	
+	fread(arr, sizeof(double), arb_size, fp);
 	
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
 	
@@ -79,10 +83,11 @@ int main(int argc, char **argv){
 	rp_GenAmp(CH, 0); //chirp end
 	
 	
-    free(x_1);
-	free(x_2);
-	free(x);
-    free(t);
+    // free(x_1);
+	// free(x_2);
+	// free(x);
+    // free(t);
+	free(arr);
 	// free(x_2);
     // free(t2);
     rp_Release();
