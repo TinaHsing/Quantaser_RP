@@ -39,7 +39,8 @@ int main(int argc, char **argv){
 	float freq;
 	sweep_time = atoi(argv[1]); //ms
 	arb_size = atoi(argv[2]);
-	freq = atof(argv[3]); //KHz
+	freq1 = atof(argv[3]); //KHz
+	freq2 = atof(argv[4]);
 	// arb_size = (int)(size*1000.0/0.25);
 
     if(rp_Init() != RP_OK){
@@ -49,10 +50,12 @@ int main(int argc, char **argv){
 	rp_GenOutEnable(CH);
     float *t = (float *)malloc(arb_size * sizeof(float));
 	float *x_1 = (float *)malloc(arb_size * sizeof(float));
+	float *x_2 = (float *)malloc(arb_size * sizeof(float));
 
 	for(long i = 0; i < arb_size; i++){
 		t[i] = (float)sweep_time/arb_size * i;
-		x_1[i] = sin(2*M_PI*freq*t[i]);
+		x_1[i] = sin(2*M_PI*freq1*t[i]);
+		x_2[i] = sin(2*M_PI*freq2*t[i]);
 		// printf("%f\n",x_1[i]);
 	}
 
@@ -64,8 +67,8 @@ int main(int argc, char **argv){
 	// rp_GenFreq(CH, 7629.39);
 	printf("%d\n", AddrRead(0x40200030));
 	
-	rp_GenArbWaveform(CH, x_1, arb_size);
-	rp_GenAmp(CH, 1);
+	rp_GenArbWaveform(CH, x_1+x_2, arb_size);
+	rp_GenAmp(CH, 0.5);
 	
 	t_start = micros();		
 	while((micros()-t_start)<sweep_time*1000){}
