@@ -37,7 +37,7 @@ int main(int argc, char **argv){
 	float sweep_time;
 	long arb_size;
 	float freq1;
-	// float freq2;
+	float freq2;
 	sweep_time = atoi(argv[1]); //ms
 	arb_size = atoi(argv[2]);
 	freq1 = atof(argv[3]); //KHz
@@ -52,15 +52,15 @@ int main(int argc, char **argv){
     float *t = (float *)malloc(arb_size * sizeof(float));
 	float *x = (float *)malloc(arb_size * sizeof(float));
 	float *x_1 = (float *)malloc(arb_size * sizeof(float));
-	// float *x_2 = (float *)malloc(arb_size * sizeof(float));
+	float *x_2 = (float *)malloc(arb_size * sizeof(float));
 
 	for(long i = 0; i < arb_size; i++){
 		t[i] = (float)sweep_time/arb_size * i;
 		x_1[i] = sin(2*M_PI*freq1*t[i]);
-		// x_2[i] = sin(2*M_PI*freq2*t[i]);
-		// x[i] = x_1[i] + x_2[i];
-		x[i] = x_1[i];
-		// printf("%f\n",x_1[i]);
+		x_2[i] = sin(2*M_PI*freq2*t[i]);
+		x[i] = x_1[i] + x_2[i];
+		// x[i] = x_1[i];
+		printf("%f\n",x[i]);
 	}
 
 	
@@ -108,7 +108,7 @@ int main(int argc, char **argv){
 	// rp_GenAmp(RP_CH_2, 0); //chirp end
 	
     free(x_1);
-	// free(x_2);
+	free(x_2);
 	free(x);
     free(t);
 	// free(x_2);
