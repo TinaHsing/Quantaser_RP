@@ -59,13 +59,13 @@ int main(int argc, char **argv){
 	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	
-	rp_GenFreq(RP_CH_2, freq);
+	rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
 	
 	rp_GenArbWaveform(RP_CH_2, x_1, arb_size);
 	rp_GenAmp(RP_CH_2, 1);
 	
 	t_start = micros();		
-	while((micros()-t_start)<8*1000){}
+	while((micros()-t_start)<sweep_time*1000){}
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
 	// int i = 0;
