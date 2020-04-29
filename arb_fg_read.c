@@ -36,12 +36,14 @@ int main(int argc, char **argv){
 
 	FILE *fp;
 	float sweep_time;
-	long arb_size;
+	long arb_size = 32768;
+	double arr[arb_size];
+	float arrf[arb_size];
 	// float freq1;
 	// float freq2;
 	fp = fopen(argv[1], "rb");
 	sweep_time = atoi(argv[2]); //ms
-	arb_size = atoi(argv[3]);
+	// arb_size = atoi(argv[3]);
 	
 	// freq1 = atof(argv[3]); //KHz
 	// freq2 = atof(argv[4]);
@@ -56,7 +58,7 @@ int main(int argc, char **argv){
 	// float *x = (float *)malloc(arb_size * sizeof(float));
 	// float *x_1 = (float *)malloc(arb_size * sizeof(float));
 	// float *x_2 = (float *)malloc(arb_size * sizeof(float));
-	double *arr = (double *)malloc(arb_size * sizeof(float));
+	// float *arr = (float *)malloc(arb_size * sizeof(float));
 
 	// for(long i = 0; i < arb_size; i++){
 		// t[i] = (float)sweep_time/arb_size * i;
@@ -67,7 +69,12 @@ int main(int argc, char **argv){
 	// }
 	
 	fread(arr, sizeof(double), arb_size, fp);
-	
+	for(int i=0; i<arb_size; i++)
+	{
+		arrf[i] = arr[i];
+		printf("%d. %f\n", i, arrf[i]);
+	}
+	fclose(fp);
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
 	
 	rp_GenFreq(CH, 1000.0/sweep_time);
