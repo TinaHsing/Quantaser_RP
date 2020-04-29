@@ -30,7 +30,7 @@ long micros(void);
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
 long t_start;
-#define CH RP_CH_1
+#define CH RP_CH_2
 
 int main(int argc, char **argv){
 
