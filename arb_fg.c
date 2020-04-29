@@ -60,7 +60,7 @@ int main(int argc, char **argv){
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
 	
 	// rp_GenFreq(CH, 1000.0/sweep_time);
-	rp_GenFreq(CH, freq*1000);
+	rp_GenFreq(CH, 7629.39);
 	printf("%d\n", AddrRead(0x40200030));
 	
 	rp_GenArbWaveform(CH, x_1, arb_size);
