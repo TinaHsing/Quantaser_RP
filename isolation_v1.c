@@ -216,10 +216,9 @@ int main(int argc, char *argv[])
 	}
 	rp_GenAmp(RP_CH_1, final_amp);
 	AddrWrite(0x40200044, END_SCAN);
-	printf("hi3\n");
 /*-------read ADC data -----------*/ 
 	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
-
+	printf("adc_count: %d\n", adc_counter);
 	for(int i=0; i<adc_counter; i++)
 	{
 		AddrWrite(0x40200064, i);//addwrite idx 
