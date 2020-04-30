@@ -203,6 +203,7 @@ int main(int argc, char *argv[])
 	
 /*-------ramp -----------*/ 
 	pin_write( TEST_TTL_2, 1); //ramp trigger
+	pin_write( FGTRIG, 1);
 	AddrWrite(0x40200044, START_SCAN);
 	t_start = micros();	
 	for(int i=0; i<ramp_pts; i++) 
