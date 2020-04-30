@@ -221,10 +221,10 @@ int main(int argc, char *argv[])
 	for(int i=0; i<adc_counter; i++)
 	{
 		AddrWrite(0x40200064, i);//addwrite idx 
-		printf("idx=%d, ",AddrRead(0x40200064));
+		// printf("idx=%d, ",AddrRead(0x40200064));
 		adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
 		adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
-		printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
+		// printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
 	}
 	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 	
@@ -371,7 +371,7 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 	{
 		for(int i=0;i<adc_counter;i++)
 		{
-			printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset), *(adc_data+i));
+			// printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset), *(adc_data+i));
 			// sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset));
 			// sprintf(shell,"echo %d >> cnt.txt", adc_counter);
 			// system(shell);
