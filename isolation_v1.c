@@ -129,8 +129,8 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	uint32_t adc_counter;
-	uint32_t *adc_mem = (uint32_t *)malloc(33500 * sizeof(uint32_t));
-	float *adc_mem_f = (float *)malloc(33500 * sizeof(float));
+	uint32_t *adc_mem = (uint32_t *)malloc(16384 * sizeof(uint32_t));
+	float *adc_mem_f = (float *)malloc(16384 * sizeof(float));
 	FILE *fp_ch2;
 	long arb_size = 32768;
 	double arr[arb_size];
