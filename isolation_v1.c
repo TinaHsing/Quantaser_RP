@@ -177,6 +177,7 @@ int main(int argc, char *argv[])
 	double arr[arb_size];
 	float arrf[arb_size];
 	
+	fp_ch2 = fopen(argv[12], "rb");
 	fread(arr, sizeof(double), arb_size, fp_ch2);
 	for(int i=0; i<arb_size; i++)
 	{
