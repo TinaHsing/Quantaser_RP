@@ -175,13 +175,14 @@ int main(int argc, char *argv[])
 
 	ADC_init();
 	rp_GenOffset(RP_CH_1, offset);
-	
+	printf("hi0\n");
 /*---------ch2 preparation-----------------------------*/	
 	fread(arr, sizeof(double), arb_size, fp_ch2);
 	for(int i=0; i<arb_size; i++)
 	{
 		arrf[i] = arr[i];
 	}
+	printf("hia\n");
 	fclose(fp_ch2);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	rp_GenAmp(RP_CH_2, 0);
