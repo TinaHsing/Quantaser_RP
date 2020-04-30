@@ -207,7 +207,8 @@ int main(int argc, char *argv[])
 	AddrWrite(0x40200044, START_SCAN);
 	t_start = micros();	
 	for(int i=0; i<ramp_pts; i++) 
-	{			
+	{	
+		AddrWrite(0x40200064, i);//addwrite idx
 		trapping_amp += ramp_step;
 		while((micros()-t_start) < UPDATE_RATE){};
 		rp_GenAmp(RP_CH_1, trapping_amp);
