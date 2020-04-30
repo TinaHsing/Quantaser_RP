@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
 	rp_GenOutEnable(RP_CH_1);
 	pin_write( TEST_TTL_0, 1); //trapping trigger
 	rp_GenAmp(RP_CH_1, trapping_amp);
-	usleep(trapping_time);
+	usleep(trapping_time-200);
 /*-------isolation -----------*/   
 	pin_write( TEST_TTL_1, 1); //isolation trigger
 	rp_GenAmp(RP_CH_2, 1);	
