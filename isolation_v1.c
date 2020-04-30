@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
 	adc_gain_n = atof(argv[11]);
 	save = atoi(argv[12]);
 	fp_ch2 = fopen(argv[13], "rb");
-	printf("hi\n");
+
 	ADC_init();
 	rp_GenOffset(RP_CH_1, offset);
 	
@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
 	rp_GenOutEnable(RP_CH_2);
 	rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 	rp_GenArbWaveform(RP_CH_2, arrf, arb_size);
-
+		printf("hi1\n");
 /*-------trapping -----------*/		
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq);
@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_0, 1); //trapping trigger
 	rp_GenAmp(RP_CH_1, trapping_amp);
 	usleep(trapping_time);
-	
+	printf("hi2\n");
 /*-------isolation -----------*/   
 	pin_write( TEST_TTL_1, 1); //isolation trigger
 	rp_GenAmp(RP_CH_2, 1);	
@@ -216,7 +216,7 @@ int main(int argc, char *argv[])
 	}
 	rp_GenAmp(RP_CH_1, final_amp);
 	AddrWrite(0x40200044, END_SCAN);
-	
+	printf("hi3\n");
 /*-------read ADC data -----------*/ 
 	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
 
