@@ -101,7 +101,6 @@ void DAC_out(uint8_t, float);
 
 ///////*ADC*//////////////
 void ADC_init(void);
-void ADC_req(uint32_t*, float*, float*);
 void write_txt(uint32_t*, int, uint32_t);
 void write_file(float*, int, uint32_t);
 //////*Address R/W*////////
@@ -119,6 +118,8 @@ float trapping_amp;
 float ramp_step;
 long ramp_pts;
 float final_amp;
+float freq;
+int save;
 
 uint32_t trapping_time;
 uint32_t isolation_time;
@@ -407,15 +408,6 @@ float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
 	return adc;
 }
 
-void ADC_req(uint32_t* buff_size, float* buff, float* adc_data) {
-	// rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
-	rp_AcqGetLatestDataV(RP_CH_2, buff_size, buff);
-	*(adc_data+idx) = buff[*buff_size-1];
-	
-	// printf("%f\n", buff[*buff_size-1]);
-	// printf("%d. %f\n", idx, *(adc_data+idx));
-	idx++;
-}
 long micros(){
 	struct timeval currentTime;
 	long time;
