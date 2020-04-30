@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
 	adc_gain_n = atof(argv[11]);
 	save = atoi(argv[12]);
 	fp_ch2 = fopen(argv[13], "rb");
-	
+	printf("hi\n");
 	ADC_init();
 	rp_GenOffset(RP_CH_1, offset);
 	
