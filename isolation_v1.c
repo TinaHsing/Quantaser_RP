@@ -119,6 +119,7 @@ float ramp_step;
 long ramp_pts;
 float final_amp;
 float freq;
+long t_start;
 int save;
 
 uint32_t trapping_time;
@@ -178,19 +179,16 @@ int main(int argc, char *argv[])
 	
 /*---------ch2 preparation-----------------------------*/	
 	fread(arr, sizeof(double), arb_size, fp_ch2);
-	printf("hi0\n");
 	for(int i=0; i<arb_size; i++)
 	{
 		arrf[i] = arr[i];
 	}
-	printf("hia\n");
 	fclose(fp_ch2);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
 	rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 	rp_GenArbWaveform(RP_CH_2, arrf, arb_size);
-		printf("hi1\n");
 /*-------trapping -----------*/		
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq);
@@ -199,7 +197,6 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_0, 1); //trapping trigger
 	rp_GenAmp(RP_CH_1, trapping_amp);
 	usleep(trapping_time);
-	printf("hi2\n");
 /*-------isolation -----------*/   
 	pin_write( TEST_TTL_1, 1); //isolation trigger
 	rp_GenAmp(RP_CH_2, 1);	
@@ -209,12 +206,13 @@ int main(int argc, char *argv[])
 /*-------ramp -----------*/ 
 	pin_write( TEST_TTL_2, 1); //ramp trigger
 	AddrWrite(0x40200044, START_SCAN);
+	t_start = micros();	
 	for(int i=0; i<ramp_pts; i++) 
-	{	
-		usleep(UPDATE_RATE);
+	{			
 		trapping_amp += ramp_step;
+		while((micros()-t_start) < UPDATE_RATE){};
 		rp_GenAmp(RP_CH_1, trapping_amp);
-
+		t_start = micros();
 	}
 	rp_GenAmp(RP_CH_1, final_amp);
 	AddrWrite(0x40200044, END_SCAN);
