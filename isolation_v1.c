@@ -131,7 +131,10 @@ int main(int argc, char *argv[])
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(33500 * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(33500 * sizeof(float));
-	
+	FILE *fp_ch2;
+	long arb_size = 32768;
+	double arr[arb_size];
+	float arrf[arb_size];
 
 	
 	if(rp_Init() != RP_OK){
@@ -174,11 +177,6 @@ int main(int argc, char *argv[])
 	rp_GenOffset(RP_CH_1, offset);
 	
 /*---------ch2 preparation-----------------------------*/	
-	FILE *fp_ch2;
-	long arb_size = 32768;
-	double arr[arb_size];
-	float arrf[arb_size];
-		
 	fread(arr, sizeof(double), arb_size, fp_ch2);
 	for(int i=0; i<arb_size; i++)
 	{
