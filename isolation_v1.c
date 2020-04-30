@@ -123,7 +123,6 @@ long t_start;
 int save;
 
 uint32_t trapping_time;
-uint32_t isolation_time;
 
 void* map_base = (void*)(-1);
 
@@ -163,16 +162,15 @@ int main(int argc, char *argv[])
 	freq = atof(argv[1]);	
 	trapping_time = atol(argv[2])*1000; //input ms convert to us
 	trapping_amp = atof(argv[3])/1000; //input mV convert to V 
-	isolation_time = atol(argv[4])*1000;//input ms convert to us
-	ramp_step = atof(argv[5])/1000;//input mV convert to V 
-	ramp_pts = atol(argv[6]);
-	final_amp = atof(argv[7])/1000;//input mV convert to V 
-	offset = atof(argv[8])/1000;//input mV convert to V 
-	adc_offset = atoi(argv[9]);
-	adc_gain_p = atof(argv[10]);
-	adc_gain_n = atof(argv[11]);
-	save = atoi(argv[12]);
-	fp_ch2 = fopen(argv[13], "rb");
+	ramp_step = atof(argv[4])/1000;//input mV convert to V 
+	ramp_pts = atol(argv[5]);
+	final_amp = atof(argv[6])/1000;//input mV convert to V 
+	offset = atof(argv[7])/1000;//input mV convert to V 
+	adc_offset = atoi(argv[8]);
+	adc_gain_p = atof(argv[9]);
+	adc_gain_n = atof(argv[10]);
+	save = atoi(argv[11]);
+	fp_ch2 = fopen(argv[12], "rb");
 
 	ADC_init();
 	rp_GenOffset(RP_CH_1, offset);
@@ -200,7 +198,7 @@ int main(int argc, char *argv[])
 /*-------isolation -----------*/   
 	pin_write( TEST_TTL_1, 1); //isolation trigger
 	rp_GenAmp(RP_CH_2, 1);	
-	usleep(isolation_time);
+	usleep(ISOLATION_TIME*1000-200);
 	rp_GenAmp(RP_CH_2, 0);
 	
 /*-------ramp -----------*/ 
