@@ -198,7 +198,7 @@ int main(int argc, char *argv[])
 /*-------isolation -----------*/   
 	pin_write( TEST_TTL_1, 1); //isolation trigger
 	rp_GenAmp(RP_CH_2, 1);	
-	usleep(ISOLATION_TIME*1000);
+	usleep(ISOLATION_TIME*1000-50);
 	rp_GenAmp(RP_CH_2, 0);
 	
 /*-------ramp -----------*/ 
