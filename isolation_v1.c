@@ -175,9 +175,10 @@ int main(int argc, char *argv[])
 
 	ADC_init();
 	rp_GenOffset(RP_CH_1, offset);
-	printf("hi0\n");
+	
 /*---------ch2 preparation-----------------------------*/	
 	fread(arr, sizeof(double), arb_size, fp_ch2);
+	printf("hi0\n");
 	for(int i=0; i<arb_size; i++)
 	{
 		arrf[i] = arr[i];
