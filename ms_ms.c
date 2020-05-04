@@ -163,9 +163,9 @@ int main(int argc, char *argv[])
 	trapping_time = atol(argv[2])*1000; //input ms convert to us
 	trapping_amp = atof(argv[3])/1000; //input mV convert to V 
 	freq_MSMS = atof(argv[4]);
-	MSMS_length atol(argv[5])*1000;//input ms convert to us
-	MSMS_t1 atol(argv[6])*1000;//input ms convert to us
-	MSMS_t2 atol(argv[7])*1000;//input ms convert to us
+	MSMS_length = atol(argv[5])*1000;//input ms convert to us
+	MSMS_t1 = atol(argv[6])*1000;//input ms convert to us
+	MSMS_t2 = atol(argv[7])*1000;//input ms convert to us
 	ramp_step = atof(argv[8])/1000;//input mV convert to V 
 	ramp_pts = atol(argv[9]);
 	final_amp = atof(argv[10])/1000;//input mV convert to V 
