@@ -237,8 +237,8 @@ int main(int argc, char *argv[])
 	pin_unexport(TEST_TTL_2);
 			
 	rp_Release();
-	// write_file(adc_mem_f, save, adc_counter);
-	write_txt(adc_mem, save, adc_counter);
+	write_file(adc_mem_f, save, adc_counter);
+	// write_txt(adc_mem, save, adc_counter);
 	
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	free(adc_mem);
@@ -387,8 +387,8 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 	if(save)
 	{
 		FILE *fp, *fp2;
-		fp = fopen("adc_data.bin", "wb");
-		fp2 = fopen("cnt.txt", "w");
+		fp = fopen("adc_data_iso.bin", "wb");
+		fp2 = fopen("cnt_iso.txt", "w");
 		fwrite(adc_data, sizeof(float), adc_counter, fp);
 		fprintf(fp2, "%d", adc_counter);
 		fclose(fp);
