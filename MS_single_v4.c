@@ -140,9 +140,6 @@ int main(int argc, char *argv[])
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
-	// long tt[3];
-	
-
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -172,12 +169,12 @@ int main(int argc, char *argv[])
 	final_amp = atof(argv[5])/1000;//input mV convert to V
 	chirp_amp = atof(argv[6])/1000;//input mV convert to V
 	freq_factor = atof(argv[7]);
-	final_freq = atof(argv[8]);
+	final_freq = atof(argv[8]);//KHz
 	save = atoi(argv[9]);
 	ttl_dura = atoi(argv[10]);//input ms
 	damping_dura = atoi(argv[11]);//input ms
 	adc_offset = atoi(argv[12]);
-	offset = atof(argv[13])/1000;
+	offset = atof(argv[13])/1000;//input mV convert to V
 	adc_gain_p = atof(argv[14]);
 	adc_gain_n = atof(argv[15]);
 	
@@ -209,6 +206,7 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_1, trapping_amp);
 	t_start = micros();
 	while((micros()-t_start)<TTL_WAIT*1000){};
+	printf("ps1\n");
 	pin_write( FGTTL, 1);
 	pin_write( TEST_TTL_0, 1);
 	
@@ -220,6 +218,7 @@ int main(int argc, char *argv[])
 		else if (t_now>=(DAMPING_WAIT+damping_dura)*1000) 
 			rp_GenAmp(RP_CH_2, 0);
 	}
+	printf("ps2\n");
 	pin_write( TEST_TTL_1, 1);
 	pin_write( FGTTL, 0);
 	
@@ -234,6 +233,7 @@ int main(int argc, char *argv[])
 						
 	t_start = micros();		
 	while((micros()-t_start)<CHIRP_SWEEP_TIME*1000*0.9){}
+	printf("ps3\n");
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
 /*---------ch1 and ch2 ramp -----------------------------*/	
