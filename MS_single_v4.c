@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 		t3[i] = (float)CHIRP_SWEEP_TIME / arb_size * i;
 		x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
 	}
-	write_txt(x3, 1, arb_size);
+	// write_txt(x3, 1, arb_size);
 
 /*---------ch2 DC out -----------------------------*/
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
