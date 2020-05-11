@@ -107,7 +107,7 @@ void DAC_out(uint8_t, float);
 ///////*ADC*//////////////
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
-void write_txt(float*, int, uint32_t);
+void write_txt(float*, float*, int, uint32_t);
 void write_file(float*, int, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 		t3[i] = (float)CHIRP_SWEEP_TIME / arb_size * i;
 		x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
 	}
-	// write_txt(x3, 1, arb_size);
+	write_txt(t3, x3, 1, arb_size);
 
 /*---------ch2 DC out -----------------------------*/
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
@@ -404,22 +404,24 @@ void ADC_init(void){
 	rp_AcqSetGain(RP_CH_1, RP_HIGH); //broken
 	// rp_AcqSetGain(RP_CH_2, RP_HIGH);
 }
-void write_txt(float* adc_data, int save, uint32_t adc_counter)
+void write_txt(float* t, float* adc_data, int save, uint32_t adc_counter)
 {
-	char shell[MAX_PATH];
-	// system("touch cnt.txt");
-	// system("echo "" > cnt.txt");
+	
 	if(save) 
 	{
+		FILE *fp;
+		fp = fopen("arb.txt","w");
 		for(int i=0;i<adc_counter;i++)
 		{
 			// printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset), *(adc_data+i));
 			// sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset));
-			// sprintf(shell,"echo %d >> cnt.txt", adc_counter);
-			sprintf(shell,"echo %f >> arb.txt", adc_data[i]);
-			system(shell);
+			// sprintf(shell,"echo %d >> cnt.txt", adc_counter);		
+			fprintf(fp, "%f, %f\n", t[i], adc_data[i]);
+			// sprintf(shell,"echo %f >> arb.txt", adc_data[i]);
+			// system(shell);
 
 		}
+		fclose(fp);
 		// sprintf(shell,"echo %d >> cnt.txt", adc_counter);
 		// system(shell);
 	}
