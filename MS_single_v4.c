@@ -126,6 +126,7 @@ float trapping_amp;
 float final_amp;
 float chirp_amp;
 float final_freq, freq_factor;
+float k;
 int idx=0, ttl_dura, damping_dura;
 void* map_base = (void*)(-1);
 
@@ -134,7 +135,7 @@ int main(int argc, char *argv[])
 	float start_freq;
 	int	save=0;
 
-	long arb_size = 32768, t_start, t_now, t_temp = 0;
+	long arb_size = 32768, t_start, t_now;
 
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
@@ -224,7 +225,7 @@ int main(int argc, char *argv[])
 	
 /*---------ch2 chirp out -----------------------------*/	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-	rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+	rp_GenFreq(RP_CH_2, 1000.0/CHIRP_SWEEP_TIME);
 	rp_GenArbWaveform(RP_CH_2, x3, arb_size);
 	
 	
