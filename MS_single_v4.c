@@ -119,33 +119,29 @@ uint32_t adc_offset;
 
 float int2float(uint32_t, float, float, uint32_t);
 
-float freq_HV, a0_HV, a1_HV, a2_HV, a_LV, offset;
-uint32_t ts_HV;
+float freq_HV, offset;
+uint32_t ramp_pts;
+float ramp_step, ramp_step2, ramp_ch2;
+float trapping_amp;
+float final_amp;
+float chirp_amp;
 float final_freq, freq_factor;
 int idx=0, ttl_dura, damping_dura;
 void* map_base = (void*)(-1);
 
 int main(int argc, char *argv[]) 
 {
-	float start_freq, k, m1, m2, amp, amp2=0;
-	int	save=0, sweep_time;
-	// int update_rate_auto;
-	// int data_size=0;
-	// int num=0;
-	long arb_size = 16384, t_start, t_now, t_temp = 0;
-	// long adc_read_start_time;
-	// bool adc_read_flag=0;
+	float start_freq;
+	int	save=0;
+
+	long arb_size = 32768, t_start, t_now, t_temp = 0;
+
 	uint32_t adc_counter;
-	// float *buff = (float *)malloc(buff_size * sizeof(float));
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
 	// long tt[3];
 	
-	// system("cat /opt/redpitaya/fpga/red_pitaya_top_v2.bit > /dev/xdevcfg");
-	// system("monitor 0x40200048 0xFA");
-	// system("monitor 0x4020004C 0xFA");
-	// system("monitor 0x40200050 0xBB8");
-	// system("monitor 0x40200054 0xFA");
+
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -166,67 +162,50 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_0, 0);
 	pin_write( TEST_TTL_1, 0);
 	pin_write( TEST_TTL_2, 0);
-	// printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
-	// scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
-	// printf("set chirping amplitude (0~10V) :\n");
-	// scanf("%f",&a_LV);
-	// printf("enter freq factor and chirp final freq in KHz: ");
-	// scanf("%f%f", &freq_factor, &final_freq);
-	// printf("save data to .txt file? yes(1), no(0) : \n");
-	// scanf("%d",&save);
-	// while ( getchar() != '\n' );
+
+/* ----- input parameters-------------- */
 	freq_HV = atof(argv[1]);	
-	ts_HV = atol(argv[2]);
-	a0_HV = atof(argv[3]);
-	a1_HV = atof(argv[4]);
-	a2_HV = atof(argv[5])/1000;
-	a_LV = atof(argv[6]);
+	ramp_pts = atol(argv[2]);
+	ramp_step = atof(argv[3])/1000;//input mV convert to V
+	trapping_amp = atof(argv[4])/1000;//input mV convert to V
+	final_amp = atof(argv[5])/1000;//input mV convert to V
+	chirp_amp = atof(argv[6])/1000;//input mV convert to V
 	freq_factor = atof(argv[7]);
 	final_freq = atof(argv[8]);
 	save = atoi(argv[9]);
-	ttl_dura = atoi(argv[10]);
-	damping_dura = atoi(argv[11]);
+	ttl_dura = atoi(argv[10]);//input ms
+	damping_dura = atoi(argv[11]);//input ms
 	adc_offset = atoi(argv[12]);
 	offset = atof(argv[13])/1000;
 	adc_gain_p = atof(argv[14]);
 	adc_gain_n = atof(argv[15]);
-	// update_rate_auto = atoi(argv[16]);
-	start_freq = 0.5*freq_HV/1000;
-	// data_size = ts_HV*1000/UPDATE_RATE;
-	// uint32_t *adc_data = (uint32_t *) malloc(sizeof(uint32_t)*data_size);
+	
 	ADC_init();
+	
+/*---------chirp data preparation-----------------------------*/
+	
+	float *t3 = (float *)malloc(arb_size * sizeof(float));
+	float *x3 = (float *)malloc(arb_size * sizeof(float));
+	start_freq = 0.5*freq_HV/1000;
+	k = (final_freq - start_freq) / CHIRP_SWEEP_TIME;
+	for(long i = 0; i < arb_size; i++){
+		t3[i] = (float)CHIRP_SWEEP_TIME / arb_size * i;
+		x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
+	}
+
+
+/*---------ch2 DC out -----------------------------*/
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq_HV);
 	rp_GenAmp(RP_CH_1, 0);
 	rp_GenOutEnable(RP_CH_1);
-	// getchar();
-	// printf("gc0\n");
-	sweep_time = CHIRP_SWEEP_TIME;
+	rp_GenOffset(RP_CH_1, offset);
+
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
-	rp_GenOffset(RP_CH_1, offset);
-	a_LV /= 10;
-	float *t3 = (float *)malloc(arb_size * sizeof(float));
-	float *x3 = (float *)malloc(arb_size * sizeof(float));
-	k = (final_freq - start_freq) / sweep_time;
-	for(long i = 0; i < arb_size; i++){
-		t3[i] = (float)sweep_time / arb_size * i;
-		x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
-	}
-	rp_GenArbWaveform(RP_CH_2, x3, arb_size);
 	
-	m1 = (a1_HV - a0_HV)/(ts_HV)/1000; //volt/us
-	// printf("a1_HV=%f\n", a1_HV);
-	// printf("a0_HV=%f\n", a0_HV);
-	// printf("ts_HV=%d\n", ts_HV);
-	// printf("m1=%f\n", m1);
-	m2 = 1.0/(ts_HV)/1000;
-	amp = a0_HV;
-	rp_GenAmp(RP_CH_1, amp);
-	// rp_GenAmp(RP_CH_1, 1);
-	// getchar();
-	// printf("getchar1\n");
+	rp_GenAmp(RP_CH_1, trapping_amp);
 	t_start = micros();
 	while((micros()-t_start)<TTL_WAIT*1000){};
 	pin_write( FGTTL, 1);
@@ -243,81 +222,53 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_1, 1);
 	pin_write( FGTTL, 0);
 	
-	
+/*---------ch2 chirp out -----------------------------*/	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	rp_GenFreq(RP_CH_2, 1000.0/sweep_time);
+	rp_GenArbWaveform(RP_CH_2, x3, arb_size);
 	
-	rp_GenAmp(RP_CH_2, a_LV); // chirp start
+	
+	rp_GenAmp(RP_CH_2, chirp_amp); // chirp start
 	pin_write( TEST_TTL_2, 1);
 						
 	t_start = micros();		
-	while((micros()-t_start)<sweep_time*1000*0.9){}
+	while((micros()-t_start)<CHIRP_SWEEP_TIME*1000*0.9){}
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
-	// t_start = micros();
+/*---------ch1 and ch2 ramp -----------------------------*/	
+	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
 	
 	pin_write( FGTRIG, 1);	
-	// getchar();
-	// printf("getchar2\n");
+	ramp_ch2 = 0;
+	ramp_step2 = 1.0/ramp_pts;
 	AddrWrite(0x40200044, START_SCAN);
 	t_start = micros(); // scan start	
-	while((micros()-t_start)<ts_HV*1000) 
+	for(int i=0; i<ramp_pts; i++) 
 	{		
-		t_now = micros();
-
-		// printf("t_now: %ld\n",(t_now));
-		// printf("t_now: %ld\n",(t_temp));
-		// printf("t_now - t_temp :%ld\n",(t_now - t_temp));
-		if((t_now - t_temp) >= UPDATE_RATE) 
-		{
-			
-			rp_GenAmp(RP_CH_1, amp);
-			rp_GenAmp(RP_CH_2, amp2);
-			amp = amp + m1*UPDATE_RATE;
-			amp2 = amp2 + m2*UPDATE_RATE;
-
-			// DAC_out(DAC1, 0.2);
-			// amp = amp + m1*update_rate_auto;
-			// amp2 = amp2 + m2*update_rate_auto;
-			// adc_read_start_time = micros();
-			// while( (micros()-adc_read_start_time)<=integrator_delay ){};
-			// ADC_req(&buff_size, buff, adc_data);
-			t_temp=t_now;			
-			// num++;
-		}	
+		AddrWrite(0x40200064, i);//addwrite idx
+		trapping_amp += ramp_step;
+		ramp_ch2 += ramp_step2;
+		while((micros() - t_start) >= UPDATE_RATE){}; 			
+		rp_GenAmp(RP_CH_1, trapping_amp);
+		rp_GenAmp(RP_CH_2, ramp_ch2);		
 	}
-	// tt[0] = micros();
-	// DAC_out(DAC1, 0.2);
-	// tt[1] = micros();
-	// LTC2615_write(0, CH_A, 0.06);
-	// tt[2] = micros();
-	// printf("%ld\n",tt[1]-tt[0]);
-	// printf("%ld\n",tt[2]-tt[1]);
-
-	AddrWrite(0x40200044, END_SCAN);
-	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
-	// printf("adc_counter= %d\n",adc_counter);
-	
-	// AddrWrite(0x40200044, CLEAR);
-	
-	// printf("num=%d\n",num);
-	// printf("tt[0]=%ld\n",tt[0]);
-	// printf("tt[1]=%ld\n",tt[1]);
-	// printf("tt[2]=%ld\n",tt[2]);
-	// printf("tt[3]=%ld\n",tt[3]);
-	amp = a2_HV;
-	rp_GenAmp(RP_CH_1, amp);
+	rp_GenAmp(RP_CH_1, final_amp);
 	rp_GenAmp(RP_CH_2, 0);
 	pin_write( FGTRIG, 0);
+	AddrWrite(0x40200044, END_SCAN);
+	
+/*-------read ADC data -----------*/ 	
+	
+	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
+	printf("adc_count: %d\n", adc_counter);
+	
 	for(int i=0; i<adc_counter; i++)
 	{
 		AddrWrite(0x40200064, i);//addwrite idx 
-		// printf("idx=%d, ",AddrRead(0x40200064));
 		adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
 		adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
-		// printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
 	}
 	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 	
