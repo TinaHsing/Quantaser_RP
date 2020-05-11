@@ -134,10 +134,11 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	float start_freq;
+	
 	int	save=0;
 
 	long arb_size = 32768, t_start, t_now;
-
+	float arr[arb_size];
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
@@ -193,7 +194,10 @@ int main(int argc, char *argv[])
 	}
 	// write_txt(t3, x3, 1, arb_size);
 	write_file_single(x3, arb_size);
-
+	fp_ch2 = fopen("arb.bin", "rb");
+	fread(arr, sizeof(float), arb_size, fp_ch2);
+	fclose(fp_ch2);
+	
 /*---------ch2 DC out -----------------------------*/
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq_HV);
@@ -225,7 +229,7 @@ int main(int argc, char *argv[])
 /*---------ch2 chirp out -----------------------------*/	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	rp_GenFreq(RP_CH_2, 1000.0/CHIRP_SWEEP_TIME);
-	rp_GenArbWaveform(RP_CH_2, x3, arb_size);
+	rp_GenArbWaveform(RP_CH_2, arr, arb_size);
 	
 	
 	rp_GenAmp(RP_CH_2, chirp_amp); // chirp start
