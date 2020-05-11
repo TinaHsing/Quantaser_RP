@@ -107,7 +107,7 @@ void DAC_out(uint8_t, float);
 ///////*ADC*//////////////
 void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
-void write_txt(uint32_t*, int, uint32_t);
+void write_txt(float*, int, uint32_t);
 void write_file(float*, int, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
@@ -404,7 +404,7 @@ void ADC_init(void){
 	rp_AcqSetGain(RP_CH_1, RP_HIGH); //broken
 	// rp_AcqSetGain(RP_CH_2, RP_HIGH);
 }
-void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
+void write_txt(float* adc_data, int save, uint32_t adc_counter)
 {
 	char shell[MAX_PATH];
 	// system("touch cnt.txt");
