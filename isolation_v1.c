@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 	rp_GenOffset(RP_CH_1, offset);
 	
 /*---------ch2 preparation-----------------------------*/	
-	fread(arr, sizeof(float), arb_size, fp_ch2);
+	fread(arr, sizeof(double), arb_size, fp_ch2);
 	for(int i=0; i<arb_size; i++)
 	{
 		arrf[i] = arr[i];
