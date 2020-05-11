@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
 	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
-	
+	printf("freq: %f\n", freq_factor*freq_HV);
 	pin_write( FGTRIG, 1);	
 	ramp_ch2 = 0;
 	ramp_step2 = 1.0/ramp_pts;
