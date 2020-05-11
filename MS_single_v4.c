@@ -206,7 +206,6 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_1, trapping_amp);
 	t_start = micros();
 	while((micros()-t_start)<TTL_WAIT*1000){};
-	printf("ps1\n");
 	pin_write( FGTTL, 1);
 	pin_write( TEST_TTL_0, 1);
 	
@@ -218,7 +217,6 @@ int main(int argc, char *argv[])
 		else if (t_now>=(DAMPING_WAIT+damping_dura)*1000) 
 			rp_GenAmp(RP_CH_2, 0);
 	}
-	printf("ps2\n");
 	pin_write( TEST_TTL_1, 1);
 	pin_write( FGTTL, 0);
 	
@@ -233,7 +231,6 @@ int main(int argc, char *argv[])
 						
 	t_start = micros();		
 	while((micros()-t_start)<CHIRP_SWEEP_TIME*1000*0.9){}
-	printf("ps3\n");
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
 /*---------ch1 and ch2 ramp -----------------------------*/	
@@ -251,8 +248,7 @@ int main(int argc, char *argv[])
 		AddrWrite(0x40200064, i);//addwrite idx
 		trapping_amp += ramp_step;
 		ramp_ch2 += ramp_step2;
-		while((micros() - t_start) >= UPDATE_RATE){}; 	
-		printf("%d, ps4\n", i);		
+		while((micros() - t_start) < UPDATE_RATE){}; 	
 		rp_GenAmp(RP_CH_1, trapping_amp);
 		rp_GenAmp(RP_CH_2, ramp_ch2);		
 	}
