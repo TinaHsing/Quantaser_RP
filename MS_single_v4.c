@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
 	}
 	write_txt(t3, x3, 1, arb_size);
 	write_file_single(x3, arb_size);
-	fp_ch2 = fopen("200k_data.bin", "rb");
+	fp_ch2 = fopen("arb.bin", "rb");
 	fread(arr, sizeof(float), arb_size, fp_ch2);
 	fclose(fp_ch2);
 	
