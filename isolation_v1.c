@@ -103,6 +103,7 @@ void DAC_out(uint8_t, float);
 void ADC_init(void);
 void write_txt(uint32_t*, int, uint32_t);
 void write_file(float*, int, uint32_t);
+void write_file_single(float*, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
@@ -182,6 +183,7 @@ int main(int argc, char *argv[])
 		arrf[i] = arr[i];
 	}
 	fclose(fp_ch2);
+	write_file_single(arrf, arb_size);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
@@ -394,6 +396,14 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 		fclose(fp);
 		fclose(fp2);
 	}	
+}
+
+void write_file_single(float *adc_data, uint32_t adc_counter)
+{
+	FILE *fp;
+	fp = fopen("200k_data.bin", "wb");
+	fwrite(adc_data, sizeof(float), adc_counter, fp);
+	fclose(fp);
 }
 
 float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
