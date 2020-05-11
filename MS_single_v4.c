@@ -26,7 +26,7 @@
 #define DAMPING_DURA 5 //50
 #define CHIRP_WAIT 10
 #define SCAN_WAIT 10
-#define CHIRP_SWEEP_TIME 1
+#define CHIRP_SWEEP_TIME 8
 ///////*gpio pin define*/////////
 #define FGTRIG 977 //DIO1_N, amplitude scan start trigger, BNC 977
 ////***978, 979 用在integrator, DIO2_N DIO3_N***///
@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
 	
 /*---------ch2 chirp out -----------------------------*/	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-	rp_GenFreq(RP_CH_2, 1000.0/(CHIRP_SWEEP_TIME/2.0));
+	rp_GenFreq(RP_CH_2, 1000.0/(CHIRP_SWEEP_TIME));
 	rp_GenArbWaveform(RP_CH_2, arr, arb_size);
 	
 	
