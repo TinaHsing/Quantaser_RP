@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
 	trapping_amp = atof(argv[4])/1000;//input mV convert to V
 	final_amp = atof(argv[5])/1000;//input mV convert to V
 	chirp_amp = atof(argv[6])/1000;//input mV convert to V
-	freq_factor = atof(argv[7]);
+	freq_factor = atof(argv[7])/2;//fpga修改過counter step，這裡修正回來
 	final_freq = atof(argv[8]);//KHz
 	save = atoi(argv[9]);
 	ttl_dura = atoi(argv[10]);//input ms
@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
 	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
-	printf("freq: %f\n", freq_factor*freq_HV);
+	
 	pin_write( FGTRIG, 1);	
 	ramp_ch2 = 0;
 	ramp_step2 = 1.0/ramp_pts;
