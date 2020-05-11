@@ -193,9 +193,9 @@ int main(int argc, char *argv[])
 		t3[i] = (float)CHIRP_SWEEP_TIME / arb_size * i;
 		x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
 	}
-	// write_txt(t3, x3, 1, arb_size);
+	write_txt(t3, x3, 1, arb_size);
 	write_file_single(x3, arb_size);
-	fp_ch2 = fopen("200k_data.bin", "rb");
+	fp_ch2 = fopen("arb.bin", "rb");
 	fread(arr, sizeof(float), arb_size, fp_ch2);
 	fclose(fp_ch2);
 	
@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
 	
 /*---------ch2 chirp out -----------------------------*/	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-	rp_GenFreq(RP_CH_2, 1000.0/(CHIRP_SWEEP_TIME*2));
+	rp_GenFreq(RP_CH_2, 1000.0/(CHIRP_SWEEP_TIME));
 	rp_GenArbWaveform(RP_CH_2, arr, arb_size);
 	
 	
