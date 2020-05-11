@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 		t3[i] = (float)CHIRP_SWEEP_TIME / arb_size * i;
 		x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
 	}
-
+	write_txt(x3, 1, arb_size);
 
 /*---------ch2 DC out -----------------------------*/
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
@@ -407,19 +407,21 @@ void ADC_init(void){
 void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 {
 	char shell[MAX_PATH];
-	system("touch cnt.txt");
-	system("echo "" > cnt.txt");
+	// system("touch cnt.txt");
+	// system("echo "" > cnt.txt");
 	if(save) 
 	{
 		for(int i=0;i<adc_counter;i++)
 		{
-			printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset), *(adc_data+i));
+			// printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset), *(adc_data+i));
 			// sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset));
 			// sprintf(shell,"echo %d >> cnt.txt", adc_counter);
-			// system(shell);
+			sprintf(shell,"echo %f >> arb.txt", int2float(adc_data[i]);
+			system(shell);
+
 		}
-		sprintf(shell,"echo %d >> cnt.txt", adc_counter);
-		system(shell);
+		// sprintf(shell,"echo %d >> cnt.txt", adc_counter);
+		// system(shell);
 	}
 }
 
