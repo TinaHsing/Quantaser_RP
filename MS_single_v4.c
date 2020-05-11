@@ -232,7 +232,7 @@ int main(int argc, char *argv[])
 	
 	
 	rp_GenArbWaveform(RP_CH_2, arr, arb_size);
-	rp_GenFreq(RP_CH_2, 1000.0/CHIRP_SWEEP_TIME);
+	rp_GenFreq(RP_CH_2, 1000.0/(CHIRP_SWEEP_TIME*2));
 	// rp_GenFreq(RP_CH_2, 3814.7);
 	printf("%d\n", AddrRead(0x40200030));
 	
