@@ -109,6 +109,7 @@ void ADC_init(void);
 void ADC_req(uint32_t*, float*, float*);
 void write_txt(float*, float*, int, uint32_t);
 void write_file(float*, int, uint32_t);
+void write_file_single(float*, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
@@ -190,7 +191,8 @@ int main(int argc, char *argv[])
 		t3[i] = (float)CHIRP_SWEEP_TIME / arb_size * i;
 		x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
 	}
-	write_txt(t3, x3, 1, arb_size);
+	// write_txt(t3, x3, 1, arb_size);
+	write_file_single(x3, arb_size);
 
 /*---------ch2 DC out -----------------------------*/
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
@@ -439,6 +441,14 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 		fclose(fp);
 		fclose(fp2);
 	}	
+}
+
+void write_file_single(float *adc_data, uint32_t adc_counter)
+{
+	FILE *fp;
+	fp = fopen("arb.bin", "wb");
+	fwrite(adc_data, sizeof(float), adc_counter, fp);
+	fclose(fp);
 }
 
 float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
