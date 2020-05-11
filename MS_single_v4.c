@@ -251,7 +251,8 @@ int main(int argc, char *argv[])
 		AddrWrite(0x40200064, i);//addwrite idx
 		trapping_amp += ramp_step;
 		ramp_ch2 += ramp_step2;
-		while((micros() - t_start) >= UPDATE_RATE){}; 			
+		while((micros() - t_start) >= UPDATE_RATE){}; 	
+		printf("%d, ps4\n", i);		
 		rp_GenAmp(RP_CH_1, trapping_amp);
 		rp_GenAmp(RP_CH_2, ramp_ch2);		
 	}
