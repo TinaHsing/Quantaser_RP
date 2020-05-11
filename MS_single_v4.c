@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
 	
 /*---------ch2 chirp out -----------------------------*/	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-	rp_GenFreq(RP_CH_2, 1000.0/(CHIRP_SWEEP_TIME/2));
+	rp_GenFreq(RP_CH_2, 1000.0/(CHIRP_SWEEP_TIME/2.0));
 	rp_GenArbWaveform(RP_CH_2, arr, arb_size);
 	
 	
