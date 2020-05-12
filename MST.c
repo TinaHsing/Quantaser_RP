@@ -156,10 +156,10 @@ int main(int argc, char *argv[])
 
 	freq_HV = atof(argv[1]);	//頻率
 	ramp_pts = atol(argv[2]);		//掃描點數
-	AC_init = atof(argv[3]);		//AC起始電壓
-	AC_step = atof(argv[4]);		//AC 掃描step
-	DC_init = atof(argv[5]);		//DC 起始電壓
-	DC_step = atof(argv[6]);		//DC 掃描step
+	AC_init = atof(argv[3])/1000;		//AC起始電壓, input mV convert to V
+	AC_step = atof(argv[4])/1000;		//AC 掃描step, input mV convert to V
+	DC_init = atof(argv[5])/1000;		//DC 起始電壓, input mV convert to V
+	DC_step = atof(argv[6])/1000;		//DC 掃描step, input mV convert to V
 	save = atoi(argv[7]);
 	adc_offset = atoi(argv[8]);
 	adc_gain_p = atof(argv[9]);
