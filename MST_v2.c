@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 		
 		rp_GenAmp(RP_CH_1, 0);
 		DAC_out(DAC8, DC_init);
-		pin_write( TEST_TTL_0, 1);
+		pin_write( TEST_TTL_0, 0);
 		
 		for(int i=0; i<adc_counter; i++)
 		{
