@@ -169,8 +169,6 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_1, AC_init);
 	DAC_out(DAC8, DC_init);
 	
-	fp = fopen("MST.txt","r");
-	if(fp==NULL) printf("open MST.txt fail");
 	while(1)
 	{
 		AddrWrite(0x40200044, START_SCAN);
@@ -205,11 +203,14 @@ int main(int argc, char *argv[])
 		}
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 		write_file(adc_mem_f, save, adc_counter);	
+		
+		fp = fopen("MST.txt","r");
+		if(fp==NULL) printf("open MST.txt fail\n");
 		ch = getc(fp);
+		fclose(fp);
 		printf("%c\n", ch);
 		if(ch=='1') break;
 	}
-	
 	
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	
