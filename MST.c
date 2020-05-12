@@ -175,6 +175,7 @@ int main(int argc, char *argv[])
 	DAC_out(DAC8, DC_init);
 	AddrWrite(0x40200044, START_SCAN);
 	pin_write( FGTRIG, 1);	// scan start trigger
+	pin_write( TEST_TTL_0, 1);
 	for(int i=0; i<ramp_pts; i++) 
 	{	
 		AddrWrite(0x40200064, i);//addwrite idx
