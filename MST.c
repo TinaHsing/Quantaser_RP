@@ -112,16 +112,15 @@ uint32_t adc_offset;
 int idx=0;
 float int2float(uint32_t, float, float, uint32_t);
 
-float freq_HV, a0_HV, a1_HV, a0_LV, a1_LV;
-uint32_t ts_HV;
+float freq_HV, AC_init, AC_step, DC_init, DC_step;
+float stepAdd_AC=0, stepAdd_DC=0; 
+uint32_t ramp_pts;
 
 void* map_base = (void*)(-1);
 
 int main(int argc, char *argv[]) 
 {
-	float step1=0, step2=0;
 	int	save=0;
-	// int num=0;
 	long arb_size = 16384;
 
 	uint32_t adc_counter;
@@ -154,21 +153,13 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_0, 0);
 	pin_write( TEST_TTL_1, 0);
 	pin_write( TEST_TTL_2, 0);
-	// printf("set HVFG parameters (freq_HV(Hz), ts_HV(ms), a0_HV, a1_HV, a2_HV(Volt, 0~1V)) :\n");
-	// scanf("%f%u%f%f%f", &freq_HV,&ts_HV,&a0_HV,&a1_HV, &a2_HV);
-	// printf("set chirping amplitude (0~10V) :\n");
-	// scanf("%f",&a_LV);
-	// printf("enter freq factor and chirp final freq in KHz: ");
-	// scanf("%f%f", &freq_factor, &final_freq);
-	// printf("save data to .txt file? yes(1), no(0) : \n");
-	// scanf("%d",&save);
-	// while ( getchar() != '\n' );
+
 	freq_HV = atof(argv[1]);	//頻率
-	ts_HV = atol(argv[2]);		//掃描點數
-	a0_HV = atof(argv[3]);		//AC起始電壓
-	a1_HV = atof(argv[4]);		//AC 掃描step
-	a0_LV = atof(argv[5]);		//DC 起始電壓
-	a1_LV = atof(argv[6]);		//DC 掃描step
+	ramp_pts = atol(argv[2]);		//掃描點數
+	AC_init = atof(argv[3]);		//AC起始電壓
+	AC_step = atof(argv[4]);		//AC 掃描step
+	DC_init = atof(argv[5]);		//DC 起始電壓
+	DC_step = atof(argv[6]);		//DC 掃描step
 	save = atoi(argv[7]);
 	adc_offset = atoi(argv[8]);
 	adc_gain_p = atof(argv[9]);
@@ -180,27 +171,25 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_1, 0);
 	rp_GenOutEnable(RP_CH_1);
 
-	rp_GenAmp(RP_CH_1, a0_HV);
-	DAC_out(DAC8, a0_LV);
+	rp_GenAmp(RP_CH_1, AC_init);
+	DAC_out(DAC8, DC_init);
 	AddrWrite(0x40200044, START_SCAN);
 	pin_write( FGTRIG, 1);	// scan start trigger
-	for(int i=0; i<ts_HV; i++) 
+	for(int i=0; i<ramp_pts; i++) 
 	{	
 		AddrWrite(0x40200064, i);//addwrite idx
-		step1 += a1_HV;
-		step2 += a1_LV;
-		rp_GenAmp(RP_CH_1, a0_HV+step1);
-		DAC_out(DAC8, a0_LV+step2);
-		// num++;
+		stepAdd_AC += AC_step;
+		stepAdd_DC += DC_step;
+		rp_GenAmp(RP_CH_1, AC_init + stepAdd_AC);
+		DAC_out(DAC8, DC_init + stepAdd_DC);
 	}
 	pin_write( FGTRIG, 0);
 	AddrWrite(0x40200044, END_SCAN);
 	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
-	// printf("adc_counter= %d\n",adc_counter); // 要<16384
+	printf("adc_counter= %d\n",adc_counter); // 要<16384
 	
-	// printf("num=%d\n",num);
 	rp_GenAmp(RP_CH_1, 0);
-	DAC_out(DAC8, 0);
+	DAC_out(DAC8, DC_init);
 	rp_Release();
 
 
@@ -214,6 +203,8 @@ int main(int argc, char *argv[])
 	}
 	AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 	write_file(adc_mem_f, save, adc_counter);
+	
+	
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	free(adc_mem);
 	free(adc_mem_f);
