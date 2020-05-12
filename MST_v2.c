@@ -183,6 +183,8 @@ int main(int argc, char *argv[])
 			rp_GenAmp(RP_CH_1, AC_init + stepAdd_AC);
 			DAC_out(DAC8, DC_init + stepAdd_DC);
 		}
+		stepAdd_AC = 0;
+		stepAdd_DC = 0;
 		pin_write( FGTRIG, 0);
 		AddrWrite(0x40200044, END_SCAN);
 		adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
