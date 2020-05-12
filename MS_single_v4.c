@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
 	
 	int	save=0;
 
-	long arb_size = 32768, t_start, t_now;
+	long arb_size = 16384, t_start, t_now;
 	float arr[arb_size];
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
@@ -193,7 +193,7 @@ int main(int argc, char *argv[])
 		t3[i] = (float)CHIRP_SWEEP_TIME / arb_size * i;
 		x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
 	}
-	write_txt(t3, x3, 1, arb_size);
+	// write_txt(t3, x3, 1, arb_size);
 	write_file_single(x3, arb_size);
 	fp_ch2 = fopen("arb.bin", "rb");
 	fread(arr, sizeof(float), arb_size, fp_ch2);
