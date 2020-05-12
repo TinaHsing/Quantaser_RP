@@ -26,7 +26,7 @@
 #define DAMPING_DURA 5 //50
 #define CHIRP_WAIT 10
 #define SCAN_WAIT 10
-#define CHIRP_SWEEP_TIME 1
+#define CHIRP_SWEEP_TIME 1.2
 ///////*gpio pin define*/////////
 #define FGTRIG 977 //DIO1_N, amplitude scan start trigger, BNC 977
 ////***978, 979 用在integrator, DIO2_N DIO3_N***///
@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_2, 1);
 						
 	t_start = micros();		
-	while((micros()-t_start)<CHIRP_SWEEP_TIME*1000*0.9){}
+	while((micros()-t_start)<1000000){}
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
 /*---------ch1 and ch2 ramp -----------------------------*/	
