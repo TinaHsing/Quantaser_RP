@@ -170,6 +170,7 @@ int main(int argc, char *argv[])
 	DAC_out(DAC8, DC_init);
 	
 	fp = fopen("MST.txt","r");
+	if(fp==NULL) printf("open MST.txt fail");
 	while(1)
 	{
 		AddrWrite(0x40200044, START_SCAN);
