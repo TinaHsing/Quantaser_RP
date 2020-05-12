@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_2, 1);
 						
 	t_start = micros();		
-	while((micros()-t_start)<1000){}
+	while((micros()-t_start)<1000*0.8){}
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
 /*---------ch1 and ch2 ramp -----------------------------*/	
