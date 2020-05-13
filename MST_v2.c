@@ -156,10 +156,10 @@ int main(int argc, char *argv[])
 	DC_init = atof(argv[5])/1000;		//DC 起始電壓, input mV convert to V
 	DC_step = atof(argv[6])/1000;		//DC 掃描step, input mV convert to V
 	delay_ms = atol(argv[7])*1000; //input ms convert to us
-	save = atoi(argv[7]);
-	adc_offset = atoi(argv[8]);
-	adc_gain_p = atof(argv[9]);
-	adc_gain_n = atof(argv[10]);
+	save = atoi(argv[8]);
+	adc_offset = atoi(argv[9]);
+	adc_gain_p = atof(argv[10]);
+	adc_gain_n = atof(argv[11]);
 
 	ADC_init();
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
