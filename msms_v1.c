@@ -234,12 +234,12 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_2, 0);
 	
 /*-------MS/MS -----------*/   
-	pin_write( TEST_TTL_2, 1); //MSMS trigger
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_2, freq_MSMS);
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
 	usleep(MSMS_t1);
+	pin_write( TEST_TTL_2, 1); //MSMS trigger
 	rp_GenAmp(RP_CH_2, 0.5);
 	usleep(MSMS_length);
 	rp_GenAmp(RP_CH_2, 0);
