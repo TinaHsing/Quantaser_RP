@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
 	double arr[arb_size];
 	float arrf[arb_size];
 	int ttl_dura, damping_dura;
-	float freq_factor;
+	float freq_factor, ramp_ch2=0, ramp_step2;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -246,6 +246,9 @@ int main(int argc, char *argv[])
 	usleep(MSMS_t2);
 	
 /*-------ramp -----------*/ 
+	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
+	rp_GenFreq(RP_CH_2, freq_factor*freq);
+	ramp_step2 = 1.0/ramp_pts;
 	
 	pin_write( FGTRIG, 1);
 	AddrWrite(0x40200044, START_SCAN);
@@ -254,12 +257,17 @@ int main(int argc, char *argv[])
 	{	
 		AddrWrite(0x40200064, i);//addwrite idx
 		trapping_amp += ramp_step;
+		ramp_ch2 += ramp_step2;
 		while((micros()-t_start) < UPDATE_RATE){};
 		rp_GenAmp(RP_CH_1, trapping_amp);
+		rp_GenAmp(RP_CH_2, ramp_ch2);
 		t_start = micros();
 	}
 	rp_GenAmp(RP_CH_1, final_amp);
+	rp_GenAmp(RP_CH_2, 0);
+	pin_write( FGTRIG, 0);
 	AddrWrite(0x40200044, END_SCAN);
+	
 /*-------read ADC data -----------*/ 
 	adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
 	printf("adc_count: %d\n", adc_counter);
