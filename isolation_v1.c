@@ -124,7 +124,7 @@ float final_amp;
 float freq;
 long t_start;
 int save;
-long t_start = 0;
+long t_now;
 
 
 void* map_base = (void*)(-1);
