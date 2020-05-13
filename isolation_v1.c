@@ -219,7 +219,6 @@ int main(int argc, char *argv[])
 		else if (t_now>=(DAMPING_WAIT+damping_dura)*1000) 
 			rp_GenAmp(RP_CH_2, 0);
 	}
-	pin_write( TEST_TTL_1, 1);
 	pin_write( FGTTL, 0);	
 	
 /*-------isolation -----------*/   
