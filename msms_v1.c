@@ -119,10 +119,11 @@ float ramp_step;
 long ramp_pts;
 float final_amp;
 float freq, freq_MSMS;
-long t_start;
+long t_start, t_now;
 int save;
 
-uint32_t trapping_time, MSMS_t1, MSMS_t2, MSMS_length;
+
+uint32_t MSMS_t1, MSMS_t2, MSMS_length;
 
 void* map_base = (void*)(-1);
 
@@ -135,7 +136,7 @@ int main(int argc, char *argv[])
 	long arb_size = 32768;
 	double arr[arb_size];
 	float arrf[arb_size];
-
+	int ttl_dura, damping_dura;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -160,7 +161,6 @@ int main(int argc, char *argv[])
 /* ----- input parameters-------------- */
 
 	freq = atof(argv[1]);	
-	trapping_time = atol(argv[2])*1000; //input ms convert to us
 	trapping_amp = atof(argv[3])/1000; //input mV convert to V 
 	freq_MSMS = atof(argv[4]);
 	MSMS_length = atol(argv[5])*1000;//input ms convert to us
@@ -198,7 +198,6 @@ int main(int argc, char *argv[])
 	rp_GenOutEnable(RP_CH_1);
 	pin_write( TEST_TTL_0, 1); //trapping trigger
 	rp_GenAmp(RP_CH_1, trapping_amp);
-	usleep(trapping_time-200);
 /*-------isolation -----------*/   
 	pin_write( TEST_TTL_1, 1); //isolation trigger
 	rp_GenAmp(RP_CH_2, 1);	
