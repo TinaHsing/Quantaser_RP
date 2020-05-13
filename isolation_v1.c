@@ -194,12 +194,14 @@ int main(int argc, char *argv[])
 	rp_GenFreq(RP_CH_1, freq);
 	rp_GenAmp(RP_CH_1, 0);
 	rp_GenOutEnable(RP_CH_1);
-	rp_GenAmp(RP_CH_1, trapping_amp);
-
-/*---------ch2 DC out -----------------------------*/
+	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
+	
+	rp_GenAmp(RP_CH_1, trapping_amp);
+
+/*---------ch2 DC out -----------------------------*/
 	
 	t_start = micros();
 	while((micros()-t_start)<TTL_WAIT*1000){};
