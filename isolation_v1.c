@@ -126,7 +126,6 @@ long t_start;
 int save;
 long t_start = 0;
 
-// uint32_t trapping_time;
 
 void* map_base = (void*)(-1);
 
@@ -164,19 +163,19 @@ int main(int argc, char *argv[])
 /* ----- input parameters-------------- */
 
 	freq = atof(argv[1]);	
-	// trapping_time = atol(argv[2])*1000; //input ms convert to us
-	trapping_amp = atof(argv[3])/1000; //input mV convert to V 
-	ramp_step = atof(argv[4])/1000;//input mV convert to V 
-	ramp_pts = atol(argv[5]);
-	final_amp = atof(argv[6])/1000;//input mV convert to V 
-	offset = atof(argv[7])/1000;//input mV convert to V 
-	adc_offset = atoi(argv[8]);
-	adc_gain_p = atof(argv[9]);
-	adc_gain_n = atof(argv[10]);
-	save = atoi(argv[11]);
-	fp_ch2 = fopen(argv[12], "rb");
-	ttl_dura = atoi(argv[13]);//input ms
-	damping_dura = atoi(argv[14]);//input ms
+	ttl_dura = atoi(argv[2]);//input ms
+	damping_dura = atoi(argv[3]);//input ms
+	trapping_amp = atof(argv[4])/1000; //input mV convert to V 
+	ramp_step = atof(argv[5])/1000;//input mV convert to V 
+	ramp_pts = atol(argv[6]);
+	final_amp = atof(argv[7])/1000;//input mV convert to V 
+	offset = atof(argv[8])/1000;//input mV convert to V 
+	adc_offset = atoi(argv[9]);
+	adc_gain_p = atof(argv[10]);
+	adc_gain_n = atof(argv[11]);
+	save = atoi(argv[12]);
+	fp_ch2 = fopen(argv[13], "rb");
+	
 
 	ADC_init();
 	rp_GenOffset(RP_CH_1, offset);
@@ -196,7 +195,6 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_1, 0);
 	rp_GenOutEnable(RP_CH_1);
 	rp_GenAmp(RP_CH_1, trapping_amp);
-	// usleep(trapping_time-200);
 
 /*---------ch2 DC out -----------------------------*/
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
