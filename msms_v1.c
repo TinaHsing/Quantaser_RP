@@ -166,7 +166,7 @@ int main(int argc, char *argv[])
 	ttl_dura = atoi(argv[2]);//input ms
 	damping_dura = atoi(argv[3]);//input ms
 	trapping_amp = atof(argv[4])/1000; //input mV convert to V 
-	freq_MSMS = atof(argv[5]);
+	freq_MSMS = atof(argv[5])/2;//fpga修改過counter step，這裡修正回來
 	MSMS_length = atol(argv[6])*1000;//input ms convert to us
 	MSMS_t1 = atol(argv[7])*1000;//input ms convert to us
 	MSMS_t2 = atol(argv[8])*1000;//input ms convert to us
