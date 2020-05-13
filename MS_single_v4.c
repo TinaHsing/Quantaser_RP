@@ -224,19 +224,16 @@ int main(int argc, char *argv[])
 		else if (t_now>=(DAMPING_WAIT+damping_dura)*1000) 
 			rp_GenAmp(RP_CH_2, 0);
 	}
-	pin_write( TEST_TTL_1, 1);
 	pin_write( FGTTL, 0);
 	
 /*---------ch2 chirp out -----------------------------*/	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	rp_GenArbWaveform(RP_CH_2, arr, arb_size);
 	rp_GenFreq(RP_CH_2, 1000.0/(CHIRP_SWEEP_TIME*2));
-	// rp_GenFreq(RP_CH_2, 3814.7);
 	printf("%d\n", AddrRead(0x40200030));
 	
-	
+	pin_write( TEST_TTL_1, 1);
 	rp_GenAmp(RP_CH_2, chirp_amp); // chirp start
-	pin_write( TEST_TTL_2, 1);
 						
 	t_start = micros();		
 	while((micros()-t_start)<1000*0.9){}
@@ -246,7 +243,7 @@ int main(int argc, char *argv[])
 	
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_2, freq_factor*freq_HV);
-	
+	pin_write( TEST_TTL_2, 1);
 	pin_write( FGTRIG, 1);	
 	ramp_ch2 = 0;
 	ramp_step2 = 1.0/ramp_pts;
