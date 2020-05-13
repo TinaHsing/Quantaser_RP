@@ -20,7 +20,8 @@
 #include "redpitaya/rp.h"
 
 ///////*timing define*////////
-
+#define TTL_WAIT 1
+#define DAMPING_WAIT 1
 #define ISOLATION_TIME 8 // 8ms
 ///////*gpio pin define*/////////
 #define FGTRIG 977 //DIO1_N, amplitude scan start trigger, BNC 977
@@ -137,6 +138,7 @@ int main(int argc, char *argv[])
 	double arr[arb_size];
 	float arrf[arb_size];
 	int ttl_dura, damping_dura;
+	float freq_factor;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -161,44 +163,71 @@ int main(int argc, char *argv[])
 /* ----- input parameters-------------- */
 
 	freq = atof(argv[1]);	
-	trapping_amp = atof(argv[3])/1000; //input mV convert to V 
-	freq_MSMS = atof(argv[4]);
-	MSMS_length = atol(argv[5])*1000;//input ms convert to us
-	MSMS_t1 = atol(argv[6])*1000;//input ms convert to us
-	MSMS_t2 = atol(argv[7])*1000;//input ms convert to us
-	ramp_step = atof(argv[8])/1000;//input mV convert to V 
-	ramp_pts = atol(argv[9]);
-	final_amp = atof(argv[10])/1000;//input mV convert to V 
-	offset = atof(argv[11])/1000;//input mV convert to V 
-	adc_offset = atoi(argv[12]);
-	adc_gain_p = atof(argv[13]);
-	adc_gain_n = atof(argv[14]);
-	save = atoi(argv[15]);
-	fp_ch2 = fopen(argv[16], "rb");
+	ttl_dura = atoi(argv[2]);//input ms
+	damping_dura = atoi(argv[3]);//input ms
+	trapping_amp = atof(argv[4])/1000; //input mV convert to V 
+	freq_MSMS = atof(argv[5]);
+	MSMS_length = atol(argv[6])*1000;//input ms convert to us
+	MSMS_t1 = atol(argv[7])*1000;//input ms convert to us
+	MSMS_t2 = atol(argv[8])*1000;//input ms convert to us
+	ramp_step = atof(argv[9])/1000;//input mV convert to V 
+	ramp_pts = atol(argv[10]);
+	final_amp = atof(argv[11])/1000;//input mV convert to V 
+	offset = atof(argv[12])/1000;//input mV convert to V 
+	adc_offset = atoi(argv[13]);
+	adc_gain_p = atof(argv[14]);
+	adc_gain_n = atof(argv[15]);
+	save = atoi(argv[16]);
+	fp_ch2 = fopen(argv[17], "rb");
+	freq_factor = atof(argv[14])/2;//fpga修改過counter step，這裡修正回來
+
 
 	ADC_init();
 	rp_GenOffset(RP_CH_1, offset);
 	
-/*---------ch2 preparation-----------------------------*/	
+/*---------load chirp data-----------------------------*/	
 	fread(arr, sizeof(double), arb_size, fp_ch2);
 	for(int i=0; i<arb_size; i++)
 	{
 		arrf[i] = arr[i];
 	}
 	fclose(fp_ch2);
+	
+/*-------trapping start-----------*/		
+	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
+	rp_GenFreq(RP_CH_1, freq);
+	rp_GenAmp(RP_CH_1, 0);
+	rp_GenOutEnable(RP_CH_1);
+	
+	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
+	rp_GenAmp(RP_CH_2, 0);
+	rp_GenOutEnable(RP_CH_2);
+	
+	rp_GenAmp(RP_CH_1, trapping_amp);
+	
+/*---------ch2 DC out -----------------------------*/
+	t_start = micros();
+	while((micros()-t_start)<TTL_WAIT*1000){};
+	pin_write( FGTTL, 1);
+	pin_write( TEST_TTL_0, 1);
+	
+	t_start = micros();
+	while((micros()-t_start)<ttl_dura*1000){
+		t_now = micros()-t_start;
+		if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+damping_dura)*1000)
+			rp_GenAmp(RP_CH_2, 1);
+		else if (t_now>=(DAMPING_WAIT+damping_dura)*1000) 
+			rp_GenAmp(RP_CH_2, 0);
+	}
+	pin_write( FGTTL, 0);	
+	
+/*-------isolation -----------*/   
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
 	rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 	rp_GenArbWaveform(RP_CH_2, arrf, arb_size);
-/*-------trapping -----------*/		
-	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-	rp_GenFreq(RP_CH_1, freq);
-	rp_GenAmp(RP_CH_1, 0);
-	rp_GenOutEnable(RP_CH_1);
-	pin_write( TEST_TTL_0, 1); //trapping trigger
-	rp_GenAmp(RP_CH_1, trapping_amp);
-/*-------isolation -----------*/   
+
 	pin_write( TEST_TTL_1, 1); //isolation trigger
 	rp_GenAmp(RP_CH_2, 1);	
 	usleep(ISOLATION_TIME*1000-50);
