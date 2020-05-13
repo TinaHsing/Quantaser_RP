@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
 	adc_gain_n = atof(argv[11]);
 	save = atoi(argv[12]);
 	fp_ch2 = fopen(argv[13], "rb");
-	freq_factor = atof(argv[14]);
+	freq_factor = atof(argv[14])/2;//fpga修改過counter step，這裡修正回來
 	
 
 	ADC_init();
