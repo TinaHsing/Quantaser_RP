@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 {
 	int	save=0;
 	long arb_size = 16384;
-
+	long delay_ms = 0;
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
@@ -155,6 +155,7 @@ int main(int argc, char *argv[])
 	AC_step = atof(argv[4])/1000;		//AC 掃描step, input mV convert to V
 	DC_init = atof(argv[5])/1000;		//DC 起始電壓, input mV convert to V
 	DC_step = atof(argv[6])/1000;		//DC 掃描step, input mV convert to V
+	delay_ms = atol(argv[7])*1000; //input ms convert to us
 	save = atoi(argv[7]);
 	adc_offset = atoi(argv[8]);
 	adc_gain_p = atof(argv[9]);
@@ -210,6 +211,7 @@ int main(int argc, char *argv[])
 		fclose(fp);
 		printf("%c\n", ch);
 		if(ch=='1') break;
+		usleep(delay_ms);
 	}
 	
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
