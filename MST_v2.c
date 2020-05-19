@@ -238,14 +238,12 @@ int main(int argc, char *argv[])
 // {
 	// int fd = -1;
 	// void* virt_addr;
-	uint32_t read_result = 0;
 	// if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
 	// /* Map one page */
 	// map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
 	// if(map_base == (void *) -1) FATAL;
 	// virt_addr = map_base + (addr & MAP_MASK);
 	
-	*((uint32_t *) virt_addr) = *arr;
 	// memcpy((uint32_t *)arr, (uint32_t *) virt_addr, size*4);
 	
 	// if (map_base != (void*)(-1)) {
