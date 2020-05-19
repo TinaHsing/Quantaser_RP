@@ -267,19 +267,19 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
 	/* Map one page */
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
-	if(map_base == (void *) -1) FATAL;
+	// if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
 	
 	*((unsigned long *) virt_addr) = value;
 	
-	if (map_base != (void*)(-1)) {
-		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
-		map_base = (void*)(-1);
-	}
+	// if (map_base != (void*)(-1)) {
+		// if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		// map_base = (void*)(-1);
+	// }
 
-	if (map_base != (void*)(-1)) {
-		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
-	}
+	// if (map_base != (void*)(-1)) {
+		// if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	// }
 	if (fd != -1) {
 		close(fd);
 	}
