@@ -202,8 +202,9 @@ int main(int argc, char *argv[])
 			// adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
 			// adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 		// }
-		memcpy(adc_mem, src, 1 * sizeof(uint32_t));
+		
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
+		memcpy(adc_mem, src, 1);
 		write_file(adc_mem_f, save, adc_counter);	
 		
 		fp = fopen("MST.txt","r");
