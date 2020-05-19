@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
 		
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 		// memcpy(adc_mem, src, 1);
-		AddrCpy(src, adc_mem, adc_counter);
+		AddrCpy(src, adc_mem, 1);
 		write_file(adc_mem_f, save, adc_counter);	
 		
 		fp = fopen("MST.txt","r");
