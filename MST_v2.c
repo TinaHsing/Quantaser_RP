@@ -116,7 +116,7 @@ float freq_HV, AC_init, AC_step, DC_init, DC_step;
 float stepAdd_AC=0, stepAdd_DC=0; 
 uint32_t ramp_pts;
 
-uint32_t *src = (uint32_t*)0x40200000;
+uint32_t *src = (uint32_t*)0x40200068;
 
 void* map_base = (void*)(-1);
 
@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
 			// adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
 			// adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 		// }
-		memcpy(adc_mem, src, adc_counter * sizeof(uint32_t));
+		memcpy(adc_mem, src, 1 * sizeof(uint32_t));
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 		write_file(adc_mem_f, save, adc_counter);	
 		
