@@ -118,7 +118,7 @@ float stepAdd_AC=0, stepAdd_DC=0;
 uint32_t ramp_pts;
 
 uint32_t src = 0x40200054;
-// long t1;
+long t1;
 
 void* map_base = (void*)(-1);
 
@@ -208,7 +208,9 @@ int main(int argc, char *argv[])
 		}
 		
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
-		AddrCpy(src, adc_mem, 2);
+		t1 = micros();
+		AddrCpy(src, adc_mem, 1);
+		printf("%ld\n", (micros()-t1));
 		write_file(adc_mem_f, save, adc_counter);	
 		
 		fp = fopen("MST.txt","r");
@@ -257,7 +259,7 @@ void AddrCpy(uint32_t addr, uint32_t* arr, uint32_t size)
 	if (fd != -1) {
 		close(fd);
 	}
-	printf("data=%d\n", arr[0]);
+	// printf("data=%d\n", arr[0]);
 }
 
 void AddrWrite(unsigned long addr, unsigned long value)
