@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
 		{
 			t1 = micros();
 			AddrWrite(0x40200064, i);//addwrite idx 
-			printf("%ld\n", (micros()-t1)/1000);
+			printf("%ld\n", (micros()-t1));
 			// adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
 			// adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 		}
