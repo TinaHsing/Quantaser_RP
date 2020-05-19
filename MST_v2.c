@@ -105,7 +105,7 @@ void write_file(float*, int, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
-void AddrCpy(uint32_t, uint32_t*);
+void AddrCpy(uint32_t, uint32_t*, uint32_t);
 ///////* time read*////////
 long micros(void);
 float adc_gain_p, adc_gain_n;
@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
 		
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 		// memcpy(adc_mem, src, 1);
-		AddrCpy(src, adc_mem);
+		AddrCpy(src, adc_mem, adc_counter);
 		write_file(adc_mem_f, save, adc_counter);	
 		
 		fp = fopen("MST.txt","r");
@@ -232,7 +232,7 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void AddrCpy(uint32_t addr, uint32_t* arr)
+void AddrCpy(uint32_t addr, uint32_t* arr, uint32_t size)
 {
 	int fd = -1;
 	void* virt_addr;
@@ -244,7 +244,7 @@ void AddrCpy(uint32_t addr, uint32_t* arr)
 	virt_addr = map_base + (addr & MAP_MASK);
 	
 	// *((uint32_t *) virt_addr) = *arr;
-	memcpy(arr, (uint32_t *) virt_addr, 1);
+	memcpy(arr, (uint32_t *) virt_addr, size*4);
 	
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
