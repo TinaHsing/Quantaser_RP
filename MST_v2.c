@@ -105,7 +105,7 @@ void write_file(float*, int, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
-void AddrCpy(uint32_t, uint32_t*, uint32_t);
+// void AddrCpy(uint32_t, uint32_t*, uint32_t);
 ///////* time read*////////
 long micros(void);
 float adc_gain_p, adc_gain_n;
@@ -117,7 +117,8 @@ float freq_HV, AC_init, AC_step, DC_init, DC_step;
 float stepAdd_AC=0, stepAdd_DC=0; 
 uint32_t ramp_pts;
 
-uint32_t src = 0x40210000;
+// uint32_t src = 0x40210000;
+long t1;
 
 void* map_base = (void*)(-1);
 
@@ -199,14 +200,15 @@ int main(int argc, char *argv[])
 		
 		for(int i=0; i<adc_counter; i++)
 		{
-			// AddrWrite(0x40200064, i);//addwrite idx 
+			t1 = micros();
+			AddrWrite(0x40200064, i);//addwrite idx 
+			printf("%ld\n", (micros()-t1)/1000);
 			// adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
-			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
+			// adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 		}
 		
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
-		// memcpy(adc_mem, src, 1);
-		AddrCpy(src, adc_mem, 10);
+		// AddrCpy(src, adc_mem, 10);
 		write_file(adc_mem_f, save, adc_counter);	
 		
 		fp = fopen("MST.txt","r");
@@ -232,32 +234,32 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void AddrCpy(uint32_t addr, uint32_t* arr, uint32_t size)
-{
-	int fd = -1;
-	void* virt_addr;
-	// uint32_t read_result = 0;
-	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
-	/* Map one page */
-	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
-	if(map_base == (void *) -1) FATAL;
-	virt_addr = map_base + (addr & MAP_MASK);
+// void AddrCpy(uint32_t addr, uint32_t* arr, uint32_t size)
+// {
+	// int fd = -1;
+	// void* virt_addr;
+	uint32_t read_result = 0;
+	// if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	// /* Map one page */
+	// map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	// if(map_base == (void *) -1) FATAL;
+	// virt_addr = map_base + (addr & MAP_MASK);
 	
-	// *((uint32_t *) virt_addr) = *arr;
-	memcpy((uint32_t *)arr, (uint32_t *) virt_addr, size*4);
+	*((uint32_t *) virt_addr) = *arr;
+	// memcpy((uint32_t *)arr, (uint32_t *) virt_addr, size*4);
 	
-	if (map_base != (void*)(-1)) {
-		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
-		map_base = (void*)(-1);
-	}
+	// if (map_base != (void*)(-1)) {
+		// if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+		// map_base = (void*)(-1);
+	// }
 
-	if (map_base != (void*)(-1)) {
-		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
-	}
-	if (fd != -1) {
-		close(fd);
-	}
-}
+	// if (map_base != (void*)(-1)) {
+		// if(munmap(map_base, MAP_SIZE) == -1) FATAL;
+	// }
+	// if (fd != -1) {
+		// close(fd);
+	// }
+// }
 
 void AddrWrite(unsigned long addr, unsigned long value)
 {
