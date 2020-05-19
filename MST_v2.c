@@ -116,7 +116,7 @@ float freq_HV, AC_init, AC_step, DC_init, DC_step;
 float stepAdd_AC=0, stepAdd_DC=0; 
 uint32_t ramp_pts;
 
-uint32_t *src = 0x40200000;
+uint32_t *src = (uint32_t*)0x40200000;
 
 void* map_base = (void*)(-1);
 
