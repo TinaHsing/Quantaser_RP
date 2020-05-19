@@ -243,7 +243,7 @@ void AddrCpy(uint32_t addr, uint32_t* arr)
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
 	
-	// *((unsigned long *) virt_addr) = value;
+	*((uint32_t *) virt_addr) = *arr;
 	// memcpy(arr, (uint32_t *) virt_addr, 1);
 	
 	if (map_base != (void*)(-1)) {
