@@ -259,7 +259,7 @@ void AddrCpy(uint32_t addr, uint32_t* arr, uint32_t size)
 	if (fd != -1) {
 		close(fd);
 	}
-	// printf("data=%d\n", arr[0]);
+	printf("data=%d\n", arr[0]);
 }
 
 void AddrWrite(unsigned long addr, unsigned long value)
