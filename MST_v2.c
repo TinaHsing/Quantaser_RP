@@ -297,7 +297,7 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	printf("input : %lx , ", addr);
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
-	printf("virt : %x , ", (unsigned long *)virt_addr);
+	printf("virt : %p\n ", (unsigned long *)virt_addr);
 	*((unsigned long *) virt_addr) = value;
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
