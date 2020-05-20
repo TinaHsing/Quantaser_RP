@@ -214,7 +214,8 @@ int main(int argc, char *argv[])
 		for(int i=0; i<adc_counter; i++)
 		{
 			// t1 = micros();
-			AddrWrite(0x40200064, i);//addwrite idx 
+			*adc_idx_addr = i;
+			// AddrWrite(0x40200064, i);//addwrite idx 
 			// printf("%ld\n", (micros()-t1));
 			adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
 			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
@@ -281,7 +282,7 @@ void map2virtualAddr(uint32_t** virt_addr, uint32_t tar_addr)
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, tar_addr & ~MAP_MASK);
 	*virt_addr = map_base + (tar_addr & MAP_MASK);
-	printf("tar_addr : %x , ", tar_addr);
+	// printf("tar_addr : %x , ", tar_addr);
 	
 	close(fd);
 }
