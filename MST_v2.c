@@ -246,7 +246,7 @@ void AddrCpy(uint32_t addr, uint32_t* arr, uint32_t size)
 	int fd = -1;
 	void* virt_addr;
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
-	/* Map one page */
+
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
@@ -271,19 +271,20 @@ void AddrWrite(unsigned long addr, unsigned long value)
 {
 	int fd = -1;
 	void* virt_addr;
-	// uint32_t read_result = 0;
-	t1 = micros();
+	
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
-	printf("%ld, ", (micros()-t1));
+	
 	/* Map one page */
-	t2 = micros();
+	
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
-	printf("%ld\n ", (micros()-t2));
+	
 	if(map_base == (void *) -1) FATAL;
+	t1 = micros();
 	virt_addr = map_base + (addr & MAP_MASK);
-	
+	printf("%ld, ", (micros()-t1));
+	t2 = micros();
 	*((unsigned long *) virt_addr) = value;
-	
+	printf("%ld\n ", (micros()-t2));
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
