@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Rp api init failed!\n");
 	}
 	map2virtualAddr(&adc_idx_addr, 0x40200064);
-	printf("adc_idx_addr : %p\n ", adc_idx_addr);
+	// printf("adc_idx_addr : %p\n ", adc_idx_addr);
 	i2cOpen();
 	pin_export(FGTRIG);
 	pin_export(FGTTL);
@@ -189,9 +189,9 @@ int main(int argc, char *argv[])
 		{	
 			
 			// AddrWrite(0x40200064, i);//addwrite idx
-			t1 = micros();
+			// t1 = micros();
 			*adc_idx_addr = i;
-			printf("t1:%ld\n", (micros()-t1));
+			// printf("t1:%ld\n", (micros()-t1));
 			stepAdd_AC += AC_step;
 			stepAdd_DC += DC_step;
 			
@@ -297,10 +297,10 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	/* Map one page */
 	
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
-	printf("input : %lx , ", addr);
+	// printf("input : %lx , ", addr);
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
-	printf("virt : %p\n ", (unsigned long *)virt_addr);
+	// printf("virt : %p\n ", (unsigned long *)virt_addr);
 	*((unsigned long *) virt_addr) = value;
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
