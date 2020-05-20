@@ -228,6 +228,10 @@ int main(int argc, char *argv[])
 		// t1 = micros();
 		// AddrCpy(src, adc_mem, 1);
 		// printf("%ld\n", (micros()-t1));
+		for(int i=0;i<adc_counter;i++)
+		{
+			printf("%d. %f\n",i+1, adc_mem_f[i]);
+		}
 		write_file(adc_mem_f, save, adc_counter);	
 		
 		fp = fopen("MST.txt","r");
