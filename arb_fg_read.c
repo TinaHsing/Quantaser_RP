@@ -38,11 +38,16 @@ int main(int argc, char **argv){
 	float sweep_time;
 	long arb_size = 32768;
 	float arrf[arb_size];
+	double arr[arb_size];
 	
 	
 	fp = fopen(argv[1], "rb");
-	fread(arrf, sizeof(float), arb_size, fp);
+	fread(arr, sizeof(double), arb_size, fp);
 	fclose(fp);
+	for(int i=0; i<arb_size; i++)
+	{
+		arrf[i] = arr[i];
+	}
 	
 	sweep_time = atoi(argv[2]); //ms
 
