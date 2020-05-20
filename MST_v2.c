@@ -105,6 +105,7 @@ void write_file(float*, int, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
+void map2virtualAddr(uint32_t*, uint32_t);
 void AddrCpy(uint32_t, uint32_t*, uint32_t);
 ///////* time read*////////
 long micros(void);
@@ -118,9 +119,13 @@ float stepAdd_AC=0, stepAdd_DC=0;
 uint32_t ramp_pts;
 
 // uint32_t src = 0x4020004c;
-long t1, t2;
+// long t1, t2;
+
+static uint32_t *adc_idx = NULL;
 
 void* map_base = (void*)(-1);
+
+
 
 int main(int argc, char *argv[]) 
 {
@@ -132,10 +137,11 @@ int main(int argc, char *argv[])
 	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
 	FILE *fp;
 	char ch;
-	
+	uint32_t *adc_idx_addr = NULL;
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
+	map2virtualAddr(adc_idx_addr, 0x40200064);
 	i2cOpen();
 	pin_export(FGTRIG);
 	pin_export(FGTTL);
@@ -182,8 +188,10 @@ int main(int argc, char *argv[])
 		for(int i=0; i<ramp_pts; i++) 
 		{	
 			
-			AddrWrite(0x40200064, i);//addwrite idx
-			
+			// AddrWrite(0x40200064, i);//addwrite idx
+			t1 = micros();
+			*adc_idx_addr = i;
+			printf("%t1:ld\n", (micros()-t1));
 			stepAdd_AC += AC_step;
 			stepAdd_DC += DC_step;
 			
@@ -267,6 +275,16 @@ void AddrCpy(uint32_t addr, uint32_t* arr, uint32_t size)
 	printf("data=%d\n", arr[0]);
 }
 
+void map2virtualAddr(uint32_t* virt_addr, uint32_t tar_addr)
+{
+	int fd = -1;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, tar_addr & ~MAP_MASK);
+	virt_addr = map_base + (tar_addr & MAP_MASK);
+	close(fd);
+}
+
+
 void AddrWrite(unsigned long addr, unsigned long value)
 {
 	int fd = -1;
@@ -279,12 +297,8 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
 	
 	if(map_base == (void *) -1) FATAL;
-	t1 = micros();
 	virt_addr = map_base + (addr & MAP_MASK);
-	printf("%ld, ", (micros()-t1));
-	t2 = micros();
 	*((unsigned long *) virt_addr) = value;
-	printf("%ld\n ", (micros()-t2));
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
