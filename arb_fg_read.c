@@ -36,7 +36,7 @@ long t_start;
 int main(int argc, char **argv){
 
 	FILE *fp;
-	int sweep_time;
+	// int sweep_time;
 	long arb_size = 32768;
 	float arrf[arb_size];
 	double arr[arb_size];
@@ -50,7 +50,7 @@ int main(int argc, char **argv){
 		arrf[i] = arr[i];
 	}
 	
-	sweep_time = atoi(argv[2]); //ms
+	// sweep_time = atoi(argv[2]); //ms
 
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
