@@ -54,12 +54,12 @@ int main(int argc, char **argv){
 	rp_GenOutEnable(CH);
 	
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
+	printf("1\n");
 	rp_GenArbWaveform(CH, arrf, arb_size);
-
+printf("2\n");
 	rp_GenFreq(CH, 1000.0/sweep_time);
-		
+		printf("3\n");
 	rp_GenAmp(CH, 1);
-	printf("hi\n");
 	t_start = micros();		
 	while((micros()-t_start)<sweep_time*1000){}
 	rp_GenAmp(CH, 0); //chirp end
