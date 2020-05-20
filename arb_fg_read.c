@@ -31,6 +31,7 @@ void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
 long t_start;
 #define CH RP_CH_1
+#define ISOLATION_TIME 8 // 8ms
 
 int main(int argc, char **argv){
 
@@ -58,16 +59,21 @@ int main(int argc, char **argv){
 	rp_GenAmp(CH, 0);
 	rp_GenOutEnable(CH);
 	
-	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
-	// printf("1\n");
-	rp_GenArbWaveform(CH, arrf, arb_size);
-// printf("2\n");
-	rp_GenFreq(CH, 1000.0/sweep_time);
-		// printf("3\n");
-	rp_GenAmp(CH, 1);
-	t_start = micros();		
-	while((micros()-t_start)<sweep_time*1000){}
-	rp_GenAmp(CH, 0); //chirp end
+	// rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
+	// rp_GenArbWaveform(CH, arrf, arb_size);
+	// rp_GenFreq(CH, 1000.0/sweep_time);
+	// rp_GenAmp(CH, 1);
+	
+	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+	rp_GenAmp(RP_CH_2, 0);
+	rp_GenOutEnable(RP_CH_2);
+	rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
+	rp_GenArbWaveform(RP_CH_2, arrf, arb_size);
+	rp_GenAmp(RP_CH_2, 1);
+	
+	// t_start = micros();		
+	// while((micros()-t_start)<sweep_time*1000){}
+	// rp_GenAmp(CH, 0); //chirp end
 	
 	
     rp_Release();
