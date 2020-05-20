@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 			// AddrWrite(0x40200064, i);//addwrite idx
 			t1 = micros();
 			*adc_idx_addr = i;
-			printf("%t1:ld\n", (micros()-t1));
+			printf("t1:%ld\n", (micros()-t1));
 			stepAdd_AC += AC_step;
 			stepAdd_DC += DC_step;
 			
