@@ -137,10 +137,12 @@ int main(int argc, char *argv[])
 	FILE *fp;
 	char ch;
 	uint32_t *adc_idx_addr = NULL;
+	uint32_t *adc_ch2 = NULL;
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
 	map2virtualAddr(&adc_idx_addr, 0x40200064);
+	map2virtualAddr(&adc_ch2, 0x40200070);
 	// printf("adc_idx_addr : %p\n ", adc_idx_addr);
 	i2cOpen();
 	pin_export(FGTRIG);
@@ -217,7 +219,8 @@ int main(int argc, char *argv[])
 			*adc_idx_addr = i;
 			// AddrWrite(0x40200064, i);//addwrite idx 
 			// printf("%ld\n", (micros()-t1));
-			adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
+			// adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
+			adc_mem[i] = *adc_ch2;
 			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 		}
 		
