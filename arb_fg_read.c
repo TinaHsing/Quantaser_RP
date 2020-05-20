@@ -36,7 +36,7 @@ int main(int argc, char **argv){
 
 	FILE *fp;
 	int sweep_time;
-	long arb_size = 32768;
+	long arb_size = 16384;
 	float arrf[arb_size];
 	double arr[arb_size];
 	
