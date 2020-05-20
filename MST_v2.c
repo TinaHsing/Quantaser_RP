@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
 
 	rp_GenAmp(RP_CH_1, AC_init);
 	DAC_out(DAC8, DC_init);
-	AddrWrite(0x40200064, i);//addwrite idx
+	AddrWrite(0x40200064, 0);//addwrite idx
 	while(1)
 	{
 		AddrWrite(0x40200044, START_SCAN);
@@ -297,7 +297,7 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	printf("input : %lx , ", addr);
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
-	printf("virt : %lx , ", (unsigned long *)virt_addr);
+	printf("virt : %x , ", (unsigned long *)virt_addr);
 	*((unsigned long *) virt_addr) = value;
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
