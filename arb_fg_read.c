@@ -50,7 +50,7 @@ int main(int argc, char **argv){
 		arrf[i] = arr[i];
 	}
 	
-	// sweep_time = atoi(argv[2]); //ms
+	sweep_time = atoi(argv[2]); //ms
 
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
@@ -61,7 +61,7 @@ int main(int argc, char **argv){
 	
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
 	rp_GenArbWaveform(CH, arrf, arb_size);
-	rp_GenFreq(CH, 1000.0/ISOLATION_TIME);
+	rp_GenFreq(CH, 1000.0/sweep_time);
 	rp_GenAmp(CH, 1);
 	
 	// rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
