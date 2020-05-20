@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 			rp_GenAmp(RP_CH_1, AC_init + stepAdd_AC);
 			t2 = micros();
 			DAC_out(DAC8, DC_init + stepAdd_DC);
-			printf("%ld\n, ", (micros()-t2));
+			printf("%ld\n ", (micros()-t2));
 		}
 		stepAdd_AC = 0;
 		stepAdd_DC = 0;
