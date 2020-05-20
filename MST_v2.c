@@ -281,7 +281,7 @@ void map2virtualAddr(uint32_t* virt_addr, uint32_t tar_addr)
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, tar_addr & ~MAP_MASK);
 	virt_addr = map_base + (tar_addr & MAP_MASK);
-	printf("tar_addr : %dx , ", tar_addr);
+	printf("tar_addr : %x , ", tar_addr);
 	
 	close(fd);
 }
