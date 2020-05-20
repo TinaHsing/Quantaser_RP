@@ -141,6 +141,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Rp api init failed!\n");
 	}
 	map2virtualAddr(adc_idx_addr, 0x40200064);
+	printf("adc_idx_addr : %p\n ", adc_idx_addr);
 	i2cOpen();
 	pin_export(FGTRIG);
 	pin_export(FGTTL);
@@ -280,6 +281,8 @@ void map2virtualAddr(uint32_t* virt_addr, uint32_t tar_addr)
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, tar_addr & ~MAP_MASK);
 	virt_addr = map_base + (tar_addr & MAP_MASK);
+	printf("tar_addr : %dx , ", tar_addr);
+	
 	close(fd);
 }
 
