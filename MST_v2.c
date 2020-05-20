@@ -181,16 +181,16 @@ int main(int argc, char *argv[])
 		pin_write( TEST_TTL_0, 1);
 		for(int i=0; i<ramp_pts; i++) 
 		{	
-			t1 = micros();
+			
 			AddrWrite(0x40200064, i);//addwrite idx
-			printf("%ld, ", (micros()-t1));
+			
 			stepAdd_AC += AC_step;
 			stepAdd_DC += DC_step;
 			
 			rp_GenAmp(RP_CH_1, AC_init + stepAdd_AC);
-			t2 = micros();
+			
 			DAC_out(DAC8, DC_init + stepAdd_DC);
-			printf("%ld\n ", (micros()-t2));
+			
 		}
 		stepAdd_AC = 0;
 		stepAdd_DC = 0;
@@ -272,9 +272,13 @@ void AddrWrite(unsigned long addr, unsigned long value)
 	int fd = -1;
 	void* virt_addr;
 	// uint32_t read_result = 0;
+	t1 = micros();
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	printf("%ld, ", (micros()-t1));
 	/* Map one page */
+	t2 = micros();
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
+	printf("%ld\n ", (micros()-t2));
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
 	
