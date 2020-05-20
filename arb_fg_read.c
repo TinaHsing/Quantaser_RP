@@ -59,7 +59,7 @@ int main(int argc, char **argv){
 	rp_GenFreq(CH, 1000.0/sweep_time);
 		
 	rp_GenAmp(CH, 1);
-	
+	printf("hi\n");
 	t_start = micros();		
 	while((micros()-t_start)<sweep_time*1000){}
 	rp_GenAmp(CH, 0); //chirp end
