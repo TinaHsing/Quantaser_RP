@@ -119,9 +119,8 @@ float stepAdd_AC=0, stepAdd_DC=0;
 uint32_t ramp_pts;
 
 // uint32_t src = 0x4020004c;
-// long t1, t2;
+long t1;
 
-static uint32_t *adc_idx = NULL;
 
 void* map_base = (void*)(-1);
 
