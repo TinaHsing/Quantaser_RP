@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 		if(i<16384)
 			x3[i] = 1.0/CHIRP_SWEEP_TIME*t3[i];
 		else 
-			x3[i] = -1.0/CHIRP_SWEEP_TIME*t3[i];
+			x3[i] = -1.0/CHIRP_SWEEP_TIME*t3[i]/2;
 	}
 	write_file_single(x3, arb_size);
 }
