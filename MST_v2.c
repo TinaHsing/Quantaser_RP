@@ -118,7 +118,7 @@ float stepAdd_AC=0, stepAdd_DC=0;
 uint32_t ramp_pts;
 
 // uint32_t src = 0x4020004c;
-// long t1;
+long t1;
 
 void* map_base = (void*)(-1);
 
@@ -184,7 +184,9 @@ int main(int argc, char *argv[])
 			AddrWrite(0x40200064, i);//addwrite idx
 			stepAdd_AC += AC_step;
 			stepAdd_DC += DC_step;
+			t1 = micros();
 			rp_GenAmp(RP_CH_1, AC_init + stepAdd_AC);
+			printf("%ld\n", (micros()-t1));
 			DAC_out(DAC8, DC_init + stepAdd_DC);
 		}
 		stepAdd_AC = 0;
