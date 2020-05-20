@@ -105,7 +105,7 @@ void write_file(float*, int, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
-void map2virtualAddr(uint32_t*, uint32_t);
+void map2virtualAddr(uint32_t**, uint32_t);
 void AddrCpy(uint32_t, uint32_t*, uint32_t);
 ///////* time read*////////
 long micros(void);
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
-	map2virtualAddr(adc_idx_addr, 0x40200064);
+	map2virtualAddr(&adc_idx_addr, 0x40200064);
 	printf("adc_idx_addr : %p\n ", adc_idx_addr);
 	i2cOpen();
 	pin_export(FGTRIG);
@@ -275,12 +275,12 @@ void AddrCpy(uint32_t addr, uint32_t* arr, uint32_t size)
 	printf("data=%d\n", arr[0]);
 }
 
-void map2virtualAddr(uint32_t* virt_addr, uint32_t tar_addr)
+void map2virtualAddr(uint32_t** virt_addr, uint32_t tar_addr)
 {
 	int fd = -1;
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, tar_addr & ~MAP_MASK);
-	virt_addr = map_base + (tar_addr & MAP_MASK);
+	*virt_addr = map_base + (tar_addr & MAP_MASK);
 	printf("tar_addr : %x , ", tar_addr);
 	
 	close(fd);
