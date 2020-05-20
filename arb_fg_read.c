@@ -30,59 +30,34 @@ long micros(void);
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
 long t_start;
-#define CH RP_CH_2
+#define CH RP_CH_1
 
 int main(int argc, char **argv){
 
 	FILE *fp;
 	float sweep_time;
 	long arb_size = 32768;
-	double arr[arb_size];
 	float arrf[arb_size];
-	// float freq1;
-	// float freq2;
-	fp = fopen(argv[1], "rb");
-	sweep_time = atoi(argv[2]); //ms
-	// arb_size = atoi(argv[3]);
 	
-	// freq1 = atof(argv[3]); //KHz
-	// freq2 = atof(argv[4]);
-	// arb_size = (int)(size*1000.0/0.25);
+	
+	fp = fopen(argv[1], "rb");
+	fread(arrf, sizeof(float), arb_size, fp);
+	fclose(fp);
+	
+	sweep_time = atoi(argv[2]); //ms
 
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
+	
 	rp_GenAmp(CH, 0);
 	rp_GenOutEnable(CH);
-    // float *t = (float *)malloc(arb_size * sizeof(float));
-	// float *x = (float *)malloc(arb_size * sizeof(float));
-	// float *x_1 = (float *)malloc(arb_size * sizeof(float));
-	// float *x_2 = (float *)malloc(arb_size * sizeof(float));
-	// float *arr = (float *)malloc(arb_size * sizeof(float));
-
-	// for(long i = 0; i < arb_size; i++){
-		// t[i] = (float)sweep_time/arb_size * i;
-		// x_1[i] = sin(2*M_PI*freq1*t[i]);
-		// x_2[i] = sin(2*M_PI*freq2*t[i]);
-		// x[i] = (x_1[i] + x_2[i])/2;
-		// printf("%f\n",x[i]);
-	// }
 	
-	fread(arr, sizeof(double), arb_size, fp);
-	for(int i=0; i<arb_size; i++)
-	{
-		arrf[i] = arr[i];
-		// printf("%d. %f\n", i, arrf[i]);
-	}
-	fclose(fp);
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
-	
-	rp_GenFreq(CH, 1000.0/sweep_time);
-	AddrWrite(0x4020008c, arb_size);
-	// rp_GenFreq(CH, 7629.39);
-	printf("%d\n", AddrRead(0x40200030));
-	
 	rp_GenArbWaveform(CH, arrf, arb_size);
+
+	rp_GenFreq(CH, 1000.0/sweep_time);
+		
 	rp_GenAmp(CH, 1);
 	
 	t_start = micros();		
@@ -90,13 +65,6 @@ int main(int argc, char **argv){
 	rp_GenAmp(CH, 0); //chirp end
 	
 	
-    // free(x_1);
-	// free(x_2);
-	// free(x);
-    // free(t);
-	// free(arr);
-	// free(x_2);
-    // free(t2);
     rp_Release();
 }
 
