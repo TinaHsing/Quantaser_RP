@@ -40,13 +40,13 @@ int main(int argc, char **argv){
 	long arb_size = 32768;
 	float arrf[arb_size];
 	
-	
+	printf("a\n");
 	fp = fopen(argv[1], "rb");
 	fread(arrf, sizeof(float), arb_size, fp);
 	fclose(fp);
 	
 	sweep_time = atoi(argv[2]); //ms
-
+	printf("b\n");
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
