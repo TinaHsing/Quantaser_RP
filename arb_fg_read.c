@@ -51,8 +51,8 @@ int main(int argc, char **argv){
 	rp_GenAmp(CH, 0);
 	rp_GenOutEnable(CH);
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
-	rp_GenArbWaveform(CH, arrf, arb_size);
 	rp_GenFreq(CH, 1000.0/sweep_time);
+	rp_GenArbWaveform(CH, arrf, arb_size);
 	rp_GenAmp(CH, 1);
 	usleep(sweep_time*1000);
 	rp_GenAmp(CH, 0);
