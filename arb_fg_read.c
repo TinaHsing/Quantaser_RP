@@ -37,7 +37,7 @@ int main(int argc, char **argv){
 
 	FILE *fp;
 	int sweep_time;
-	long arb_size = 16384;
+	long arb_size = 32768;
 	float arrf[arb_size];
 	
 	
@@ -53,12 +53,16 @@ int main(int argc, char **argv){
 	
 	rp_GenAmp(CH, 0);
 	rp_GenOutEnable(CH);
-	
+	printf("1\n");
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
+	printf("2\n");
 	rp_GenArbWaveform(CH, arrf, arb_size);
+	printf("3\n");
 	rp_GenFreq(CH, 1000.0/sweep_time);
+	printf("4\n");
 	rp_GenAmp(CH, 1);
 	usleep(sweep_time*1000);
+	printf("5\n");
 	rp_GenAmp(CH, 0);
 	
     rp_Release();
