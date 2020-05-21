@@ -50,8 +50,9 @@ int main(int argc, char **argv){
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
-	
+	printf("c\n");
 	rp_GenAmp(CH, 0);
+	printf("d\n");
 	rp_GenOutEnable(CH);
 	printf("1\n");
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
