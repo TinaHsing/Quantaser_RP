@@ -40,30 +40,21 @@ int main(int argc, char **argv){
 	long arb_size = 32768;
 	float arrf[arb_size];
 	
-	printf("a\n");
 	fp = fopen(argv[1], "rb");
 	fread(arrf, sizeof(float), arb_size, fp);
 	fclose(fp);
 	
 	sweep_time = atoi(argv[2]); //ms
-	printf("b\n");
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
-	printf("c\n");
 	rp_GenAmp(CH, 0);
-	printf("d\n");
 	rp_GenOutEnable(CH);
-	printf("1\n");
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
-	printf("2\n");
 	rp_GenArbWaveform(CH, arrf, arb_size);
-	printf("3\n");
 	rp_GenFreq(CH, 1000.0/sweep_time);
-	printf("4\n");
 	rp_GenAmp(CH, 1);
 	usleep(sweep_time*1000);
-	printf("5\n");
 	rp_GenAmp(CH, 0);
 	
     rp_Release();
