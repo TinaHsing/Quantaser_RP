@@ -20,13 +20,14 @@ int main(int argc, char *argv[]){
 	freq = atof(argv[1])*1000; //KHz
 	amp = atof(argv[2])/1000;
 	offset = atof(argv[3])/1000;
+	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
     rp_GenFreq(RP_CH_2, freq);
 	
 	rp_GenOffset(RP_CH_2, offset);
 
     rp_GenAmp(RP_CH_2, amp);
 
-    rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
+    
 
     rp_GenOutEnable(RP_CH_2);
 
