@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
 
     // rp_GenAmp(RP_CH_2, amp);
 
-    // rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
+    rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 
     // rp_GenOutEnable(RP_CH_2);
 
