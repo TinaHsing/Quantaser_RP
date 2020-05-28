@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
 	// freq = atof(argv[1])*1000; //KHz
 	// amp = atof(argv[2])/1000;
 	// offset = atof(argv[3])/1000;
-    // rp_GenFreq(RP_CH_2, freq);
+    rp_GenFreq(RP_CH_2, 1000);
 	
 	// rp_GenOffset(RP_CH_2, offset);
 
