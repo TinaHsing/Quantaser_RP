@@ -33,6 +33,7 @@ long t_start;
 
 uint32_t *pnt = NULL;
 uint32_t *wrap = NULL;
+uint32_t *dac_npnt_sub_neg = NULL;
 
 #define CH RP_CH_2
 #define ISOLATION_TIME 8 // 8ms
@@ -46,6 +47,7 @@ int main(int argc, char **argv){
 	
 	map2virtualAddr(&pnt, 0x40200080);
 	map2virtualAddr(&wrap, 0x40200000);
+	map2virtualAddr(&dac_npnt_sub_neg, 0x40200084);
 	fp = fopen(argv[1], "rb");
 	fread(arrf, sizeof(float), arb_size, fp);
 	fclose(fp);
@@ -64,7 +66,7 @@ int main(int argc, char **argv){
 	rp_GenAmp(CH, 0);
 	for(int i=0;i<arb_size;i++)
 	{
-		fprintf(fp2,"%d, %d\n",*pnt, (*wrap>>20)&0x001);
+		fprintf(fp2,"%d, %d, %d\n",*pnt, *dac_npnt_sub_neg, (*wrap>>20)&0x001);
 
 	}
 	fclose(fp2);
