@@ -62,7 +62,7 @@ int main(int argc, char **argv){
 	rp_GenAmp(CH, 0);
 	for(int i=0;i<arb_size;i++)
 	{
-		fprintf(fp,"%d, %d\n", i, *pnt);
+		fprintf(fp2,"%d, %d\n", i, *pnt);
 
 	}
 	fclose(fp2);
