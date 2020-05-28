@@ -32,6 +32,7 @@ uint32_t AddrRead(unsigned long);
 long t_start;
 
 uint32_t *pnt = NULL;
+uint32_t *wrap = NULL;
 
 #define CH RP_CH_2
 #define ISOLATION_TIME 8 // 8ms
@@ -43,7 +44,8 @@ int main(int argc, char **argv){
 	long arb_size = 32768;
 	float arrf[arb_size];
 	
-	map2virtualAddr(&pnt, 0x40200080); //adc_idx
+	map2virtualAddr(&pnt, 0x40200080);
+	map2virtualAddr(&wrap, 0x40200000);
 	fp = fopen(argv[1], "rb");
 	fread(arrf, sizeof(float), arb_size, fp);
 	fclose(fp);
@@ -62,7 +64,7 @@ int main(int argc, char **argv){
 	rp_GenAmp(CH, 0);
 	for(int i=0;i<arb_size;i++)
 	{
-		fprintf(fp2,"%d, %d\n", i, *pnt);
+		fprintf(fp2,"%d, %d\n",*pnt, (*wrap>>20)&0x001);
 
 	}
 	fclose(fp2);
