@@ -24,22 +24,26 @@
 #define MAP_MASK (MAP_SIZE - 1)
 
 void* map_base = (void*)(-1);
-
+void map2virtualAddr(uint32_t**, uint32_t);
 
 long micros(void);
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
 long t_start;
+
+uint32_t *pnt = NULL;
+
 #define CH RP_CH_2
 #define ISOLATION_TIME 8 // 8ms
 
 int main(int argc, char **argv){
 
-	FILE *fp;
+	FILE *fp, *fp2=fopen("pnt.txt","w");;
 	int sweep_time;
 	long arb_size = 32768;
 	float arrf[arb_size];
 	
+	map2virtualAddr(&pnt, 0x40200080); //adc_idx
 	fp = fopen(argv[1], "rb");
 	fread(arrf, sizeof(float), arb_size, fp);
 	fclose(fp);
@@ -56,8 +60,24 @@ int main(int argc, char **argv){
 	rp_GenAmp(CH, 1);
 	usleep(sweep_time*1000);
 	rp_GenAmp(CH, 0);
-	
+	for(int i=0;i<arb_size;i++)
+	{
+		fprintf(fp,"%d, %d\n", i, *pnt);
+
+	}
+	fclose(fp2);
     rp_Release();
+}
+
+void map2virtualAddr(uint32_t** virt_addr, uint32_t tar_addr)
+{
+	int fd = -1;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, tar_addr & ~MAP_MASK);
+	*virt_addr = map_base + (tar_addr & MAP_MASK);
+	// printf("tar_addr : %x , ", tar_addr);
+	
+	close(fd);
 }
 
 void AddrWrite(unsigned long addr, unsigned long value)
