@@ -20,7 +20,7 @@
 
 #define CHIRP_SWEEP_TIME 8.0
 
-long arb_size = 16384;
+long arb_size = 32768;
 FILE *fp_ch2;
 
 void write_file_single(float*, uint32_t);
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	
 	for(long i = 0; i < arb_size; i++){
 		t3[i] = (float)CHIRP_SWEEP_TIME / arb_size * i;
-		if(i<8192)
+		if(i<arb_size/2)
 			x3[i] = 1.0/CHIRP_SWEEP_TIME*t3[i];
 		else 
 			x3[i] = -1.0/CHIRP_SWEEP_TIME*t3[i]/2;

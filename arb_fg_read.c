@@ -37,7 +37,7 @@ int main(int argc, char **argv){
 
 	FILE *fp;
 	int sweep_time;
-	long arb_size = 16384;
+	long arb_size = 32768;
 	float arrf[arb_size];
 	
 	fp = fopen(argv[1], "rb");
