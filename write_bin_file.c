@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	
 	for(long i = 0; i < arb_size; i++){
 		t3[i] = (float)CHIRP_SWEEP_TIME / arb_size * i;
-		if(i<arb_size/2)
+		if(i<8192)
 			x3[i] = 1.0/CHIRP_SWEEP_TIME*t3[i];
 		else 
 			x3[i] = -1.0/CHIRP_SWEEP_TIME*t3[i]/2;
