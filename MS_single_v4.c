@@ -198,7 +198,8 @@ int main(int argc, char *argv[])
 	fp_ch2 = fopen("arb.bin", "rb");
 	fread(arr, sizeof(float), arb_size, fp_ch2);
 	fclose(fp_ch2);
-	
+	rp_GenPhase(RP_CH_2, 180);
+
 /*---------ch2 DC out -----------------------------*/
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq_HV);
@@ -227,7 +228,6 @@ int main(int argc, char *argv[])
 	pin_write( FGTTL, 0);
 	
 /*---------ch2 chirp out -----------------------------*/
-	rp_GenPhase(RP_CH_2, 180);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	rp_GenArbWaveform(RP_CH_2, arr, arb_size);
 	rp_GenFreq(RP_CH_2, 1000.0/CHIRP_SWEEP_TIME);
