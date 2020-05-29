@@ -135,7 +135,6 @@ int main(int argc, char *argv[])
 	float *adc_mem_f = (float *)malloc(35000 * sizeof(float));
 	FILE *fp_ch2;
 	long arb_size = 32768;
-	double arr[arb_size];
 	float arrf[arb_size];
 	int ttl_dura, damping_dura;
 	float freq_factor, ramp_ch2=0, ramp_step2;
@@ -166,7 +165,7 @@ int main(int argc, char *argv[])
 	ttl_dura = atoi(argv[2]);//input ms
 	damping_dura = atoi(argv[3]);//input ms
 	trapping_amp = atof(argv[4])/1000; //input mV convert to V 
-	freq_MSMS = atof(argv[5])/2;//fpga修改過counter step，這裡修正回來
+	freq_MSMS = atof(argv[5]);
 	MSMS_length = atol(argv[6])*1000;//input ms convert to us
 	MSMS_t1 = atol(argv[7])*1000;//input ms convert to us
 	MSMS_t2 = atol(argv[8])*1000;//input ms convert to us
@@ -179,19 +178,16 @@ int main(int argc, char *argv[])
 	adc_gain_n = atof(argv[15]);
 	save = atoi(argv[16]);
 	fp_ch2 = fopen(argv[17], "rb");
-	freq_factor = atof(argv[18])/2;//fpga修改過counter step，這裡修正回來
+	freq_factor = atof(argv[18]);
 
 
 	ADC_init();
 	rp_GenOffset(RP_CH_1, offset);
 	
 /*---------load chirp data-----------------------------*/	
-	fread(arr, sizeof(double), arb_size, fp_ch2);
-	for(int i=0; i<arb_size; i++)
-	{
-		arrf[i] = arr[i];
-	}
+	fread(arrf, sizeof(float), arb_size, fp_ch2);
 	fclose(fp_ch2);
+	rp_GenPhase(RP_CH_2, 180);
 	
 /*-------trapping start-----------*/		
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
@@ -223,17 +219,16 @@ int main(int argc, char *argv[])
 	
 /*-------isolation -----------*/   
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-	rp_GenAmp(RP_CH_2, 0);
-	rp_GenOutEnable(RP_CH_2);
-	rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 	rp_GenArbWaveform(RP_CH_2, arrf, arb_size);
-
+	rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
+	
 	pin_write( TEST_TTL_1, 1); //isolation trigger
 	rp_GenAmp(RP_CH_2, 1);	
 	usleep(ISOLATION_TIME*1000-50);
 	rp_GenAmp(RP_CH_2, 0);
 	
 /*-------MS/MS -----------*/   
+	rp_GenPhase(RP_CH_2, 0);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_2, freq_MSMS);
 	rp_GenAmp(RP_CH_2, 0);
