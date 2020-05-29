@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
 	fread(arrf, sizeof(float), arb_size, fp_ch2);
 	fclose(fp_ch2);
 	// write_file_single(arrf, arb_size);
-	rp_GenPhase(RP_CH_2, 180);
+	// rp_GenPhase(RP_CH_2, 180);
 /*-------trapping start-----------*/		
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq);
@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_2, 0);
 	
 /*-------ramp -----------*/ 
-	rp_GenPhase(RP_CH_2, 0);
+	// rp_GenPhase(RP_CH_2, 0);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_2, freq_factor*freq);
 	ramp_step2 = 1.0/ramp_pts;
