@@ -218,10 +218,11 @@ int main(int argc, char *argv[])
 	
 /*-------isolation -----------*/   
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-	rp_GenAmp(RP_CH_2, 0);
-	rp_GenOutEnable(RP_CH_2);
-	rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 	rp_GenArbWaveform(RP_CH_2, arrf, arb_size);
+	// rp_GenAmp(RP_CH_2, 0);
+	// rp_GenOutEnable(RP_CH_2);
+	rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
+	
 	
 	pin_write( TEST_TTL_1, 1); //isolation trigger
 	rp_GenAmp(RP_CH_2, 1);	
