@@ -58,7 +58,7 @@ int main(int argc, char **argv){
         fprintf(stderr, "Rp api init failed!\n");
     }
 	rp_GenAmp(CH, 0);
-	rp_GenPhase(CH, 0);
+	rp_GenPhase(CH, 180);
 	rp_GenOutEnable(CH);
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
 	rp_GenArbWaveform(CH, arrf, arb_size);
