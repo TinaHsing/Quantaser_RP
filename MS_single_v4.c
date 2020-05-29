@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 	trapping_amp = atof(argv[4])/1000;//input mV convert to V
 	final_amp = atof(argv[5])/1000;//input mV convert to V
 	chirp_amp = atof(argv[6])/1000;//input mV convert to V
-	freq_factor = atof(argv[7]);//fpga修改過counter step，這裡修正回來
+	freq_factor = atof(argv[7]);
 	final_freq = atof(argv[8]);//KHz
 	save = atoi(argv[9]);
 	ttl_dura = atoi(argv[10]);//input ms

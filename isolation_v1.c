@@ -136,7 +136,6 @@ int main(int argc, char *argv[])
 	float *adc_mem_f = (float *)malloc(35000 * sizeof(float));
 	FILE *fp_ch2;
 	long arb_size = 32768;
-	double arr[arb_size];
 	float arrf[arb_size];
 	int ttl_dura, damping_dura;
 	float freq_factor, ramp_ch2=0, ramp_step2;
@@ -177,21 +176,17 @@ int main(int argc, char *argv[])
 	adc_gain_n = atof(argv[11]);
 	save = atoi(argv[12]);
 	fp_ch2 = fopen(argv[13], "rb");
-	freq_factor = atof(argv[14])/2;//fpga修改過counter step，這裡修正回來
+	freq_factor = atof(argv[14]);
 	
 
 	ADC_init();
 	rp_GenOffset(RP_CH_1, offset);
 	
 /*---------load chirp data-----------------------------*/	
-	fread(arr, sizeof(double), arb_size, fp_ch2);
-	for(int i=0; i<arb_size; i++)
-	{
-		arrf[i] = arr[i];
-	}
+	fread(arrf, sizeof(float), arb_size, fp_ch2);
 	fclose(fp_ch2);
 	// write_file_single(arrf, arb_size);
-	
+	rp_GenPhase(RP_CH_2, 180);
 /*-------trapping start-----------*/		
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_1, freq);
@@ -234,6 +229,7 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_2, 0);
 	
 /*-------ramp -----------*/ 
+	rp_GenPhase(RP_CH_2, 0);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 	rp_GenFreq(RP_CH_2, freq_factor*freq);
 	ramp_step2 = 1.0/ramp_pts;
