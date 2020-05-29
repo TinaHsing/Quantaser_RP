@@ -235,7 +235,9 @@ int main(int argc, char *argv[])
 	
 	pin_write( TEST_TTL_1, 1);
 	rp_GenAmp(RP_CH_2, chirp_amp); // chirp start
-	usleep(CHIRP_SWEEP_TIME*1000*0.78);
+	t_start = micros();
+	while((micros()-t_start)<CHIRP_SWEEP_TIME*1000){};
+	// usleep(CHIRP_SWEEP_TIME*1000*0.78);
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
 /*---------ch1 and ch2 ramp -----------------------------*/	
