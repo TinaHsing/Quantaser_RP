@@ -40,7 +40,8 @@ uint32_t *dac_npnt_sub_neg = NULL;
 
 int main(int argc, char **argv){
 
-	FILE *fp, *fp2=fopen("pnt.txt","w");;
+	FILE *fp;
+	// FILE *fp2=fopen("pnt.txt","w");
 	int sweep_time;
 	long arb_size = 32768;
 	float arrf[arb_size];
@@ -57,6 +58,7 @@ int main(int argc, char **argv){
         fprintf(stderr, "Rp api init failed!\n");
     }
 	rp_GenAmp(CH, 0);
+	rp_GenPhase(CH, 0);
 	rp_GenOutEnable(CH);
 	rp_GenWaveform(CH, RP_WAVEFORM_ARBITRARY);
 	rp_GenArbWaveform(CH, arrf, arb_size);
@@ -64,12 +66,12 @@ int main(int argc, char **argv){
 	rp_GenAmp(CH, 1);
 	usleep(sweep_time*1000);
 	rp_GenAmp(CH, 0);
-	for(int i=0;i<arb_size;i++)
-	{
-		fprintf(fp2,"%d, %d, %d\n",*pnt, *dac_npnt_sub_neg, (*wrap>>20)&0x001);
+	// for(int i=0;i<arb_size;i++)
+	// {
+		// fprintf(fp2,"%d, %d, %d\n",*pnt, *dac_npnt_sub_neg, (*wrap>>20)&0x001);
 
-	}
-	fclose(fp2);
+	// }
+	// fclose(fp2);
     rp_Release();
 }
 
