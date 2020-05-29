@@ -226,7 +226,8 @@ int main(int argc, char *argv[])
 	}
 	pin_write( FGTTL, 0);
 	
-/*---------ch2 chirp out -----------------------------*/	
+/*---------ch2 chirp out -----------------------------*/
+	rp_GenPhase(RP_CH_2, 180);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
 	rp_GenArbWaveform(RP_CH_2, arr, arb_size);
 	rp_GenFreq(RP_CH_2, 1000.0/CHIRP_SWEEP_TIME);
@@ -234,7 +235,7 @@ int main(int argc, char *argv[])
 	
 	pin_write( TEST_TTL_1, 1);
 	rp_GenAmp(RP_CH_2, chirp_amp); // chirp start
-	usleep(CHIRP_SWEEP_TIME*1000);
+	usleep(CHIRP_SWEEP_TIME*1000*0.75);
 	rp_GenAmp(RP_CH_2, 0); //chirp end
 	
 /*---------ch1 and ch2 ramp -----------------------------*/	
