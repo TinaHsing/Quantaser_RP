@@ -35,7 +35,7 @@ uint32_t *pnt = NULL;
 uint32_t *wrap = NULL;
 uint32_t *dac_npnt_sub_neg = NULL;
 
-#define CH RP_CH_1
+#define CH RP_CH_2
 #define ISOLATION_TIME 8 // 8ms
 
 int main(int argc, char **argv){
