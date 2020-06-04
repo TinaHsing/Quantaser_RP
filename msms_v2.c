@@ -237,12 +237,12 @@ int main(int argc, char *argv[])
 		usleep(ISOLATION_TIME*1000-50);
 		rp_GenAmp(RP_CH_2, 0);
 		
-	/*-------MS/MS -----------*/   
+	/*-------MS/MS -----------*/ 
+		usleep(MSMS_t1);	
 		rp_GenPhase(RP_CH_2, 180);
 		rp_GenArbWaveform(RP_CH_2, arrf2, arb_size);
 		rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 		
-		usleep(MSMS_t1);
 		pin_write( TEST_TTL_2, 1); //MSMS trigger
 		rp_GenAmp(RP_CH_2, 1);
 		usleep(ISOLATION_TIME*1000-50);
