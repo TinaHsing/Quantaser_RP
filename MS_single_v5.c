@@ -126,7 +126,7 @@ float freq_HV, offset;
 uint32_t ramp_pts;
 uint32_t delay_ms;
 float ramp_step, ramp_step2, ramp_ch2;
-float trapping_amp;
+float trapping_amp, trapping_temp;
 float final_amp;
 float chirp_amp;
 float final_freq, freq_factor;
@@ -260,19 +260,19 @@ int main(int argc, char *argv[])
 		ramp_ch2 = 0;
 		ramp_step2 = 1.0/ramp_pts;
 		AddrWrite(0x40200044, START_SCAN);
-		t_start = micros(); // scan start	
+		t_start = micros(); // scan start
+		trapping_temp = trapping_amp;
 		for(int i=0; i<ramp_pts; i++) 
 		{		
 			// AddrWrite(0x40200064, i);//addwrite idx
 			*adc_idx_addr = i;//addwrite idx
-			trapping_amp += ramp_step;
+			trapping_temp += ramp_step;
 			ramp_ch2 += ramp_step2;
 			while((micros() - t_start) < UPDATE_RATE){}; 	
-			rp_GenAmp(RP_CH_1, trapping_amp);
+			rp_GenAmp(RP_CH_1, trapping_temp);
 			rp_GenAmp(RP_CH_2, ramp_ch2);
 			t_start = micros();
 		}
-		trapping_amp = 0;
 		rp_GenAmp(RP_CH_1, final_amp);
 		rp_GenAmp(RP_CH_2, 0);
 		pin_write( FGTRIG, 0);
