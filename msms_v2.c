@@ -238,7 +238,7 @@ int main(int argc, char *argv[])
 		rp_GenAmp(RP_CH_2, 0);
 		
 	/*-------MS/MS -----------*/   
-		rp_GenPhase(RP_CH_2, 0);
+		rp_GenPhase(RP_CH_2, 180);
 		rp_GenArbWaveform(RP_CH_2, arrf2, arb_size);
 		rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 		
