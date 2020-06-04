@@ -269,7 +269,7 @@ int main(int argc, char *argv[])
 			while((micros() - t_start) < UPDATE_RATE){}; 	
 			rp_GenAmp(RP_CH_1, trapping_amp);
 			rp_GenAmp(RP_CH_2, ramp_ch2);
-			printf("%d, %d\n",i, *adc_idx_addr);
+			t_start = micros();
 		}
 		rp_GenAmp(RP_CH_1, final_amp);
 		rp_GenAmp(RP_CH_2, 0);
