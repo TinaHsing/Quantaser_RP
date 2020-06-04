@@ -301,11 +301,11 @@ int main(int argc, char *argv[])
 		fclose(fp);
 		printf("%c\n", ch);
 		if(ch=='1') break;
-		pin_write( FGTRIG, 0);
-		pin_write( FGTTL, 0);
-		pin_write( TEST_TTL_0, 0);
-		pin_write( TEST_TTL_1, 0);
-		pin_write( TEST_TTL_2, 0);
+		// pin_write( FGTRIG, 0);
+		// pin_write( FGTTL, 0);
+		// pin_write( TEST_TTL_0, 0);
+		// pin_write( TEST_TTL_1, 0);
+		// pin_write( TEST_TTL_2, 0);
 		usleep(delay_ms);
 	}
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
