@@ -137,9 +137,7 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	float start_freq;
-	
 	int	save=0;
-
 	long arb_size = 32768, t_start, t_now;
 	float arr[arb_size];
 	uint32_t adc_counter;
@@ -148,6 +146,7 @@ int main(int argc, char *argv[])
 	FILE *fp_ch2, *fp;
 	uint32_t *adc_idx_addr = NULL;
 	uint32_t *adc_ch2 = NULL;
+	char ch;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
