@@ -272,6 +272,7 @@ int main(int argc, char *argv[])
 			rp_GenAmp(RP_CH_2, ramp_ch2);
 			t_start = micros();
 		}
+		trapping_amp = 0;
 		rp_GenAmp(RP_CH_1, final_amp);
 		rp_GenAmp(RP_CH_2, 0);
 		pin_write( FGTRIG, 0);
