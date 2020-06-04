@@ -109,6 +109,7 @@ void write_file_single(float*, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
+void map2virtualAddr(uint32_t**, uint32_t);
 ///////* time read*////////
 long micros(void);
 float adc_gain_p, adc_gain_n;
@@ -140,10 +141,14 @@ int main(int argc, char *argv[])
 	int ttl_dura, damping_dura;
 	float freq_factor, ramp_ch2=0, ramp_step2;
 	char ch;
+	uint32_t *adc_idx_addr = NULL;
+	uint32_t *adc_ch2 = NULL;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
+	map2virtualAddr(&adc_idx_addr, 0x40200064); //adc_idx
+	map2virtualAddr(&adc_ch2, 0x40200070); //adc_ch2
 	i2cOpen();
 	pin_export(FGTRIG);
 	pin_export(FGTTL);
@@ -232,8 +237,8 @@ int main(int argc, char *argv[])
 		rp_GenPhase(RP_CH_2, 0);
 		rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
 		rp_GenFreq(RP_CH_2, freq_factor*freq);
+		ramp_ch2 = 0;
 		ramp_step2 = 1.0/ramp_pts;
-
 		pin_write( TEST_TTL_2, 1); //ramp trigger
 		pin_write( FGTRIG, 1);
 		AddrWrite(0x40200044, START_SCAN);
@@ -241,7 +246,8 @@ int main(int argc, char *argv[])
 		trapping_temp = trapping_amp;
 		for(int i=0; i<ramp_pts; i++) 
 		{	
-			AddrWrite(0x40200064, i);//addwrite idx
+			// AddrWrite(0x40200064, i);//addwrite idx
+			*adc_idx_addr = i;//addwrite idx
 			trapping_temp += ramp_step;
 			ramp_ch2 += ramp_step2;
 			while((micros()-t_start) < UPDATE_RATE){};
@@ -260,9 +266,10 @@ int main(int argc, char *argv[])
 		printf("adc_count: %d\n", adc_counter);
 		for(int i=0; i<adc_counter; i++)
 		{
-			AddrWrite(0x40200064, i);//addwrite idx 
-			// printf("idx=%d, ",AddrRead(0x40200064));
-			adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
+			// AddrWrite(0x40200064, i);//addwrite idx 
+			*adc_idx_addr = i;//addwrite idx
+			// adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
+			adc_mem[i] = *adc_ch2;
 			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 			// printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
 		}
@@ -299,6 +306,17 @@ int main(int argc, char *argv[])
 	free(adc_mem);
 	free(adc_mem_f);
 	return 0;
+}
+
+void map2virtualAddr(uint32_t** virt_addr, uint32_t tar_addr)
+{
+	int fd = -1;
+	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
+	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, tar_addr & ~MAP_MASK);
+	*virt_addr = map_base + (tar_addr & MAP_MASK);
+	// printf("tar_addr : %x , ", tar_addr);
+	
+	close(fd);
 }
 
 void AddrWrite(unsigned long addr, unsigned long value)
