@@ -262,8 +262,8 @@ int main(int argc, char *argv[])
 		t_start = micros(); // scan start	
 		for(int i=0; i<ramp_pts; i++) 
 		{		
-			// AddrWrite(0x40200064, i);//addwrite idx
-			*adc_idx_addr = i;//addwrite idx
+			AddrWrite(0x40200064, i);//addwrite idx
+			// *adc_idx_addr = i;//addwrite idx
 			trapping_amp += ramp_step;
 			ramp_ch2 += ramp_step2;
 			while((micros() - t_start) < UPDATE_RATE){}; 	
