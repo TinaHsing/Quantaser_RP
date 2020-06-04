@@ -124,7 +124,7 @@ void* map_base = (void*)(-1);
 int main(int argc, char *argv[]) 
 {
 	int	save=0;
-	long arb_size = 16384;
+	long arb_size = 32768;
 	long delay_ms = 0;
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
