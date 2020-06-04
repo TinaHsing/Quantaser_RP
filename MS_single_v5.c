@@ -206,16 +206,17 @@ int main(int argc, char *argv[])
 	fread(arr, sizeof(float), arb_size, fp_ch2);
 	fclose(fp_ch2);
 	rp_GenPhase(RP_CH_2, 180);
-
-	while(1)
-	{
-		/*---------ch2 DC out -----------------------------*/
+	
+	/*---------ch2 DC out -----------------------------*/
 		rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
 		rp_GenFreq(RP_CH_1, freq_HV);
 		rp_GenAmp(RP_CH_1, 0);
 		rp_GenOutEnable(RP_CH_1);
 		rp_GenOffset(RP_CH_1, offset);
 
+	while(1)
+	{
+		
 		rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
 		rp_GenAmp(RP_CH_2, 0);
 		rp_GenOutEnable(RP_CH_2);
