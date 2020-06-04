@@ -141,6 +141,8 @@ int main(int argc, char *argv[])
 	int ttl_dura, damping_dura;
 	float freq_factor, ramp_ch2=0, ramp_step2;
 	char ch;
+	uint32_t *adc_idx_addr = NULL;
+	uint32_t *adc_ch2 = NULL;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
