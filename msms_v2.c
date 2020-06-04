@@ -215,7 +215,6 @@ int main(int argc, char *argv[])
 		t_start = micros();
 		while((micros()-t_start)<TTL_WAIT*1000){};
 		pin_write( FGTTL, 1);
-		pin_write( TEST_TTL_0, 1);
 		
 		t_start = micros();
 		while((micros()-t_start)<ttl_dura*1000){
@@ -232,7 +231,7 @@ int main(int argc, char *argv[])
 		rp_GenArbWaveform(RP_CH_2, arrf, arb_size);
 		rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 		
-		pin_write( TEST_TTL_1, 1); //isolation trigger
+		pin_write( TEST_TTL_0, 1); //isolation trigger
 		rp_GenAmp(RP_CH_2, 1);	
 		usleep(ISOLATION_TIME*1000-50);
 		rp_GenAmp(RP_CH_2, 0);
@@ -243,7 +242,7 @@ int main(int argc, char *argv[])
 		rp_GenArbWaveform(RP_CH_2, arrf2, arb_size);
 		rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 		
-		pin_write( TEST_TTL_2, 1); //MSMS trigger
+		pin_write( TEST_TTL_1, 1); //MSMS trigger
 		rp_GenAmp(RP_CH_2, 1);
 		usleep(ISOLATION_TIME*1000-50);
 		rp_GenAmp(RP_CH_2, 0);
@@ -257,6 +256,7 @@ int main(int argc, char *argv[])
 		ramp_ch2 = 0;
 		
 		pin_write( FGTRIG, 1);
+		pin_write( TEST_TTL_2, 1); //ramp trigger
 		AddrWrite(0x40200044, START_SCAN);
 		t_start = micros();	
 		trapping_temp = trapping_amp;
