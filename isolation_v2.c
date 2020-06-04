@@ -19,6 +19,10 @@
 #include <sys/mman.h>
 #include "redpitaya/rp.h"
 
+///////*timing define*////////
+#define TTL_WAIT 1
+#define DAMPING_WAIT 1
+#define ISOLATION_TIME 8 // 8ms
 
 ///////*gpio pin define*/////////
 #define FGTRIG 977 //DIO1_N, amplitude scan start trigger, BNC 977
@@ -99,45 +103,47 @@ void DAC_out(uint8_t, float);
 
 ///////*ADC*//////////////
 void ADC_init(void);
-void ADC_req(uint32_t*, float*, float*);
 void write_txt(uint32_t*, int, uint32_t);
 void write_file(float*, int, uint32_t);
-
+void write_file_single(float*, uint32_t);
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
-void map2virtualAddr(uint32_t**, uint32_t);
-
 ///////* time read*////////
 long micros(void);
 float adc_gain_p, adc_gain_n;
-uint32_t adc_offset;
-int idx=0;
+uint32_t adc_offset, delay_ms;
+
 float int2float(uint32_t, float, float, uint32_t);
 
-float freq_HV, AC_init, AC_step, DC_init, DC_step;
-float stepAdd_AC=0, stepAdd_DC=0; 
-uint32_t ramp_pts;
+float offset;
+float trapping_amp, trapping_temp;
+float ramp_step;
+long ramp_pts;
+float final_amp;
+float freq;
+long t_start;
+int save;
+long t_now;
+
 
 void* map_base = (void*)(-1);
 
 int main(int argc, char *argv[]) 
 {
-	int	save=0;
-	long delay_ms = 0;
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(35000 * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(35000 * sizeof(float));
-	FILE *fp;
-	char ch;
-	uint32_t *adc_idx_addr = NULL;
-	uint32_t *adc_ch2 = NULL;
+	FILE *fp_ch2, fp;
+	long arb_size = 32768;
+	float arrf[arb_size];
+	int ttl_dura, damping_dura;
+	float freq_factor, ramp_ch2=0, ramp_step2;
+	
+	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
-	map2virtualAddr(&adc_idx_addr, 0x40200064); //adc_idx
-	map2virtualAddr(&adc_ch2, 0x40200070); //adc_ch2
-	
 	i2cOpen();
 	pin_export(FGTRIG);
 	pin_export(FGTTL);
@@ -155,118 +161,159 @@ int main(int argc, char *argv[])
 	pin_write( TEST_TTL_1, 0);
 	pin_write( TEST_TTL_2, 0);
 
-	freq_HV = atof(argv[1]);	//頻率
-	ramp_pts = atol(argv[2]);		//掃描點數
-	AC_init = atof(argv[3])/1000;		//AC起始電壓, input mV convert to V
-	AC_step = atof(argv[4])/1000;		//AC 掃描step, input mV convert to V
-	DC_init = atof(argv[5])/1000;		//DC 起始電壓, input mV convert to V
-	DC_step = atof(argv[6])/1000;		//DC 掃描step, input mV convert to V
-	delay_ms = atol(argv[7])*1000; //input ms convert to us
-	save = atoi(argv[8]);
+/* ----- input parameters-------------- */
+
+	freq = atof(argv[1]);	
+	ttl_dura = atoi(argv[2]);//input ms
+	damping_dura = atoi(argv[3]);//input ms
+	trapping_amp = atof(argv[4])/1000; //input mV convert to V 
+	ramp_step = atof(argv[5])/1000;//input mV convert to V 
+	ramp_pts = atol(argv[6]);
+	final_amp = atof(argv[7])/1000;//input mV convert to V 
+	offset = atof(argv[8])/1000;//input mV convert to V 
 	adc_offset = atoi(argv[9]);
 	adc_gain_p = atof(argv[10]);
 	adc_gain_n = atof(argv[11]);
+	save = atoi(argv[12]);
+	fp_ch2 = fopen(argv[13], "rb");
+	freq_factor = atof(argv[14]);
+	delay_ms = atol(argv[15])*1000; //input ms convert to us
 
 	ADC_init();
+	rp_GenOffset(RP_CH_1, offset);
+	
+/*---------load chirp data-----------------------------*/	
+	fread(arrf, sizeof(float), arb_size, fp_ch2);
+	fclose(fp_ch2);
+	// write_file_single(arrf, arb_size);
+	rp_GenPhase(RP_CH_2, 180);
+/*-------trapping start-----------*/		
 	rp_GenWaveform(RP_CH_1, RP_WAVEFORM_SINE);
-	rp_GenFreq(RP_CH_1, freq_HV);
+	rp_GenFreq(RP_CH_1, freq);
 	rp_GenAmp(RP_CH_1, 0);
 	rp_GenOutEnable(RP_CH_1);
-
-	rp_GenAmp(RP_CH_1, AC_init);
-	DAC_out(DAC8, DC_init);
-	AddrWrite(0x40200064, 0);//addwrite idx
+	
 	while(1)
 	{
-		AddrWrite(0x40200044, START_SCAN);
-		pin_write( FGTRIG, 1);	// scan start trigger
+		rp_GenWaveform(RP_CH_2, RP_WAVEFORM_DC);
+		rp_GenAmp(RP_CH_2, 0);
+		rp_GenOutEnable(RP_CH_2);
+		
+		rp_GenAmp(RP_CH_1, trapping_amp);
+
+	/*---------ch2 DC out -----------------------------*/
+		
+		t_start = micros();
+		while((micros()-t_start)<TTL_WAIT*1000){};
+		pin_write( FGTTL, 1);
 		pin_write( TEST_TTL_0, 1);
+		
+		t_start = micros();
+		while((micros()-t_start)<ttl_dura*1000){
+			t_now = micros()-t_start;
+			if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+damping_dura)*1000)
+				rp_GenAmp(RP_CH_2, 1);
+			else if (t_now>=(DAMPING_WAIT+damping_dura)*1000) 
+				rp_GenAmp(RP_CH_2, 0);
+		}
+		pin_write( FGTTL, 0);	
+		
+	/*-------isolation -----------*/   
+		rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
+		rp_GenArbWaveform(RP_CH_2, arrf, arb_size);
+		rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
+			
+		pin_write( TEST_TTL_1, 1); //isolation trigger
+		rp_GenAmp(RP_CH_2, 1);	
+		usleep(ISOLATION_TIME*1000-50);
+		rp_GenAmp(RP_CH_2, 0);
+		
+	/*-------ramp -----------*/ 
+		rp_GenPhase(RP_CH_2, 0);
+		rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
+		rp_GenFreq(RP_CH_2, freq_factor*freq);
+		ramp_step2 = 1.0/ramp_pts;
+
+		pin_write( TEST_TTL_2, 1); //ramp trigger
+		pin_write( FGTRIG, 1);
+		AddrWrite(0x40200044, START_SCAN);
+		t_start = micros();	
+		trapping_temp = trapping_amp;
 		for(int i=0; i<ramp_pts; i++) 
 		{	
-			
-			// AddrWrite(0x40200064, i);//addwrite idx
-			*adc_idx_addr = i;//addwrite idx
-			stepAdd_AC += AC_step;
-			stepAdd_DC += DC_step;
-			rp_GenAmp(RP_CH_1, AC_init + stepAdd_AC);
-			DAC_out(DAC8, DC_init + stepAdd_DC);
-			
+			AddrWrite(0x40200064, i);//addwrite idx
+			trapping_temp += ramp_step;
+			ramp_ch2 += ramp_step2;
+			while((micros()-t_start) < UPDATE_RATE){};
+			rp_GenAmp(RP_CH_1, trapping_temp);
+			rp_GenAmp(RP_CH_2, ramp_ch2);
+			t_start = micros();
 		}
-		stepAdd_AC = 0;
-		stepAdd_DC = 0;
+		rp_GenAmp(RP_CH_1, final_amp);
+		rp_GenAmp(RP_CH_2, 0);
 		pin_write( FGTRIG, 0);
 		AddrWrite(0x40200044, END_SCAN);
+		rp_GenPhase(RP_CH_2, 180);
+
+	/*-------read ADC data -----------*/ 
 		adc_counter = AddrRead(0x40200060); //讀取adc_mem 目前有幾個data
-		printf("adc_counter= %d\n",adc_counter); // 要<16384
-		
-		rp_GenAmp(RP_CH_1, 0);
-		DAC_out(DAC8, DC_init);
-		pin_write( TEST_TTL_0, 0);
-		
+		printf("adc_count: %d\n", adc_counter);
 		for(int i=0; i<adc_counter; i++)
 		{
-			*adc_idx_addr = i;
-			// AddrWrite(0x40200064, i);//addwrite idx 
-			// adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
-			adc_mem[i] = *adc_ch2;
+			AddrWrite(0x40200064, i);//addwrite idx 
+			// printf("idx=%d, ",AddrRead(0x40200064));
+			adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
 			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
+			// printf("adc_mem[%d]=%d\n",i, adc_mem[i]);
 		}
+		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter											
+		write_file(adc_mem_f, save, adc_counter);
 		
-		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
-		// for(int i=0;i<adc_counter;i++)
-		// {
-			// printf("%d. %f\n",i+1, adc_mem_f[i]);
-		// }
-		write_file(adc_mem_f, save, adc_counter);	
+		pin_write( FGTRIG, 0);
+		pin_write( FGTTL, 0);
+		pin_write( TEST_TTL_0, 0);
+		pin_write( TEST_TTL_1, 0);
+		pin_write( TEST_TTL_2, 0);
 		
-		fp = fopen("MST.txt","r");
-		if(fp==NULL) printf("open MST.txt fail\n");
+		fp = fopen("MS1.txt","r");
+		if(fp==NULL) printf("open MS1.txt fail\n");
 		ch = getc(fp);
 		fclose(fp);
 		printf("%c\n", ch);
 		if(ch=='1') break;
+		
 		usleep(delay_ms);
 	}
-	
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	
-	rp_Release();
-	free(adc_mem);
-	free(adc_mem_f);
-
+	
 	pin_unexport(FGTRIG);
 	pin_unexport(FGTTL);
 	pin_unexport(TEST_TTL_0);
 	pin_unexport(TEST_TTL_1);
 	pin_unexport(TEST_TTL_2);
+			
+	rp_Release();
+	
+	
+	free(adc_mem);
+	free(adc_mem_f);
 	return 0;
 }
-
-void map2virtualAddr(uint32_t** virt_addr, uint32_t tar_addr)
-{
-	int fd = -1;
-	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
-	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, tar_addr & ~MAP_MASK);
-	*virt_addr = map_base + (tar_addr & MAP_MASK);
-	// printf("tar_addr : %x , ", tar_addr);
-	
-	close(fd);
-}
-
 
 void AddrWrite(unsigned long addr, unsigned long value)
 {
 	int fd = -1;
 	void* virt_addr;
-	
+	// uint32_t read_result = 0;
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
-	
 	/* Map one page */
-	
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, addr & ~MAP_MASK);
 	if(map_base == (void *) -1) FATAL;
 	virt_addr = map_base + (addr & MAP_MASK);
+	
 	*((unsigned long *) virt_addr) = value;
+	
 	if (map_base != (void*)(-1)) {
 		if(munmap(map_base, MAP_SIZE) == -1) FATAL;
 		map_base = (void*)(-1);
@@ -378,13 +425,13 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 	system("echo "" > cnt.txt");
 	if(save) 
 	{
-		// for(int i=0;i<adc_counter;i++)
-		// {
+		for(int i=0;i<adc_counter;i++)
+		{
 			// printf("%d. %f, %d\n",i+1, int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset), *(adc_data+i));
 			// sprintf(shell,"echo %f >> adc_data.txt", int2float(*(adc_data+i), adc_gain_p, adc_gain_n, adc_offset));
 			// sprintf(shell,"echo %d >> cnt.txt", adc_counter);
 			// system(shell);
-		// }
+		}
 		sprintf(shell,"echo %d >> cnt.txt", adc_counter);
 		system(shell);
 	}
@@ -395,13 +442,21 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 	if(save)
 	{
 		FILE *fp, *fp2;
-		fp = fopen("adc_data.bin", "wb");
-		fp2 = fopen("cnt.txt", "w");
+		fp = fopen("adc_data_iso.bin", "wb");
+		fp2 = fopen("cnt_iso.txt", "w");
 		fwrite(adc_data, sizeof(float), adc_counter, fp);
 		fprintf(fp2, "%d", adc_counter);
 		fclose(fp);
 		fclose(fp2);
 	}	
+}
+
+void write_file_single(float *adc_data, uint32_t adc_counter)
+{
+	FILE *fp;
+	fp = fopen("200k_data.bin", "wb");
+	fwrite(adc_data, sizeof(float), adc_counter, fp);
+	fclose(fp);
 }
 
 float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
@@ -415,15 +470,6 @@ float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
 	return adc;
 }
 
-void ADC_req(uint32_t* buff_size, float* buff, float* adc_data) {
-	// rp_AcqGetLatestDataV(RP_CH_1, buff_size, buff);
-	rp_AcqGetLatestDataV(RP_CH_2, buff_size, buff);
-	*(adc_data+idx) = buff[*buff_size-1];
-	
-	// printf("%f\n", buff[*buff_size-1]);
-	// printf("%d. %f\n", idx, *(adc_data+idx));
-	idx++;
-}
 long micros(){
 	struct timeval currentTime;
 	long time;
@@ -493,10 +539,6 @@ void LTC2615_write(bool sel, uint8_t ch, float value)
 		i2cSetAddress(DAC1_ADD);
 		WriteRegisterPair((CC << 4) | ch, (uint16_t)t[1]<<8 | t[0]);
 	}	
-	// Wire.beginTransmission(ADD);
-	// Wire.write((CC << 4) | ch);
-	// Wire.write(t,2); 
-	// Wire.endTransmission();
 }
 
 void DAC_out(uint8_t dac_num, float value)

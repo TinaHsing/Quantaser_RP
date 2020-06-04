@@ -141,8 +141,8 @@ int main(int argc, char *argv[])
 	long arb_size = 32768, t_start, t_now;
 	float arr[arb_size];
 	uint32_t adc_counter;
-	uint32_t *adc_mem = (uint32_t *)malloc(arb_size * sizeof(uint32_t));
-	float *adc_mem_f = (float *)malloc(arb_size * sizeof(float));
+	uint32_t *adc_mem = (uint32_t *)malloc(35000 * sizeof(uint32_t));
+	float *adc_mem_f = (float *)malloc(35000 * sizeof(float));
 	FILE *fp_ch2, *fp;
 	uint32_t *adc_idx_addr = NULL;
 	uint32_t *adc_ch2 = NULL;
@@ -295,17 +295,17 @@ int main(int argc, char *argv[])
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 		write_file(adc_mem_f, save, adc_counter);
 		
+		pin_write( FGTRIG, 0);
+		pin_write( FGTTL, 0);
+		pin_write( TEST_TTL_0, 0);
+		pin_write( TEST_TTL_1, 0);
+		pin_write( TEST_TTL_2, 0);
 		fp = fopen("MS1.txt","r");
 		if(fp==NULL) printf("open MS1.txt fail\n");
 		ch = getc(fp);
 		fclose(fp);
 		printf("%c\n", ch);
 		if(ch=='1') break;
-		pin_write( FGTRIG, 0);
-		pin_write( FGTTL, 0);
-		pin_write( TEST_TTL_0, 0);
-		pin_write( TEST_TTL_1, 0);
-		pin_write( TEST_TTL_2, 0);
 		usleep(delay_ms);
 	}
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
