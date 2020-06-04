@@ -134,12 +134,12 @@ int main(int argc, char *argv[])
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(35000 * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(35000 * sizeof(float));
-	FILE *fp_ch2, fp;
+	FILE *fp_ch2, *fp;
 	long arb_size = 32768;
 	float arrf[arb_size];
 	int ttl_dura, damping_dura;
 	float freq_factor, ramp_ch2=0, ramp_step2;
-	
+	char ch;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
