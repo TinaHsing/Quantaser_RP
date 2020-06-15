@@ -146,7 +146,6 @@ int main(int argc, char *argv[])
 	FILE *fp_ch2, *fp;
 	uint32_t *adc_idx_addr = NULL;
 	uint32_t *adc_ch2 = NULL;
-	// char ch;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -303,18 +302,11 @@ int main(int argc, char *argv[])
 		fp = fopen("MS1.txt","r");
 		if(fp==NULL) {
 			usleep(delay_ms);
-			printf("1\n");
 		}
 		else {
-			// printf("open MS1.txt fail\n");
-			printf("2\n");
 			fclose(fp);
 			break;		
 		}
-		// ch = getc(fp);
-		// fclose(fp);
-		// printf("%c\n", ch);
-		// if(ch=='1') break;
 		
 	}
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
