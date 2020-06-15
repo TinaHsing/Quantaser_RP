@@ -305,7 +305,8 @@ int main(int argc, char *argv[])
 			usleep(delay_ms);
 		}
 		else {
-			printf("open MS1.txt fail\n");
+			// printf("open MS1.txt fail\n");
+			fclose(fp);
 			break;		
 		}
 		// ch = getc(fp);
