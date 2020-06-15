@@ -302,11 +302,11 @@ int main(int argc, char *argv[])
 		pin_write( TEST_TTL_2, 0);
 		fp = fopen("MS1.txt","r");
 		if(fp==NULL) {
-			printf("open MS1.txt fail\n");
-			break;
+			usleep(delay_ms);
 		}
 		else {
-			usleep(delay_ms);
+			printf("open MS1.txt fail\n");
+			break;		
 		}
 		// ch = getc(fp);
 		// fclose(fp);
