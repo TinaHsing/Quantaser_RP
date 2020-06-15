@@ -301,6 +301,7 @@ int main(int argc, char *argv[])
 		pin_write( TEST_TTL_1, 0);
 		pin_write( TEST_TTL_2, 0);
 		fp = fopen("MS1.txt","r");
+		printf("fp=%d\n", fp);
 		if(fp==NULL) {
 			usleep(delay_ms);
 		}
