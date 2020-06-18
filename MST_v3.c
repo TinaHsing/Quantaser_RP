@@ -200,7 +200,9 @@ int main(int argc, char *argv[])
 			*adc_idx_addr = i;//addwrite idx
 			rp_GenAmp(RP_CH_1, AC_amp[i]);
 			DAC_out(DAC8, DC_amp[i]);
-			
+			printf("%d, ", i);
+			printf("%f, ", AC_amp[i]);
+			printf("%f\n, ", DC_amp[i]);
 		}
 		pin_write( FGTRIG, 0);
 		AddrWrite(0x40200044, END_SCAN);
