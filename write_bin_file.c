@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 			// x3[i] = 1.0/CHIRP_SWEEP_TIME*t3[i];
 		// else 
 			// x3[i] = -1.0/CHIRP_SWEEP_TIME*t3[i]/2;
-		x3[i] = 100 + 9*30.0/1000.0*i;
+		x3[i] = 1000 + 90*30.0/1000.0*i;
 	}
 	write_file_single(x3, arb_size);
 }
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 void write_file_single(float *adc_data, uint32_t adc_counter)
 {
 	FILE *fp;
-	fp = fopen("vrf.bin", "wb");
+	fp = fopen("vdc.bin", "wb");
 	fwrite(adc_data, sizeof(float), adc_counter, fp);
 	fclose(fp);
 }
