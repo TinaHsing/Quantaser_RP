@@ -157,8 +157,8 @@ int main(int argc, char *argv[])
 
 	freq_HV = atof(argv[1]);	//頻率
 	ramp_pts = atol(argv[2]);		//掃描點數
-	fp = fopen(argv[3], "rb");
-	fp2 = fopen(argv[4], "rb");
+	fp = fopen(argv[3], "rb"); //read amp in mV
+	fp2 = fopen(argv[4], "rb"); // read amp in mV
 	delay_ms = atol(argv[5])*1000; //input ms convert to us
 	save = atoi(argv[6]);
 	adc_offset = atoi(argv[7]);
@@ -198,11 +198,8 @@ int main(int argc, char *argv[])
 			
 			// AddrWrite(0x40200064, i);//addwrite idx
 			*adc_idx_addr = i;//addwrite idx
-			rp_GenAmp(RP_CH_1, AC_amp[i]);
-			DAC_out(DAC8, DC_amp[i]);
-			printf("%d, ", i);
-			printf("%f, ", AC_amp[i]);
-			printf("%f\n, ", DC_amp[i]);
+			rp_GenAmp(RP_CH_1, AC_amp[i]/1000);
+			DAC_out(DAC8, DC_amp[i]/1000);
 		}
 		pin_write( FGTRIG, 0);
 		AddrWrite(0x40200044, END_SCAN);
