@@ -173,10 +173,10 @@ int main(int argc, char *argv[])
 	float *AC_amp = (float *)malloc(ramp_pts * sizeof(float));
 	float *DC_amp = (float *)malloc(ramp_pts * sizeof(float));
 	
-	fread(AC_amp, sizeof(float), ramp_pts, fp);
+	fread(DC_amp, sizeof(float), ramp_pts, fp);
 	fclose(fp);
 	
-	fread(DC_amp, sizeof(float), ramp_pts, fp2);
+	fread(AC_amp, sizeof(float), ramp_pts, fp2);
 	fclose(fp2);
 
 	ADC_init();
