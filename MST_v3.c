@@ -411,7 +411,7 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 	if(save)
 	{
 		FILE *fp, *fp2;
-		fp = fopen("adc_data.bin", "wb");
+		fp = fopen("QIT_adc_data.bin", "wb");
 		fp2 = fopen("cnt.txt", "w");
 		fwrite(adc_data, sizeof(float), adc_counter, fp);
 		fprintf(fp2, "%d", adc_counter);
