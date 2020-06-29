@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
 	adc_gain_n = atof(argv[9]);
 	
 	if(fp == NULL || fp2 == NULL) {
-		fp_log = fopen("MST_log.txt", "a")
+		fp_log = fopen("MST_log.txt", "a");
 		fprintf(fp_log, "bin file open fail!\n");
 		fclose(fp_log);
 		// printf("bin file open fail!\n"); 
