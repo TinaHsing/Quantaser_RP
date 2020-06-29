@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
 	char ch;
 	uint32_t *adc_idx_addr = NULL;
 	uint32_t *adc_ch2 = NULL;
-	FILE *fp, *fp2, *fp_log = fopen("MST_log.txt", "r");
+	FILE *fp, *fp2, *fp_log = fopen("MST_log.txt", "w");
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
