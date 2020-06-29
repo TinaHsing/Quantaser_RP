@@ -116,7 +116,7 @@ int idx=0;
 float int2float(uint32_t, float, float, uint32_t);
 
 float freq_HV, AC_amp, DC_amp;
-uint32_t ramp_pts;
+uint32_t ramp_pts, op_count = 0;
 
 void* map_base = (void*)(-1);
 
@@ -168,7 +168,8 @@ int main(int argc, char *argv[])
 	adc_gain_n = atof(argv[9]);
 	
 	if(fp == NULL || fp2 == NULL) {
-		printf("bin file open fail!\n"); 
+		fprintf(fp_log, "bin file open fail!\n");
+		// printf("bin file open fail!\n"); 
 		return -1;
 	}
 	
@@ -217,7 +218,7 @@ int main(int argc, char *argv[])
 		rp_GenAmp(RP_CH_1, 0);
 		DAC_out(DAC8, DC_amp[0]);
 		pin_write( TEST_TTL_0, 0);
-		
+		fprintf(fp_log,"%d\n" , op_count++);
 		for(int i=0; i<adc_counter; i++)
 		{
 			*adc_idx_addr = i;
@@ -236,14 +237,14 @@ int main(int argc, char *argv[])
 		write_file(adc_mem_f, save, adc_counter);	
 		
 		fp = fopen("MST.txt","r");
-		if(fp==NULL) printf("open MST.txt fail\n");
+		if(fp==NULL) fprintf(fp_log, "open MST.txt fail\n");
 		ch = getc(fp);
 		fclose(fp);
 		printf("%c\n", ch);
 		if(ch=='1') break;
 		usleep(delay_ms);
 	}
-	
+	fprintf(fp_log, "end of while loop!\n\n\n");
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	fclose(fp_log);
 	rp_Release();
