@@ -136,6 +136,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Rp api init failed!\n");
 	}
 	fprintf(fp_log, "start\n");
+	fclose(fp_log);
 	map2virtualAddr(&adc_idx_addr, 0x40200064); //adc_idx
 	//0x40200068 for ch1, 0x40200070 for ch2
 	map2virtualAddr(&adc_ch2, 0x40200070); //adc_ch2
@@ -168,7 +169,9 @@ int main(int argc, char *argv[])
 	adc_gain_n = atof(argv[9]);
 	
 	if(fp == NULL || fp2 == NULL) {
+		*fp_log = fopen("MST_log.txt", "a")
 		fprintf(fp_log, "bin file open fail!\n");
+		fclose(fp_log);
 		// printf("bin file open fail!\n"); 
 		return -1;
 	}
@@ -218,7 +221,9 @@ int main(int argc, char *argv[])
 		rp_GenAmp(RP_CH_1, 0);
 		DAC_out(DAC8, DC_amp[0]);
 		pin_write( TEST_TTL_0, 0);
+		*fp_log = fopen("MST_log.txt", "a")
 		fprintf(fp_log,"%d\n" , op_count++);
+		fclose(fp_log);
 		for(int i=0; i<adc_counter; i++)
 		{
 			*adc_idx_addr = i;
@@ -237,13 +242,18 @@ int main(int argc, char *argv[])
 		write_file(adc_mem_f, save, adc_counter);	
 		
 		fp = fopen("MST.txt","r");
-		if(fp==NULL) fprintf(fp_log, "open MST.txt fail\n");
+		if(fp==NULL) {
+			*fp_log = fopen("MST_log.txt", "a");
+			fprintf(fp_log, "open MST.txt fail\n");
+			fclose(fp_log);
+		}
 		ch = getc(fp);
 		fclose(fp);
 		printf("%c\n", ch);
 		if(ch=='1') break;
 		usleep(delay_ms);
 	}
+	*fp_log = fopen("MST_log.txt", "a");
 	fprintf(fp_log, "end of while loop!\n\n\n");
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
 	fclose(fp_log);
