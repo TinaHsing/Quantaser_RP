@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
 		DAC_out(DAC8, DC_amp[0]);
 		pin_write( TEST_TTL_0, 0);
 		fp_log = fopen("MST_log.txt", "a");
-		fprintf(fp_log,"%d\n" , op_count++);
+		fprintf(fp_log,"%d" , op_count++);
 		fclose(fp_log);
 		for(int i=0; i<adc_counter; i++)
 		{
@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
 		}
 		if(adc_counter == ramp_pts-1)  adc_mem_f[ramp_pts] = int2float(*(adc_mem+adc_counter-1), adc_gain_p, adc_gain_n, adc_offset);
 		fp_log = fopen("MST_log.txt", "a");
-		fprintf(fp_log,"rd\n");
+		fprintf(fp_log,", rd\n");
 		fclose(fp_log);
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 		// for(int i=0;i<adc_counter;i++)
