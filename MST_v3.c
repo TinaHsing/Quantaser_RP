@@ -221,7 +221,7 @@ int main(int argc, char *argv[])
 		rp_GenAmp(RP_CH_1, 0);
 		DAC_out(DAC8, DC_amp[0]);
 		pin_write( TEST_TTL_0, 0);
-		fp_log = fopen("MST_log.txt", "a")
+		fp_log = fopen("MST_log.txt", "a");
 		fprintf(fp_log,"%d\n" , op_count++);
 		fclose(fp_log);
 		for(int i=0; i<adc_counter; i++)
