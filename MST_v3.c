@@ -130,11 +130,12 @@ int main(int argc, char *argv[])
 	char ch;
 	uint32_t *adc_idx_addr = NULL;
 	uint32_t *adc_ch2 = NULL;
-	FILE *fp, *fp2;
+	FILE *fp, *fp2, *fp_log = fopen("MST_log.txt", "r");
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
+	fprintf(fp_log, "\n", "start");
 	map2virtualAddr(&adc_idx_addr, 0x40200064); //adc_idx
 	//0x40200068 for ch1, 0x40200070 for ch2
 	map2virtualAddr(&adc_ch2, 0x40200070); //adc_ch2
@@ -244,7 +245,7 @@ int main(int argc, char *argv[])
 	}
 	
 	AddrWrite(0x40200058, 1); //write end_write to H，此時python解鎖run 按鈕
-	
+	fclose(fp_log);
 	rp_Release();
 	free(adc_mem);
 	free(adc_mem_f);
