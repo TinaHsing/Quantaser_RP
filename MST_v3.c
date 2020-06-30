@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(35000 * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(35000 * sizeof(float));
-	char ch, read_done;
+	char ch;
 	uint32_t *adc_idx_addr = NULL;
 	uint32_t *adc_ch2 = NULL;
 	FILE *fp, *fp2, *fp_log = fopen("MST_log.txt", "a");
