@@ -439,10 +439,10 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 	char read_done;
 	if(save)
 	{
-		// read_done = readFile("read_done.txt");
-		// printf("read_done = %c\n", read_done);
-		// if(read_done == '1')
-		// {
+		read_done = readFile("read_done.txt");
+		printf("read_done = %c\n", read_done);
+		if(read_done == '1')
+		{
 			writeFile("read_done.txt", 0);
 			FILE *fp, *fp2;
 			fp = fopen("QIT_adc_data.bin", "wb");
@@ -452,7 +452,7 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 			fclose(fp);
 			fclose(fp2);
 			writeFile("write_done.txt", 1);
-		// }
+		}
 	}	
 }
 
