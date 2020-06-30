@@ -430,11 +430,11 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 		fp = fopen("QIT_adc_data.bin", "wb");
 		fp2 = fopen("cnt.txt", "w");
 		fwrite(adc_data, sizeof(float), adc_counter, fp);
-		sprintf(shell,"cp QIT_adc_data.bin QIT_adc_data2.bin");
-		system(shell);
 		fprintf(fp2, "%d", adc_counter);
 		fclose(fp);
 		fclose(fp2);
+		sprintf(shell,"cp QIT_adc_data.bin QIT_adc_data2.bin");
+		system(shell);
 	}	
 }
 
