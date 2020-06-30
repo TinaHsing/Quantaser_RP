@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
 	uint32_t *adc_mem = (uint32_t *)malloc(35000 * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(35000 * sizeof(float));
 	char ch;
-	char read_done;
+	// char read_done;
 	uint32_t *adc_idx_addr = NULL;
 	uint32_t *adc_ch2 = NULL;
 	FILE *fp, *fp2, *fp_log = fopen("MST_log.txt", "a");
@@ -268,18 +268,18 @@ int main(int argc, char *argv[])
 		if(ch=='1') break;
 		usleep(delay_ms);
 		
-		read_done = readFile("read_done.txt");
-		printf("read_done = %c\n", read_done);
+		// read_done = readFile("read_done.txt");
+		// printf("read_done = %c\n", read_done);
 		
-		if(read_done == '1') {
-			writeFile("read_done.txt", 0);
-			writeFile("write_done.txt", 1);
-			read_done = readFile("read_done.txt");
-		}
+		// if(read_done == '1') {
+			// writeFile("read_done.txt", 0);
+			// writeFile("write_done.txt", 1);
+			// read_done = readFile("read_done.txt");
+		// }
 		
-		while(read_done == '0') {
-			read_done = readFile("read_done.txt");
-		}
+		// while(read_done == '0') {
+			// read_done = readFile("read_done.txt");
+		// }
 		
 	}
 	fp_log = fopen("MST_log.txt", "a");
