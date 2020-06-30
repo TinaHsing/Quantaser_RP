@@ -279,7 +279,6 @@ int main(int argc, char *argv[])
 		
 		while(read_done == '0') {
 			read_done = readFile("read_done.txt");
-			usleep(1000000);
 		}
 		
 	}
