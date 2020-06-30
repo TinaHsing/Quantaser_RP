@@ -141,7 +141,6 @@ int main(int argc, char *argv[])
 	writeFile("read_done.txt", 1);
 	writeFile("write_done.txt", 0);
 	
-	system("ps");
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
 	}
