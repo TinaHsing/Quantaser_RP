@@ -243,7 +243,7 @@ int main(int argc, char *argv[])
 		}
 		if(adc_counter == ramp_pts-1)  adc_mem_f[ramp_pts] = int2float(*(adc_mem+adc_counter-1), adc_gain_p, adc_gain_n, adc_offset);
 		fp_log = fopen("MST_log.txt", "a");
-		fprintf(fp_log,", rd\n");
+		fprintf(fp_log,", rd");
 		fclose(fp_log);
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 		// for(int i=0;i<adc_counter;i++)
@@ -251,6 +251,10 @@ int main(int argc, char *argv[])
 			// printf("%d. %f\n",i+1, adc_mem_f[i]);
 		// }
 		write_file(adc_mem_f, save, adc_counter);	
+		
+		fp_log = fopen("MST_log.txt", "a");
+		fprintf(fp_log,", write_done\n");
+		fclose(fp_log);
 		
 		fp = fopen("MST.txt","r");
 		if(fp==NULL) {
@@ -432,14 +436,13 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 
 void write_file(float *adc_data, int save, uint32_t adc_counter)
 {
-	// char shell[MAX_PATH];
 	char read_done;
 	if(save)
 	{
-		read_done = readFile("read_done.txt");
-		printf("read_done = %c\n", read_done);
-		if(read_done == '1')
-		{
+		// read_done = readFile("read_done.txt");
+		// printf("read_done = %c\n", read_done);
+		// if(read_done == '1')
+		// {
 			writeFile("read_done.txt", 0);
 			FILE *fp, *fp2;
 			fp = fopen("QIT_adc_data.bin", "wb");
@@ -449,9 +452,7 @@ void write_file(float *adc_data, int save, uint32_t adc_counter)
 			fclose(fp);
 			fclose(fp2);
 			writeFile("write_done.txt", 1);
-		}
-		// sprintf(shell,"cp QIT_adc_data2.bin QIT_adc_data.bin");
-		// system(shell);
+		// }
 	}	
 }
 
