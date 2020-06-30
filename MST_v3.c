@@ -106,7 +106,7 @@ void write_file(float*, int, uint32_t);
 
 //////* r/w txt file*///////////
 void writeFile(char *, int);
-void readFile(char *);
+char readFile(char *);
 
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
@@ -132,16 +132,14 @@ int main(int argc, char *argv[])
 	uint32_t adc_counter;
 	uint32_t *adc_mem = (uint32_t *)malloc(35000 * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(35000 * sizeof(float));
-	char ch;
+	char ch, read_done;
 	uint32_t *adc_idx_addr = NULL;
 	uint32_t *adc_ch2 = NULL;
 	FILE *fp, *fp2, *fp_log = fopen("MST_log.txt", "a");
 	
 	writeFile("read_done.txt", 1);
-	readFile("read_done.txt");
+	writeFile("write_done.txt", 0);
 	
-	writeFile("read_done.txt", 2);
-	readFile("read_done.txt");
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -435,15 +433,23 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 void write_file(float *adc_data, int save, uint32_t adc_counter)
 {
 	// char shell[MAX_PATH];
+	char read_done;
 	if(save)
 	{
-		FILE *fp, *fp2;
-		fp = fopen("QIT_adc_data.bin", "wb");
-		fp2 = fopen("cnt.txt", "w");
-		fwrite(adc_data, sizeof(float), adc_counter, fp);
-		fprintf(fp2, "%d", adc_counter);
-		fclose(fp);
-		fclose(fp2);
+		read_done = readFile("read_done.txt");
+		printf("read_done = %c\n", read_done);
+		if(read_done == '1')
+		{
+			writeFile("read_done.txt", 0);
+			FILE *fp, *fp2;
+			fp = fopen("QIT_adc_data.bin", "wb");
+			fp2 = fopen("cnt.txt", "w");
+			fwrite(adc_data, sizeof(float), adc_counter, fp);
+			fprintf(fp2, "%d", adc_counter);
+			fclose(fp);
+			fclose(fp2);
+			writeFile("write_done.txt", 1);
+		}
 		// sprintf(shell,"cp QIT_adc_data2.bin QIT_adc_data.bin");
 		// system(shell);
 	}	
@@ -456,13 +462,14 @@ void writeFile(char *fileName, int value)
 	fclose(fp);	
 }
 
-void readFile(char *fileName)
+char readFile(char *fileName)
 {
 	char ch;
 	FILE *fp = fopen(fileName, "r");
 	ch = getc(fp);
 	fclose(fp);
-	printf("ch=%c\n", ch);
+	// printf("ch=%c\n", ch);
+	return ch;
 }
 
 float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
