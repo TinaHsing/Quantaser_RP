@@ -275,6 +275,7 @@ int main(int argc, char *argv[])
 		if(read_done == '1') {
 			writeFile("read_done.txt", 0);
 			writeFile("write_done.txt", 1);
+			read_done = readFile("read_done.txt");
 		}
 		
 		while(read_done == '0') {
