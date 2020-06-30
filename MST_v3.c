@@ -103,7 +103,10 @@ void ADC_req(uint32_t*, float*, float*);
 void write_txt(uint32_t*, int, uint32_t);
 void write_file(float*, int, uint32_t);
 
+
+//////* r/w txt file*///////////
 void writeFile(char *, int);
+void readFile(char *);
 
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
@@ -135,6 +138,10 @@ int main(int argc, char *argv[])
 	FILE *fp, *fp2, *fp_log = fopen("MST_log.txt", "a");
 	
 	writeFile("read_done.txt", 1);
+	readFile("read_done.txt");
+	
+	writeFile("read_done.txt", 2);
+	readFile("read_done.txt");
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -447,6 +454,15 @@ void writeFile(char *fileName, int value)
 	FILE *fp = fopen(fileName, "w");
 	fprintf(fp, "%d", value);
 	fclose(fp);	
+}
+
+void readFile(char *fileName)
+{
+	char ch;
+	FILE *fp = fopen(fileName, "r");
+	ch = getc(fp);
+	fclose(fp);
+	printf("ch=%c\n", ch);
 }
 
 float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
