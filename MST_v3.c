@@ -103,6 +103,8 @@ void ADC_req(uint32_t*, float*, float*);
 void write_txt(uint32_t*, int, uint32_t);
 void write_file(float*, int, uint32_t);
 
+void writeFile(char *, int);
+
 //////*Address R/W*////////
 void AddrWrite(unsigned long, unsigned long);
 uint32_t AddrRead(unsigned long);
@@ -131,6 +133,8 @@ int main(int argc, char *argv[])
 	uint32_t *adc_idx_addr = NULL;
 	uint32_t *adc_ch2 = NULL;
 	FILE *fp, *fp2, *fp_log = fopen("MST_log.txt", "a");
+	
+	writeFile("read_done.txt", 1);
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -423,19 +427,26 @@ void write_txt(uint32_t* adc_data, int save, uint32_t adc_counter)
 
 void write_file(float *adc_data, int save, uint32_t adc_counter)
 {
-	char shell[MAX_PATH];
+	// char shell[MAX_PATH];
 	if(save)
 	{
 		FILE *fp, *fp2;
-		fp = fopen("QIT_adc_data2.bin", "wb");
+		fp = fopen("QIT_adc_data.bin", "wb");
 		fp2 = fopen("cnt.txt", "w");
 		fwrite(adc_data, sizeof(float), adc_counter, fp);
 		fprintf(fp2, "%d", adc_counter);
 		fclose(fp);
 		fclose(fp2);
-		sprintf(shell,"cp QIT_adc_data2.bin QIT_adc_data.bin");
-		system(shell);
+		// sprintf(shell,"cp QIT_adc_data2.bin QIT_adc_data.bin");
+		// system(shell);
 	}	
+}
+
+void writeFile(char *fileName, int value)
+{
+	FILE *fp = fopen(fileName, "w");
+	fprintf(fp, "%d", value);
+	fclose(fp);	
 }
 
 float int2float(uint32_t in, float gain_p, float gain_n, uint32_t adc_offset) {
