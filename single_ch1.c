@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 #include "redpitaya/rp.h"
-#define CH = RP_CH_1
+#define CH RP_CH_1
 
 float freq, amp, offset;
 
