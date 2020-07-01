@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 	// scanf("%f",&dac_value);
 	
 	dac_num = atoi(argv[1]);
-	dac_value = atof(argv[2]);
+	dac_value = atof(argv[2])/1000;
 	
 	DAC_out((uint8_t)dac_num, dac_value);
 	
