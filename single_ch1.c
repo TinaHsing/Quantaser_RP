@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "redpitaya/rp.h"
+#define CH = RP_CH_1
 
 float freq, amp, offset;
 
@@ -13,20 +14,15 @@ int main(int argc, char *argv[]){
     if(rp_Init() != RP_OK){
         fprintf(stderr, "Rp api init failed!\n");
     }
-	rp_GenAmp(RP_CH_2, 0);
+	rp_GenAmp(CH, 0);
 	freq = atof(argv[1])*1000; //KHz
-	amp = atof(argv[2])/1000;
-	offset = atof(argv[3])/1000;
-	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_SINE);
-    rp_GenFreq(RP_CH_2, freq);
-	
-	rp_GenOffset(RP_CH_2, offset);
-
-    rp_GenAmp(RP_CH_2, amp);
-
-    
-
-    rp_GenOutEnable(RP_CH_2);
+	amp = atof(argv[2])/1000; //input mV convert to V
+	// offset = atof(argv[3])/1000;
+	rp_GenWaveform(CH, RP_WAVEFORM_SINE);
+    rp_GenFreq(CH, freq);
+	rp_GenOffset(CH, 0);
+    rp_GenAmp(CH, amp);
+    rp_GenOutEnable(CH);
 
     rp_Release();
 
