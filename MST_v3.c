@@ -36,6 +36,7 @@
 #define DAC1_ADD 0x52
 #define CC 0b0011
 #define ref 2.5
+#define ADC_CH2
 
 #ifdef DAC_BIT_14
 	#define max 16383
@@ -135,7 +136,7 @@ int main(int argc, char *argv[])
 	char ch;
 	// char read_done;
 	uint32_t *adc_idx_addr = NULL;
-	uint32_t *adc_ch2 = NULL;
+	uint32_t *adc_ch = NULL;
 	FILE *fp, *fp2, *fp_log = fopen("MST_log.txt", "a");
 	
 	writeFile("read_done.txt", 1);
@@ -148,7 +149,11 @@ int main(int argc, char *argv[])
 	fclose(fp_log);
 	map2virtualAddr(&adc_idx_addr, 0x40200064); //adc_idx
 	//0x40200068 for ch1, 0x40200070 for ch2
-	map2virtualAddr(&adc_ch2, 0x40200070); //adc_ch2
+	#ifdef ADC_CH2
+		map2virtualAddr(&adc_ch, 0x40200070); //adc_ch2
+	#else
+		map2virtualAddr(&adc_ch, 0x40200068); //adc_ch1
+	#endif
 	
 	i2cOpen();
 	pin_export(FGTRIG);
@@ -238,10 +243,11 @@ int main(int argc, char *argv[])
 			*adc_idx_addr = i;
 			// AddrWrite(0x40200064, i);//addwrite idx 
 			// adc_mem[i] = AddrRead(0x40200070); //read fpga adc_mem[idx], 0x40200068 for ch1, 0x40200070 for ch2
-			adc_mem[i] = *adc_ch2;
+			adc_mem[i] = *adc_ch;
 			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 		}
-		if(adc_counter == ramp_pts-1)  {
+		if(adc_counter == ramp_pts-1)  
+		{
 			adc_counter++;
 			adc_mem_f[ramp_pts-1] = adc_mem_f[ramp_pts-2];
 			// printf("%d, %f, ",ramp_pts-2, adc_mem_f[ramp_pts-2]);
