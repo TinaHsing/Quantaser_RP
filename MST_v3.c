@@ -244,6 +244,8 @@ int main(int argc, char *argv[])
 		if(adc_counter == ramp_pts-1)  {
 			adc_counter++;
 			adc_mem_f[ramp_pts-1] = int2float(*(adc_mem+adc_counter-1), adc_gain_p, adc_gain_n, adc_offset);
+			printf("%d, %f, ",ramp_pts-2, adc_mem_f[ramp_pts-2]);
+			printf("%d, %f\n ",ramp_pts-1, adc_mem_f[ramp_pts-1]);
 		}
 		fp_log = fopen("MST_log.txt", "a");
 		fprintf(fp_log,", rd");
