@@ -36,7 +36,7 @@
 #define DAC1_ADD 0x52
 #define CC 0b0011
 #define ref 2.5
-#define ADC_CH2
+#define ADC_CH1
 
 #ifdef DAC_BIT_14
 	#define max 16383
