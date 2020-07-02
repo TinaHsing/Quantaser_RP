@@ -6,6 +6,9 @@
 #include <sys/time.h>
 void ADC_req(uint32_t* , float*, int );
 long micros(void);
+
+// FILE *fp = fopen(DC_ADC.txt, "a");
+int idx = 0;
 void writeFile(char *, float);
 int main(int argc, char **argv){
 		// long time[2];
@@ -16,6 +19,8 @@ int main(int argc, char **argv){
 		uint32_t buff_size;
 		int ch, gain;
         float *buff;
+		
+		
 
 		ch = atoi(argv[1]);
 		buff_size = atoi(argv[2]);
@@ -34,6 +39,11 @@ int main(int argc, char **argv){
 			// time[0]=micros();
 			ADC_req(&buff_size, buff, ch);
 			usleep(1000);
+			if(idx==1000) 
+			{
+				idx = 0;
+				remove(DC_ADC.txt);
+			}
 			// time[1]=micros();
 			// diff[i]=time[1]-time[0];
 			// printf("%ld\n", time[1]-time[0]);
@@ -56,7 +66,7 @@ int main(int argc, char **argv){
 }
 void writeFile(char *fileName, float value)
 {
-	FILE *fp = fopen(fileName, "w");
+	FILE *fp = fopen(fileName, "a");
 	fprintf(fp, "%f", value);
 	fclose(fp);	
 }
@@ -70,6 +80,10 @@ void ADC_req(uint32_t* buff_size, float* buff, int ch) {
 				avg += buff[i];
         }
 	avg = avg / (float)*buff_size;
+	// fprintf(fp, "%f\n", avg);
+	// fclose(fp);
+	
 	writeFile("DC_ADC.txt", avg);
+	idx++;
 	printf("%f\n", avg);
 }
