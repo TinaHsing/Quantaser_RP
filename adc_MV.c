@@ -67,7 +67,7 @@ int main(int argc, char **argv){
 void writeFile(char *fileName, float value)
 {
 	FILE *fp = fopen(fileName, "a");
-	fprintf(fp, "%f", value);
+	fprintf(fp, "%d, %f\n",idx, value);
 	fclose(fp);	
 }
 
