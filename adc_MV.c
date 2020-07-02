@@ -33,7 +33,7 @@ int main(int argc, char **argv){
 		// {
 			// time[0]=micros();
 			ADC_req(&buff_size, buff, ch);
-			usleep(1000000);
+			usleep(100);
 			// time[1]=micros();
 			// diff[i]=time[1]-time[0];
 			// printf("%ld\n", time[1]-time[0]);
