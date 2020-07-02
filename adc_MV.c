@@ -42,7 +42,7 @@ int main(int argc, char **argv){
 			if(idx==1000) 
 			{
 				idx = 0;
-				remove(DC_ADC.txt);
+				remove("DC_ADC.txt");
 			}
 			// time[1]=micros();
 			// diff[i]=time[1]-time[0];
