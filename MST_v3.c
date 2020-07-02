@@ -241,7 +241,10 @@ int main(int argc, char *argv[])
 			adc_mem[i] = *adc_ch2;
 			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 		}
-		if(adc_counter == ramp_pts-1)  adc_mem_f[ramp_pts] = int2float(*(adc_mem+adc_counter-1), adc_gain_p, adc_gain_n, adc_offset);
+		if(adc_counter == ramp_pts-1)  {
+			adc_counter++;
+			adc_mem_f[ramp_pts-1] = int2float(*(adc_mem+adc_counter-1), adc_gain_p, adc_gain_n, adc_offset);
+		}
 		fp_log = fopen("MST_log.txt", "a");
 		fprintf(fp_log,", rd");
 		fclose(fp_log);
