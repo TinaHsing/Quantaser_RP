@@ -19,6 +19,11 @@
 #include <sys/mman.h>
 #include "redpitaya/rp.h"
 
+/*-------MMAP---------*/
+#define FATAL do { fprintf(stderr, "Error at line %d, file %s (%d) [%s]\n", \
+  __LINE__, __FILE__, errno, strerror(errno)); exit(1); } while(0)
+#define MAP_SIZE 4096UL
+#define MAP_MASK (MAP_SIZE - 1)
 
 /*-------Address R/W---------*/
 void map2virtualAddr(uint32_t**, uint32_t);
@@ -46,6 +51,8 @@ int main(int argc, char **argv){
 	uint32_t *end_read = NULL;
 	uint32_t mv_num;
 	float sum = 0, mv_data;
+	float adc_gain_p, adc_gain_n;
+	uint32_t adc_offset;
 			
 	mv_num = atoi(argv[1]);
 	adc_offset = atoi(argv[2]);
