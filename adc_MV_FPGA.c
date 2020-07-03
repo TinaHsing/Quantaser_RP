@@ -92,7 +92,7 @@ int main(int argc, char **argv){
 		}
 		*start_scan = 0; 
 		/*******************************************/
-		printf("adc_counter = %d\n", *adc_counter);
+		// printf("adc_counter = %d\n", *adc_counter);
 		
 		/*-------read adc data and moving average------*/
 		for(int i=0; i<*adc_counter; i++)
