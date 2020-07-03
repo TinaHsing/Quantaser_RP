@@ -92,7 +92,7 @@ int main(int argc, char **argv){
 		printf("adc_counter = %d\n", *adc_counter);
 		
 		/*-------read adc data and moving average------*/
-		for(int i=0; i<*adc_idx_addr; i++)
+		for(int i=0; i<*adc_counter; i++)
 		{
 			*adc_idx_addr = i;
 			adc_mem[i] = *adc_ch;
