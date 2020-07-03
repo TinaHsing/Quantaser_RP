@@ -35,8 +35,8 @@ float int2float(uint32_t, float, float, uint32_t);
 #define ADC_CH1
 
 /*-------FPGA register address--------*/
-#define ADC_CH1 	0x40200068
-#define ADC_CH2 	0x40200070
+#define ADC_INPUT_CH1 	0x40200068
+#define ADC_INPUT_CH2 	0x40200070
 #define ADC_IDX 	0x40200064
 #define START_SCAN  0x40200044
 #define ADC_COUNTER 0x40200060
@@ -73,9 +73,9 @@ int main(int argc, char **argv){
 	map2virtualAddr(&end_read, END_READ);
 	
 	#ifdef ADC_CH2
-		map2virtualAddr(&adc_ch, ADC_CH2); 
+		map2virtualAddr(&adc_ch, ADC_INPUT_CH2); 
 	#else
-		map2virtualAddr(&adc_ch, ADC_CH1); 
+		map2virtualAddr(&adc_ch, ADC_INPUT_CH1); 
 	#endif
 	
 	/*-------save adc data to fpga memory------*/
@@ -91,7 +91,7 @@ int main(int argc, char **argv){
 		*adc_idx_addr = i;
 		adc_mem[i] = *adc_ch;
 		adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
-		sum += adc_mem_f[i]
+		sum += adc_mem_f[i];
 	}
 	mv_data = sum/(*adc_idx_addr);
 	printf("mv data = %f\n", mv_data);
@@ -103,6 +103,7 @@ int main(int argc, char **argv){
 void map2virtualAddr(uint32_t** virt_addr, uint32_t tar_addr)
 {
 	int fd = -1;
+	void* map_base = (void*)(-1);
 	if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) FATAL;
 	map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, tar_addr & ~MAP_MASK);
 	*virt_addr = map_base + (tar_addr & MAP_MASK);
