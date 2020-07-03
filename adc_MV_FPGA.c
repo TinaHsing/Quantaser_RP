@@ -43,6 +43,7 @@ float int2float(uint32_t, float, float, uint32_t);
 #define END_READ 	0x4020005C
 /*---------------*/
 // #define CONTINUE
+#define CH RP_CH_1
 
 int main(int argc, char **argv){
 	
@@ -55,6 +56,7 @@ int main(int argc, char **argv){
 	float sum = 0, mv_data;
 	float adc_gain_p, adc_gain_n;
 	uint32_t adc_offset;
+	float freq, amp;
 			
 	mv_num = atoi(argv[1]);
 	adc_offset = atoi(argv[2]);
@@ -79,6 +81,17 @@ int main(int argc, char **argv){
 	#else
 		map2virtualAddr(&adc_ch, ADC_INPUT_CH1); 
 	#endif
+	
+	/*-------function gen------*/
+	rp_GenAmp(CH, 0);
+	freq = atof(argv[5])*1000; //KHz
+	amp = atof(argv[6])/1000; //input mV convert to V
+	rp_GenWaveform(CH, RP_WAVEFORM_SINE);
+    rp_GenFreq(CH, freq);
+	rp_GenOffset(CH, 0);
+    rp_GenAmp(CH, amp);
+    rp_GenOutEnable(CH);
+	/*******************************************/
 	
 	#ifdef CONTINUE
 	while(1)
