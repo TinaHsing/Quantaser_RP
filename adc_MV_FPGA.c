@@ -81,7 +81,7 @@ int main(int argc, char **argv){
 	// while(1)
 	// {
 		/*-------save adc data to fpga memory------*/
-		*start_scan = 1; 
+		*start_scan = 0; 
 		printf("start scan: %d\n", *start_scan);
 		for(int i=0; i<mv_num; i++) {
 			*adc_idx_addr = i;//addwrite idx
