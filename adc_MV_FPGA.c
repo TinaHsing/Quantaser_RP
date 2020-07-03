@@ -81,14 +81,13 @@ int main(int argc, char **argv){
 	// while(1)
 	// {
 		/*-------save adc data to fpga memory------*/
-		*start_scan = 0; 
-		printf("start scan: %d\n", *start_scan);
+		*start_scan = 1; 
 		for(int i=0; i<mv_num; i++) {
 			*adc_idx_addr = i;//addwrite idx
+			usleep(1000);
 			printf("adc_idx: %d\n", *adc_idx_addr);
 		}
 		*start_scan = 0; 
-		printf("start scan: %d\n", *start_scan);
 		/*******************************************/
 		printf("adc_counter = %d\n", *adc_counter);
 		
