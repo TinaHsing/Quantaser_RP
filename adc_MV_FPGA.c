@@ -78,24 +78,29 @@ int main(int argc, char **argv){
 		map2virtualAddr(&adc_ch, ADC_INPUT_CH1); 
 	#endif
 	
-	/*-------save adc data to fpga memory------*/
-	*start_scan = 1; 
-	for(int i=0; i<mv_num; i++) *adc_idx_addr = i;//addwrite idx
-	*start_scan = 0; 
-	/*******************************************/
-	printf("adc_counter = %d\n", *adc_counter);
-	
-	/*-------read adc data and moving average------*/
-	for(int i=0; i<*adc_idx_addr; i++)
+	while(1)
 	{
-		*adc_idx_addr = i;
-		adc_mem[i] = *adc_ch;
-		adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
-		sum += adc_mem_f[i];
+		/*-------save adc data to fpga memory------*/
+		*start_scan = 1; 
+		for(int i=0; i<mv_num; i++) *adc_idx_addr = i;//addwrite idx
+		*start_scan = 0; 
+		/*******************************************/
+		printf("adc_counter = %d\n", *adc_counter);
+		
+		/*-------read adc data and moving average------*/
+		for(int i=0; i<*adc_idx_addr; i++)
+		{
+			*adc_idx_addr = i;
+			adc_mem[i] = *adc_ch;
+			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
+			sum += adc_mem_f[i];
+		}
+		mv_data = sum/(*adc_idx_addr);
+		printf("mv data = %f\n", mv_data);
+		*end_read = 1; //reset adc_counter	
 	}
-	mv_data = sum/(*adc_idx_addr);
-	printf("mv data = %f\n", mv_data);
-	*end_read = 1; //reset adc_counter
+
+	
 	rp_Release();
 	return 0;
 }
