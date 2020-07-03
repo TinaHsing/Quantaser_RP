@@ -42,7 +42,7 @@ float int2float(uint32_t, float, float, uint32_t);
 #define ADC_COUNTER 0x40200060
 #define END_READ 	0x4020005C
 /*---------------*/
-#define CONTINUE
+// #define CONTINUE
 
 int main(int argc, char **argv){
 	
