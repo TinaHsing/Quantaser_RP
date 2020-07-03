@@ -66,10 +66,6 @@ int main(int argc, char **argv){
 	uint32_t *adc_mem = (uint32_t *)malloc(mv_num * sizeof(uint32_t));
 	float *adc_mem_f = (float *)malloc(mv_num * sizeof(float));
 	
-	// if(rp_Init() != RP_OK)
-	// {
-		// fprintf(stderr, "Rp api init failed!\n");
-	// }
 	
 	map2virtualAddr(&adc_idx_addr, ADC_IDX);
 	map2virtualAddr(&start_scan, START_SCAN);
@@ -81,19 +77,7 @@ int main(int argc, char **argv){
 	#else
 		map2virtualAddr(&adc_ch, ADC_INPUT_CH1); 
 	#endif
-	
-	/*-------function gen------*/
-	// float freq, amp;
-	// rp_GenAmp(CH, 0);
-	// freq = atof(argv[5])*1000; //KHz
-	// amp = atof(argv[6])/1000; //input mV convert to V
-	// rp_GenWaveform(CH, RP_WAVEFORM_SINE);
-    // rp_GenFreq(CH, freq);
-	// rp_GenOffset(CH, 0);
-    // rp_GenAmp(CH, amp);
-    // rp_GenOutEnable(CH);
-	/*******************************************/
-	
+		
 	#ifdef CONTINUE
 	while(1)
 	{
@@ -117,14 +101,13 @@ int main(int argc, char **argv){
 			sum += adc_mem_f[i];
 		}
 		mv_data = sum/(*adc_idx_addr);
-		printf("mv data = %f\n", mv_data);
+		printf("%f\n", mv_data);
 		*end_read = 1; //reset adc_counter	
 	#ifdef CONTINUE	
 	sum = 0;
 	}
 	#endif
 	
-	// rp_Release();
 	return 0;
 }
 
