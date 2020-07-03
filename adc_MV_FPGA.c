@@ -41,6 +41,8 @@ float int2float(uint32_t, float, float, uint32_t);
 #define START_SCAN  0x40200044
 #define ADC_COUNTER 0x40200060
 #define END_READ 	0x4020005C
+/*---------------*/
+#define CONTINUE
 
 int main(int argc, char **argv){
 	
@@ -78,8 +80,10 @@ int main(int argc, char **argv){
 		map2virtualAddr(&adc_ch, ADC_INPUT_CH1); 
 	#endif
 	
+	#ifdef CONTINUE
 	while(1)
 	{
+	#endif
 		/*-------save adc data to fpga memory------*/
 		*start_scan = 1; 
 		for(int i=0; i<mv_num; i++) {
@@ -101,8 +105,10 @@ int main(int argc, char **argv){
 		mv_data = sum/(*adc_idx_addr);
 		printf("mv data = %f\n", mv_data);
 		*end_read = 1; //reset adc_counter	
+	#ifdef CONTINUE	
+	sum = 0;
 	}
-
+	#endif
 	
 	rp_Release();
 	return 0;
