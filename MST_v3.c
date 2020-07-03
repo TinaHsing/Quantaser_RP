@@ -219,6 +219,7 @@ int main(int argc, char *argv[])
 		AddrWrite(0x40200044, START_SCAN);
 		pin_write( FGTRIG, 1);	// scan start trigger
 		pin_write( TEST_TTL_0, 1);
+		pin_write( TEST_TTL_1, 1);
 		for(int i=0; i<ramp_pts; i++) 
 		{	
 			
@@ -235,6 +236,7 @@ int main(int argc, char *argv[])
 		rp_GenAmp(RP_CH_1, 0);
 		DAC_out(DAC8, DC_amp[0]);
 		pin_write( TEST_TTL_0, 0);
+		pin_write( TEST_TTL_1, 0);
 		fp_log = fopen("MST_log.txt", "a");
 		fprintf(fp_log,"%d" , op_count++);
 		fclose(fp_log);
