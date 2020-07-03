@@ -78,12 +78,17 @@ int main(int argc, char **argv){
 		map2virtualAddr(&adc_ch, ADC_INPUT_CH1); 
 	#endif
 	
-	while(1)
-	{
+	// while(1)
+	// {
 		/*-------save adc data to fpga memory------*/
 		*start_scan = 1; 
-		for(int i=0; i<mv_num; i++) *adc_idx_addr = i;//addwrite idx
+		printf("start scan: %d\n", *start_scan);
+		for(int i=0; i<mv_num; i++) {
+			*adc_idx_addr = i;//addwrite idx
+			printf("adc_idx: %d\n", *adc_idx_addr);
+		}
 		*start_scan = 0; 
+		printf("start scan: %d\n", *start_scan);
 		/*******************************************/
 		printf("adc_counter = %d\n", *adc_counter);
 		
@@ -98,7 +103,7 @@ int main(int argc, char **argv){
 		mv_data = sum/(*adc_idx_addr);
 		printf("mv data = %f\n", mv_data);
 		*end_read = 1; //reset adc_counter	
-	}
+	// }
 
 	
 	rp_Release();
