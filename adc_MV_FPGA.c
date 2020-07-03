@@ -85,7 +85,7 @@ int main(int argc, char **argv){
 		for(int i=0; i<mv_num; i++) {
 			*adc_idx_addr = i;//addwrite idx
 			usleep(1000);
-			printf("adc_idx: %d\n", *adc_idx_addr);
+			// printf("adc_idx: %d\n", *adc_idx_addr);
 		}
 		*start_scan = 0; 
 		/*******************************************/
@@ -96,6 +96,7 @@ int main(int argc, char **argv){
 		{
 			*adc_idx_addr = i;
 			adc_mem[i] = *adc_ch;
+			printf("adc_mem: %d\n", adc_mem[i]);
 			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 			sum += adc_mem_f[i];
 		}
