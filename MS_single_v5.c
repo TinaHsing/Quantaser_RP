@@ -292,6 +292,13 @@ int main(int argc, char *argv[])
 			adc_mem[i] = *adc_ch2;
 			adc_mem_f[i] = int2float(*(adc_mem+i), adc_gain_p, adc_gain_n, adc_offset);
 		}
+		if(adc_counter == ramp_pts-1)  
+		{
+			adc_counter++;
+			adc_mem_f[ramp_pts-1] = adc_mem_f[ramp_pts-2];
+			// printf("%d, %f, ",ramp_pts-2, adc_mem_f[ramp_pts-2]);
+			// printf("%d, %f\n ",ramp_pts-1, adc_mem_f[ramp_pts-1]);
+		}
 		AddrWrite(0x4020005C, 1); //end read flag, reset adc_counter
 		write_file(adc_mem_f, save, adc_counter);
 		
