@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 				//////////////////////////////////
 				uart_write(data);
 				uart_read(10);
-				printf("hi\n");
+				printf("hi2\n");
 				usleep(SEND_DELAY_us);
 			
 			
