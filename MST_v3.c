@@ -38,7 +38,7 @@
 #define ref 2.5
 
 /*-------ADC input channel select--------*/
-#define ADC_CH1
+#define ADC_CH2
 
 #ifdef DAC_BIT_14
 	#define max 16383

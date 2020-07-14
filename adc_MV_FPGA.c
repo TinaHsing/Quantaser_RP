@@ -32,7 +32,7 @@ void map2virtualAddr(uint32_t**, uint32_t);
 float int2float(uint32_t, float, float, uint32_t);
 
 /*-------ADC input channel select--------*/
-#define ADC_CH1
+#define ADC_CH2
 
 /*-------FPGA register address--------*/
 #define ADC_INPUT_CH1 	0x40200068
