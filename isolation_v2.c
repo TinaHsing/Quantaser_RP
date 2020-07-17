@@ -190,6 +190,9 @@ int main(int argc, char *argv[])
 /*---------load chirp data-----------------------------*/	
 	fread(arrf, sizeof(float), arb_size, fp_ch2);
 	fclose(fp_ch2);
+	for(int i=0; i<arb_size; i++) {
+		arrf[i] = arrf[i]/1000.0;
+	}
 	// write_file_single(arrf, arb_size);
 	rp_GenPhase(RP_CH_2, 180);
 /*-------trapping start-----------*/		
