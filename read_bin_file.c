@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 	int t;
 	
 	t = atoi(argv[1]);
+	printf("0");
 	fp = fopen(argv[2], "rb");
 	printf("1");
 	fread(arr, sizeof(float), arb_size, fp);
