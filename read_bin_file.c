@@ -34,11 +34,11 @@ int main(int argc, char *argv[])
 	fp = fopen(argv[1], "rb");
 	t = atoi(argv[2]);
 	fread(arr, sizeof(float), arb_size, fp);
-	// for(int i=0; i<arb_size; i++) {
+	for(int i=0; i<arb_size; i++) {
 		// printf("%d. %f\n", i, arr[i]);
-	// }
+		arr[i] = arr[i]/1000;
+	}
 	fclose(fp);
-	arr = arr/1000;
 	
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
