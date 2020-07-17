@@ -29,7 +29,9 @@ int main(int argc, char *argv[])
 	
 	t = atoi(argv[1]);
 	fp = fopen(argv[2], "rb");
+	printf("1");
 	fread(arr, sizeof(float), arb_size, fp);
+	printf("2");
 	// for(int i=0; i<arb_size; i++) {
 		// printf("%d. %f\n", i, arr[i]);
 	// }
