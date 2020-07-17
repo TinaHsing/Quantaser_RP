@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	FILE *fp;
 	long arb_size = 32768;
 	float arr[arb_size];
-	int t;
+	int t, gain;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
@@ -33,10 +33,11 @@ int main(int argc, char *argv[])
 	
 	fp = fopen(argv[1], "rb");
 	t = atoi(argv[2]);
+	gain = atoi(argv[3]);
 	fread(arr, sizeof(float), arb_size, fp);
 	for(int i=0; i<arb_size; i++) {
 		// printf("%d. %f\n", i, arr[i]);
-		arr[i] = arr[i]/1000;
+		arr[i] = arr[i]/gain;
 	}
 	fclose(fp);
 	
