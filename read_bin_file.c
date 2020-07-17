@@ -23,7 +23,7 @@
 int main(int argc, char *argv[])
 {
 	FILE *fp;
-	long arb_size = 32768
+	long arb_size = 32768;
 	float arr[arb_size];
 	int t;
 	
