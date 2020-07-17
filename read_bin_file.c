@@ -27,6 +27,9 @@ int main(int argc, char *argv[])
 	float arr[arb_size];
 	int t;
 	
+	if(rp_Init() != RP_OK){
+		fprintf(stderr, "Rp api init failed!\n");
+	}
 	
 	fp = fopen(argv[1], "rb");
 	t = atoi(argv[2]);
