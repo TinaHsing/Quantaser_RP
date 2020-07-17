@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_2, 0);
 	rp_GenOutEnable(RP_CH_2);
 	rp_GenWaveform(RP_CH_2, RP_WAVEFORM_ARBITRARY);
-	rp_GenArbWaveform(RP_CH_2, arr, arb_size);
+	rp_GenArbWaveform(RP_CH_2, arr/1000, arb_size);
 	rp_GenFreq(RP_CH_2, 1000.0/t);
 	
 	rp_GenAmp(RP_CH_2, 1); // chirp start
