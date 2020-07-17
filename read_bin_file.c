@@ -47,4 +47,6 @@ int main(int argc, char *argv[])
 	rp_GenAmp(RP_CH_2, 1); // chirp start
 	usleep(t*1000);
 	rp_GenAmp(RP_CH_2, 0); //chirp end
+	rp_Release();
+	return 0;
 }
