@@ -26,8 +26,7 @@
 #define DAMPING_DURA 5 //50
 #define CHIRP_WAIT 10
 #define SCAN_WAIT 10
-// #define CHIRP_SWEEP_TIME 1.2
-#define CHIRP_SWEEP_TIME 10
+#define CHIRP_SWEEP_TIME 1.2
 ///////*gpio pin define*/////////
 #define FGTRIG 977 //DIO1_N, amplitude scan start trigger, BNC 977
 ////***978, 979 用在integrator, DIO2_N DIO3_N***///
@@ -202,7 +201,7 @@ int main(int argc, char *argv[])
 		x3[i] = sin(2*M_PI*(start_freq*t3[i] + 0.5*k*t3[i]*t3[i]));
 	}
 	// write_txt(t3, x3, 1, arb_size);
-	// write_file_single(x3, arb_size);
+	write_file_single(x3, arb_size);
 	fp_ch2 = fopen("arb.bin", "rb");
 	fread(arr, sizeof(float), arb_size, fp_ch2);
 	fclose(fp_ch2);
