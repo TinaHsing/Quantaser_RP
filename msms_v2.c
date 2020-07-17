@@ -249,7 +249,7 @@ int main(int argc, char *argv[])
 		rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 		
 		pin_write( TEST_TTL_1, 1); //MSMS trigger
-		rp_GenAmp(RP_CH_2, 1);
+		rp_GenAmp(RP_CH_2, 0);
 		usleep(ISOLATION_TIME*1000-50);
 		rp_GenAmp(RP_CH_2, 0);
 		usleep(MSMS_t2);
