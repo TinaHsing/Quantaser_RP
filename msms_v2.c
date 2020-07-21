@@ -199,7 +199,7 @@ int main(int argc, char *argv[])
 	fread(arrf2, sizeof(float), arb_size, fp_ch2_2);
 	fclose(fp_ch2_2);
 	for(int i=0; i<arb_size; i++) {
-		arrf2[i] = arrf2[i]/1000.0;
+		arrf2[i] = arrf2[i]/1001.0;
 	}
 	rp_GenPhase(RP_CH_2, 180);
 	
