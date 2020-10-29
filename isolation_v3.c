@@ -240,7 +240,7 @@ int main(int argc, char *argv[])
 		rp_GenArbWaveform(RP_CH_2, arrf, arb_size);
 		rp_GenFreq(RP_CH_2, 1000.0/ISOLATION_TIME);
 
-		for (int i =0; i < repeat ; i++)
+		for (int i =0; i < repeat_iso ; i++)
 		{
 			pin_write( TEST_TTL_1, 1); //isolation trigger
 			rp_GenAmp(RP_CH_2, 1);	
