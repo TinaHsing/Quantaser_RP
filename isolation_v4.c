@@ -149,6 +149,7 @@ int main(int argc, char *argv[])
 	// add from tina for isolation repeat waveform
 	uint32_t iso_time_spacing;
 	char repeat_iso;
+	double ch2_final_amp;
 	
 	if(rp_Init() != RP_OK){
 		fprintf(stderr, "Rp api init failed!\n");
