@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
 		while((micros()-t_start)<ttl_dura*1000){
 			t_now = micros()-t_start;
 			if(t_now>=DAMPING_WAIT*1000 && t_now<(DAMPING_WAIT+damping_dura)*1000)
-				rp_GenAmp(RP_CH_2, 1);
+				rp_GenAmp(RP_CH_2, ch2_final_amp);
 			else if (t_now>=(DAMPING_WAIT+damping_dura)*1000) 
 				rp_GenAmp(RP_CH_2, 0);
 		}
